@@ -9,6 +9,8 @@ const bodyParser = require("body-parser")
 const adminRoute = require("./Routes/adminRoute")
 const userRoute= require("./Routes/userRoute")
 const expertRoute= require("./Routes/expertRoute")
+const port = process.env.PORT
+const DATABASE_URL = process.env.DATABASE_URL
 const connectDb = require("./Controller/config/dbConfig")
 
 
