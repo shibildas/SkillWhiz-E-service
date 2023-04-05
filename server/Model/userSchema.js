@@ -18,10 +18,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: [6],
   },
+  mobile:{
+   type: String,
+   required:true,
+  },
   image:{
     type: String,
   },
-  isBanned:{type:Boolean, default:false},
+  isBanned:{type:Boolean, default:true},
   
  
 },

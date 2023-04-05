@@ -21,7 +21,7 @@ server.use(bodyParser.json({limit:"500kb"}))
 connectDb(DATABASE_URL)
 
 server.use(cors({
-    origin:['http://localhost:1234'],
+    origin:['http://localhost:5173'],
     methods:['GET','POST'],
     credentials:true
 }))
@@ -30,6 +30,13 @@ server.use(logger("dev"))
 server.use(express.urlencoded({extended:false}))
 server.use(express.json())
 server.use(cookieParser())
+
+//Routes
+server.use("/",userRoute)
+server.use("/admin",adminRoute)
+server.use("/expert",expertRoute)
+
+
 server.listen(port,()=>{
     console.log(`Server Listening at : http://127.0.0.1:${port}`);
 })
