@@ -6,8 +6,8 @@ import Invite from "../Invite/Invite";
 const MainPage = () => {
   return (
     <>
-      <div className="md:mx-60 my-10 ">
-      MOST USED SERVICES
+      <div className="md:mx-60 my-10  border border-stone-400 rounded-2xl shadow-2xl">
+     <h1 className="p-5 font-extrabold text-4xl">MOST USED SERVICES</h1> 
         <div className="grid grid-cols-2 md:grid-cols-4">
 {services.map((ele,index)=>{
 

@@ -16,7 +16,7 @@ const Footer = ()=>{
                     return <li key={10+index} className="p-2 flex flex-col justify-center items-center">{ele}</li>
                 })}
             </ul>
-            <ul className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-36 p-5">
+            <ul className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-20 p-5">
                 <li className="flex"><img className="w-full float-right" src={icon} alt="image" /></li>
                 <li className="w-full">{comment}</li>
                 <li className="w-80"><h1 className="p-2 font-mono font-bold">FOLLOW US</h1> <ul className="flex gap-4 p-2">
