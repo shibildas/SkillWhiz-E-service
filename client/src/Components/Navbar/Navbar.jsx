@@ -1,4 +1,5 @@
-import Signup from "../Signup/Signup"
+import Signin from "./Signin";
+import Signup from "./Signup"
 const Navbar = () => {
   return (
     <>
@@ -43,8 +44,8 @@ const Navbar = () => {
   </div>
   <div className="navbar-end">
     {/* <a className="btn">Get started</a> */}
-<label htmlFor="my-modal-6" className="btn">Signup</label>
-
+<label htmlFor="my-modal-3" className="btn btn-accent">Login</label>
+<Signin/>
  <Signup/>
   </div>
 </div>

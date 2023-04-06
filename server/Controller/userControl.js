@@ -53,3 +53,14 @@ module.exports.verifyOTP= async(req,res)=>{
 
 
 }
+module.exports.signin= async(req,res)=>{
+    console.log(req.body);
+    const {mobile,password}=req.body
+    const user = await usermodel.findOne({mobile:mobile})
+    if(user){
+        const isMatch =await bcrypt.compare(password,user.password)
+        if(user.mobile===mobile && isMatch){
+            cont userId = user._id
+        }
+    }
+}
