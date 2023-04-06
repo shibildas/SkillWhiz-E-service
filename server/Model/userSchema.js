@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   mobile:{
    type: String,
+   unique: true,
    required:true,
   },
   image:{

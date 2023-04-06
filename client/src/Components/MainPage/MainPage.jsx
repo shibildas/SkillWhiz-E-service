@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { services } from "../../constants/constants";
 import Banner from "../Banner/Banner";
 import Invite from "../Invite/Invite";
 
 
 const MainPage = () => {
+  const [show,setShow]=useState(true)
   return (
     <>
       <div className="md:mx-60 my-10  border border-stone-400 rounded-2xl shadow-2xl">
@@ -18,7 +20,7 @@ return <span className="flex flex-col justify-center items-center" key={"A"+inde
         </div>
       </div>
       <Banner />
-      <Invite/>
+      <Invite show={show}/>
     </>
   );
 };

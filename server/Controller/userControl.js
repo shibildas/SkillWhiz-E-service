@@ -1,5 +1,6 @@
 const usermodel = require('../Model/userSchema')
 const bcrypt = require('bcrypt')
+const  jwt  = require("jsonwebtoken")
 const authToken=process.env.TWILIO_AUTH_TOKEN
 const accountSid = process.env.accountSid
 const serviceSid =process.env.serviceSid
@@ -60,7 +61,37 @@ module.exports.signin= async(req,res)=>{
     if(user){
         const isMatch =await bcrypt.compare(password,user.password)
         if(user.mobile===mobile && isMatch){
-            cont userId = user._id
+            if(!user.isBanned){
+
+                const userId = user._id
+                const token = jwt.sign({userId},process.env.JWT_SECRET_KEY,{expiresIn:30000})
+                res.json({"auth":true, "token":token, "result":user,"status":"success"})
+            }else{
+                res.json({"auth":false, "status": "failed", "message": "You are blocked" })
+            }
+        }else{
+            res.json({"auth":false, "status": "failed", "message": "credentials are incorrect" })
         }
+    }else{
+        res.json({"auth":false, "status": "failed", "message": "No user please register" })
     }
+}
+
+module.exports.isUserAuth = async (req, res) => {
+    try {
+    let userDetails = await usermodel.findById(req.userId)
+    userDetails.auth=true;
+
+    res.json({
+        "mobile":userDetails.mobile,
+        "username":userDetails.username,
+        "email":userDetails.email,
+        "auth":true,
+        "image":userDetails.image||null
+    })
+    } catch (error) {
+        
+    }
+    
+
 }
