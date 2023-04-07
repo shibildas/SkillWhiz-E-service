@@ -5,10 +5,12 @@ import {Provider} from "react-redux"
 import "./index.css"
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './redux/user'
+import adminReducer from './redux/admin'
 
 const store= configureStore({
   reducer:{
     user:userReducer,
+    admin:adminReducer,
   }
 })
 ReactDOM.createRoot(document.getElementById('root')).render(

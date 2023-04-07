@@ -8,7 +8,7 @@ const Invite = ({show}) => {
   return (
     <>
       <div className="md:mx-60 mt-10">
-       {show && <>  <div
+       {(show===true) && <>  <div
           className="border-yellow-400 border-8 w-[75%]
             h-full"
         >

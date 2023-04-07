@@ -9,11 +9,25 @@ const bodyParser = require("body-parser")
 const adminRoute = require("./Routes/adminRoute")
 const userRoute= require("./Routes/userRoute")
 const expertRoute= require("./Routes/expertRoute")
+// const bcrypt = require('bcrypt')
+// const adminDB = require('./Model/adminSchema')
 const port = process.env.PORT
 const DATABASE_URL = process.env.DATABASE_URL
 const connectDb = require("./Controller/config/dbConfig")
 
+// const addadmin =  async() => {
+ 
+// let password = "password"
+// let salt = await bcrypt.genSalt(10)
+// let pass = await bcrypt.hash(password, salt)
+// let email = "admin@gmail.com"
+//  await adminDB.insertMany({
+//     email:email,
+//     password:pass,
+//   })
 
+// }
+// addadmin()
 
 
 server.use(bodyParser.json({limit:"500kb"}))

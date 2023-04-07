@@ -1,3 +1,4 @@
+import logo from "../../assets/logo.png"
 const ExpertNav=()=>{
     return(
         <>
@@ -22,7 +23,7 @@ const ExpertNav=()=>{
         <li><a>Item 3</a></li>
       </ul>
     </div>
-    <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+    <a className="px-2"><img className="w-14 rounded-full sxhadow-2xl" src={logo} alt="logo" /></a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
