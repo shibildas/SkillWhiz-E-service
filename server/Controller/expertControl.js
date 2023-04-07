@@ -3,6 +3,7 @@ const authToken=process.env.TWILIO_AUTH_TOKEN
 const accountSid = process.env.accountSid
 const serviceSid = process.env.serviceSid
 const bcrypt = require("bcrypt")
+const jwt= require('jsonwebtoken')
 const usermodel = require("../Model/userSchema")
 
 const client=require("twilio")(accountSid,authToken)
@@ -65,4 +66,47 @@ module.exports.verify = async(req,res)=>{
           message: error.message,
         });
       }
+}
+
+module.exports.signin= async(req,res)=>{
+  console.log(req.body);
+  const {mobile,password}=req.body
+  const expert = await expertmodel.findOne({mobile:mobile})
+  if(expert){
+      const isMatch =await bcrypt.compare(password,expert.password)
+      if(expert.mobile===mobile && isMatch){
+          if(!expert.isBanned){
+
+              const expertId = expert._id
+              const token = jwt.sign({expertId},process.env.JWT_SECRET_KEY,{expiresIn:30000})
+              // console.log(token);
+              res.json({"auth":true, "experttoken":token, "result":expert,"status":"success"})
+          }else{
+              res.json({"auth":false, "status": "failed", "message": "You are blocked" })
+          }
+      }else{
+          res.json({"auth":false, "status": "failed", "message": "credentials are incorrect" })
+      }
+  }else{
+      res.json({"auth":false, "status": "failed", "message": "No user please register" })
+  }
+}
+
+module.exports.isExpertAuth = async (req, res) => {
+  try {
+  let expertDetails = await expertmodel.findById(req.expertId)
+  expertDetails.auth=true;
+
+  res.json({
+      "mobile":expertDetails.mobile,
+      "username":expertDetails.username,
+      "email":expertDetails.email,
+      "auth":true,
+      "image":expertDetails.image||null
+  })
+  } catch (error) {
+      console.log(error);
+  }
+  
+
 }

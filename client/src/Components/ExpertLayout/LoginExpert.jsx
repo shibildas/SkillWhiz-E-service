@@ -43,6 +43,24 @@ const LoginExpert = () => {
 
     }
     const expertLogin=()=>{
+      if(mobile==="" || password===""){
+        Swal.fire("sorry","All fields are required!!","error")
+      }else{
+        axios.post('/expert/signin',{
+          mobile:mobile,
+          password:password
+        }).then((response)=>{
+          console.log(response.data);
+          if(!response.data.auth){
+            Swal.fire("sorry",response.data.message,"error")
+          }else{
+            localStorage.setItem("experttoken",response.data.experttoken)
+            Swal.fire("success",response.data.message,"success")
+         
+            navigate("/expert")
+          }
+        })
+      }
 
     }
 

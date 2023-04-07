@@ -42,7 +42,7 @@ const UserOtp=({mobile})=>{
     <h1 className="text-center p-2 text-2xl font-bold">Enter the OTP sent to +91-{mobile}</h1>
     <div className="flex flex-col justify-center items-center">
 
-    <input class="m-2 border h-10 w-36 text-center form-control rounded border-slate-500 my-2 tracking-widest" min="0" type="number" onChange={handleOtp} value={otp}  maxlength="6" /> 
+    <input className="m-2 border h-10 w-36 text-center form-control rounded border-slate-500 my-2 tracking-widest" min="0" type="number" onChange={handleOtp} value={otp}  /> 
     <button onClick={handleOTP} className="btn m-2"> Submit</button>
 
     </div>

@@ -9,10 +9,13 @@ import ErrorPage from "./Components/Error/Error"
 import AdminLogin from "./Components/Admin/AdminLogin/AdminLogin"
 import AdminLayout from "./Components/Admin/Layout/AdminLayout"
 import { adminlogin } from "./redux/admin"
+import { expertlogin } from "./redux/expert"
+import LoginExpert from "./Components/ExpertLayout/LoginExpert"
 
 function App() {
   const [user,setuser]=useState(false)
   const [admin,setAdmin]=useState(false)
+  const [expert,setExpert]=useState(false)
   const dispatch= useDispatch()
   useEffect(() => {
     axios.get("isUserAuth",{
@@ -41,7 +44,20 @@ function App() {
     })
   },[admin])
 
-  
+  useEffect(()=>{
+
+axios.get("/expert/isExpertAuth",{
+  headers:{ "x-access-experttoken":localStorage.getItem("experttoken")}
+}).then((res)=>{
+  if(!res.data.auth){
+    setExpert(false)
+  }else{
+    setAdmin(true)
+    dispatch(expertlogin(res.data))
+  }
+})
+
+  },[expert])
 
 
   return (
@@ -51,7 +67,8 @@ function App() {
 
  
       <Route exact path="/" Component={UserLayout}/>
-      <Route exact path="/expert" Component={ExpertLayout}/>
+      {expert ? <Route exact path="/expert" Component={ExpertLayout}/>:
+      <Route path="/expert" Component={LoginExpert}/>}
       {!admin ? <Route exact path="/admin" Component={AdminLogin}/>:
       <Route exact path="/admin" Component={AdminLayout}/>}
       <Route  path="*" Component={ErrorPage}/>

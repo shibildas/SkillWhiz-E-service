@@ -6,11 +6,13 @@ import "./index.css"
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './redux/user'
 import adminReducer from './redux/admin'
+import expertReducer from './redux/expert'
 
 const store= configureStore({
   reducer:{
     user:userReducer,
     admin:adminReducer,
+    expert: expertReducer,
   }
 })
 ReactDOM.createRoot(document.getElementById('root')).render(
