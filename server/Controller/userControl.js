@@ -12,14 +12,17 @@ module.exports.postSignUp = async (req,res,next)=>{
     try {
         const {username,email,password,mobile} = req.body
         const user = await usermodel.findOne({email})
-        if(user){
+        const mob = await usermodel.findOne({mobile})
+        if(user || mob){
             console.log(user);
-            res.json({"status": "failed", "message": "Email already exist login now" })
+            res.json({"status": "failed", "message": "User already exist login now" })
         }else{
             client.verify.v2.services(serviceSid).verifications.create({
                 to:`+91${mobile}`,
                 channel:"sms"
-            }).then((ver)=> console.log(ver.status)).catch((error)=>{
+            }).then((ver)=> {
+                console.log(ver.status) }      
+            ).catch((error)=>{
                 res.json({"status":"failed", "message":error.message})
             })
             const salt = await bcrypt.genSalt(10)
@@ -30,7 +33,6 @@ module.exports.postSignUp = async (req,res,next)=>{
                 mobile,
                 password:hashPassword
             })
-
             res.json({ "status": "success", "message": "signup success" })
 
         }
@@ -44,13 +46,27 @@ module.exports.postSignUp = async (req,res,next)=>{
 module.exports.verifyOTP= async(req,res)=>{
     console.log(req.body);
     const {mobile,otp}= req.body
-    client.verify.v2.services(serviceSid).verificationChecks.create({to:`+91${mobile}`, code:otp})
-    .then((ver_check)=>console.log(ver_check.status)).then(()=>res.json({
-        "status":"success", "message":"Verified"
-    }))
-    await usermodel.findOneAndUpdate({
-        mobile:mobile
-    },{$set:{isBanned:false}})
+    try {
+        const ver_check = await client.verify
+          .v2.services(serviceSid)
+          .verificationChecks.create({ to: `+91${mobile}`, code: otp });
+        console.log(ver_check.status);
+        if (ver_check.status === "approved") {
+          await usermodel.findOneAndUpdate(
+            { mobile: mobile },
+            { $set: { isBanned: false } }
+          );
+          res.json({
+            status: "success",
+            message: "Verified",
+          });
+        }
+      } catch (error) {
+        res.json({
+          status: "error",
+          message: error.message,
+        });
+      }
 
 
 }

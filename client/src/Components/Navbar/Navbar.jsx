@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();

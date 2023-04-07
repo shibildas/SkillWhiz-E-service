@@ -27,7 +27,7 @@ try {
         })
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(password.trim(), salt)
-        await usermodel.create({
+        await expertmodel.create({
             username,
             email,
             password:hashPassword,
@@ -41,16 +41,28 @@ try {
 }
 }
 
-module.exports.verify=async(req,res)=>{
-    const {mobile,otp}=req.body
-    client.verify.c2.services(serviceSid).verificationChecks.create({
-        to:`+91${mobile}`,code:otp
-    }).then((ver_check)=>{
-        console.log(ver_check);
-    }).then(()=>{
-        res.json({"status":"success", "message":"Verified"})
-    })
-    await expertmodel.findOneAndUpdate({
-        mobile:mobile
-    },{$set:{isBanned:false}})
+module.exports.verify = async(req,res)=>{
+    console.log(req.body);
+    const {mobile,otp}= req.body
+    try {
+        const ver_check = await client.verify
+          .v2.services(serviceSid)
+          .verificationChecks.create({ to: `+91${mobile}`, code: otp });
+        console.log(ver_check.status);
+        if (ver_check.status === "approved") {
+          await expertmodel.findOneAndUpdate(
+            { mobile: mobile },
+            { $set: { isBanned: false } }
+          );
+          res.json({
+            status: "success",
+            message: "Verified",
+          });
+        }
+      } catch (error) {
+        res.json({
+          status: "error",
+          message: error.message,
+        });
+      }
 }

@@ -7,7 +7,7 @@ const ExpertLayout = ()=>{
     return(
 
         <>
-        <ExpertHome/>
+        <LoginExpert/>
         </>
     )
 }

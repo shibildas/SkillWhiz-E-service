@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "../../axios/axios"
+import OTP from "./OTP";
 const LoginExpert = () => {
     const [show,setShow]=useState(true)
     const [mobile,setMobile]=useState('')
@@ -31,37 +32,12 @@ const LoginExpert = () => {
             }).then((response)=>{
                 console.log(response.data);
                 if(response.data.status === "success"){
-                    Swal.fire({
-                        title: 'Enter OTP',
-                        input: 'text',
-                        inputPlaceholder: 'Enter OTP here...',
-                        inputAttributes: {
-                          autocapitalize: 'off'
-                        },
-                        showCancelButton: true,
-                        confirmButtonText: 'Submit',
-                        showLoaderOnConfirm: true,
-                        preConfirm: (otpCode) => {
-                          // Return OTP code to be used in the next Axios request
-                          return otpCode;
-                        },
-                        allowOutsideClick: () => !Swal.isLoading()
-                      })
-                      .then(otpCode => {
-                        let otp=otpCode?.value
-                        // Make Axios request with OTP code
-                        axios.post('/expert/verify-otp', {  otp,mobile:mobile})
-                          .then(response => {
-                            console.log(response.data);
-                            
-                          })
-                          .catch(error => {
-                            Swal.fire("sorry","Wrong OTP. kindly reset. "+error,"error")
-                          
-                          });
-                      });
+                  const expertModal= document.getElementById("expert-otp")
+                  expertModal.checked=true      
                 }
 
+            }).catch((error)=>{
+              Swal.fire("sorry",error.message,"error")
             })
         }
 
@@ -157,6 +133,7 @@ const LoginExpert = () => {
           </div>
         </div>
       </div>
+      <OTP mobile={mobile}/>
     </>
   );
 };
