@@ -1,25 +1,21 @@
 import Signin from "./Signin";
 import Signup from "./Signup";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { AppContext } from "../../import";
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
+  const {user, setUser} = useContext(AppContext)
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("token");
-
-    setUser(null);
+    setUser(false);
     navigate("/");
   };
-  const result = useSelector((state) => state.user.value);
-  useEffect(() => {
-    console.log(result);
-
-    setUser(result);
-  }, [user]);
+  const data = useSelector((state) => state.user.value);
+ 
 
   return (
     <>
@@ -118,7 +114,7 @@ const Navbar = () => {
         </div>
         <div className="navbar-end">
           {/* <a className="btn">Get started</a> */}
-          {user?.username ? (
+          {user ? (
             <>
               <div className="dropdown dropdown-end">
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -126,8 +122,8 @@ const Navbar = () => {
                     <img
                       alt="image"
                       src={
-                        user?.image
-                          ? user.image
+                        data?.image
+                          ? data.image
                           : "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
                       }
                     />
@@ -139,7 +135,7 @@ const Navbar = () => {
                 >
                   <li>
                     <a className="items-start flex-col">
-                      <b>{user?.username}</b>
+                      <b className="text-2xl">{data?.username?.toUpperCase()}</b>
                       Profile
                     </a>
                   </li>

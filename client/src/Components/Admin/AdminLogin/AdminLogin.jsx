@@ -1,11 +1,13 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import axios from "../../../axios/axios"
+import { AppContext } from "../../../context/context"
 import {adminlogin} from "../../../redux/admin"
 
 const AdminLogin=()=>{
+  const {setAdmin} = useContext(AppContext)
     const navigate= useNavigate()
     const [email,setEmail]= useState('')
     const [password,setPassword]= useState('')
@@ -24,6 +26,7 @@ const AdminLogin=()=>{
                     dispatch(adminlogin(resp.data))
                     localStorage.setItem("admintoken",resp.data.token)
                     Swal.fire("success",resp.data.message,"success")
+                    setAdmin(true)
                     navigate('/admin')
                 }
             }).catch((err)=>{

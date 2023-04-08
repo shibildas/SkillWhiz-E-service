@@ -1,5 +1,4 @@
 import ExpertHome from "../ExpertHome/ExpertHome"
-import LoginExpert from "./LoginExpert"
 
 
 const ExpertLayout = ()=>{
@@ -7,7 +6,7 @@ const ExpertLayout = ()=>{
     return(
 
         <>
-        <LoginExpert/>
+        <ExpertHome />
         </>
     )
 }

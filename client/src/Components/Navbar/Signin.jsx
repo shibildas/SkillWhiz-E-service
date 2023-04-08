@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../axios/axios"
+import { AppContext ,axios} from "../../import";
 
 
 const Signin = () => {
   const navigate= useNavigate()
+  const {user,setUser}=useContext(AppContext)
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState();
   const handleMobile = (e) => {
@@ -35,7 +36,7 @@ const Signin = () => {
           localStorage.setItem("token",response.data.token)
           handleclick()
           Swal.fire("success",response.data.message,"success")
-       
+          setUser(true)
           navigate("/")
         }
       })

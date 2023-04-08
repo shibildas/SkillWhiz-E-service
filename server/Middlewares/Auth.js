@@ -54,7 +54,7 @@ module.exports.expertJwt = async(req,res,next)=>{
                 res.json({auth:false,status:"failed",message:"failed to authenticate"})
             }else{
             
-            req.expertId =decoded.expertID
+            req.expertId =decoded.expertId
                 next();
             }
         })

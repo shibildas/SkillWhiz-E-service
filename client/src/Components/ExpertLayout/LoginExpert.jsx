@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "../../axios/axios"
+import { AppContext } from "../../context/context";
 import OTP from "./OTP";
 const LoginExpert = () => {
+  const {expert,setExpert}=useContext(AppContext)
     const [show,setShow]=useState(true)
     const [mobile,setMobile]=useState('')
     const [name,setName]=useState('')
@@ -33,7 +35,9 @@ const LoginExpert = () => {
                 console.log(response.data);
                 if(response.data.status === "success"){
                   const expertModal= document.getElementById("expert-otp")
-                  expertModal.checked=true      
+                  expertModal.checked=true 
+                  setExpert(true)
+                  navigate('/expert')     
                 }
 
             }).catch((error)=>{
@@ -54,6 +58,7 @@ const LoginExpert = () => {
           if(!response.data.auth){
             Swal.fire("sorry",response.data.message,"error")
           }else{
+          
             localStorage.setItem("experttoken",response.data.experttoken)
             Swal.fire("success",response.data.message,"success")
          

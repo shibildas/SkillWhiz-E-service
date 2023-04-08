@@ -1,15 +1,16 @@
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
-import { adminlogin } from "../../../redux/admin";
+import { useContext } from "react";
+import { AppContext } from "../../../context/context";
 const NavbarAdmin = () => {
+  const {setAdmin}= useContext(AppContext)
     const navigate=useNavigate()
-    const dispatch=useDispatch()
+
 
     const handleLogout=()=>{
         localStorage.removeItem("admintoken")
+        setAdmin(false)
         navigate("/admin")
-        dispatch(adminlogin(null))
     }
   return (
     <>
