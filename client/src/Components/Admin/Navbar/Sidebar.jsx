@@ -9,11 +9,12 @@ const Sidebar=()=>{
         <div className="drawer-side">
 
 <label htmlFor="my-drawer-2" className="drawer-overlay"></label> 
-<ul className="menu p-4 w-80 bg-slate-700 shadow-2xl text-white font-bold text-2xl">
+<ul className="menu p-4 w-80 bg-gradient-to-b from-purple-600 to-teal-100 shadow-2xl text-white font-bold text-2xl">
  
-  <li className="p-2  rounded-md hover:bg-slate-900 "><Link to="/admin">Dashboard</Link></li>
-  <li className="p-2  rounded-md hover:bg-slate-900"><Link to="/admin/experts">ExpertList</Link></li>
-  <li className="p-2  rounded-md hover:bg-slate-900"><Link to="/admin/users">UserList</Link></li>
+  <li className="p-2 my-2 border shadow-black shadow-2xl rounded-md hover:bg-slate-900 "><Link to="/admin">Dashboard</Link></li>
+  <li className="p-2 my-2 border shadow-black shadow-2xl rounded-md hover:bg-slate-900"><Link to="/admin/experts">ExpertList</Link></li>
+  <li className="p-2 my-2 border shadow-black shadow-2xl rounded-md hover:bg-slate-900"><Link to="/admin/users">UserList</Link></li>
+  <li className="p-2 my-2 border shadow-black shadow-2xl rounded-md hover:bg-slate-900"><Link to="/admin/jobs">Jobs</Link></li>
 </ul>
 
 </div>

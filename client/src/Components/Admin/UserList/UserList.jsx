@@ -26,17 +26,17 @@ const UserList = () => {
         <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">
           Users
         </h1>
-        <div className="overflow-x-auto w-full">
-          <table className="table w-full">
+        <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
+          <table className="table w-full ">
             {/* head */}
             <thead>
               <tr>
-                <th>Sl no.</th>
-                <th>Name & E-mail</th>
-                <th>Mobile</th>
-                <th>Status</th>
-                <th>Edit Details</th>
-                <th></th>
+                <th className="text-2xl">Sl no.</th>
+                <th className="text-2xl">Name & E-mail</th>
+                <th className="text-2xl">Mobile</th>
+                <th className="text-2xl">Status</th>
+                <th className="text-2xl">Edit Details</th>
+                <th className="text-2xl"></th>
               </tr>
             </thead>
             <tbody>
@@ -81,11 +81,11 @@ const UserList = () => {
             <tfoot>
               <tr>
               <th>Sl no.</th>
-                <th>Name & E-mail</th>
-                <th>Mobile</th>
-                <th>Status</th>
-                <th>Edit Details</th>
-                <th></th>
+                <th className="text-2xl">Name & E-mail</th>
+                <th className="text-2xl">Mobile</th>
+                <th className="text-2xl">Status</th>
+                <th className="text-2xl">Edit Details</th>
+                <th className="text-2xl"></th>
               </tr>
             </tfoot>
           </table>

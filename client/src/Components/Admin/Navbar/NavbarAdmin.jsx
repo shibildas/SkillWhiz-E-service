@@ -14,7 +14,7 @@ const NavbarAdmin = () => {
     }
   return (
     <>
-      <div className="navbar bg-neutral-600 text-neutral-content shadow-2xl">
+      <div className="navbar bg-gradient-to-b from-teal-100 to-purple-600 text-neutral-content shadow-2xl">
       <div className="navbar-start">
         <label htmlFor="my-drawer-2" className="px-2 ">
           <img className="w-14 rounded-full" src={logo} alt="logo" />

@@ -1,11 +1,13 @@
+import { lazy, useContext,Suspense} from "react";
 import { Routes, Route } from "react-router-dom";
 import NavbarAdmin from "../Navbar/NavbarAdmin";
 import Sidebar from "../Navbar/Sidebar";
 import Dashboard from "../Dashboard/Dashboard";
-import ExpertList from "../ExpertList/ExpertList";
-import UserList from "../UserList/UserList";
-import { useContext } from "react";
-import { AppContext } from "../../../import";
+const ExpertList = lazy(()=> import ("../ExpertList/ExpertList"));
+const UserList =lazy(()=> import ("../UserList/UserList"));
+import { AppContext, ErrorPage } from "../../../import";
+import ShimmerList from "../Shimmer/ShimmerList";
+import Jobs from "../Jobs/Jobs";
 
 const AdminLayout = () => {
   const {admin} = useContext(AppContext)
@@ -17,8 +19,10 @@ const AdminLayout = () => {
         <div className="drawer-content ">
           {admin && <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/experts" element={<ExpertList />} />
-            <Route path="/users" element={<UserList/>} />
+            <Route path="/experts" element={<Suspense fallback={<ShimmerList/>}><ExpertList /></Suspense>} />
+            <Route path="/users" element={<Suspense fallback={<ShimmerList/>}><UserList/></Suspense>} />
+            <Route path="/jobs" element={<Jobs/>} />
+            <Route path="*" element={<ShimmerList/>} />
           </Routes>}
         </div>
         <Sidebar />
