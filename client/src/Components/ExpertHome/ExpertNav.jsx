@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext} from "react"
 import { useNavigate } from "react-router-dom"
 import logo from "../../assets/logo.png"
 import { AppContext } from "../../import"
@@ -37,7 +37,7 @@ const navigate=useNavigate()
             <li><a>Submenu 2</a></li>
           </ul>
         </li>
-        <li><a>Item 3</a></li>
+        <li><a>About us</a></li>
       </ul>
     </div>
     <a className="px-2"><img className="w-14 rounded-full sxhadow-2xl" src={logo} alt="logo" /></a>
@@ -67,10 +67,10 @@ const navigate=useNavigate()
       </label>
       <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <li>
-          <a className="justify-between">
-            <b>{data?.username}</b>
-            Profile
-            <span className="badge">New</span>
+          <a className="items-start flex-col">
+            <b className="text-2xl" >{data?.username?.toUpperCase()}</b>
+           Profile 
+          
           </a>
         </li>
         <li><a>Settings</a></li>

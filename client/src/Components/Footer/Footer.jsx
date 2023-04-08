@@ -9,7 +9,7 @@ import {
 const Footer = () => {
   return (
     <>
-      <div className="vw-100 h-full bg-slate-300">
+      <div className=" bg-slate-300">
         <h1 className="p-4 text-6xl font-bold mx-10">Why Skillwhiz ?</h1>
         <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {footerImg.map((img, index) => {
@@ -40,8 +40,8 @@ const Footer = () => {
           <li className="flex">
             <img className="w-full float-right" src={icon} alt="image" />
           </li>
-          <li className="w-full">{comment}</li>
-          <li className="w-80">
+          <li className="">{comment}</li>
+          <li className="">
             <h1 className="p-2 font-mono font-bold">FOLLOW US</h1>{" "}
             <ul className="flex gap-4 p-2">
               {social.map((app, index) => {

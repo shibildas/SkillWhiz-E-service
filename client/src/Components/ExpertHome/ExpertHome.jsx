@@ -1,4 +1,3 @@
-import ExpertNav from "./ExpertNav"
 import Invite from "../Invite/Invite"
 import { useEffect, useState } from "react"
 
@@ -11,7 +10,6 @@ const ExpertHome=()=>{
     
     return(
         <>
-        <ExpertNav/>
         <Invite show={show}/>
         </>
     )
