@@ -36,7 +36,6 @@ const LoginExpert = () => {
                 if(response.data.status === "success"){
                   const expertModal= document.getElementById("expert-otp")
                   expertModal.checked=true 
-                  setExpert(true)
                   navigate('/expert')     
                 }
 
@@ -61,7 +60,7 @@ const LoginExpert = () => {
           
             localStorage.setItem("experttoken",response.data.experttoken)
             Swal.fire("success",response.data.message,"success")
-         
+            setExpert(true)
             navigate("/expert")
           }
         })

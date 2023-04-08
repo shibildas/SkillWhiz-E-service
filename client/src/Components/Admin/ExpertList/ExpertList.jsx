@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "../../../axios/axios"
-import logo from "../../../assets/logo.png";
 import Swal from "sweetalert2";
 
 
@@ -42,7 +41,7 @@ const ExpertList = () => {
               {/* row 1 */}
              {datas?.map((data,index)=>{return(
               <tr key={index+10} className="focus:active">
-                <th>1</th>
+                <th>{index+1}</th>
                 <td>
                   <div className="flex items-center space-x-3">
                     <div className="avatar">
