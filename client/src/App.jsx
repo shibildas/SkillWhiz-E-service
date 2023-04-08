@@ -88,7 +88,7 @@ function App() {
             <Route path="/expert" Component={LoginExpert} />
           )}
           {admin ? (
-            <Route exact path="/admin" Component={AdminLayout} />
+            <Route exact path="/admin/*" Component={AdminLayout} />
           ) : (
             <Route path="/admin" Component={AdminLogin} />
           )}

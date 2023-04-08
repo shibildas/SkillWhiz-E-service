@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const adminModel =require('../Model/adminSchema')
 const usermodel = require('../Model/userSchema')
+const expertmodel=require("../Model/expertSchema")
 
 module.exports.adminLogin = async (req, res) => {
     try {
@@ -100,4 +101,15 @@ module.exports.addUsers =async (req,res)=>{
         res.json({"status": "failed", "message":error.message})
         
     }
+}
+module.exports.getExperts= async(req,res)=>{
+    try {
+        const experts= await expertmodel.find({})
+        console.log(experts);
+        res.json({"status":"success",result:experts})
+        
+    } catch (error) {
+        res.json({"status":"failed","message":error.message})
+    }
+
 }

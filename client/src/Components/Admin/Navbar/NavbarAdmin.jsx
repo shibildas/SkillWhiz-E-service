@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import { useContext } from "react";
 import { AppContext } from "../../../context/context";
