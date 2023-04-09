@@ -21,7 +21,7 @@ const AdminLayout = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/experts" element={<Suspense fallback={<ShimmerList/>}><ExpertList /></Suspense>} />
             <Route path="/users" element={<Suspense fallback={<ShimmerList/>}><UserList/></Suspense>} />
-            <Route path="/jobs" element={<Jobs/>} />
+            <Route path="/jobs" element={<Suspense fallback={<ShimmerList/>}><Jobs/></Suspense>} />
             <Route path="*" element={<ShimmerList/>} />
           </Routes>}
         </div>

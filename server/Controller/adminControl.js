@@ -1,17 +1,19 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const fs = require('fs');
 const adminModel =require('../Model/adminSchema')
 const usermodel = require('../Model/userSchema')
 const expertmodel=require("../Model/expertSchema")
-// const cloudinary = require('cloudinary').v2;
+const jobsmodel = require("../Model/jobsSchema")
+const cloudinary = require('cloudinary').v2;
 
 
 
-// cloudinary.config({
-//   cloud_name: process.env.Cloud_Name,
-//   api_key: process.env.Cloud_API_Key,
-//   api_secret: process.env.Cloud_API_SECRET
-// });
+cloudinary.config({
+  cloud_name: process.env.Cloud_Name,
+  api_key: process.env.Cloud_API_Key,
+  api_secret: process.env.Cloud_API_SECRET
+});
 
 module.exports.adminLogin = async (req, res) => {
     try {
@@ -44,7 +46,7 @@ module.exports.isAdminAuth = async (req, res) => {
     try {   
     let admin = await adminModel.findById(req.adminId)
     
- console.log(req.adminId)
+
     const admindetails ={
         email: admin.email,
     }
@@ -89,10 +91,8 @@ module.exports.blockUser= async (req,res)=>{
 module.exports.addUsers =async (req,res)=>{
     try {
         const {username,email,password} = req.body
-        console.log(username);
         const user = await usermodel.findOne({email})
         if(user){
-            console.log(user);
             res.json({"status": "failed", "message": "Email already exists" })
         }else{
             const salt = await bcrypt.genSalt(10)
@@ -114,11 +114,47 @@ module.exports.addUsers =async (req,res)=>{
 module.exports.getExperts= async(req,res)=>{
     try {
         const experts= await expertmodel.find({})
-        console.log(experts);
         res.json({"status":"success",result:experts})
         
     } catch (error) {
         res.json({"status":"failed","message":error.message})
     }
+
+}
+module.exports.getJobs= async(req,res)=>{
+    try {
+        const jobs= await jobsmodel.find({})
+        res.json({"status":"success",result:jobs})
+        
+    } catch (error) {
+        res.json({"status":"failed","message":error.message})
+    }
+
+}
+
+module.exports.addJobs= async(req,res)=>{
+    try {
+        const job_role=req.body.job?.toLowerCase()
+        const job = await jobsmodel.findOne({job_role : job_role})
+        if(job){
+            res.json({"status":"error",message:"Job Name Already Exist"})
+        }else{
+            const result = await cloudinary.uploader.upload(req.file.path,{
+                transformation: [{ width: 200, height: 200 }]})
+            await jobsmodel.create({
+                job_role:req.body.job,
+                base_rate:req.body.bRate,
+                add_rate:req.body.adRate,
+                image:result.secure_url
+            })
+            fs.unlinkSync(req.file.path);
+            res.json({"status":"success",result:"Job Added Success"})
+        }
+
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+        
+    }
+
 
 }

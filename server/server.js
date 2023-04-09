@@ -1,6 +1,7 @@
 const express = require ("express")
 const server = express()
 const logger = require("morgan")
+const path = require('path')
 const cookieParser = require("cookie-parser")
 const dotenv = require("dotenv")
 dotenv.config()
@@ -29,8 +30,8 @@ const connectDb = require("./Controller/config/dbConfig")
 // }
 // addadmin()
 
-
-server.use(bodyParser.json({limit:"500kb"}))
+server.use('/', express.static(path.join(__dirname, 'Public')))
+server.use(bodyParser.json({limit:"1200kb"}))
 
 connectDb(DATABASE_URL)
 

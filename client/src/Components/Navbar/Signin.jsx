@@ -6,7 +6,7 @@ import { AppContext ,axios} from "../../import";
 
 const Signin = () => {
   const navigate= useNavigate()
-  const {user,setUser}=useContext(AppContext)
+  const {setUser}=useContext(AppContext)
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState();
   const handleMobile = (e) => {
