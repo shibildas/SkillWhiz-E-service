@@ -2,7 +2,7 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 import { useSelector } from "react-redux";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { AppContext } from "../../import";
 
@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar bg-base-100 shadow">
+      <div className="navbar bg-gradient-to-b from-amber-200 to-slate-200 shadow-2xl">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -72,13 +72,13 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <a className="px-2">
+          <Link to="/" className="px-2">
             <img
-              className="w-14 rounded-full shadow-2xl"
+              className="w-14 rounded-full shadow-2xl cursor-pointer"
               src={logo}
               alt="logo"
             />
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">

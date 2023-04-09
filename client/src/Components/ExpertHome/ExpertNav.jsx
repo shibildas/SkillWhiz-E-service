@@ -1,5 +1,5 @@
 import { useContext} from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/logo.png"
 import { AppContext } from "../../import"
 import { useSelector } from "react-redux"
@@ -40,7 +40,7 @@ const navigate=useNavigate()
         <li><a>About us</a></li>
       </ul>
     </div>
-    <a className="px-2"><img className="w-14 rounded-full sxhadow-2xl" src={logo} alt="logo" /></a>
+    <Link to="/expert" className="px-2 cursor-pointer"><img className="w-14 rounded-full sxhadow-2xl" src={logo} alt="logo" /></Link>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
@@ -62,7 +62,7 @@ const navigate=useNavigate()
   <div className="dropdown dropdown-end">
       <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
-          <img src={data?.image} />
+          <img src={data?.image ? data?.image :"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"} />
         </div>
       </label>
       <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">

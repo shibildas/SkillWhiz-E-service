@@ -27,15 +27,8 @@ export const comment= "SkillWhiz connects you to experts around you for Home Mai
 export const icon="https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611257/crystal-removebg-preview_fafyxj.png"
 export const social=["https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611258/instagram_lhi2p5.svg","https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611258/google_o9snal.svg","https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611258/linkedin_fqdmx6.svg","https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611257/facebook_yyjr7u.svg"]
 
-export const services=[{img:electrical,val:"ELECTRICIAN"},
-{img:plumping, val:"PLUMPER"},
-{img:ac, val:"AC SERVICE"},
-{img:clean, val:"DEEP CLEANING"},
-{img:carpentry, val:"CARPENTER"},
-{img:bath, val:"BATHROOM CLEANING"},
-{img:drive, val:"DRIVER"},
-{img:more, val:"MORE"},
+export const services={img:more, val:"MORE"}
 
 
-]
+
 

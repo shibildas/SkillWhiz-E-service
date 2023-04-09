@@ -47,7 +47,7 @@ const Signin = () => {
     <>
       <input type="checkbox" id="my-modal-3" className="modal-toggle" />
       <div className="modal ">
-        <div className="modal-box relative lg:w-2/12 min-w-fit bg-gradient-to-r from-gray-200 to-yellow-400">
+        <div className="modal-box relative w-auto bg-gradient-to-r from-red-200 to-amber-400 shadow-inner shadow-black">
           <label
             htmlFor="my-modal-3"
             className="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
@@ -61,7 +61,7 @@ const Signin = () => {
               <input
                 type="number"
                 min="0"
-                className="border rounded-md"
+                className="border rounded-md p-1"
                 placeholder="+91-"
                 onChange={handleMobile}
                 value={mobile}
@@ -70,7 +70,7 @@ const Signin = () => {
               <h1 className="font-bold py-2">Password</h1>
               <input
                 type="password"
-                className="border rounded-md"
+                className="border rounded-md p-1"
                 placeholder="Your Password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}

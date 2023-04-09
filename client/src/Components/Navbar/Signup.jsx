@@ -50,7 +50,7 @@ const Signup = () => {
       {/* Put this part before </body> tag */}
       <input type="checkbox" id="my-modal-6" className="modal-toggle" />
       <div className="modal ">
-        <div className="modal-box relative w-2/12 min-w-fit bg-gradient-to-r to-gray-200 from-yellow-400">
+        <div className="modal-box relative w-auto bg-gradient-to-r to-amber-200 from-red-400 shadow-inner shadow-black">
           <label
             htmlFor="my-modal-6"
             className="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"

@@ -13,8 +13,8 @@ const Invite = ({show}) => {
             h-full"
         >
          
-          <div className="flex justify-between p-4 grid-col-1">
-            <h1 className="text-5xl font-extrabold">
+          <div className="md:flex justify-between p-4 grid-col-1">
+            <h1 className="xl:text-5xl md:text-3xl font-extrabold">
               ARE YOU A SERVICE EXPERT ?
             </h1>
             <button onClick={()=>navigate("/expert")} className="bg-black p-2 rounded-xl font-bold hover:bg-yellow-400 hover:text-black text-yellow-400">

@@ -1,13 +1,8 @@
-import { lazy, useContext,Suspense} from "react";
-import { Routes, Route } from "react-router-dom";
-import NavbarAdmin from "../Navbar/NavbarAdmin";
-import Sidebar from "../Navbar/Sidebar";
-import Dashboard from "../Dashboard/Dashboard";
+
+import {lazy, useContext,Suspense,Routes, Route,NavbarAdmin,Sidebar,Dashboard,AppContext,ShimmerList} from "./import"
 const ExpertList = lazy(()=> import ("../ExpertList/ExpertList"));
 const UserList =lazy(()=> import ("../UserList/UserList"));
-import { AppContext, ErrorPage } from "../../../import";
-import ShimmerList from "../Shimmer/ShimmerList";
-import Jobs from "../Jobs/Jobs";
+const Jobs=lazy(()=> import ("../Jobs/Jobs"));
 
 const AdminLayout = () => {
   const {admin} = useContext(AppContext)

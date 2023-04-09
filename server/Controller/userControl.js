@@ -1,6 +1,7 @@
 const usermodel = require('../Model/userSchema')
 const bcrypt = require('bcrypt')
 const  jwt  = require("jsonwebtoken")
+const jobsmodel = require('../Model/jobsSchema')
 const authToken=process.env.TWILIO_AUTH_TOKEN
 const accountSid = process.env.accountSid
 const serviceSid =process.env.serviceSid
@@ -14,7 +15,6 @@ module.exports.postSignUp = async (req,res,next)=>{
         const user = await usermodel.findOne({email})
         const mob = await usermodel.findOne({mobile})
         if(user || mob){
-            console.log(user);
             res.json({"status": "failed", "message": "User already exist login now" })
         }else{
             client.verify.v2.services(serviceSid).verifications.create({
@@ -23,7 +23,7 @@ module.exports.postSignUp = async (req,res,next)=>{
             }).then((ver)=> {
                 console.log(ver.status) }      
             ).catch((error)=>{
-                res.json({"status":"failed", "message":error.message})
+                res.json({"status":"Sending failed", "message":error.message})
             })
             const salt = await bcrypt.genSalt(10)
             const hashPassword = await bcrypt.hash(password.trim(), salt)
@@ -44,13 +44,11 @@ module.exports.postSignUp = async (req,res,next)=>{
 
 }
 module.exports.verifyOTP= async(req,res)=>{
-    console.log(req.body);
     const {mobile,otp}= req.body
     try {
         const ver_check = await client.verify
           .v2.services(serviceSid)
           .verificationChecks.create({ to: `+91${mobile}`, code: otp });
-        console.log(ver_check.status);
         if (ver_check.status === "approved") {
           await usermodel.findOneAndUpdate(
             { mobile: mobile },
@@ -71,7 +69,7 @@ module.exports.verifyOTP= async(req,res)=>{
 
 }
 module.exports.signin= async(req,res)=>{
-    console.log(req.body);
+
     const {mobile,password}=req.body
     const user = await usermodel.findOne({mobile:mobile})
     if(user){
@@ -110,4 +108,13 @@ module.exports.isUserAuth = async (req, res) => {
     }
     
 
+}
+module.exports.get7Jobs= async(req,res)=>{
+    try {
+        let jobs= await jobsmodel.find({listed:true}).sort({created_at: 1}).limit(7)
+        res.json({"status":"success",result:jobs})
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+        
+    }
 }

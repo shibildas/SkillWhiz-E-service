@@ -43,13 +43,12 @@ try {
 }
 
 module.exports.verify = async(req,res)=>{
-    console.log(req.body);
+   
     const {mobile,otp}= req.body
     try {
         const ver_check = await client.verify
           .v2.services(serviceSid)
           .verificationChecks.create({ to: `+91${mobile}`, code: otp });
-        console.log(ver_check.status);
         if (ver_check.status === "approved") {
           await expertmodel.findOneAndUpdate(
             { mobile: mobile },
@@ -69,7 +68,7 @@ module.exports.verify = async(req,res)=>{
 }
 
 module.exports.signin= async(req,res)=>{
-  console.log(req.body);
+
   const {mobile,password}=req.body
   const expert = await expertmodel.findOne({mobile:mobile})
   if(expert){
