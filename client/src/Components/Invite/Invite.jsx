@@ -7,7 +7,7 @@ const Invite = ({show}) => {
   const navigate= useNavigate()
   return (
     <>
-      <div className="lg:mx-60 md:mx-20 mt-10">
+      <div className=" mt-10">
        {(show===true) && <>  <div
           className="border-yellow-400 border-8 w-[75%]
             h-full"

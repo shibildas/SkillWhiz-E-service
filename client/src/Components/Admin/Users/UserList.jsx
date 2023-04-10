@@ -23,28 +23,26 @@ const UserList = () => {
   return (
     <>
       <div className="p-3">
-        <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">
+        <h1 className="p-3 font-extrabold text-amber-100 md:text-5xl sm:text-2xl tracking-widest">
           Users
         </h1>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
           <table className="table w-full ">
-            {/* head */}
             <thead>
               <tr>
-                <th className="text-2xl">Sl no.</th>
-                <th className="text-2xl">Name & E-mail</th>
-                <th className="text-2xl">Mobile</th>
-                <th className="text-2xl">Status</th>
-                <th className="text-2xl">Edit Details</th>
-                <th className="text-2xl"></th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Sl no.</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Name & E-mail</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Mobile</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Status</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Edit Details</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700"></th>
               </tr>
             </thead>
             <tbody>
-              {/* row 1 */}
               {datas?.map((ele,index)=>{
                 return(
 
-                <tr key={index+110} className="focus:active">
+                <tr key={index+110} className={(index%2==0)? "active":"hover"}>
                 <th>{index+1}</th>
                 <td>
                   <div className="flex items-center space-x-3">

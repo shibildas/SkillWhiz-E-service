@@ -23,24 +23,24 @@ const ExpertList = () => {
   return (
     <>
       <div className="p-3">
-        <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">Experts</h1>
-        <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
-          <table className="table w-full">
+        <h1 className="p-3 font-extrabold text-amber-100 md:text-5xl sm:text-2xl tracking-widest">Experts</h1>
+        <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl ">
+          <table className="table w-full ">
             {/* head */}
-            <thead>
-              <tr >
-                <th className="text-2xl">Sl no.</th>
-                <th className="text-2xl">Name & E-mail</th>
-                <th className="text-2xl">Jobs</th>
-                <th className="text-2xl">Block / Unblock</th>
-                <th className="text-2xl">Edit Details</th>
-                <th className="text-2xl">Slots </th>
+            <thead >
+              <tr  className="">
+                <th className="text-2xl bg-slate-400 text-stone-700">Sl no.</th>
+                <th className="text-2xl bg-slate-400 text-stone-700">Name & E-mail</th>
+                <th className="text-2xl bg-slate-400 text-stone-700">Jobs</th>
+                <th className="text-2xl bg-slate-400 text-stone-700">Block / Unblock</th>
+                <th className="text-2xl bg-slate-400 text-stone-700">Edit Details</th>
+                <th className="text-2xl bg-slate-400 text-stone-700">Slots </th>
               </tr>
             </thead>
             <tbody>
               {/* row 1 */}
              {datas?.map((data,index)=>{return(
-              <tr key={index+10} className="focus:active">
+              <tr key={index+10} className={(index%2==0)? "active":"hover"}>
                 <th>{index+1}</th>
                 <td>
                   <div className="flex items-center space-x-3">

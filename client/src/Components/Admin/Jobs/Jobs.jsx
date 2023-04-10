@@ -30,7 +30,7 @@ const Jobs = () => {
     <div className="p-5 m-5">
       <AddJobs  handleLoad={handleLoad} load={load}/>
       <div className="flex justify-between">
-      <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">
+      <h1 className="p-3 font-extrabold text-amber-100 md:text-5xl sm:text-2xl tracking-widest">
         Jobs
       </h1>
       <label
@@ -44,19 +44,19 @@ const Jobs = () => {
           {/* head */}
           <thead>
             <tr>
-              <th className="text-2xl">Sl no.</th>
-              <th className="text-2xl">Job Role</th>
-              <th className="text-2xl">Listed</th>
-              <th className="text-2xl">Base Rate</th>
-              <th className="text-2xl">Additional</th>
-              <th className="text-2xl">Edit </th>
+              <th className="text-2xl  bg-slate-400 text-stone-700">Sl no.</th>
+              <th className="text-2xl  bg-slate-400 text-stone-700">Job Role</th>
+              <th className="text-2xl  bg-slate-400 text-stone-700">Listed</th>
+              <th className="text-2xl  bg-slate-400 text-stone-700">Base Rate</th>
+              <th className="text-2xl  bg-slate-400 text-stone-700"  bg-slate-400 text-stone-700>Additional</th>
+              <th className="text-2xl  bg-slate-400 text-stone-700">Edit </th>
             </tr>
           </thead>
           <tbody>
             {/* row 1 */}
             {datas?.map((data, index) => {
               return (
-                <tr key={index + 10} className="focus:active">
+                <tr key={index + 10} className={(index%2==0)? "active":"hover"}>
                   <th>{index + 1}</th>
                   <td>
                     <div className="flex items-center space-x-3">
