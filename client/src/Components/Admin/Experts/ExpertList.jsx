@@ -74,17 +74,6 @@ const ExpertList = () => {
                 </th>
               </tr> )})}
             </tbody>
-            {/* foot */}
-            <tfoot>
-              <tr>
-              <th>Sl no.</th>
-                <th className="text-2xl">Name & E-mail</th>
-                <th className="text-2xl">Jobs</th>
-                <th className="text-2xl">Block / Unblock</th>
-                <th className="text-2xl">Edit Details</th>
-                <th className="text-2xl">Slots </th>
-              </tr>
-            </tfoot>
           </table>
         </div>
       </div>

@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { AppContext ,axios} from "../../import";
-
+import { axios, login } from "../../import";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/user";
 
 const Signin = () => {
-  const navigate= useNavigate()
-  const {setUser}=useContext(AppContext)
+  const navigate = useNavigate();
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState();
   const handleMobile = (e) => {
@@ -19,29 +19,31 @@ const Signin = () => {
     const modalCheckbox = document.getElementById("my-modal-3");
     modalCheckbox.checked = false;
   };
-
-  const handleLogin = (e)=>{
-    e.preventDefault()
-    if(mobile==="" || password===""){
-      Swal.fire("sorry","All fields are required!!","error")
-    }else{
-      axios.post('/signin',{
-        mobile:mobile,
-        password:password
-      }).then((response)=>{
-        console.log(response.data);
-        if(!response.data.auth){
-          Swal.fire("sorry",response.data.message,"error")
-        }else{
-          localStorage.setItem("token",response.data.token)
-          handleclick()
-          Swal.fire("success",response.data.message,"success")
-          setUser(true)
-          navigate("/")
-        }
-      })
+  const dispatch = useDispatch();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (mobile === "" || password === "") {
+      Swal.fire("sorry", "All fields are required!!", "error");
+    } else {
+      axios
+        .post("/signin", {
+          mobile: mobile,
+          password: password,
+        })
+        .then((response) => {
+          if (!response.data.auth) {
+            dispatch(logout())
+            Swal.fire("sorry", response.data.message, "error");
+          } else {
+            localStorage.setItem("token", response.data.token);
+            dispatch(login(response.data));
+            handleclick();
+            Swal.fire("success", response.data.message, "success");
+            navigate("/");
+          }
+        });
     }
-  }
+  };
 
   return (
     <>

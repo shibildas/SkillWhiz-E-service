@@ -77,17 +77,6 @@ const UserList = () => {
               </tr>)
               })}
             </tbody>
-            {/* foot */}
-            <tfoot>
-              <tr>
-              <th>Sl no.</th>
-                <th className="text-2xl">Name & E-mail</th>
-                <th className="text-2xl">Mobile</th>
-                <th className="text-2xl">Status</th>
-                <th className="text-2xl">Edit Details</th>
-                <th className="text-2xl"></th>
-              </tr>
-            </tfoot>
           </table>
         </div>
       </div>

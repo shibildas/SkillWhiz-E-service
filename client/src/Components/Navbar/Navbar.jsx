@@ -1,17 +1,17 @@
 import Signin from "./Signin";
 import Signup from "./Signup";
-import { useSelector } from "react-redux";
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { AppContext } from "../../import";
+import { logout } from "../../redux/user";
 
 const Navbar = () => {
-  const {user, setUser} = useContext(AppContext)
+  const dispatch=useDispatch()
+  const isUserAuth = useSelector((state)=>state.user.value.isUserAuth)
   const navigate = useNavigate();
-  const logout = () => {
+  const handleLogout = () => {
     localStorage.removeItem("token");
-    setUser(false);
+    dispatch(logout())
     navigate("/");
   };
   const data = useSelector((state) => state.user.value);
@@ -114,7 +114,7 @@ const Navbar = () => {
         </div>
         <div className="navbar-end">
           {/* <a className="btn">Get started</a> */}
-          {user ? (
+          {isUserAuth ? (
             <>
               <div className="dropdown dropdown-end">
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -143,7 +143,7 @@ const Navbar = () => {
                     <a>Settings</a>
                   </li>
                   <li>
-                    <a onClick={logout}>Logout</a>
+                    <a onClick={handleLogout}>Logout</a>
                   </li>
                 </ul>
               </div>

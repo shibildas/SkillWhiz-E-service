@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   footerImg,
   footerRay,
@@ -10,7 +11,7 @@ const Footer = () => {
   return (
     <>
       <div className=" bg-slate-300">
-        <h1 className="p-4 xl:text-6xl md:text-3xl font-bold mx-10">Why Skillwhiz ?</h1>
+        <Link to="/admin"><h1 className="p-4 xl:text-6xl md:text-3xl font-bold mx-10">Why Skillwhiz ?</h1></Link>
         <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {footerImg.map((img, index) => {
             return (

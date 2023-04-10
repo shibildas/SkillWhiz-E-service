@@ -1,23 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
-import { useContext } from "react";
-import { AppContext } from "../../../context/context";
+import { useDispatch, useSelector } from "react-redux";
+import { adminlogout } from "../../../redux/admin";
 const NavbarAdmin = () => {
-  const {setAdmin}= useContext(AppContext)
     const navigate=useNavigate()
+    const dispatch=useDispatch()
 
 
     const handleLogout=()=>{
         localStorage.removeItem("admintoken")
-        setAdmin(false)
-        navigate("/admin")
+        dispatch(adminlogout())
+        navigate("/adminlogin")
     }
   return (
     <>
       <div className="navbar bg-gradient-to-b from-teal-100 to-purple-600 text-neutral-content shadow-2xl">
       <div className="navbar-start">
         <label htmlFor="my-drawer-2" className="px-2 ">
-          <img className="w-14 rounded-full cursor-pointer" src={logo} alt="logo" />
+          <Link to="/"><img className="w-14 rounded-full cursor-pointer" src={logo} alt="logo" /></Link>
         </label></div>
         <div className="navbar-end">
           <div className="dropdown dropdown-end ">

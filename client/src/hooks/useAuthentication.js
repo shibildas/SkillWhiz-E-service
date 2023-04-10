@@ -21,7 +21,7 @@ function useAuthentication() {
           dispatch(login(response.data));
         }
       });
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     axios
@@ -36,7 +36,7 @@ function useAuthentication() {
           dispatch(adminlogin(res.data));
         }
       });
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     axios
@@ -53,7 +53,7 @@ function useAuthentication() {
           dispatch(expertlogin(res.data));
         }
       });
-  }, [dispatch]);
+  }, []);
 
   return [user, setUser, admin, setAdmin, expert, setExpert];
 }

@@ -1,17 +1,15 @@
-import { useContext} from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../../assets/logo.png"
-import { AppContext } from "../../import"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { expertlogout } from "../../redux/expert"
 const ExpertNav=()=>{
-
-  const {setExpert} = useContext(AppContext)
+  const dispatch = useDispatch()
 
 const navigate=useNavigate()
   const handleLogout=()=>{
     localStorage.removeItem("experttoken")
-    setExpert(false)
-    navigate('/expert')
+    dispatch(expertlogout())
+    navigate('/expertlogin')
 
   }
   const data = useSelector((state)=>state.expert.value)

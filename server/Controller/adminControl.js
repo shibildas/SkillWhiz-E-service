@@ -29,7 +29,7 @@ module.exports.adminLogin = async (req, res) => {
                 res.json({"auth":true,"token":token,"result":admindetails, "status": "success", "message": "signin success" })
 
             }else{
-                res.json({"auth":false, "status": "failed", "message": "User password is incorrect" })
+                res.json({"auth":false, "status": "failed", "message": "Invalid Credentials "})
             }
         }else{
             res.json({"adminauth":false, "status": "failed", "message": "No Admin found" })

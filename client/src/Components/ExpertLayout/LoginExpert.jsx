@@ -1,13 +1,24 @@
-import { useContext, useState,useNavigate,Swal,axios,AppContext,OTP} from "./import";
+import { useDispatch } from "react-redux";
+import { useState,useNavigate,Swal,axios,OTP} from "./import";
+import { expertlogin } from "../../import";
+import { useEffect } from "react";
 
 const LoginExpert = () => {
-  const {setExpert}=useContext(AppContext)
     const [show,setShow]=useState(true)
     const [mobile,setMobile]=useState('')
     const [name,setName]=useState('')
     const [password,setPassword]=useState('')
     const [email,setEmail]=useState('')
+    const dispatch=useDispatch()
     const navigate=useNavigate()
+  useEffect(() => {
+    const token = localStorage.getItem("experttoken")
+    if(token){
+      navigate("/expert")
+    }
+  }, [])
+  
+
     const handleMobile = (e) => {
         const trimValue = e.target.value.replace(/[^0-9]/g, "");
         if (trimValue.length <= 10) {
@@ -41,7 +52,7 @@ const LoginExpert = () => {
         }
 
     }
-    const expertLogin=()=>{
+    const handleExpertLogin=()=>{
       if(mobile==="" || password===""){
         Swal.fire("sorry","All fields are required!!","error")
       }else{
@@ -53,10 +64,9 @@ const LoginExpert = () => {
           if(!response.data.auth){
             Swal.fire("sorry",response.data.message,"error")
           }else{
-          
             localStorage.setItem("experttoken",response.data.experttoken)
+            dispatch(expertlogin(response.data))
             Swal.fire("success",response.data.message,"success")
-            setExpert(true)
             navigate("/expert")
           }
         })
@@ -140,7 +150,7 @@ const LoginExpert = () => {
               </p>
               }
               <div className="p-3 flex justify-center">
-              {!show ? <> <button onClick={expertLogin} className="btn btn-outline font-extrabold">
+              {!show ? <> <button onClick={handleExpertLogin} className="btn btn-outline font-extrabold">
                   Login
                 </button></> :
               <> <button onClick={expertSignup} className="btn btn-outline font-extrabold">

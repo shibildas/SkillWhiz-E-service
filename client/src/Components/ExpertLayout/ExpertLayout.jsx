@@ -1,7 +1,8 @@
+import useAuthExpert from "../../hooks/useAuthExpert"
 import {Route,Routes,ExpertHome,ExpertNav,Footer,ErrorPage} from "./import"
 
 const ExpertLayout = ()=>{
-    
+    useAuthExpert()
     return(
         <>
         <ExpertNav/>

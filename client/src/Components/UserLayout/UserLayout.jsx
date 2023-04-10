@@ -1,6 +1,8 @@
+import useAuthUser from "../../hooks/useAuthUser"
 import {Route, Routes,React,Footer,MainPage,Navbar,ErrorPage} from "./import"
 
 const UserLayout=()=>{
+    useAuthUser()
     return(
     <>
     <Navbar />
