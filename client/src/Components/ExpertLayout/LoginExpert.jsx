@@ -1,11 +1,7 @@
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import axios from "../../axios/axios"
-import { AppContext } from "../../context/context";
-import OTP from "./OTP";
+import { useContext, useState,useNavigate,Swal,axios,AppContext,OTP} from "./import";
+
 const LoginExpert = () => {
-  const {expert,setExpert}=useContext(AppContext)
+  const {setExpert}=useContext(AppContext)
     const [show,setShow]=useState(true)
     const [mobile,setMobile]=useState('')
     const [name,setName]=useState('')

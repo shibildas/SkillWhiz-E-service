@@ -1,15 +1,14 @@
-import ExpertHome from "../ExpertHome/ExpertHome"
-import ExpertNav from "../ExpertHome/ExpertNav"
-import Footer from "../Footer/Footer"
-
+import {Route,Routes,ExpertHome,ExpertNav,Footer,ErrorPage} from "./import"
 
 const ExpertLayout = ()=>{
     
     return(
-
         <>
         <ExpertNav/>
-        <ExpertHome />
+        <Routes>
+            <Route path="/" element={<ExpertHome />}/>
+            <Route path="*" element={<ErrorPage/>}/>
+        </Routes> 
         <Footer/>
         </>
     )

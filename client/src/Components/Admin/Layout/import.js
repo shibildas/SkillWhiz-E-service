@@ -5,5 +5,6 @@ import Sidebar from "../Navbar/Sidebar";
 import Dashboard from "../Dashboard/Dashboard";
 import { AppContext } from "../../../import";
 import ShimmerList from "../Shimmer/ShimmerList";
+import ErrorPage from "../../Error/Error";
 
-export {lazy, useContext,Suspense,Routes, Route,NavbarAdmin,Sidebar,Dashboard,AppContext,ShimmerList}
+export {ErrorPage,lazy, useContext,Suspense,Routes, Route,NavbarAdmin,Sidebar,Dashboard,AppContext,ShimmerList}

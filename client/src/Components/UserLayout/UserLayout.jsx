@@ -1,19 +1,13 @@
-import React, { useState } from "react"
-import {Route} from "react-router-dom"
-import Footer from "../Footer/Footer"
-import MainPage from "../MainPage/MainPage"
-import  Navbar  from "../Navbar/Navbar"
-
-
+import {Route, Routes,React,Footer,MainPage,Navbar,ErrorPage} from "./import"
 
 const UserLayout=()=>{
-
-  
- 
     return(
     <>
     <Navbar />
-    <MainPage/>
+    <Routes>
+        <Route path="/" element={ <MainPage/>}/>
+        <Route path="*" element={<ErrorPage/>} />
+    </Routes>
     <Footer/>
     </>)
 }
