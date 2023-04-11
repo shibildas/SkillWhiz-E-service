@@ -11,14 +11,15 @@ const UserLayout = () => {
   useAuthUser();
   return (
     <>
-      <Navbar />
-      <div className="lg:px-60 md:px-20 bg-gray-100 bg-texture texture-stripes">
+    <Navbar />
+      <div className=" max-w-screen-xl mx-auto bg-gray-100 ">
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>
       <Footer />
+
     </>
   );
 };

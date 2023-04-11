@@ -41,7 +41,6 @@ const Jobs = () => {
       </label></div>
       <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
         <table className="table w-full">
-          {/* head */}
           <thead>
             <tr>
               <th className="text-2xl  bg-slate-400 text-stone-700">Sl no.</th>
@@ -53,7 +52,6 @@ const Jobs = () => {
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
             {datas?.map((data, index) => {
               return (
                 <tr key={index + 10} className={(index%2==0)? "active":"hover"}>

@@ -7,6 +7,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [cPassword, setCPassword] = useState("");
   const [mobile, setMobile] = useState("");
   const handleNumber = (e) => {
     const trimValue = e.target.value.replace(/[^0-9]/g, "");
@@ -22,8 +23,11 @@ const Signup = () => {
   const handlesignup = (e) => {
     e.preventDefault();
     if (password === "" || email === "" || name === "" || mobile == "") {
+      Swal.fire("sorry","Fields cant be empty","error")
     } else {
-      axios
+      if(password===cPassword){
+
+        axios
         .post("/signup", {
           username: name,
           email: email,
@@ -42,7 +46,11 @@ const Signup = () => {
         .catch((error) => {
           console.log(error);
           Swal.fire("sorry",error.message,"error")
+
         });
+      }else{
+        Swal.fire("sorry","Passwords doesnt match","error")
+      }
     }
   };
   return (
@@ -107,6 +115,19 @@ const Signup = () => {
                 }}
                 required
                 value={password}
+                placeholder="Password"
+              />
+            </div>
+            <label className="p-2">Confirm Password </label>
+            <div className="p-2">
+              <input
+                className="placeholder:text-gray-600 rounded-lg bg-indigo-200 focus:bg-lime-200 text-black p-2"
+                type="password"
+                onChange={(e) => {
+                  setCPassword(e.target.value);
+                }}
+                required
+                value={cPassword}
                 placeholder="Password"
               />
             </div>

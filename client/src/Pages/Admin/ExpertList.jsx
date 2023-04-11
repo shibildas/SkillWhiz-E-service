@@ -1,24 +1,8 @@
-import { useEffect, useState } from "react";
-import axios from "../../axios/axios"
-import Swal from "sweetalert2";
+import useGerExperts from "../../Services/useGetExperts";
 
 
 const ExpertList = () => {
-    const [datas, setData]=useState()
-
-    useEffect(() => {
-      axios.get("/admin/getExperts",{headers:{"x-access-admintoken":localStorage.getItem("admintoken")}}).then((res)=>{
-        if(res.data.status==="success"){
-            setData(res.data.result)
-        }else{
-            Swal.fire("Sorry","Couldn't fetch Data","error")
-        }
-      }).catch((error)=>{
-        Swal.fire("Sorry",error.message,"error")
-      })
-    
-      
-    }, [])
+    const datas = useGerExperts()
     
   return (
     <>
@@ -26,7 +10,6 @@ const ExpertList = () => {
         <h1 className="p-3 font-extrabold text-amber-100 md:text-5xl sm:text-2xl tracking-widest">Experts</h1>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl ">
           <table className="table w-full ">
-            {/* head */}
             <thead >
               <tr  className="">
                 <th className="text-2xl bg-slate-400 text-stone-700">Sl no.</th>
@@ -38,7 +21,6 @@ const ExpertList = () => {
               </tr>
             </thead>
             <tbody>
-              {/* row 1 */}
              {datas?.map((data,index)=>{return(
               <tr key={index+10} className={(index%2==0)? "active":"hover"}>
                 <th>{index+1}</th>

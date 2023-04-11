@@ -8,6 +8,7 @@ const LoginExpert = () => {
     const [mobile,setMobile]=useState('')
     const [name,setName]=useState('')
     const [password,setPassword]=useState('')
+    const [cPassword,setCPassword]=useState('')
     const [email,setEmail]=useState('')
     const dispatch=useDispatch()
     const navigate=useNavigate()
@@ -33,22 +34,27 @@ const LoginExpert = () => {
             Swal.fire("sorry","Please fill all required ","error")
         }else{
 
-            axios.post('/expert/signup',{
-                username:name,
-                email:email,
-                password:password,
-                mobile:mobile
-            }).then((response)=>{
-                console.log(response.data);
-                if(response.data.status === "success"){
-                  const expertModal= document.getElementById("expert-otp")
-                  expertModal.checked=true 
-                  navigate('/expert')     
-                }
+          if(password===cPassword){
 
+            axios.post('/expert/signup',{
+              username:name,
+              email:email,
+              password:password,
+              mobile:mobile
+            }).then((response)=>{
+              console.log(response.data);
+              if(response.data.status === "success"){
+                const expertModal= document.getElementById("expert-otp")
+                expertModal.checked=true 
+                navigate('/expert')     
+              }
+              
             }).catch((error)=>{
               Swal.fire("sorry",error.message,"error")
             })
+          }else{
+            Swal.fire("sorry","Passwords doesnt match ","error")
+          }
         }
 
     }
@@ -107,6 +113,7 @@ const LoginExpert = () => {
                 value={email}
                 required
               />
+              
                 </>}
               <h1 className="font-bold py-2">Mobile</h1>
               <input
@@ -128,6 +135,7 @@ const LoginExpert = () => {
                 required
               />
              {!show ? 
+             
              <p className="py-2">
                 Not an Expert?{" "}
                 <label
@@ -137,7 +145,15 @@ const LoginExpert = () => {
                 >
                   Signup
                 </label>
-              </p>:
+              </p>:<><h1 className="font-bold py-2"> Confirm Password</h1>
+             <input
+               type="password"
+               className="border rounded-md p-2"
+               placeholder="Your Password"
+               onChange={(e) => setCPassword(e.target.value)}
+               value={cPassword}
+               required
+             />
              <p className="py-2">
                 Already an Expert?{"  "}
                 <label
@@ -148,7 +164,7 @@ const LoginExpert = () => {
                   SignIn
                 </label>
               </p>
-              }
+             </> }
               <div className="p-3 flex justify-center">
               {!show ? <> <button onClick={handleExpertLogin} className="btn btn-outline font-extrabold">
                   Login
