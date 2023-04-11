@@ -1,4 +1,4 @@
-import Invite from "../Invite/Invite"
+import Invite from "../../Components/Invite/Invite"
 import { useEffect, useState } from "react"
 
 const ExpertHome=()=>{

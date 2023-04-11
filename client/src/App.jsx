@@ -1,7 +1,6 @@
 import { lazy, Suspense } from "react";
-const ExpertLayout = lazy(() => import("./Components/ExpertLayout/ExpertLayout")
-);
-const AdminLayout = lazy(() => import("./Components/Admin/Layout/AdminLayout"));
+const ExpertLayout = lazy(() => import("./Layout/ExpertLayout"));
+const AdminLayout = lazy(() => import("./Layout/AdminLayout"));
 import { UserLayout, ErrorPage, AdminLogin, LoginExpert,AdminPrivate,AdminPublic,ExpertPrivate,ExpertPublic, BrowserRouter, Routes, Route  } from "./import";
 import ShimmerList from "./Components/Admin/Shimmer/ShimmerList";
 

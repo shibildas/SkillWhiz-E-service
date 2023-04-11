@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import AddJobs from "./AddJobs";
-import axios from "../../../axios/axios";
+import AddJobs from "../../Components/Admin/Jobs/AddJobs";
+import axios from "../../axios/axios";
 
 const Jobs = () => {
   const [load, setLoad]=useState()

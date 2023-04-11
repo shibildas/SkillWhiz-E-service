@@ -1,19 +1,18 @@
-import { lazy } from "react";
-import {
-  ErrorPage,
-  Suspense,
-  Routes,
-  Route,
-  NavbarAdmin,
-  Sidebar,
-  Dashboard,
-  ShimmerList,
-} from "./import";
+
+import { lazy,Suspense} from "react";
+import { Routes, Route } from "react-router-dom";
+import NavbarAdmin from "../Components/Admin/Navbar/NavbarAdmin";
+import Sidebar from "../Components/Admin/Navbar/Sidebar";
+import Dashboard from "../Pages/Admin/Dashboard";
+
+import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
+import ErrorPage from "../Pages/Error/Error";
+
 import { useSelector } from "react-redux";
-import useAuthAdmin from "../../../hooks/useAuthAdmin";
-const ExpertList = lazy(() => import("../Experts/ExpertList"));
-const UserList = lazy(() => import("../Users/UserList"));
-const Jobs = lazy(() => import("../Jobs/Jobs"));
+import useAuthAdmin from "../hooks/useAuthAdmin";
+const ExpertList = lazy(() => import("../Pages/Admin/ExpertList"));
+const UserList = lazy(() => import("../Pages/Admin/UserList"));
+const Jobs = lazy(() => import("../Pages/Admin/Jobs"));
 
 const AdminLayout = () => {
   useAuthAdmin()

@@ -1,13 +1,11 @@
-import useAuthUser from "../../hooks/useAuthUser";
-import {
-  Route,
-  Routes,
-  React,
-  Footer,
-  MainPage,
-  Navbar,
-  ErrorPage,
-} from "./import";
+import useAuthUser from "../hooks/useAuthUser";
+import React from "react"
+import {Route, Routes} from "react-router-dom"
+import Footer from "../Components/Footer/Footer"
+import MainPage from "../Pages/User/MainPage"
+import  Navbar  from "../Components/Navbar/Navbar"
+import ErrorPage from "../Pages/Error/Error"
+
 
 const UserLayout = () => {
   useAuthUser();

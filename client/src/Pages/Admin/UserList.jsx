@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {axios} from "../../../import"
+import {axios} from "../../import"
 import Swal from "sweetalert2";
 
 const UserList = () => {

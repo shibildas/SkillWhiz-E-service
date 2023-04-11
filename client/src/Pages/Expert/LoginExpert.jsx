@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useState,useNavigate,Swal,axios,OTP} from "./import";
+import { useState,useNavigate,Swal,axios,OTP} from "../../Components/ExpertOTP/import";
 import { expertlogin } from "../../import";
 import { useEffect } from "react";
 

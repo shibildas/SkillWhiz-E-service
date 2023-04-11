@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { services } from "../../constants/constants";
-import Banner from "../Banner/Banner";
-import Invite from "../Invite/Invite";
+import Banner from "../../Components/Banner/Banner";
+import Invite from "../../Components/Invite/Invite";
 import axios from "../../axios/axios";
 import Swal from "sweetalert2";
 
