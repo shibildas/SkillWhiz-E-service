@@ -71,7 +71,7 @@ const LoginExpert = () => {
             Swal.fire("sorry",response.data.message,"error")
           }else{
             localStorage.setItem("experttoken",response.data.experttoken)
-            dispatch(expertlogin(response.data))
+            dispatch(expertlogin(response.data.result))
             Swal.fire("success",response.data.message,"success")
             navigate("/expert")
           }

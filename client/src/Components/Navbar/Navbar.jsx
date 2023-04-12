@@ -134,10 +134,10 @@ const Navbar = () => {
                   className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
                 >
                   <li>
-                    <a className="items-start flex-col">
+                    <Link to="/profile" className="items-start flex-col">
                       <b className="text-2xl">{data?.username?.toUpperCase()}</b>
                       Profile
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a>Settings</a>

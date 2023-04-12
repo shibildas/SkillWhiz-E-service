@@ -39,7 +39,6 @@ const Signin = () => {
             dispatch(login(response.data));
             handleclick();
             Swal.fire("success", response.data.message, "success");
-            navigate("/");
           }
         });
     }

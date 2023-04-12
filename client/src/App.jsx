@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<UserLayout />} />
+        <Route exact path="/*" element={<UserLayout />} />
 
         <Route
           exact
@@ -53,7 +53,7 @@ function App() {
           }
         />
 
-        <Route path="/*" Component={ErrorPage} />
+        <Route path="*" Component={ErrorPage} />
       </Routes>
     </BrowserRouter>
   );

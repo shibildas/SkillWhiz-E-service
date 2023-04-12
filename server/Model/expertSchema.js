@@ -28,7 +28,10 @@ const expertSchema = new mongoose.Schema({
   },
   slots:{type:Array },
   identity:{
-    type:String
+    name:String,
+    front:String,
+    back:String,
+    status:String
   },
   rating:{type:Array},
   isBanned:{type:Boolean, default:true},

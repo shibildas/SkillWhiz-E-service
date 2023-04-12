@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 import {axios} from "../../import"
 import Swal from "sweetalert2";
+import EditUser from "../../Components/Admin/EditUser/EditUser";
 
 const UserList = () => {
+  const arra=[0,1,2,3,4]
     const [datas,setDatas]= useState()
+    const [user,setUser]=useState()
+    const [load,setLoad]=useState(false)
+
+    const handleLoad=()=>{
+      setLoad(!load)
+    }
+    
 
     useEffect(() => {
         axios.get("/admin/getUsers",{headers:{"x-access-admintoken":localStorage.getItem("admintoken")}}).then((res)=>{
@@ -17,7 +26,7 @@ const UserList = () => {
           })
         
      
-    }, [])
+    }, [load])
     
 
   return (
@@ -35,11 +44,10 @@ const UserList = () => {
                 <th className="text-2xl  bg-slate-400 text-stone-700">Mobile</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Status</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Edit Details</th>
-                <th className="text-2xl  bg-slate-400 text-stone-700"></th>
               </tr>
             </thead>
             <tbody>
-              {datas?.map((ele,index)=>{
+              {datas ? (datas?.map((ele,index)=>{
                 return(
 
                 <tr key={index+110} className={(index%2==0)? "active":"hover"}>
@@ -49,14 +57,14 @@ const UserList = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle w-12 h-12">
                         <img
-                          src={ele?.image ? ele.image : "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"}
-                          alt="Avatar Tailwind CSS Component"
+                          src={ele?.image ? ele?.image : "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"}
+                          alt="Avatar"
                         />
                       </div>
                     </div>
                     <div>
                       <div className="font-bold">{ele?.username}</div>
-                      <div className="text-sm opacity-50">{ele?.email}</div>
+                      <div className="text-sm font-bold opacity-60">{ele?.email}</div>
                     </div>
                   </div>
                 </td>
@@ -66,17 +74,31 @@ const UserList = () => {
                   
                 </td>
                 <td>{ele?.isBanned ? "Blocked" : "UnBlocked"}</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">Edit</button>
+                <th className="flex justify-center">
+                  <label htmlFor="editUser" onClick={()=>setUser(ele)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
+
               </tr>)
-              })}
+              })):(arra.map((e)=>{
+                return(<tr key={e} className={(e%2==0)? "active":""}>
+                  <td colSpan="6">
+                    <div className="animate-pulse flex space-x-4">
+                      <div className="rounded-full bg-gray-400 h-12 w-12"></div>
+                      <div className="flex-1 space-y-4 py-1">
+                        <div className="h-4 bg-gray-400 rounded w-3/4"></div>
+                        <div className="space-y-2">
+                          <div className="h-4 bg-gray-400 rounded"></div>
+                          <div className="h-4 bg-gray-400 rounded w-5/6"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>)
+              }))}
             </tbody>
           </table>
         </div>
+        <EditUser user={user} handleLoad={handleLoad}/>
       </div>
     </>
   );

@@ -7,6 +7,15 @@ const jwt= require('jsonwebtoken')
 const usermodel = require("../Model/userSchema")
 
 const client=require("twilio")(accountSid,authToken)
+const cloudinary = require('cloudinary').v2;
+
+
+
+cloudinary.config({
+  cloud_name: process.env.Cloud_Name,
+  api_key: process.env.Cloud_API_Key,
+  api_secret: process.env.Cloud_API_SECRET
+});
 
 
 module.exports.postregister = async(req,res,next)=>{
@@ -78,7 +87,6 @@ module.exports.signin= async(req,res)=>{
 
               const expertId = expert._id
               const token = jwt.sign({expertId},process.env.JWT_SECRET_KEY,{expiresIn:30000})
-              // console.log(token);
               res.json({"auth":true, "experttoken":token, "result":expert,"status":"success"})
           }else{
               res.json({"auth":false, "status": "failed", "message": "You are blocked" })
@@ -101,7 +109,8 @@ module.exports.isExpertAuth = async (req, res) => {
       "username":expertDetails.username,
       "email":expertDetails.email,
       "auth":true,
-      "image":expertDetails.image||null
+      "image":expertDetails.image||null,
+      "isVerified":expertDetails.isVerified
   })
   } catch (error) {
       console.log(error);
@@ -109,3 +118,34 @@ module.exports.isExpertAuth = async (req, res) => {
   
 
 }
+
+module.exports.applyVerify = async (req, res) => {
+  
+  try {
+    const expertId = req.expertId;
+    const files= Object.values(req.files).flatMap((val)=>val)
+    const promises = files.map(async file => {
+      const result = await cloudinary.uploader.upload(file.path, {
+        transformation: [{ width: 200, height: 100 }]
+      });
+      return result.secure_url;
+    });
+
+    const [frontImage, backImage] = await Promise.all(promises);
+
+    await expertmodel.findByIdAndUpdate(expertId,{
+      $set: {
+        "identity.name": req.body.name,
+        "identity.front": frontImage,
+        "identity.back": backImage,
+        "identity.status": "pending",
+        "isVerified": true
+      }
+    });
+
+    res.json({ "status": "success", "message": "Verification applied successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ "status": "error", "message": error.message });
+  }
+};

@@ -4,12 +4,14 @@ import ExpertHome from "../Pages/Expert/ExpertHome";
 import ExpertNav from "../Components/ExpertNav/ExpertNav";
 import Footer from "../Components/Footer/Footer";
 import ErrorPage from "../Pages/Error/Error";
+import Verify from "../Components/Verify/Verify";
 
 const ExpertLayout = () => {
   useAuthExpert();
   return (
     <>
       <ExpertNav />
+        <Verify/>
       <div className="max-w-screen-lg mx-auto bg-gray-100">
         <Routes>
           <Route path="/" element={<ExpertHome />} />

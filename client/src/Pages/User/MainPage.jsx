@@ -6,6 +6,7 @@ import axios from "../../axios/axios";
 import Swal from "sweetalert2";
 
 const MainPage = () => {
+
   const [show, setShow] = useState();
   const [jobs,setJobs]= useState()
   useEffect(() => {
