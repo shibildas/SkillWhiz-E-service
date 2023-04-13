@@ -158,3 +158,14 @@ module.exports.addJobs= async(req,res)=>{
 
 
 }
+module.exports.blockUser=async (req,res)=>{
+    try {
+        
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+    }
+    
+}
+module.exports.unBlockUser=async (req,res)=>{
+
+}

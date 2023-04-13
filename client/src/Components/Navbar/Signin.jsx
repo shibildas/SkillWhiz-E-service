@@ -36,7 +36,7 @@ const Signin = () => {
             Swal.fire("sorry", response.data.message, "error");
           } else {
             localStorage.setItem("token", response.data.token);
-            dispatch(login(response.data));
+            dispatch(login(response.data.result));
             handleclick();
             Swal.fire("success", response.data.message, "success");
           }

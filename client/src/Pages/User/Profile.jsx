@@ -1,13 +1,11 @@
-import { useSelector } from "react-redux"
 import ProfileCard from "../../Components/Card/ProfileCard";
-
+import useAuthUser from "../../hooks/useAuthUser";
 
 const Profile= ()=>{
-    const data=useSelector(state=>state.user.value)
-    console.log(data);
+   useAuthUser()
     return(
     <>
-      <ProfileCard data={data}/>  
+      <ProfileCard/>  
        
     </>
     )

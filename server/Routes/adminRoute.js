@@ -12,6 +12,7 @@ router.get('/getExperts',Auth.adminJwt,adminControl.getExperts)
 router.get('/getUsers',Auth.adminJwt,adminControl.getUsers)
 router.get('/getJobs',Auth.adminJwt,adminControl.getJobs)
 router.post('/addjobs',Auth.adminJwt,upload.single("image"),adminControl.addJobs)
-
+router.post('/blockUser',Auth.adminJwt,adminControl.blockUser)
+router.post('/unBlockUser',Auth.adminJwt,adminControl.unBlockUser)
 
 module.exports = router

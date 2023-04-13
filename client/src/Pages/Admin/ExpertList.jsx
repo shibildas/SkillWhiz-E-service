@@ -16,6 +16,7 @@ const ExpertList = () => {
                 <th className="text-2xl bg-slate-400 text-stone-700">Sl no.</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Name & E-mail</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Jobs</th>
+                <th className="text-2xl bg-slate-400 text-stone-700">Status</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Block / Unblock</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Edit Details</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Slots </th>
@@ -48,7 +49,7 @@ const ExpertList = () => {
                     Desktop Support Technician
                   </span>
                 </td>
-                <td>{data?.isBanned ? "Banned" : "Active"}</td>
+                <td>{data?.isBanned ? "Blocked" : "Unblocked"}</td>
                 <td className="flex justify-center">{(data?.identity?.status ==="pending") ? <button className="btn">Verify</button>  : <button className="btn">Re-verify</button> }</td>
                 <th>
                   <button className="btn btn-ghost btn-outline">Edit</button>
