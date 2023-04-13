@@ -9,7 +9,7 @@ const AddJobs = ({handleLoad ,load}) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    const allowedTypes = ["image/jpeg", "image/png", "image/gif"]; // allowed image types
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif","image/jpg"]; // allowed image types
     const maxSize = 1 * 1024 * 1024; // 1MB maximum file size
     if (file && allowedTypes.includes(file.type) && file.size <= maxSize) {
       setSelectedFile(file);
@@ -55,8 +55,7 @@ const AddJobs = ({handleLoad ,load}) => {
           } else {
             Swal.fire("Sorry", "Job adding failed", "error");
           }
-        })
-        .catch((error) => {
+        }).catch((error) => {
           console.error(error);
           Swal.fire("Error", error.message, "error");
         });

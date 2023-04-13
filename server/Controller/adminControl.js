@@ -159,13 +159,111 @@ module.exports.addJobs= async(req,res)=>{
 
 }
 module.exports.blockUser=async (req,res)=>{
+    console.log(req.params.id);
+    
     try {
-        
+        const _id= req.params.id
+        await usermodel.findByIdAndUpdate({_id},{$set:{isBanned:true}})
+        res.json({"status":"success",result:"Blocked the user"})
     } catch (error) {
         res.json({"status":"error",message:error.message})
     }
     
 }
 module.exports.unBlockUser=async (req,res)=>{
+    try {
+        const _id= req.params.id
+        await usermodel.findByIdAndUpdate({_id},{$set:{isBanned:false}})
+        res.json({"status":"success",result:"UnBlocked the user"})
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+    }
 
+}
+module.exports.editUser=async(req,res)=>{
+    try {
+        const {name,email,mobile,id}=req.body
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path,{
+                transformation: [{ width: 200, height: 200 }]})
+                await usermodel.findByIdAndUpdate({_id:id},{
+                    $set:{
+                        username:name,
+                        mobile:mobile,
+                        email:email,
+                        image:result.secure_url
+                    }
+                })
+                fs.unlinkSync(req.file.path)
+                res.json({"status":"success",result:"User edit Success"})
+        }else{
+            await usermodel.findByIdAndUpdate({_id:id},{
+                $set:{
+                    username:name,
+                    mobile:mobile,
+                    email:email,
+                }
+            })
+            res.json({"status":"success",result:"User edit Success"})
+
+        }
+        
+        
+    } catch (error) {
+        res.json({"status":"error",message:error.message}) 
+    }
+}
+
+module.exports.unListJob=async (req,res)=>{
+    try {
+        const _id= req.params.id
+        await jobsmodel.findByIdAndUpdate({_id},{$set:{listed:false}})
+        res.json({"status":"success",result:"Unlisted the Job"})
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+    }
+
+}
+module.exports.listJob=async (req,res)=>{
+    try {
+        const _id= req.params.id
+        await jobsmodel.findByIdAndUpdate({_id},{$set:{listed:true}})
+        res.json({"status":"success",result:"Listed the Job"})
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+    }
+
+}
+module.exports.editJob=async(req,res)=>{
+    try {
+        const {id,role,bRate,adRate} = req.body
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path,{
+                transformation: [{ width: 200, height: 200 }]})
+                await jobsmodel.findByIdAndUpdate({_id:id},{
+                    $set:{
+                       job_role:role,
+                       base_rate:bRate,
+                       add_rate:adRate,
+                       image:result.secure_url 
+                    }
+                })
+                fs.unlinkSync(req.file.path)
+                res.json({"status":"success",result:"Job edit Success"})
+        }else{
+            await jobsmodel.findByIdAndUpdate({_id:id},{
+                $set:{
+                   job_role:role,
+                   base_rate:bRate,
+                   add_rate:adRate,
+                }
+            })
+            res.json({"status":"success",result:"Job edit Success"})
+
+        }
+        
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+        
+    }
 }

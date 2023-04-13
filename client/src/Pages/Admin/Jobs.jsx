@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import AddJobs from "../../Components/Admin/Jobs/AddJobs";
 import axios from "../../axios/axios";
 import Swal from "sweetalert2";
+import EditJobs from "../../Components/Admin/Jobs/EditJobs";
 
 const Jobs = () => {
   const arra=[0,1,2,3,4]
   const [load, setLoad]=useState(false)
   const [datas, setData] = useState();
+  const [job,setJob]=useState()
 
   const handleLoad=()=>{
     setLoad(!load)
@@ -88,7 +90,7 @@ const Jobs = () => {
                   <th>{data.base_rate} ₹ </th>
                   <th>{data.add_rate} ₹/Hr</th>
                   <th>
-                    <button className="btn btn-ghost">Edit</button>
+                    <label htmlFor="editJobs" onClick={()=>setJob(data)} className="btn btn-ghost">Edit</label>
                   </th>
                 </tr>
               );
@@ -111,6 +113,7 @@ const Jobs = () => {
           </tbody>
         </table>
       </div>
+      <EditJobs job={job} handleLoad={handleLoad}/>
     </div>
   );
 };
