@@ -267,3 +267,23 @@ module.exports.editJob=async(req,res)=>{
         
     }
 }
+module.exports.verifyExpert=async (req,res)=>{
+    try {
+        const _id= req.params.id
+        await expertmodel.findByIdAndUpdate({_id},{$set:{identity:{status:"approved"}}})
+        res.json({"status":"success",result:"Expert Approved"})
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+    }
+
+}
+module.exports.rejectExpert=async (req,res)=>{
+    try {
+        const _id= req.params.id
+        await expertmodel.findByIdAndUpdate({_id},{$set:{identity:{status:"initial"}}})
+        res.json({"status":"success",result:"Expert rejected for reApply"})
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+    }
+
+}

@@ -2,8 +2,6 @@ const express = require('express')
 const router = express.Router()
 const adminControl = require('../Controller/adminControl')
 const Auth= require('../Middlewares/Auth')
-const handleFileUpload = require("../Middlewares/uploadfile")
-const multer= require("multer")
 const mult= require("../Middlewares/multer")
 
 router.post('/',adminControl.adminLogin)
@@ -18,5 +16,7 @@ router.post('/editUser',Auth.adminJwt,mult.single('image'),adminControl.editUser
 router.get('/unListJob/:id',Auth.adminJwt,adminControl.unListJob)
 router.get('/listJob/:id',Auth.adminJwt,adminControl.listJob)
 router.post('/editJob',Auth.adminJwt,mult.single("image"),adminControl.editJob)
+router.get('/verifyExpert/:id',Auth.adminJwt,adminControl.verifyExpert)
+router.get('/rejectExpert/:id',Auth.adminJwt,adminControl.rejectExpert)
 
 module.exports = router

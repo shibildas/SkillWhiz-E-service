@@ -3,7 +3,11 @@ import axios from "../axios/axios";
 import Swal from "sweetalert2";
 
 const useGerExperts = () => {
+  const[load,setLoad]=useState(false)
   const [datas, setData] = useState([]);
+  const handleLoad=()=>{
+    setLoad(!load)
+  }
 
   const fetchExperts = useCallback(() => {
     axios
@@ -24,8 +28,8 @@ const useGerExperts = () => {
 
   useEffect(() => {
     fetchExperts();
-  }, [fetchExperts]);
+  }, [fetchExperts,load]);
 
-  return datas;
+  return [datas,handleLoad];
 };
 export default useGerExperts

@@ -1,8 +1,11 @@
+import { useState } from "react";
+import Verification from "../../Components/Admin/Verification/Verification";
 import useGerExperts from "../../Services/useGetExperts";
 
 
 const ExpertList = () => {
-    const datas = useGerExperts()
+  const[expert,setExpert]=useState()
+    const [datas,handleLoad] = useGerExperts()
     const arra=[0,1,2,3,4]
     
   return (
@@ -17,7 +20,7 @@ const ExpertList = () => {
                 <th className="text-2xl bg-slate-400 text-stone-700">Name & E-mail</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Jobs</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Status</th>
-                <th className="text-2xl bg-slate-400 text-stone-700">Block / Unblock</th>
+                <th className="text-2xl bg-slate-400 text-stone-700">Verification</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Edit Details</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Slots </th>
               </tr>
@@ -43,14 +46,14 @@ const ExpertList = () => {
                   </div>
                 </td>
                 <td>
-                  Contact:{data?.mobile}
+                  Contact: +91- {data?.mobile}
                   <br />
                   <span className="badge badge-ghost badge-sm">
                     Desktop Support Technician
                   </span>
                 </td>
                 <td>{data?.isBanned ? "Blocked" : "Unblocked"}</td>
-                <td className="flex justify-center">{(data?.identity?.status ==="pending") ? <button className="btn">Verify</button>  : <button className="btn">Re-verify</button> }</td>
+                <td className="flex justify-center">{(data?.identity?.status ==="pending") && <label htmlFor="exVerify" onClick={()=>setExpert(data)} className="btn">Verify</label>}{data?.identity?.status ==="initial" && "Initialized"}{data?.identity?.status ==="approved" && "Completed"}</td>
                 <th>
                   <button className="btn btn-ghost btn-outline">Edit</button>
                 </th>
@@ -76,6 +79,7 @@ const ExpertList = () => {
             </tbody>
           </table>
         </div>
+        <Verification expert={expert} handleLoad={handleLoad}/>
       </div>
     </>
   );

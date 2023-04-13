@@ -124,7 +124,10 @@ const EditJobs=({job,handleLoad})=>{
                 );
               }
         
-        })
+        }).catch((error) => {
+            console.error(error);
+            Swal.fire("Error", error.message, "error");
+          });
 
 
     }
