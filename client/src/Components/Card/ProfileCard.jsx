@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux"
+import ChangePassword from "../ChangePassword/ChangePassword"
 
 const ProfileCard=()=>{
   const data=useSelector(state=>state.user.value)
@@ -19,10 +20,11 @@ const ProfileCard=()=>{
                  
                </div>
                <div className="w-1/2 text-center">
-                 <button className="font-bold">Change Password</button>
+                 <label htmlFor="chPass" className="font-bold">Change Password</label>
                </div>
              </div>
           </div>
+          <ChangePassword/>
         </div>
     
     </>)

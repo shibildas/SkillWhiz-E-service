@@ -4,8 +4,10 @@ import Banner from "../../Components/Banner/Banner";
 import Invite from "../../Components/Invite/Invite";
 import axios from "../../axios/axios";
 import Swal from "sweetalert2";
+import useAuthUser from "../../hooks/useAuthUser";
 
 const MainPage = () => {
+  useAuthUser()
 
   const [show, setShow] = useState();
   const [jobs,setJobs]= useState()

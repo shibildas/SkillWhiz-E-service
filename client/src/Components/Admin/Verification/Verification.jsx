@@ -8,7 +8,7 @@ const Verification=({expert,handleLoad})=>{
       setId(expert?._id)
     
     
-    }, [])
+    }, [expert])
     
 
     const handleApprove=()=>{

@@ -53,7 +53,7 @@ const ExpertList = () => {
                   </span>
                 </td>
                 <td>{data?.isBanned ? "Blocked" : "Unblocked"}</td>
-                <td className="flex justify-center">{(data?.identity?.status ==="pending") && <label htmlFor="exVerify" onClick={()=>setExpert(data)} className="btn">Verify</label>}{data?.identity?.status ==="initial" && "Initialized"}{data?.identity?.status ==="approved" && "Completed"}</td>
+                <td className="flex justify-center">{(data?.identity?.status ==="pending") && <label htmlFor="exVerify" onClick={()=>setExpert(data)} className="btn">Verify</label>}{data?.identity?.status ==="initial" && <b className="p-3 text-orange-400">"Initialized"</b>}{data?.identity?.status ==="approved" && <b className="p-3 text-green-600">"Completed"</b>}</td>
                 <th>
                   <button className="btn btn-ghost btn-outline">Edit</button>
                 </th>
