@@ -66,7 +66,7 @@ const navigate=useNavigate()
       <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <li>
           <a className="items-start flex-col">
-            <b className="text-2xl" >{data?.username?.toUpperCase()}</b>
+            <b className="text-2xl" >{data?.username?.toUpperCase()?.substring(0,6)}</b>
            Profile 
           
           </a>

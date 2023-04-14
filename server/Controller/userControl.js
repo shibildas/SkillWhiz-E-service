@@ -118,3 +118,24 @@ module.exports.get7Jobs= async(req,res)=>{
         
     }
 }
+module.exports.changePassword=async(req,res)=>{
+    const _id= req.userId
+    const {old,newPass}=req.body
+    try {
+        let user = await usermodel.findById(_id)
+        const isMatch =await bcrypt.compare(old,user.password) 
+
+        if(isMatch){
+            const salt = await bcrypt.genSalt(10)
+            const hashPassword = await bcrypt.hash(newPass.trim(), salt)
+            const userupdate=await usermodel.findByIdAndUpdate({_id},{$set:{password:hashPassword}})
+            res.json({"status":"success","result":userupdate})
+
+        }else{
+            res.json({"status": "failed", "message": "credentials are incorrect" })
+        }
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+        
+    }
+}

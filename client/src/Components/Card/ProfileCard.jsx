@@ -1,14 +1,15 @@
 import { useSelector } from "react-redux"
 import ChangePassword from "../ChangePassword/ChangePassword"
 
+
 const ProfileCard=()=>{
   const data=useSelector(state=>state.user.value)
     return(<>
-    <div className="bg-gray-200 font-sans my-10 rounded-2xl shadow-2xl shadow-black h-screen w-full flex flex-row justify-center items-center">
-          <div className="card w-96 mx-auto bg-white  shadow-xl hover:shadow">
+    <div className="font-sans bg-cover bg-center my-10 rounded-2xl shadow-2xl shadow-black h-screen w-full flex flex-row justify-center items-center" style={{ backgroundImage: "url(https://res.cloudinary.com/dpfnxwvps/image/upload/v1681450055/bc_scaulu.png)"}}>
+          <div className="card w-96 mx-auto bg-slate-300 opacity-95  shadow-2xl shadow-black hover:shadow">
              <img className="w-32 mx-auto rounded-full -mt-20 border-8 border-white" src={data?.image ? data?.image :"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"} alt=""/>
-             <div className="text-center mt-4 text-3xl font-medium">{data?.username}</div>
-             <div className="text-center mt-4 font-light text-sm">E-mail: {data?.email}</div>
+             <div className="text-center mt-4 text-3xl font-bold">{data?.username}</div>
+             <div className="text-center mt-4 font-mono font-bold text-sm">E-mail: {data?.email}</div>
              <div className="text-center font-normal text-lg">Mob: {data?.mobile}</div>
              
              <hr className="mt-8"/>
@@ -19,8 +20,8 @@ const ProfileCard=()=>{
                <div className="w-0 border border-gray-300">
                  
                </div>
-               <div className="w-1/2 text-center">
-                 <label htmlFor="chPass" className="font-bold">Change Password</label>
+               <div className="w-1/2 text-center flex justify-center items-center">
+                 <label htmlFor="chPass" className="cursor-pointer font-bold underline underline-offset-4">Change Password</label>
                </div>
              </div>
           </div>

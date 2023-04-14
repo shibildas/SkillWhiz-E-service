@@ -15,7 +15,7 @@ const UserLayout = () => {
   return (
     <>
     <Navbar />
-      <div className=" max-w-screen-xl mx-auto bg-gray-100 ">
+      <div className=" max-w-screen-xl mx-auto" style={{backgroundImage:"url(https://res.cloudinary.com/dpfnxwvps/image/upload/c_crop,h_3582,w_2507,x_1283/v1681457153/13260_g3udrj.jpg)"}}>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/profile" element={<UserPrivate><Profile/></UserPrivate>} />

@@ -16,6 +16,7 @@ const NavbarAdmin = () => {
     <>
       <div className="navbar bg-gradient-to-b from-black to-purple-700 text-neutral-content shadow-2xl">
       <div className="navbar-start">
+        <label htmlFor="my-drawer-2"> s</label>
         <label htmlFor="my-drawer-2" className="px-2 ">
           <Link to="/"><img className="w-14 rounded-full cursor-pointer" src={logo} alt="logo" /></Link>
         </label></div>
