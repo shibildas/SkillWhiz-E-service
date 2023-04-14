@@ -4,18 +4,8 @@ const accountSid = process.env.accountSid
 const serviceSid = process.env.serviceSid
 const bcrypt = require("bcrypt")
 const jwt= require('jsonwebtoken')
-const usermodel = require("../Model/userSchema")
-
 const client=require("twilio")(accountSid,authToken)
-const cloudinary = require('cloudinary').v2;
-
-
-
-cloudinary.config({
-  cloud_name: process.env.Cloud_Name,
-  api_key: process.env.Cloud_API_Key,
-  api_secret: process.env.Cloud_API_SECRET
-});
+const cloudinary = require('../Controller/config/cloudinaryConfig')
 
 
 module.exports.postregister = async(req,res,next)=>{

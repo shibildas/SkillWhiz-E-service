@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 
 module.exports.verifyJWT = async(req,res,next)=>{
-    console.log(req.body)
+    
     const token = req.headers["x-access-token"]
     if(!token){
         res.send({ "status": "failed", "message": "You need token" })

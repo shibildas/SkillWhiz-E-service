@@ -38,8 +38,8 @@ const MainPage = () => {
                 className="flex flex-col justify-center items-center "
                 key={"A" + index}
               >
-                <img className="w-32 rounded-full cursor-pointer" src={ele?.image} alt="" />
-                <h1 className="p-2 font-extrabold cursor-pointer">{ele?.job_role?.toUpperCase()}</h1>
+                <img className="w-32 rounded-full cursor-pointer shadow-black shadow-2xl" src={ele?.image} alt="" />
+                <h1 className="p-2 font-extrabold cursor-pointer ">{ele?.job_role?.toUpperCase()}</h1>
               </span>
             );
           })}
@@ -47,7 +47,7 @@ const MainPage = () => {
                 className="flex flex-col justify-center items-center "
                
               >
-                <img className="w-32 rounded-full cursor-pointer" src={services.img} alt="image" />
+                <img className="w-32 rounded-full cursor-pointer shadow-black shadow-2xl" src={services.img} alt="image" />
                 <h1 className="p-2 font-extrabold cursor-pointer">{services.val}</h1>
               </span>
         </div>

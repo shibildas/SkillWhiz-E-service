@@ -1,11 +1,13 @@
 const usermodel = require('../Model/userSchema')
 const bcrypt = require('bcrypt')
+const fs = require('fs');
 const  jwt  = require("jsonwebtoken")
 const jobsmodel = require('../Model/jobsSchema')
 const authToken=process.env.TWILIO_AUTH_TOKEN
 const accountSid = process.env.accountSid
 const serviceSid =process.env.serviceSid
 const client = require("twilio")(accountSid, authToken)
+const cloudinary = require('../Controller/config/cloudinaryConfig')
 
 
 module.exports.postSignUp = async (req,res,next)=>{
@@ -135,6 +137,90 @@ module.exports.changePassword=async(req,res)=>{
             res.json({"status": "failed", "message": "credentials are incorrect" })
         }
     } catch (error) {
+        res.json({"status":"error",message:error.message})
+        
+    }
+}
+
+module.exports.reVerify=async(req,res)=>{
+    try {
+        
+        const {mobile}=req.body
+        const user = await usermodel.findOne({mobile:mobile})
+        if(user){
+            res.json({"status":"error","message":"Mobile Number Already Exists"})
+        }else{
+        client.verify.v2.services(serviceSid).verifications.create({
+            to:`+91${mobile}`,
+            channel:"sms"
+        }).then((ver)=> {
+            console.log(ver.status) }      
+            ).catch((error)=>{
+                res.json({"status":"Sending failed", "message":error.message})
+            })
+            res.json({"status":"success","message":"SMS Sent Successfully"})
+        }
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+        
+    }
+
+}
+module.exports.reVerify_OTP=async(req,res)=>{
+    try {
+        const _id=req.userId
+        const {mobile,otp}=req.body
+        const ver_check = await client.verify
+          .v2.services(serviceSid)
+          .verificationChecks.create({ to: `+91${mobile}`, code: otp });
+        if (ver_check.status === "approved") {
+          await usermodel.findByIdAndUpdate({_id},
+            { $set: { mobile: mobile } }
+          );
+          const user= await usermodel.findById(_id)  
+          res.json({
+            status: "success",
+            message: "Verified",
+            result:user
+          });
+        }
+
+        
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
+        
+    }
+}
+module.exports.editProfile=async(req,res)=>{
+    try {
+        const _id=req.userId
+        const {email,name}=req.body
+            if(req.file){
+                const result = await cloudinary.uploader.upload(req.file.path,{
+                    transformation: [{ width: 200, height: 200 }]})
+                    await usermodel.findByIdAndUpdate({_id:_id},{
+                        $set:{
+                            username:name,
+                            email:email,
+                            image:result.secure_url
+                        }
+                    })
+                    fs.unlinkSync(req.file.path)
+                }else{
+                    await usermodel.findByIdAndUpdate({_id:_id},{
+                        $set:{
+                            username:name,
+                            email:email,
+                        }
+                    })
+                    
+                }
+                const data=await usermodel.findById({_id})
+                res.json({"status":"success",message:"Profile edit Success",result:data})
+        
+        
+    } catch (error) {
+        console.log(error);
         res.json({"status":"error",message:error.message})
         
     }

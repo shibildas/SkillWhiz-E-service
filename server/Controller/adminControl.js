@@ -5,15 +5,7 @@ const adminModel =require('../Model/adminSchema')
 const usermodel = require('../Model/userSchema')
 const expertmodel=require("../Model/expertSchema")
 const jobsmodel = require("../Model/jobsSchema")
-const cloudinary = require('cloudinary').v2;
-
-
-
-cloudinary.config({
-  cloud_name: process.env.Cloud_Name,
-  api_key: process.env.Cloud_API_Key,
-  api_secret: process.env.Cloud_API_SECRET
-});
+const cloudinary = require('../Controller/config/cloudinaryConfig')
 
 module.exports.adminLogin = async (req, res) => {
     try {

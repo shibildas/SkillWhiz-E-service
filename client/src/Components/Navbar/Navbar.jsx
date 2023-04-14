@@ -40,7 +40,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 text-black"
             >
               <li>
                 <a>Home</a>
@@ -58,9 +58,9 @@ const Navbar = () => {
                     <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
                   </svg>
                 </a>
-                <ul className="p-2">
+                <ul className="p-2 absolute">
                   <li>
-                    <a>Submenu 1</a>
+                    <a className="">Submenu 1</a>
                   </li>
                   <li>
                     <a>Submenu 2</a>
@@ -98,12 +98,12 @@ const Navbar = () => {
                   <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </svg>
               </a>
-              <ul className="p-2">
+              <ul className="p-2 absolute">
                 <li>
-                  <a>Submenu 1</a>
+                  <a className="text-black">Submenu 1</a>
                 </li>
                 <li>
-                  <a>Submenu 2</a>
+                  <a className="text-black">Submenu 2</a>
                 </li>
               </ul>
             </li>
@@ -112,7 +112,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <div className="navbar-end">
+        <div className="navbar-end text-black">
           {/* <a className="btn">Get started</a> */}
           {isUserAuth ? (
             <>
