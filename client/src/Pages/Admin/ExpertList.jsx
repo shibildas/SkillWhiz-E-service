@@ -1,11 +1,14 @@
 import { useState } from "react";
 import Verification from "../../Components/Admin/Verification/Verification";
 import useGerExperts from "../../Services/useGetExperts";
+import EditExpert from "../../Components/Admin/EditExpert/EditExpert";
 
 
 const ExpertList = () => {
   const[expert,setExpert]=useState()
     const [datas,handleLoad] = useGerExperts()
+   
+    
     const arra=[0,1,2,3,4]
     
   return (
@@ -55,7 +58,7 @@ const ExpertList = () => {
                 <td>{data?.isBanned ? "Blocked" : "Unblocked"}</td>
                 <td className="flex justify-center">{(data?.identity?.status ==="pending") && <label htmlFor="exVerify" onClick={()=>setExpert(data)} className="btn">Verify</label>}{data?.identity?.status ==="initial" && <b className="p-3 text-orange-400">"Initialized"</b>}{data?.identity?.status ==="approved" && <b className="p-3 text-green-600">"Completed"</b>}</td>
                 <th>
-                  <button className="btn btn-ghost btn-outline">Edit</button>
+                  <label htmlFor="editExpert" onClick={()=>setExpert(data)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
                 <th>
                   <button className="btn btn-secondary btn-outline">Add Slots</button>
@@ -81,6 +84,7 @@ const ExpertList = () => {
         </div>
         <Verification expert={expert} handleLoad={handleLoad}/>
       </div>
+      <EditExpert expert={expert} handleLoad={handleLoad}/>
     </>
   );
 };

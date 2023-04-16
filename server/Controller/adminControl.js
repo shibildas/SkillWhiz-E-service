@@ -71,15 +71,6 @@ module.exports.deleteUsers= async (req,res)=>{
     }
 }
 
-module.exports.blockUser= async (req,res)=>{
-    try {
-        await usermodel.findByIdAndUpdate(id,{isBanned:true})
-        const users = await usermodel.find({})
-        res.json({"status":"success",result:users})
-    } catch (error) {
-        res.json({"status":"failed",message:error.message})
-    }
-}
 module.exports.addUsers =async (req,res)=>{
     try {
         const {username,email,password} = req.body
@@ -279,3 +270,57 @@ module.exports.rejectExpert=async (req,res)=>{
     }
 
 }
+
+module.exports.editExpert=async(req,res)=>{
+    try {
+        const {name,email,mobile,id}=req.body
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path,{
+                transformation: [{ width: 200, height: 200 }]})
+                await expertmodel.findByIdAndUpdate({_id:id},{
+                    $set:{
+                        username:name,
+                        mobile:mobile,
+                        email:email,
+                        image:result.secure_url
+                    }
+                })
+                fs.unlinkSync(req.file.path)
+                res.json({"status":"success",result:"Expert edit Success"})
+        }else{
+            await expertmodel.findByIdAndUpdate({_id:id},{
+                $set:{
+                    username:name,
+                    mobile:mobile,
+                    email:email,
+                }
+            })
+            res.json({"status":"success",result:"Expert edit Success"})
+
+        }
+        
+        
+    } catch (error) {
+        res.json({"status":"error",message:error.message}) 
+    }
+}
+module.exports.blockExpert= async (req,res)=>{
+        try {
+            const _id= req.params.id
+            await expertmodel.findByIdAndUpdate({_id},{$set:{isBanned:true}})
+            res.json({"status":"success",result:"Blocked the expert"})
+        } catch (error) {
+            res.json({"status":"error",message:error.message})
+        }
+        
+    }
+module.exports.unBlockExpert= async (req,res)=>{
+        try {
+            const _id= req.params.id
+            await expertmodel.findByIdAndUpdate({_id},{$set:{isBanned:false}})
+            res.json({"status":"success",result:"UnBlocked the expert"})
+        } catch (error) {
+            res.json({"status":"error",message:error.message})
+        }
+        
+    }
