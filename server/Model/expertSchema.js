@@ -26,6 +26,7 @@ const expertSchema = new mongoose.Schema({
   image:{
     type: String,
   },
+  skills:[{ type: mongoose.Schema.Types.ObjectId, ref: 'jobs' }],
   slots:{type:Array },
   identity:{
     name:String,

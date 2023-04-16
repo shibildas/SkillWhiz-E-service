@@ -1,12 +1,12 @@
-import { useEffect} from "react";
+import { useCallback, useEffect} from "react";
 import { useDispatch } from "react-redux";
 import { axios, expertlogin } from "../import";
 import { expertlogout } from "../redux/expert";
 
 function useAuthExpert() {
   const dispatch = useDispatch();
+  const getExpert=useCallback(()=>{
 
-useEffect(() => {
     axios
       .get("/expert/isExpertAuth", {
         headers: {
@@ -20,7 +20,12 @@ useEffect(() => {
           dispatch(expertlogin(res.data));
         }
       });
-  }, []);
+  },[dispatch])
+
+useEffect(() => {
+  getExpert()
+  }, [getExpert]);
+  return useAuthExpert
 
   
 }

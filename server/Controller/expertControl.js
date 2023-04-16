@@ -6,6 +6,8 @@ const bcrypt = require("bcrypt")
 const jwt= require('jsonwebtoken')
 const client=require("twilio")(accountSid,authToken)
 const cloudinary = require('../Controller/config/cloudinaryConfig')
+const jobsmodel = require("../Model/jobsSchema")
+const fs = require('fs');
 
 
 module.exports.postregister = async(req,res,next)=>{
@@ -139,3 +141,162 @@ module.exports.applyVerify = async (req, res) => {
     res.json({ "status": "error", "message": error.message });
   }
 };
+
+
+module.exports.getAllJobs= async(req,res)=>{
+  try {
+    const id=req.expertId
+    const expert = await expertmodel.findOne({_id:id});
+    const jobs = await jobsmodel.find({ _id: { $nin: expert.skills }, listed:true});
+    res.json({ status: 'success', result: jobs });
+  } catch (error) {
+    res.json({ status: 'error', message: error.message });
+  }
+}
+
+module.exports.addSkill=async(req,res)=>{
+
+  try {
+    const _id = req.expertId
+    const {skills}= req.body
+    await expertmodel.findOneAndUpdate({_id},{$addToSet:{skills:{$each:[...skills]}}})
+    res.json({"status":"success"})
+
+    
+  } catch (error) {
+    res.json({"status":"error",message:error.message})
+  }
+  
+}
+module.exports.getMyJobs=async(req,res)=>{
+  try {
+    const _id = req.expertId
+    const user= await expertmodel.findById({_id}).populate('skills')
+    const skills=user.skills
+    if(skills.length!=0){
+      res.json(
+        {"status":"success",result:skills}
+      )
+    }
+  } catch (error) {
+    res.json({"status":"error",message:error.message})
+    
+  }
+}
+
+module.exports.removeSkill=async(req,res)=>{
+  try {
+    const skillId=req.params.id
+    const _id =req.expertId
+    const user = await expertmodel.updateOne({_id},{$pull:{skills:skillId}})
+    res.json({"status":"success",result:user})
+  } catch (error) {
+    res.json({"status":"error",message:error.message})
+  }
+}
+
+module.exports.changePassword=async(req,res)=>{
+  const _id= req.expertId
+  const {old,newPass}=req.body
+  try {
+      let user = await expertmodel.findById(_id)
+      const isMatch =await bcrypt.compare(old,user.password) 
+
+      if(isMatch){
+          const salt = await bcrypt.genSalt(10)
+          const hashPassword = await bcrypt.hash(newPass.trim(), salt)
+          const userupdate=await expertmodel.findByIdAndUpdate({_id},{$set:{password:hashPassword}})
+          res.json({"status":"success","result":userupdate})
+
+      }else{
+          res.json({"status": "failed", "message": "credentials are incorrect" })
+      }
+  } catch (error) {
+      res.json({"status":"error",message:error.message})
+      
+  }
+}
+
+module.exports.reVerify=async(req,res)=>{
+  try {
+      
+      const {mobile}=req.body
+      const user = await usermodel.findOne({mobile:mobile})
+      if(user){
+          res.json({"status":"error","message":"Mobile Number Already Exists"})
+      }else{
+      client.verify.v2.services(serviceSid).verifications.create({
+          to:`+91${mobile}`,
+          channel:"sms"
+      }).then((ver)=> {
+          console.log(ver.status) }      
+          ).catch((error)=>{
+              res.json({"status":"Sending failed", "message":error.message})
+          })
+          res.json({"status":"success","message":"SMS Sent Successfully"})
+      }
+  } catch (error) {
+      res.json({"status":"error",message:error.message})
+      
+  }
+
+}
+module.exports.reVerify_OTP=async(req,res)=>{
+  try {
+      const _id=req.expertId
+      const {mobile,otp}=req.body
+      const ver_check = await client.verify
+        .v2.services(serviceSid)
+        .verificationChecks.create({ to: `+91${mobile}`, code: otp });
+      if (ver_check.status === "approved") {
+        await usermodel.findByIdAndUpdate({_id},
+          { $set: { mobile: mobile } }
+        );
+        const user= await expertmodel.findById(_id)  
+        res.json({
+          status: "success",
+          message: "Verified",
+          result:user
+        });
+      }
+
+      
+  } catch (error) {
+      res.json({"status":"error",message:error.message})
+      
+  }
+}
+module.exports.editProfile=async(req,res)=>{
+  try {
+      const _id=req.expertId
+      const {email,name}=req.body
+          if(req.file){
+              const result = await cloudinary.uploader.upload(req.file.path,{
+                  transformation: [{ width: 200, height: 200 }]})
+                  await expertmodel.findByIdAndUpdate({_id:_id},{
+                      $set:{
+                          username:name,
+                          email:email,
+                          image:result.secure_url
+                      }
+                  })
+                  fs.unlinkSync(req.file.path)
+              }else{
+                  await expertmodel.findByIdAndUpdate({_id:_id},{
+                      $set:{
+                          username:name,
+                          email:email,
+                      }
+                  })
+                  
+              }
+              const data=await expertmodel.findById({_id})
+              res.json({"status":"success",message:"Profile edit Success",result:data})
+      
+      
+  } catch (error) {
+      console.log(error);
+      res.json({"status":"error",message:error.message})
+      
+  }
+}

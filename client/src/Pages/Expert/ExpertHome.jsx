@@ -11,8 +11,11 @@ const ExpertHome=()=>{
     
     return(
         <>
+        <div>
+
         <Invite show={show}/>
         <Skills/>
+        </div>
         </>
     )
 }
