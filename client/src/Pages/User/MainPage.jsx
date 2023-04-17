@@ -5,6 +5,7 @@ import Invite from "../../Components/Invite/Invite";
 import axios from "../../axios/axios";
 import Swal from "sweetalert2";
 import useAuthUser from "../../hooks/useAuthUser";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
   useAuthUser()
@@ -34,13 +35,13 @@ const MainPage = () => {
         <div className="grid grid-cols-2 md:grid-cols-4">
           {jobs?.map((ele, index) => {
             return (
-              <span
+              <Link to={`/job/${encodeURIComponent(ele?.job_role)}`} onClick={()=> setJob(ele)}
                 className="flex flex-col justify-center items-center "
                 key={"A" + index}
               >
                 <img className="w-32 rounded-full cursor-pointer shadow-black shadow-2xl" src={ele?.image} alt="" />
                 <h1 className="p-2 font-extrabold cursor-pointer ">{ele?.job_role?.toUpperCase()}</h1>
-              </span>
+              </Link>
             );
           })}
           <span

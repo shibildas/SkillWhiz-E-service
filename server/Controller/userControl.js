@@ -220,8 +220,17 @@ module.exports.editProfile=async(req,res)=>{
         
         
     } catch (error) {
-        console.log(error);
+       
         res.json({"status":"error",message:error.message})
         
+    }
+}
+module.exports.getJob=async(req,res)=>{
+    try {
+        const job_role=req.params.id
+        const job= await jobsmodel.findOne({job_role})
+        res.json({"status":"success",result:job})
+    } catch (error) {
+        res.json({"status":"error",message:error.message})
     }
 }
