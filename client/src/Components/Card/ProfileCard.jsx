@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import { useEffect, useState } from "react";
-import axios from "../../axios/axios";
 import Swal from "sweetalert2";
 import ReVerify from "./VerifyOTP";
 import EditProfile from "./EditProfile";
+import { userAxiosInstance } from "../../axios/instance";
 
 const ProfileCard = () => {
   const [show, setShow] = useState(false);
@@ -28,13 +28,12 @@ const ProfileCard = () => {
       if (mobile === data?.mobile) {
         setShow(false);
       } else {
-        axios
+        userAxiosInstance
           .post(
             "/re-Verify",
             { mobile: mobile },
             {
               headers: {
-                "x-access-token": localStorage.getItem("token"),
                 "Content-Type": "application/json",
               },
             }

@@ -28,8 +28,8 @@ const Detail = () => {
   useAuthUser();
   return (
     <>
-      <div>
-        <div className="bg-white p-5  sm:flex sm:justify-between border border-y-2">
+      <>
+        <div className="bg-white p-5 mt-5 sm:flex sm:justify-between border border-y-2">
           <h1 className="md:text-3xl sm:text-xl font-extrabold">
             {jobId.toUpperCase()}
           </h1>
@@ -37,7 +37,7 @@ const Detail = () => {
             Book Now
           </button>
         </div>
-        <div className="bg-white p-2 ">
+        <div className="bg-white p-2 border border-y-4">
           <h1 className="text-xl font-bold">
             HOW CAN YOU FIND EXPERT {job?.job_role?.toUpperCase()} NEAR YOU?
           </h1>
@@ -131,7 +131,7 @@ const Detail = () => {
         <div className="bg-white p-5">
          <h1 className="text-xl font-bold">Customer Review</h1> 
         </div>
-      </div>
+      </>
     </>
   );
 };
