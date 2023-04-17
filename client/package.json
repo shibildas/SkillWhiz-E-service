@@ -17,7 +17,9 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
-    "sweetalert2": "^11.7.3"
+    "save": "^2.9.0",
+    "sweetalert2": "^11.7.3",
+    "vite-plugin-compression": "^0.5.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

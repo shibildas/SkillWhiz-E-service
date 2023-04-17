@@ -60,16 +60,6 @@ module.exports.getUsers = async (req,res)=>{
     }
 }
 
-module.exports.deleteUsers= async (req,res)=>{
-    try {
-        const id= req.body.id
-        await usermodel.findByIdAndDelete(id)
-        const users = await usermodel.find({})      
-        res.json({"status":"success",result:users})
-    } catch (error) {
-        res.json({"status":"failed",message:error.message})
-    }
-}
 
 module.exports.addUsers =async (req,res)=>{
     try {
@@ -122,7 +112,7 @@ module.exports.addJobs= async(req,res)=>{
         if(job){
             res.json({"status":"error",message:"Job Name Already Exist"})
         }else{
-            const result = await cloudinary.uploader.upload(req.file.path,{
+            const result = await cloudinary.uploader.upload(req.file.path,{format:'WebP',
                 transformation: [{ width: 200, height: 200 }]})
             await jobsmodel.create({
                 job_role:req.body.job,
@@ -167,7 +157,7 @@ module.exports.editUser=async(req,res)=>{
     try {
         const {name,email,mobile,id}=req.body
         if(req.file){
-            const result = await cloudinary.uploader.upload(req.file.path,{
+            const result = await cloudinary.uploader.upload(req.file.path,{format:'WebP',
                 transformation: [{ width: 200, height: 200 }]})
                 await usermodel.findByIdAndUpdate({_id:id},{
                     $set:{
@@ -221,7 +211,7 @@ module.exports.editJob=async(req,res)=>{
     try {
         const {id,role,bRate,adRate} = req.body
         if(req.file){
-            const result = await cloudinary.uploader.upload(req.file.path,{
+            const result = await cloudinary.uploader.upload(req.file.path,{format:'WebP',
                 transformation: [{ width: 200, height: 200 }]})
                 await jobsmodel.findByIdAndUpdate({_id:id},{
                     $set:{
@@ -275,7 +265,7 @@ module.exports.editExpert=async(req,res)=>{
     try {
         const {name,email,mobile,id}=req.body
         if(req.file){
-            const result = await cloudinary.uploader.upload(req.file.path,{
+            const result = await cloudinary.uploader.upload(req.file.path,{format:'WebP',
                 transformation: [{ width: 200, height: 200 }]})
                 await expertmodel.findByIdAndUpdate({_id:id},{
                     $set:{

@@ -21,7 +21,7 @@ const ExpertLayout = () => {
         className="max-w-screen-lg mx-auto bg-cover"
         style={{
           backgroundImage:
-            "url(https://res.cloudinary.com/dpfnxwvps/image/upload/v1681639490/pxfuel_fjsdag.jpg)",
+            "url(https://res.cloudinary.com/dpfnxwvps/image/upload/v1681639490/pxfuel_fjsdag.avif)",
         }}
       >
         {isExpertAuth && (

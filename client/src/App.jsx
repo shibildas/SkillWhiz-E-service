@@ -1,7 +1,8 @@
 import { lazy, Suspense } from "react";
 const ExpertLayout = lazy(() => import("./Layout/ExpertLayout"));
 const AdminLayout = lazy(() => import("./Layout/AdminLayout"));
-import { UserLayout, ErrorPage, AdminLogin, LoginExpert,AdminPrivate,AdminPublic,ExpertPrivate,ExpertPublic, BrowserRouter, Routes, Route  } from "./import";
+const LoginExpert= lazy(()=> import ("./Pages/Expert/LoginExpert"))
+import { UserLayout, ErrorPage, AdminLogin,AdminPrivate,AdminPublic,ExpertPrivate,ExpertPublic, BrowserRouter, Routes, Route  } from "./import";
 import ShimmerList from "./Components/Admin/Shimmer/ShimmerList";
 
 
@@ -27,7 +28,10 @@ function App() {
           path="/expertlogin"
           element={
             <ExpertPublic>
+              <Suspense fallback={<ShimmerList/>}>
+
               <LoginExpert />
+              </Suspense>
             </ExpertPublic>
           }
         />

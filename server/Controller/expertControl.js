@@ -117,7 +117,7 @@ module.exports.applyVerify = async (req, res) => {
     const expertId = req.expertId;
     const files= Object.values(req.files).flatMap((val)=>val)
     const promises = files.map(async file => {
-      const result = await cloudinary.uploader.upload(file.path, {
+      const result = await cloudinary.uploader.upload(file.path, {format:'WebP',
         transformation: [{ width: 200, height: 100 }]
       });
       return result.secure_url;

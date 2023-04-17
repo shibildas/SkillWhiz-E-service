@@ -196,7 +196,7 @@ module.exports.editProfile=async(req,res)=>{
         const _id=req.userId
         const {email,name}=req.body
             if(req.file){
-                const result = await cloudinary.uploader.upload(req.file.path,{
+                const result = await cloudinary.uploader.upload(req.file.path,{format:'WebP',
                     transformation: [{ width: 200, height: 200 }]})
                     await usermodel.findByIdAndUpdate({_id:_id},{
                         $set:{
