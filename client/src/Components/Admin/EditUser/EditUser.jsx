@@ -7,15 +7,12 @@ const EditUser = ({ user, handleLoad }) => {
   const [mobile,setMobile]=useState("")
   const [name,setName]=useState("")
   const [id,setId]=useState()
-  const [blocked,setBlocked]=useState()
   const [file,setFile]=useState(null)
   useEffect(() => {
     setEmail(user?.email)
     setMobile(user?.mobile)
     setName(user?.username)
-    setId(user?._id)
-    setBlocked(user?.isBanned)
-    
+    setId(user?._id) 
   }, [user])
   
   const handleNumber=(e)=>{
@@ -41,56 +38,7 @@ const EditUser = ({ user, handleLoad }) => {
     }
 
   }
-  const handleBlock=(e)=>{
-    e.preventDefault()
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'User will be Banned !!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes,  Confirm!',
-      cancelButtonText: 'No, cancel!',
-      reverseButtons: true
-    }).then((res)=>{
-      if(res.isConfirmed){
-        const editUser= document.getElementById("editUser")
-        
-        if(blocked){
-          axios.get(`admin/unBlockUser/${id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
-            if(res.data.status==="success"){
-              handleLoad()
-              editUser.checked=false
-              Swal.fire(
-                'UnBlocked!',
-                'User has been unBlocked.',
-                'success'
-                );
-
-            }
-          })
-        }else if(!blocked){
-          axios.get(`admin/blockUser/${id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
-            if(res.data.status==="success"){
-              handleLoad()
-              editUser.checked=false
-              Swal.fire(
-                'Blocked!',
-                'User has been blocked.',
-                'success'
-              );
-            }
-          })
-        }
-      }else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          'Your data is safe :)',
-          'error'
-        );
-      }
-    })
-
-  }
+ 
   const handleSubmit=(e)=>{
     e.preventDefault()
     if(name==="" || email===""|| mobile===""){
@@ -163,7 +111,7 @@ const EditUser = ({ user, handleLoad }) => {
               </div>
               <div className="flex justify-around p-3">
 
-              <button onClick={handleBlock} className="btn btn-outline btn-warning font-extrabold">{user?.isBanned ? "UnBlock" : "Block"}</button>
+              
               <button onClick={handleSubmit} type="submit" className="btn">Submit</button>
               </div>
             </form>

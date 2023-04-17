@@ -2,14 +2,63 @@ import { useState } from "react";
 import Verification from "../../Components/Admin/Verification/Verification";
 import useGerExperts from "../../Services/useGetExperts";
 import EditExpert from "../../Components/Admin/EditExpert/EditExpert";
+import { Swal, axios } from "../../Components/ExpertOTP/import";
 
 
 const ExpertList = () => {
   const[expert,setExpert]=useState()
     const [datas,handleLoad] = useGerExperts()
-   
-    
     const arra=[0,1,2,3,4]
+    const handleBlock=(data)=>{
+      setExpert(data)
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'User will be Banned !!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes,  Confirm!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((res)=>{
+        if(res.isConfirmed){
+        
+          
+          if(expert?.isBanned){
+            axios.get(`/admin/unBlockExpert/${expert._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
+              if(res.data.status==="success"){
+                handleLoad()
+          
+                Swal.fire(
+                  'UnBlocked!',
+                  'User has been unBlocked.',
+                  'success'
+                  );
+  
+              }
+            })
+          }else if(!expert.isBanned){
+            axios.get(`/admin/blockExpert/${expert._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
+              if(res.data.status==="success"){
+                handleLoad()
+            
+                Swal.fire(
+                  'Blocked!',
+                  'User has been blocked.',
+                  'success'
+                );
+              }
+            })
+          }
+        }else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            'Cancelled',
+            'Your data is safe :)',
+            'error'
+          );
+        }
+      })
+  
+    }
     
   return (
     <>
@@ -55,8 +104,8 @@ const ExpertList = () => {
                     Desktop Support Technician
                   </span>
                 </td>
-                <td>{data?.isBanned ? "Blocked" : "Unblocked"}</td>
-                <td className="flex justify-center">{(data?.identity?.status ==="pending") && <label htmlFor="exVerify" onClick={()=>setExpert(data)} className="btn">Verify</label>}{data?.identity?.status ==="initial" && <b className="p-3 text-orange-400">"Initialized"</b>}{data?.identity?.status ==="approved" && <b className="p-3 text-green-600">"Completed"</b>}</td>
+                <td><button onClick={()=>handleBlock(data)} className="btn btn-outline btn-warning font-extrabold">{data?.isBanned ? "UnBlock" : "Block"}</button></td>
+                <td className="flex justify-center">{(data?.identity?.status ==="pending") && <label htmlFor="exVerify" onClick={()=>setExpert(data)} className="btn">Verify</label>}{data?.identity?.status ==="initial" && <b className="p-3 text-orange-400">Initialized</b>}{data?.identity?.status ==="approved" && <b className="p-3 text-green-600">Completed</b>}</td>
                 <th>
                   <label htmlFor="editExpert" onClick={()=>setExpert(data)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
@@ -65,7 +114,7 @@ const ExpertList = () => {
                 </th>
               </tr> )})):(arra.map((e)=>{
                 return(<tr key={e} className={(e%2==0)? "active":""}>
-                  <td colSpan="6">
+                  <td colSpan="8">
                     <div className="animate-pulse flex space-x-4">
                       <div className="rounded-full bg-gray-400 h-12 w-12"></div>
                       <div className="flex-1 space-y-4 py-1">

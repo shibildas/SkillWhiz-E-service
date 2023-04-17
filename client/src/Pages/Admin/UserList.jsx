@@ -27,6 +27,55 @@ const UserList = () => {
         
      
     }, [load])
+    const handleBlock=(ele)=>{
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'User will be Banned !!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes,  Confirm!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((res)=>{
+        if(res.isConfirmed){
+          const editUser= document.getElementById("editUser")
+          
+          if(ele.isBanned){
+            axios.get(`/admin/unBlockUser/${ele._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
+              if(res.data.status==="success"){
+                handleLoad()
+                editUser.checked=false
+                Swal.fire(
+                  'UnBlocked!',
+                  'User has been unBlocked.',
+                  'success'
+                  );
+  
+              }
+            })
+          }else if(!ele.isBanned){
+            axios.get(`/admin/blockUser/${ele._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
+              if(res.data.status==="success"){
+                handleLoad()
+                editUser.checked=false
+                Swal.fire(
+                  'Blocked!',
+                  'User has been blocked.',
+                  'success'
+                );
+              }
+            })
+          }
+        }else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            'Cancelled',
+            'Your data is safe :)',
+            'error'
+          );
+        }
+      })
+  
+    }
     
 
   return (
@@ -40,7 +89,9 @@ const UserList = () => {
             <thead>
               <tr>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Sl no.</th>
-                <th className="text-2xl  bg-slate-400 text-stone-700">Name & E-mail</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Image</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Name</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">E-mail</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Mobile</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Status</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Edit Details</th>
@@ -62,18 +113,24 @@ const UserList = () => {
                         />
                       </div>
                     </div>
-                    <div>
-                      <div className="font-bold">{ele?.username}</div>
-                      <div className="text-sm font-bold opacity-60">{ele?.email}</div>
-                    </div>
                   </div>
+                </td>
+                <td>
+                    <div>
+                      <div className="font-bold">{ele?.username?.toUpperCase()}</div>
+                    </div>
+
+                </td>
+                <td>
+                      <div className="text-sm font-bold opacity-60">{ele?.email}</div>
+
                 </td>
                 <td>
                   {ele?.mobile}
                  
                   
                 </td>
-                <td>{ele?.isBanned ? "Blocked" : "UnBlocked"}</td>
+                <td><button onClick={()=>handleBlock(ele)} className="btn btn-outline btn-warning font-extrabold">{ele?.isBanned ? "UnBlock" : "Block"}</button></td>
                 <th className="flex justify-center">
                   <label htmlFor="editUser" onClick={()=>setUser(ele)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
@@ -81,7 +138,7 @@ const UserList = () => {
               </tr>)
               })):(arra.map((e)=>{
                 return(<tr key={e} className={(e%2==0)? "active":""}>
-                  <td colSpan="6">
+                  <td colSpan="8">
                     <div className="animate-pulse flex space-x-4">
                       <div className="rounded-full bg-gray-400 h-12 w-12"></div>
                       <div className="flex-1 space-y-4 py-1">

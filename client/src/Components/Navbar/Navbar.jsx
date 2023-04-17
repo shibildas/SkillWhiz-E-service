@@ -113,7 +113,6 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end text-black">
-          {/* <a className="btn">Get started</a> */}
           {isUserAuth ? (
             <>
               <div className="dropdown dropdown-end">
@@ -149,7 +148,7 @@ const Navbar = () => {
               </div>
             </>
           ) : (
-            <label htmlFor="my-modal-3" className="btn btn-accent">
+            <label htmlFor="my-modal-3" className="btn btn-secondary shadow shadow-black">
               Login
             </label>
           )}

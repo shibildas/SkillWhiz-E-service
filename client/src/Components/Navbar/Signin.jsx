@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { axios, login } from "../../import";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/user";
 
 const Signin = () => {
-  const navigate = useNavigate();
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState();
   const handleMobile = (e) => {
@@ -48,7 +46,7 @@ const Signin = () => {
     <>
       <input type="checkbox" id="my-modal-3" className="modal-toggle" />
       <div className="modal ">
-        <div className="modal-box relative w-auto bg-gradient-to-r from-red-200 to-amber-400 shadow-inner shadow-black">
+        <div className="modal-box relative w-auto shadow-inner bg-cover shadow-black" style={{backgroundImage:"url(https://res.cloudinary.com/dpfnxwvps/image/upload/c_crop,h_2145,o_60,w_995/v1681457153/13260_g3udrj.avif)"}}>
           <label
             htmlFor="my-modal-3"
             className="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
@@ -81,14 +79,14 @@ const Signin = () => {
                 Not a member?{" "}
                 <label
                   htmlFor="my-modal-6"
-                  className="font-bold cursor-pointer"
+                  className="font-bold cursor-pointer text-error-content"
                   onClick={handleclick}
                 >
                   Signup
                 </label>{" "}
               </p>
               <div className="p-3 flex justify-center">
-                <button className="btn btn-outline font-extrabold">
+                <button className="btn btn-outline btn-secondary font-extrabold">
                   Login
                 </button>
               </div>

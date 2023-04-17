@@ -9,14 +9,13 @@ const EditJobs=({job,handleLoad})=>{
     const [bRate,setBRate]= useState(0)
     const [adRate,setAdRate]=useState(0)
     const [id,setId]=useState('')
-    const [listed,SetListed]=useState(false)
     const [file,setFile]=useState(null)
     useEffect(() => {
         setRole(job?.job_role)
         setBRate(job?.base_rate)
         setAdRate(job?.add_rate)
         setId(job?._id)
-        SetListed(job?.listed)
+
     }, [job])
     
     const handleFile=(event)=>{
@@ -74,63 +73,7 @@ const EditJobs=({job,handleLoad})=>{
 
     }
 
-    const handleUnList=(e)=>{
-        e.preventDefault()
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Job will be Affected !!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes,  Confirm!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-          }).then((res)=>{
-            if(res.isConfirmed){
-              const editJob= document.getElementById("editJobs")
-
-              if(listed){
-                axios.get(`/admin/unListJob/${id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")} }).then(res=>{
-                    if(res.data.status==="success"){
-                        handleLoad()
-                        editJob.checked=false
-                        Swal.fire(
-                            'UnListed!',
-                            'Job has been unListed.',
-                            'success'
-                            );
-                    }
-                })
-
-              }else if(!listed){
-                axios.get(`/admin/listJob/${id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")} }).then(res=>{
-                    if(res.data.status==="success"){
-                        handleLoad()
-                        editJob.checked=false
-                        Swal.fire(
-                            'Listed!',
-                            'Job has been Listed.',
-                            'success'
-                            );
-                    }
-                })
-
-              }
-
-            }else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire(
-                  'Cancelled',
-                  'Your data is safe :)',
-                  'error'
-                );
-              }
-        
-        }).catch((error) => {
-            console.error(error);
-            Swal.fire("Error", error.message, "error");
-          });
-
-
-    }
+    
     return(
 
 
@@ -170,7 +113,7 @@ const EditJobs=({job,handleLoad})=>{
               </div>
               <div className="flex justify-around p-3">
 
-              <button onClick={handleUnList} className="btn btn-outline btn-warning font-extrabold">{listed ? "UnList" : "List"}</button> 
+              
                <button onClick={handleSubmit} type="submit" className="btn">Submit</button>
               </div>
             </form>

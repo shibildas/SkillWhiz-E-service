@@ -56,13 +56,7 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div
-        className="font-sans bg-cover bg-center my-10 rounded-2xl shadow-2xl shadow-black h-screen flex flex-row justify-center items-center"
-        style={{
-          backgroundImage:
-            "url(https://res.cloudinary.com/dpfnxwvps/image/upload/v1681450055/bc_scaulu.png)",
-        }}
-      >
+      <div className="font-sans bg-cover bg-center my-10 rounded-2xl shadow-2xl shadow-black h-screen flex flex-row justify-center items-center">
         <div className="card w-96 mx-auto bg-slate-300 opacity-95  shadow-2xl shadow-black hover:shadow">
           <div className="flex justify-end">
             <label
@@ -107,17 +101,21 @@ const ProfileCard = () => {
                   onClick={() => setShow(true)}
                   className="mx-2 cursor-pointer flex"
                 >
-                  {data?.mobile}{" "}
-                  <svg
+                  <b className="my-auto">{data?.mobile}{" "}</b>
+                  <button className="btn btn-circle btn-ghost"><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
                     fill="currentColor"
-                    className="bi bi-pencil-fill mx-2 my-1 text-primary-focus"
+                    className="bi bi-input-cursor-text rounded-full my-1 text-secondary mx-2 "
                     viewBox="0 0 16 16"
                   >
-                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                  </svg>
+                    <path
+                      fill-rule="evenodd"
+                      d="M5 2a.5.5 0 0 1 .5-.5c.862 0 1.573.287 2.06.566.174.099.321.198.44.286.119-.088.266-.187.44-.286A4.165 4.165 0 0 1 10.5 1.5a.5.5 0 0 1 0 1c-.638 0-1.177.213-1.564.434a3.49 3.49 0 0 0-.436.294V7.5H9a.5.5 0 0 1 0 1h-.5v4.272c.1.08.248.187.436.294.387.221.926.434 1.564.434a.5.5 0 0 1 0 1 4.165 4.165 0 0 1-2.06-.566A4.561 4.561 0 0 1 8 13.65a4.561 4.561 0 0 1-.44.285 4.165 4.165 0 0 1-2.06.566.5.5 0 0 1 0-1c.638 0 1.177-.213 1.564-.434.188-.107.335-.214.436-.294V8.5H7a.5.5 0 0 1 0-1h.5V3.228a3.49 3.49 0 0 0-.436-.294A3.166 3.166 0 0 0 5.5 2.5.5.5 0 0 1 5 2z"
+                    />
+                    <path d="M10 5h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-4v1h4a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-4v1zM6 5V4H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v-1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4z" />
+                  </svg></button>
                 </b>
               </>
             ) : (
@@ -128,7 +126,7 @@ const ProfileCard = () => {
                   onChange={handleNumber}
                   min="0"
                   placeholder="Type here"
-                  className=" ml-1 input input-ghost w-1/2"
+                  className=" mx-1 input input-secondary w-1/2"
                 />
                 <button
                   onClick={handleVerify}

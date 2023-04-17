@@ -7,14 +7,12 @@ const EditExpert = ({ expert, handleLoad }) => {
   const [mobile,setMobile]=useState("")
   const [name,setName]=useState("")
   const [id,setId]=useState()
-  const [blocked,setBlocked]=useState()
   const [file,setFile]=useState(null)
   useEffect(() => {
     setEmail(expert?.email)
     setMobile(expert?.mobile)
     setName(expert?.username)
     setId(expert?._id)
-    setBlocked(expert?.isBanned)
     
   }, [expert])
   
@@ -41,56 +39,7 @@ const EditExpert = ({ expert, handleLoad }) => {
     }
 
   }
-  const handleBlock=(e)=>{
-    e.preventDefault()
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'User will be Banned !!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes,  Confirm!',
-      cancelButtonText: 'No, cancel!',
-      reverseButtons: true
-    }).then((res)=>{
-      if(res.isConfirmed){
-        const editUser= document.getElementById("editExpert")
-        
-        if(blocked){
-          axios.get(`admin/unBlockExpert/${id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
-            if(res.data.status==="success"){
-              handleLoad()
-              editUser.checked=false
-              Swal.fire(
-                'UnBlocked!',
-                'User has been unBlocked.',
-                'success'
-                );
-
-            }
-          })
-        }else if(!blocked){
-          axios.get(`admin/blockExpert/${id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
-            if(res.data.status==="success"){
-              handleLoad()
-              editUser.checked=false
-              Swal.fire(
-                'Blocked!',
-                'User has been blocked.',
-                'success'
-              );
-            }
-          })
-        }
-      }else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled',
-          'Your data is safe :)',
-          'error'
-        );
-      }
-    })
-
-  }
+ 
   const handleSubmit=(e)=>{
     e.preventDefault()
     if(name==="" || email===""|| mobile===""){
@@ -163,7 +112,7 @@ const EditExpert = ({ expert, handleLoad }) => {
               </div>
               <div className="flex justify-around p-3">
 
-              <button onClick={handleBlock} className="btn btn-outline btn-warning font-extrabold">{expert?.isBanned ? "UnBlock" : "Block"}</button>
+              
               <button onClick={handleSubmit} type="submit" className="btn">Submit</button>
               </div>
             </form>
