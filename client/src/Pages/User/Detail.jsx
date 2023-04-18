@@ -49,6 +49,7 @@ const Detail = () => {
           </p>
         </div>
         <div tabIndex={0} className="collapse group bg-white py-2">
+
           <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-100 text-slate-800 group-focus:bg-yellow-500 group-focus:text-black">
             Rate Chart
           </div>

@@ -8,6 +8,8 @@ import more from "../assets/more.png"
 
 export const error = "http://clipart-library.com/images/kc85anX6i.gif"
 export const baseUrl = 'http://localhost:4000'
+export const expertBaseUrl = 'http://localhost:4000/expert/'
+export const AdminBaseUrl = 'http://localhost:4000/admin/'
 export const  footerImg= [
    {img:"https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611439/asset_63_c4q8zi.webp",val:"ON DEMAND" }
     ,{img:"https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611439/asset_65_xgpq65.webp",val:"VERIFIED PARTNERS"}

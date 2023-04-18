@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { Suspense, lazy } from "react";
 import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
 const ExpertProfile = lazy(() => import("../Pages/Expert/ExpertProfile"));
+const Schedules = lazy(() => import("../Pages/Expert/Schedules"));
 
 const ExpertLayout = () => {
   useAuthExpert();
@@ -19,10 +20,10 @@ const ExpertLayout = () => {
       <Verify />
       <div
         className="max-w-screen-lg mx-auto bg-cover"
-        style={{
-          backgroundImage:
-            "url(https://res.cloudinary.com/dpfnxwvps/image/upload/v1681639490/pxfuel_fjsdag.avif)",
-        }}
+        // style={{
+        //   backgroundImage:
+        //     "url(https://res.cloudinary.com/dpfnxwvps/image/upload/v1681639490/pxfuel_fjsdag.avif)",
+        // }}
       >
         {isExpertAuth && (
           <Routes>
@@ -32,6 +33,14 @@ const ExpertLayout = () => {
               element={
                 <Suspense fallback={<ShimmerList />}>
                   <ExpertProfile />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/schedule"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <Schedules />
                 </Suspense>
               }
             />

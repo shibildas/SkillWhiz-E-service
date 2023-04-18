@@ -300,3 +300,16 @@ module.exports.editProfile=async(req,res)=>{
       
   }
 }
+
+module.exports.addSchedule=async(req,res)=>{
+  try {
+    
+    const _id= req.expertId
+    const {dates}=req.body
+    const expert=await expertmodel.findByIdAndUpdate({_id:_id},{$addToSet:{slots:{$each:[...dates]}}})
+    res.json({"status":"success","message":"Slots Added Successfully"})
+  } catch (error) {
+    res.json({"status":"error",message:error.message})
+    
+  }
+  }
