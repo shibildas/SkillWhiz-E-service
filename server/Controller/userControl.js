@@ -243,43 +243,13 @@ module.exports.getJob = async (req, res) => {
 };
 module.exports.getSlotsofJob = async (req, res) => {
   try {
-    const _id = req.params.id;
-    const slots = await expertmodel.aggregate([
-        {
-            $lookup: {
-              from: "jobs",
-              localField: "skills",
-              foreignField: "_id",
-              as: "jobs"
-            }
-          },
-          { $unwind: "$jobs" },
-          { $match: { "jobs._id": _id } },
-        
-          // Unwind the slots array to get each slot as a separate document
-          { $unwind: "$slots" },
-        
-          // Join the bookedSlots array with the _id field of the slots array
-          { $lookup: { from: "experts", localField: "bookedSlots", foreignField: "slots", as: "bookedSlots" } },
-          { $unwind: { path: "$bookedSlots", preserveNullAndEmptyArrays: true } },
-        
-          // Filter out slots that have been booked by experts
-          { $match: { "bookedSlots.slots": { $ne: "$slots" } } },
-        
-          // Group by the slot and collect the distinct expert IDs who have the slot
-          { $group: { _id: "$slots", expertIds: { $addToSet: "$_id" } } },
-        
-          // Project the slot and expert count
-          { $project: { _id: 1, count: { $size: "$expertIds" } } },
-        
-          // Filter out slots that have only one expert
-          { $match: { count: { $gt: 1 } } },
-        
-          // Sort the available slots by date
-          { $sort: { _id: 1 } }
-    ]);
-    res.json({ status: "success", result: slots });
-    console.log(slots);
+    const id = req.params.id;
+    const expertDetails = await expertmodel
+      .find({ skills: { $all: id } })
+      .select("slots");
+    const allSlots = expertDetails.flatMap((expert) => expert.slots);
+    const uniqueSlots = [...new Set(allSlots)];
+    res.json({ status: "success", result: uniqueSlots });
   } catch (error) {
     res.json({ status: "error", message: error.message });
   }

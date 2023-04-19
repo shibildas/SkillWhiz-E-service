@@ -12,7 +12,6 @@ module.exports.verifyJWT = async(req,res,next)=>{
                 console.log(err)
                 res.json({auth:false,status:"failed",message:"failed to authenticate"})
             }else{
-            console.log(decoded.userId)
             req.userId =decoded.userId
                 next();
             }
