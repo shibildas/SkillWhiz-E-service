@@ -314,3 +314,29 @@ module.exports.unBlockExpert= async (req,res)=>{
         }
         
     }
+
+module.exports.getSchedule= async (req,res)=>{
+    try {
+        const _id= req.params.id
+        const schedules = await expertmodel.findById(_id, { slots: 1 })
+      res.json({"status":"success",result:schedules.slots})
+        
+      } catch (error) {
+  
+        res.json({"status":"error",message:error.message})
+        }
+    
+}
+module.exports.addSchedule= async (req,res)=>{
+
+    try {
+        const {dates,_id}=req.body
+        const expert=await expertmodel.findByIdAndUpdate({_id},{$addToSet:{slots:{$each:[...dates]}}})
+    res.json({"status":"success","message":"Slots Added Successfully"})
+        
+    } catch (error) {
+        res.json({"status":"error",message:error.message})  
+    }
+   
+    
+}

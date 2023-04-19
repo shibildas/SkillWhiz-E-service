@@ -1,11 +1,13 @@
+import {axios} from "../../../import";
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { axios } from "../../import";
+import { useEffect, useState } from "react"
 import Swal from "sweetalert2";
 
-const Schedules = () => {
-  const today = moment().startOf("day");
-  const [load, setLoad] = useState(false);
+const AddSlots=({ expert, handleLoad })=>{
+    const today = moment().startOf("day");
+    const [name,setName]=useState("")
+    const [id,setId]=useState('')
+    const[load,setLoad]=useState(false)
   const [slot, setSlot] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectTime, setSelectedTime] = useState([]);
@@ -14,13 +16,9 @@ const Schedules = () => {
     const date = today.clone().add(i, "days");
     dates.push(date);
   }
-  const handleLoad = () => {
-    setLoad(!load);
-  };
   const handleDateSelect = (date) => {
     setSelectedDate(date);
-  };
-
+  }
   const getTimeSlots = () => {
     const timeSlots = [];
     if (selectedDate) {
@@ -34,7 +32,6 @@ const Schedules = () => {
       return timeSlots;
     }
   }
-
   const handleTimeSlotSelect = (startTime) => {
     if (selectTime.includes(startTime)) {
       setSelectedTime(selectTime.filter((val) => val !== startTime));
@@ -42,23 +39,24 @@ const Schedules = () => {
       setSelectedTime([...selectTime, startTime]);
     }
   }
-
   const handleSubmit = () => {
     if (selectTime.length != 0) {
-      axios
-        .post(
-          "/expert/addSchedule",
-          { dates: selectTime },
+      axios.post(
+          "/admin/addSchedule",
+          { dates: selectTime , _id:id},
           {
             headers: {
-              "x-access-experttoken": localStorage.getItem("experttoken"),
+              "x-access-admintoken": localStorage.getItem("admintoken"),
               "Content-Type": "application/json",
             },
           }
         )
         .then((res) => {
           if (res.data.status === "success") {
+            const modal= document.getElementById("addSlots")
+            setLoad(!load)
             Swal.fire("success", "Slots Added Successfully", "success");
+            modal.checked=false
             setSelectedTime([]);
             handleLoad();
           } else {
@@ -72,29 +70,37 @@ const Schedules = () => {
       Swal.fire("sorry", "Select Time slots First", "error");
     }
   }
-  useEffect(() => {
-    axios
-      .get("/expert/getSchedule", {
-        headers: {
-          "x-access-experttoken": localStorage.getItem("experttoken"),
-        },
-      })
-      .then((res) => {
-        if (res.data.status === "success") {
-          setSlot(res.data.result);
-        } else {
-          Swal.fire("sorry", "something went wrong", "error");
-        }
-      })
-      .catch((error) => {
-        Swal.fire("sorry", error.message, "error");
-      });
-  }, [load]);
 
-  return (
-    <>
-      <div className="w-full h-full my-3">
-        <div className="bg-blue-100 rounded-xl p-5 h-[75vh]">
+    useEffect(() => {
+        setName(expert?.username)
+        setId(expert?._id)   
+    }, [expert])
+    useEffect(()=>{
+        if((id!='' ) && (id!=undefined)){
+    
+            axios.get(`/admin/getSchedule/${id}`,{headers:{"x-access-admintoken":localStorage.getItem("admintoken")}}).then((res) => {
+                if (res.data.status === "success") {
+                    setSlot(res.data.result);
+                } else {
+                    Swal.fire("sorry", "something went wrong", "error");
+                }
+            })
+            .catch((error) => {
+                Swal.fire("sorry", error.message, "error");
+            });
+        }
+
+    },[id,load])
+    
+
+    return(
+        <>
+        <input type="checkbox" id="addSlots" className="modal-toggle" />
+<div className="modal">
+  <div className="modal-box relative">
+    <label htmlFor="addSlots" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+    <h3 className="text-xl text-center font-bold">Add Slots For {name?.toLocaleUpperCase()} </h3>
+    <div className="bg-blue-100 rounded-xl p-5 h-[75vh]">
          
           <h1 className="text-2xl font-extrabold text-center py-5">
             Fix Schedules
@@ -167,9 +173,9 @@ const Schedules = () => {
             </>
           )}
         </div>
-      </div>
-    </>
-  );
-};
-
-export default Schedules;
+  </div>
+</div>
+        </>
+    )
+}
+export default AddSlots

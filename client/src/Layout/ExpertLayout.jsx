@@ -14,6 +14,7 @@ const Schedules = lazy(() => import("../Pages/Expert/Schedules"));
 const ExpertLayout = () => {
   useAuthExpert();
   const isExpertAuth = useSelector((state) => state.expert.value.isExpertAuth);
+  const isVerified = useSelector((state) => state.expert.value.verified);
   return (
     <>
       <ExpertNav />
@@ -36,14 +37,14 @@ const ExpertLayout = () => {
                 </Suspense>
               }
             />
-            <Route
+            {isVerified&& <Route
               path="/schedule"
               element={
                 <Suspense fallback={<ShimmerList />}>
                   <Schedules />
                 </Suspense>
               }
-            />
+            />}
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         )}

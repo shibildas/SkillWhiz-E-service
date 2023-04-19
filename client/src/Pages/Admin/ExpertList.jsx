@@ -3,6 +3,7 @@ import Verification from "../../Components/Admin/Verification/Verification";
 import useGerExperts from "../../Services/useGetExperts";
 import EditExpert from "../../Components/Admin/EditExpert/EditExpert";
 import { Swal, axios } from "../../Components/ExpertOTP/import";
+import AddSlots from "../../Components/Admin/AddSlots/AddSlots";
 
 
 const ExpertList = () => {
@@ -110,7 +111,7 @@ const ExpertList = () => {
                   <label htmlFor="editExpert" onClick={()=>setExpert(data)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
                 <th>
-                  <button className="btn btn-secondary btn-outline">Add Slots</button>
+                  <label htmlFor="addSlots" onClick={()=>setExpert(data)} className="btn btn-secondary btn-outline">Add Slots</label>
                 </th>
               </tr> )})):(arra.map((e)=>{
                 return(<tr key={e} className={(e%2==0)? "active":""}>
@@ -134,6 +135,7 @@ const ExpertList = () => {
         <Verification expert={expert} handleLoad={handleLoad}/>
       </div>
       <EditExpert expert={expert} handleLoad={handleLoad}/>
+      <AddSlots expert={expert} handleLoad={handleLoad}/>
     </>
   );
 };

@@ -22,6 +22,8 @@ router.get('/rejectExpert/:id',Auth.adminJwt,adminControl.rejectExpert)
 router.post('/editExpert',Auth.adminJwt,mult.single('image'),adminControl.editExpert)
 router.get('/blockExpert/:id',Auth.adminJwt,adminControl.blockExpert)
 router.get('/unBlockExpert/:id',Auth.adminJwt,adminControl.unBlockExpert)
+router.get('/getSchedule/:id',Auth.adminJwt,adminControl.getSchedule)
+router.post('/addSchedule',Auth.adminJwt,adminControl.addSchedule)
 
 
 module.exports = router

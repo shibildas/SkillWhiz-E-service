@@ -96,15 +96,29 @@ module.exports.isExpertAuth = async (req, res) => {
   try {
   let expertDetails = await expertmodel.findById(req.expertId)
   expertDetails.auth=true;
+    if (expertDetails.identity.status==="approved"){
 
-  res.json({
-      "mobile":expertDetails.mobile,
-      "username":expertDetails.username,
-      "email":expertDetails.email,
-      "auth":true,
-      "image":expertDetails.image||null,
-      "isVerified":expertDetails.isVerified
-  })
+      res.json({
+        "mobile":expertDetails.mobile,
+        "username":expertDetails.username,
+        "email":expertDetails.email,
+        "auth":true,
+        "verified":true,
+        "image":expertDetails.image||null,
+        "isVerified":expertDetails.isVerified
+      })
+    }else{
+      res.json({
+        "mobile":expertDetails.mobile,
+        "username":expertDetails.username,
+        "email":expertDetails.email,
+        "auth":true,
+        "verified":false,
+        "image":expertDetails.image||null,
+        "isVerified":expertDetails.isVerified
+      })
+
+    }
   } catch (error) {
       console.log(error);
   }
