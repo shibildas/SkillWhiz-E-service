@@ -20,6 +20,7 @@ router.post('/re-Verify',Auth.expertJwt,expertControl.reVerify)
 router.post('/reVerify-otp',Auth.expertJwt,expertControl.reVerify_OTP)
 router.post('/editProfile',Auth.expertJwt,upload.single('image'),expertControl.editProfile)
 router.post("/addSchedule",Auth.expertJwt,expertControl.addSchedule)
+router.get('/getSchedule',Auth.expertJwt,expertControl.getSchedule)
 
 
 module.exports = router

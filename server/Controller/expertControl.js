@@ -8,6 +8,7 @@ const client=require("twilio")(accountSid,authToken)
 const cloudinary = require('../Controller/config/cloudinaryConfig')
 const jobsmodel = require("../Model/jobsSchema")
 const fs = require('fs');
+const { log } = require("console")
 
 
 module.exports.postregister = async(req,res,next)=>{
@@ -312,4 +313,17 @@ module.exports.addSchedule=async(req,res)=>{
     res.json({"status":"error",message:error.message})
     
   }
+}
+
+module.exports.getSchedule= async(req,res)=>{
+
+  try {
+    const _id= req.expertId
+    const schedules = await expertmodel.findById(_id, { slots: 1 })
+  res.json({"status":"success",result:schedules.slots})
+    
+  } catch (error) {
+    console.log(error);
+    res.json({"status":"error",message:error.message})
+    }
   }
