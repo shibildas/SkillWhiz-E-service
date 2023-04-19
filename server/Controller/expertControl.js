@@ -175,9 +175,7 @@ module.exports.addSkill=async(req,res)=>{
     const _id = req.expertId
     const {skills}= req.body
     await expertmodel.findOneAndUpdate({_id},{$addToSet:{skills:{$each:[...skills]}}})
-    res.json({"status":"success"})
-
-    
+    res.json({"status":"success"})   
   } catch (error) {
     res.json({"status":"error",message:error.message})
   }

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useAuthUser from "../../hooks/useAuthUser";
 import { useEffect, useState } from "react";
 import { axios } from "../../import";
@@ -15,6 +15,7 @@ const Detail = () => {
       })
       .then((res) => {
         if (res.data.status === "success") {
+          console.log(res.data.result);
           setJob(res.data.result);
         } else {
           Swal.fire("sorry", "coudnt fetch data", "error");
@@ -33,9 +34,9 @@ const Detail = () => {
           <h1 className="md:text-3xl sm:text-xl font-extrabold">
             {jobId.toUpperCase()}
           </h1>
-          <button className="btn btn-warning shadow-2xl shadow-black">
+          <Link to={`/job/schedule/${job?._id}`}><button className="btn btn-warning shadow-2xl shadow-black">
             Book Now
-          </button>
+          </button></Link>
         </div>
         <div className="bg-white p-2 border border-y-4">
           <h1 className="text-xl font-bold">

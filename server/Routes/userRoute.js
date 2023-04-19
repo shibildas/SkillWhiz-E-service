@@ -14,5 +14,6 @@ router.post('/updatePassword',auth.verifyJWT,userControl.changePassword)
 router.post('/re-Verify',auth.verifyJWT,userControl.reVerify)
 router.post('/reVerify-otp',auth.verifyJWT,userControl.reVerify_OTP)
 router.post('/editProfile',auth.verifyJWT,upload.single('image'),userControl.editProfile)
+router.get('/getSlots/:id',auth.verifyJWT,userControl.getSlotsofJob)
 
 module.exports = router

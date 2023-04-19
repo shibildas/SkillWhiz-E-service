@@ -8,6 +8,7 @@ import ErrorPage from "../Pages/Error/Error"
 import Profile from "../Pages/User/Profile";
 import UserPrivate from "../ProtectedRoutes/UserPrivate";
 import Detail from "../Pages/User/Detail";
+import ScheduleJob from "../Pages/User/ScheduleJob";
 
 
 const UserLayout = () => {
@@ -21,6 +22,7 @@ const UserLayout = () => {
           <Route path="/" element={<MainPage  />} />
           <Route path="/profile" element={<UserPrivate><Profile/></UserPrivate>} />
           <Route path="/job/:jobId" element={<UserPrivate><Detail /></UserPrivate>} />
+          <Route path="/job/schedule/:id" element={<UserPrivate><ScheduleJob /></UserPrivate>} />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
       </div>

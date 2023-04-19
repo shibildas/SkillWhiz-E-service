@@ -86,9 +86,8 @@ module.exports.addUsers =async (req,res)=>{
 }
 module.exports.getExperts= async(req,res)=>{
     try {
-        const experts= await expertmodel.find({})
-        res.json({"status":"success",result:experts})
-        
+        const experts= await expertmodel.find({}).populate('skills')
+        res.json({"status":"success",result:experts})      
     } catch (error) {
         res.json({"status":"failed","message":error.message})
     }
