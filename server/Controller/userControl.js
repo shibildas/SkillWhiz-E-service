@@ -9,6 +9,7 @@ const serviceSid = process.env.serviceSid;
 const client = require("twilio")(accountSid, authToken);
 const cloudinary = require("../Controller/config/cloudinaryConfig");
 const expertmodel = require("../Model/expertSchema");
+const bookingmodel= require('../Model/bookingSchema')
 
 module.exports.postSignUp = async (req, res, next) => {
   try {
@@ -286,9 +287,40 @@ module.exports.bookJob=async(req,res)=>{
   try {
     const {time,address,date,jobId}=req.body
     const userId =req.userId
-console.log(time,address,date,jobId,userId);
+    const expert = await expertmodel.findOne({
+      skills:{$in:[jobId]},
+      slots:{$in:[time]}
+    })
+    if(!expert){
+      console.log("no Expert");
+    }else{
+      const updatedExpert= await expertmodel.findOneAndUpdate(
+        {_id:expert._id},
+        {
+          $pull:{slots:time},
+          $addToSet:{bookedSlots:time}
+        },
+        {new:true}
+      )
+      if(updatedExpert){
+        const booking =await bookingmodel.create({
+          userId:userId,
+          jobId:jobId,
+          expertId:expert._id,
+          slot:time,
+          booking_date:date,
+          address:{
+            name:address.name,
+            house:address.house,
+            street:address.street,
+            pincode:address.pincode
+            
+          }
 
-    
+        })
+        res.json({"status":"success",result:booking})
+      }
+    }
     
   } catch (error) {
     
