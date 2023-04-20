@@ -2,7 +2,7 @@ const express = require ("express")
 const server = express()
 const logger = require("morgan")
 const path = require('path')
-const cookieParser = require("cookie-parser")
+// const cookieParser = require("cookie-parser")
 const dotenv = require("dotenv")
 dotenv.config()
 const cors = require("cors")
@@ -44,7 +44,7 @@ server.use(cors({
 server.use(logger("dev"))
 server.use(express.urlencoded({extended:false}))
 server.use(express.json())
-server.use(cookieParser())
+// server.use(cookieParser())
 
 //Routes
 server.use("/",userRoute)

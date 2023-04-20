@@ -25,9 +25,13 @@ const userSchema = new mongoose.Schema({
   image:{
     type: String,
   },
+  address:[{
+    name:{type:String},
+    house:{type:String},
+    street:{type:String},
+    pincode:{type:Number},
+  }],
   isBanned:{type:Boolean, default:true},
-  
- 
 },
 {
   timestamps:true,

@@ -244,13 +244,54 @@ module.exports.getJob = async (req, res) => {
 module.exports.getSlotsofJob = async (req, res) => {
   try {
     const id = req.params.id;
+    const jobDetail= await jobsmodel.findById({_id:id})
     const expertDetails = await expertmodel
       .find({ skills: { $all: id } })
       .select("slots");
     const allSlots = expertDetails.flatMap((expert) => expert.slots);
     const uniqueSlots = [...new Set(allSlots)];
-    res.json({ status: "success", result: uniqueSlots });
+    res.json({ status: "success", result: uniqueSlots,job:jobDetail });
   } catch (error) {
     res.json({ status: "error", message: error.message });
   }
 };
+
+module.exports.addAddress= async(req,res)=>{
+  try {
+    const _id =req.userId
+    const {name,house,street,pincode}= req.body
+    const address= {name,house,street,pincode}
+    const user= await usermodel.findByIdAndUpdate({_id},{$addToSet:{address:{$each:[address]}}})
+    res.json({"status":"success","message":"Address Added"})
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", message: error.message });
+  }
+}
+module.exports.getAddress= async (req,res)=>{
+  try{
+    
+    const _id =req.userId
+    const address= await usermodel.findById({_id},{address:1})
+
+    res.json({"status":"success",result:address.address})
+  }catch(error){
+    
+    res.json({ status: "error", message: error.message });
+  }
+  
+  
+}
+module.exports.bookJob=async(req,res)=>{
+  try {
+    const {time,address,date,jobId}=req.body
+    const userId =req.userId
+console.log(time,address,date,jobId,userId);
+
+    
+    
+  } catch (error) {
+    
+    res.json({ status: "error", message: error.message });
+  }
+}
