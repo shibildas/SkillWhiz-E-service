@@ -10,6 +10,7 @@ import UserPrivate from "../ProtectedRoutes/UserPrivate";
 import Detail from "../Pages/User/Detail";
 import ScheduleJob from "../Pages/User/ScheduleJob";
 import BookingDetail from "../Pages/User/BookingDetail";
+import BookingList from "../Pages/User/BookingList";
 
 
 const UserLayout = () => {
@@ -25,6 +26,7 @@ const UserLayout = () => {
           <Route path="/job/:jobId" element={<UserPrivate><Detail /></UserPrivate>} />
           <Route path="/job/schedule/:id" element={<UserPrivate><ScheduleJob /></UserPrivate>} />
           <Route path="/bookings/:id" element={<UserPrivate><BookingDetail /></UserPrivate>} />
+          <Route path="/bookings" element={<UserPrivate><BookingList /></UserPrivate>} />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
       </div>

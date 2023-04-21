@@ -339,3 +339,14 @@ module.exports.bookings=async(req,res)=>{
     
   }
 }
+
+module.exports.myBookings=async(req,res)=>{
+  try {
+    const id=req.userId
+    const bookings= await bookingmodel.find({userId:id}).populate('jobId')
+    res.json({"status":"success",result:bookings})
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+    
+  }
+}

@@ -19,6 +19,7 @@ router.post('/addAddress',auth.verifyJWT,userControl.addAddress)
 router.get('/address',auth.verifyJWT,userControl.getAddress)
 router.post('/bookJob',auth.verifyJWT,userControl.bookJob)
 router.get(`/booking/:id`, auth.verifyJWT,userControl.bookings)
+router.get("/myBookings",auth.verifyJWT,userControl.myBookings)
 
 
 module.exports = router

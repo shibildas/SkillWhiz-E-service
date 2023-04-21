@@ -139,6 +139,9 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
+                    <Link to="/bookings">My Bookings</Link>
+                  </li>
+                  <li>
                     <a>Settings</a>
                   </li>
                   <li>
