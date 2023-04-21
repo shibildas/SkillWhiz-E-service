@@ -2,33 +2,28 @@ const express = require ("express")
 const server = express()
 const logger = require("morgan")
 const path = require('path')
-// const cookieParser = require("cookie-parser")
 const dotenv = require("dotenv")
 dotenv.config()
+const http = require('http')
+const {Server}= require('socket.io')
 const cors = require("cors")
 const bodyParser = require("body-parser")
 const adminRoute = require("./Routes/adminRoute")
 const userRoute= require("./Routes/userRoute")
 const expertRoute= require("./Routes/expertRoute")
-// const bcrypt = require('bcrypt')
-// const adminDB = require('./Model/adminSchema')
+
 const port = process.env.PORT
 const DATABASE_URL = process.env.DATABASE_URL
 const connectDb = require("./Controller/config/dbConfig")
+const httpServer = http.createServer(server)
 
-// const addadmin =  async() => {
- 
-// let password = "password"
-// let salt = await bcrypt.genSalt(10)
-// let pass = await bcrypt.hash(password, salt)
-// let email = "admin@gmail.com"
-//  await adminDB.insertMany({
-//     email:email,
-//     password:pass,
-//   })
+const io = new Server(httpServer, {
+    cors: {
+      origin: 'http://localhost:5173',
+      methods: ['GET', 'POST']
+    }
+  })
 
-// }
-// addadmin()
 
 server.use('/', express.static(path.join(__dirname, 'Public')))
 server.use(bodyParser.json({limit:"1200kb"}))
@@ -44,7 +39,7 @@ server.use(cors({
 server.use(logger("dev"))
 server.use(express.urlencoded({extended:false}))
 server.use(express.json())
-// server.use(cookieParser())
+
 
 //Routes
 server.use("/",userRoute)
@@ -52,8 +47,20 @@ server.use("/admin",adminRoute)
 server.use("/expert",expertRoute)
 
 
-server.listen(port,()=>{
-    console.log(`Server Listening at : http://127.0.0.1:${port}`);
-})
+// server.listen(port,()=>{
+//     console.log(`Server Listening at : http://127.0.0.1:${port}`);
+// })
+
+httpServer.listen(port, () => {
+    console.log(`Server listening at http://127.0.0.1:${port}`)
+  })
+  
+  io.on('connection', (socket) => {
+    console.log(`a user connected at ${socket.id}`)
+    socket.on("send_message",(data)=>{
+        console.log(data);
+        socket.broadcast.emit('recieve_message',data)
+    })
+  })
 
 module.exports = server

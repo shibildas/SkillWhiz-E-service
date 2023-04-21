@@ -327,3 +327,15 @@ module.exports.bookJob=async(req,res)=>{
     res.json({ status: "error", message: error.message });
   }
 }
+
+module.exports.bookings=async(req,res)=>{
+  try {
+    const id=req.params.id
+    const booking= await bookingmodel.findOne({_id:id}).populate('userId')
+    .populate('expertId').populate('jobId')
+    res.json({"status":"success",result:booking})
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+    
+  }
+}

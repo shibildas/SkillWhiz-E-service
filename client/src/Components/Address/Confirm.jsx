@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Swal, axios } from "../ExpertOTP/import";
+import { Swal, axios, useNavigate } from "../ExpertOTP/import";
 
 const ConfirmSchedule = ({ selectTime, job, address }) => {
+  const navigate=useNavigate()
   const user = useSelector((state) => state.user.value);
   const [time, setTime] = useState(null);
   const [locate, setLocate] = useState({});
+  const [bookId,setBookId]=useState(null)
   const [skill, setSkill] = useState(null);
   useEffect(() => {
     setTime(selectTime);
@@ -34,7 +36,13 @@ const ConfirmSchedule = ({ selectTime, job, address }) => {
       )
       .then((res) => {
         if (res.data.status === "success") {
+          setBookId(res.data.result)
           Swal.fire("Success", "Job Slot Booked Successfully", "success");
+          const confirmModal= document.getElementById("confirm")
+          const addressModal= document.getElementById("selectAddress")
+          confirmModal.checked=false
+          addressModal.checked=false
+          navigate(`/booking/${bookId?._id}`)
         } else {
           Swal.fire("Sorry", "Job Slot not Booked", "error");
         }

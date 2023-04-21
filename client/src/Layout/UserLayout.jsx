@@ -9,6 +9,7 @@ import Profile from "../Pages/User/Profile";
 import UserPrivate from "../ProtectedRoutes/UserPrivate";
 import Detail from "../Pages/User/Detail";
 import ScheduleJob from "../Pages/User/ScheduleJob";
+import BookingDetail from "../Pages/User/BookingDetail";
 
 
 const UserLayout = () => {
@@ -23,6 +24,7 @@ const UserLayout = () => {
           <Route path="/profile" element={<UserPrivate><Profile/></UserPrivate>} />
           <Route path="/job/:jobId" element={<UserPrivate><Detail /></UserPrivate>} />
           <Route path="/job/schedule/:id" element={<UserPrivate><ScheduleJob /></UserPrivate>} />
+          <Route path="/bookings/:id" element={<UserPrivate><BookingDetail /></UserPrivate>} />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
       </div>
