@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { axios, login } from "../../import"
 import { Swal } from "../ExpertOTP/import"
+import { userAxiosInstance } from "../../axios/instance"
 
 const EditProfile=()=>{
     const dispatch=useDispatch()
@@ -44,9 +45,7 @@ const EditProfile=()=>{
       }
       formData.append("name",name)
       formData.append("email",email)
-      axios.post("/editProfile",formData,{headers:{
-        "x-access-token": localStorage.getItem("token"),
-            "Content-Type": "multipart/form-data",
+      userAxiosInstance.post("/editProfile",formData,{headers:{"Content-Type": "multipart/form-data",
       }}).then(res=>{
         const editUser= document.getElementById("editProfile")
         if(res.data.status==="success"){

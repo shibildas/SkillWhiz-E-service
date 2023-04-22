@@ -1,8 +1,9 @@
 import { useState } from "react"
 import Swal from "sweetalert2"
-import { axios, useNavigate } from "../ExpertOTP/import"
+import { useNavigate } from "../ExpertOTP/import"
 import { useDispatch } from "react-redux"
 import { expertlogout } from "../../redux/expert"
+import { expertAxiosInstance } from "../../axios/instance"
 
 const ExpertReset=()=>{
     const [old,setOld]=useState('')
@@ -16,7 +17,7 @@ const ExpertReset=()=>{
         Swal.fire("Error","Enter all details","error")
 
       }else if((newPass===confirm) && (old!=newPass) ){
-        axios.post('/expert/updatePassword',{old:old,newPass:newPass},{headers:{"x-access-experttoken":localStorage.getItem("experttoken"),"Content-Type":'application/json'}}).then(res=>{
+        expertAxiosInstance.post('/updatePassword',{old:old,newPass:newPass}).then(res=>{
           if(res.data.status==="success"){
             const chPass= document.getElementById('chPass')
             Swal.fire("Success","Password changed successfully. Relogin Now","")

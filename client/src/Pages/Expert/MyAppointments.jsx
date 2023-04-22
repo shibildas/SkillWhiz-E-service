@@ -1,27 +1,24 @@
 import { useEffect, useState } from "react";
-import { axios } from "../../import";
-import useAuthUser from "../../hooks/useAuthUser";
 import { Link } from "react-router-dom";
-import { userAxiosInstance } from "../../axios/instance";
+import { expertAxiosInstance } from "../../axios/instance";
 
-const BookingList = () => {
+const MyAppointments = () => {
   const arr=[1,2,3,4,5,6]
     const [booking,setBooking]=useState([])
   useEffect(() => {
-    userAxiosInstance.get('/myBookings').then(res=>{
+    expertAxiosInstance.get('/myBookings',{headers:{"x-access-experttoken":localStorage.getItem("experttoken")}}).then(res=>{
         if(res.data.status==="success"){
             setBooking(res.data.result)
         }
     })
 
   }, []);
-  useAuthUser()
 
   return (
     <>
-      <div className="bg-teal-100 bg-opacity-90 h-screen">
+      <div className="bg-teal-100 bg-opacity-90 min-h-screen ">
         <h1 className="text-center md:text-3xl text-xl font-bold">
-          My Bookings
+          My Appointments
         </h1>
 
         <div className="flex flex-wrap justify-center md:mt-10">
@@ -36,10 +33,10 @@ const BookingList = () => {
             </figure>
             <div className="card-body">
               <h2 className="card-title">{ele?.jobId?.job_role?.toUpperCase()}</h2>
-              <p>Booking Id: <b> {ele?._id}</b></p>
+              <p>Appointment Id: <b> {ele?._id}</b></p>
               <p>Time: <b>{ele?.slot}</b></p>
               <div className="card-actions justify-end">
-                <Link to={`/bookings/${ele?._id}`}><button className="btn btn-primary">View</button></Link>
+                <Link to={`/expert/myappointments/${ele?._id}`}><button className="btn btn-primary">View</button></Link>
               </div>
             </div>
           </div>)}))
@@ -54,4 +51,4 @@ const BookingList = () => {
     </>
   );
 };
-export default BookingList;
+export default MyAppointments;

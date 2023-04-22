@@ -69,10 +69,10 @@ const navigate=useNavigate()
         <li>
           <Link to='/expert/profile' className="items-start flex-col">
             <b className="text-2xl" >{data?.username?.toUpperCase()?.substring(0,6)}</b>
-           Profile 
-          
+          Profile 
           </Link>
         </li>
+        {data?.verified&& <Link to="/expert/myappointments"><li><a>My Appointments</a></li></Link>}
         <li><a>Settings</a></li>
         <li><a onClick={handleLogout}>Logout</a></li>
       </ul>

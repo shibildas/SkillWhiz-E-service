@@ -3,6 +3,7 @@ import Swal from "sweetalert2"
 import { axios, useNavigate } from "../ExpertOTP/import"
 import { useDispatch } from "react-redux"
 import { logout } from "../../redux/user"
+import { userAxiosInstance } from "../../axios/instance"
 
 const ChangePassword=()=>{
     const [old,setOld]=useState('')
@@ -16,7 +17,7 @@ const ChangePassword=()=>{
         Swal.fire("Error","Enter all details","error")
 
       }else if((newPass===confirm) && (old!=newPass) ){
-        axios.post('/updatePassword',{old:old,newPass:newPass},{headers:{"x-access-token":localStorage.getItem("token"),"Content-Type":'application/json'}}).then(res=>{
+        userAxiosInstance.post('/updatePassword',{old:old,newPass:newPass}).then(res=>{
           if(res.data.status==="success"){
             const chPass= document.getElementById('chPass')
             Swal.fire("Success","Password changed successfully. Relogin Now","")

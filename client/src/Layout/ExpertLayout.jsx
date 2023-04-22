@@ -10,6 +10,8 @@ import { Suspense, lazy } from "react";
 import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
 const ExpertProfile = lazy(() => import("../Pages/Expert/ExpertProfile"));
 const Schedules = lazy(() => import("../Pages/Expert/Schedules"));
+const MyAppointments= lazy(()=> import("../Pages/Expert/MyAppointments") );
+const AppointmentDetail= lazy(()=> import("../Pages/Expert/AppointmentDetail") );
 
 const ExpertLayout = () => {
   useAuthExpert();
@@ -45,6 +47,23 @@ const ExpertLayout = () => {
                 </Suspense>
               }
             />}
+            {isVerified&& <Route
+              path="/myappointments"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <MyAppointments />
+                </Suspense>
+              }
+            />}
+            {isVerified&& <Route
+              path="/myappointments/:id"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <AppointmentDetail />
+                </Suspense>
+              }
+            />}
+
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         )}

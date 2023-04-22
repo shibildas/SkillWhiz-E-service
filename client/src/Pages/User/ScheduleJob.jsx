@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"
 import { axios } from "../../import"
 import useAuthUser from "../../hooks/useAuthUser"
 import Address from "../../Components/Address/Address";
+import { userAxiosInstance } from "../../axios/instance";
 
 const ScheduleJob=()=>{
     useAuthUser()
@@ -46,7 +47,7 @@ const ScheduleJob=()=>{
 
     const {id}= useParams()
     useEffect(()=>{
-        axios.get(`/getSlots/${id}`,{headers:{"x-access-token":localStorage.getItem("token")}}).then(res=>{
+        userAxiosInstance.get(`/getSlots/${id}`,{headers:{"x-access-token":localStorage.getItem("token")}}).then(res=>{
             if(res.data.status==="success"){
                 setSlot(res.data.result)
                 setJob(res.data.job)

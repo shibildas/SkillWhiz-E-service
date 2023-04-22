@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { axios } from "../ExpertOTP/import";
+import { expertAxiosInstance } from "../../axios/instance";
 
 
 
@@ -53,12 +53,7 @@ if(file && allowed.includes(file.type)&& file.size<=maxSize){
         formData.append("back",back)
         formData.append("name",name)
 
-        axios.post("/expert/initialVerify", formData,{
-            headers:{
-                "x-access-experttoken": localStorage.getItem("experttoken"),
-                "Content-Type":"multipart/form-data"
-            }
-        }).then((res)=>{
+        expertAxiosInstance.post("/initialVerify", formData).then((res)=>{
             if(res.data.status==="success"){
                 Swal.fire("Success", "Verification submitted successfully", "success");
                 const verification = document.getElementById("verifyModal")

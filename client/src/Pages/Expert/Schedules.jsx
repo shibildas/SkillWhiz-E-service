@@ -1,12 +1,13 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { axios } from "../../import";
 import Swal from "sweetalert2";
+import { expertAxiosInstance } from "../../axios/instance";
 
 const Schedules = () => {
   const today = moment().startOf("day");
   const [load, setLoad] = useState(false);
   const [slot, setSlot] = useState([]);
+  const [bookedslot, setBookedSlot] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectTime, setSelectedTime] = useState([]);
   const dates = [];
@@ -45,16 +46,10 @@ const Schedules = () => {
 
   const handleSubmit = () => {
     if (selectTime.length != 0) {
-      axios
+      expertAxiosInstance
         .post(
-          "/expert/addSchedule",
+          "/addSchedule",
           { dates: selectTime },
-          {
-            headers: {
-              "x-access-experttoken": localStorage.getItem("experttoken"),
-              "Content-Type": "application/json",
-            },
-          }
         )
         .then((res) => {
           if (res.data.status === "success") {
@@ -73,15 +68,12 @@ const Schedules = () => {
     }
   }
   useEffect(() => {
-    axios
-      .get("/expert/getSchedule", {
-        headers: {
-          "x-access-experttoken": localStorage.getItem("experttoken"),
-        },
-      })
+    expertAxiosInstance
+      .get("/getSchedule")
       .then((res) => {
         if (res.data.status === "success") {
-          setSlot(res.data.result);
+          setSlot(res.data.result?.slots);
+          setBookedSlot(res.data.result?.bookedSlots);
         } else {
           Swal.fire("sorry", "something went wrong", "error");
         }
@@ -140,17 +132,21 @@ const Schedules = () => {
                         : "bg-indigo-300 text-black"
                     } ${
                       slot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))
-                        ? "bg-slate-300 cursor-not-allowed text-slate-100"
-                        : ""
+                        && "bg-slate-300 cursor-not-allowed text-slate-100 outline outline-slate-900"
+                        
+                    } ${
+                      bookedslot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))
+                        && "bg-green-400 cursor-not-allowed text-black outline-dashed"
+                        
                     } font-bold py-2 px-4 rounded-xl m-2`}
                     onClick={() =>
                       handleTimeSlotSelect(
                         startTime.format("MMMM Do YYYY, h:mm:ss a")
                       )
                     }
-                    disabled={slot.includes(
+                    disabled={(slot.includes(
                       startTime.format("MMMM Do YYYY, h:mm:ss a")
-                    )}
+                    )) || (bookedslot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a")))}
                   >
                     <b className="p-3">{`${startTime.format(
                       "hh:mm A"

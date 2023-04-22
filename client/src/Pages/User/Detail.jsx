@@ -3,16 +3,15 @@ import useAuthUser from "../../hooks/useAuthUser";
 import { useEffect, useState } from "react";
 import { axios } from "../../import";
 import { Swal } from "../../Components/ExpertOTP/import";
+import { userAxiosInstance } from "../../axios/instance";
 
 const Detail = () => {
   const { jobId } = useParams();
   const [job, setJob] = useState({});
 
   useEffect(() => {
-    axios
-      .get(`/jobDetail/${jobId}`, {
-        headers: { "x-access-token": localStorage.getItem("token") },
-      })
+    userAxiosInstance
+      .get(`/jobDetail/${jobId}`)
       .then((res) => {
         if (res.data.status === "success") {
           console.log(res.data.result);
@@ -30,7 +29,7 @@ const Detail = () => {
   return (
     <>
       <>
-        <div className="bg-white p-5 mt-5 sm:flex sm:justify-between border border-y-2">
+        <div className="bg-white p-5 mt-5 sm:flex sm:justify-between border rounded-t-lg border-y-2">
           <h1 className="md:text-3xl sm:text-xl font-extrabold">
             {jobId.toUpperCase()}
           </h1>

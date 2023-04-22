@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Swal, axios } from "../ExpertOTP/import"
+import { userAxiosInstance } from "../../axios/instance"
 
 const AddAddress=({handleLoad})=>{
     const [name,setName]=useState('')
@@ -14,11 +15,11 @@ const AddAddress=({handleLoad})=>{
                 Swal.fire("sorry","Wrong Pin, pincode supposed to be 6 digits",'error')
 
             }else{
-                axios.post('/addAddress',{name:name,
+                userAxiosInstance.post('/addAddress',{name:name,
                     house:house,
                     street:street,
                     pincode:pincode
-                },{headers:{"x-access-token":localStorage.getItem('token'),"Content-Type":"application/json"}}).then((res)=>{
+                }).then((res)=>{
                         if(res.data.status==="success"){
                             const closemodal= document.getElementById("addAddress")
                             Swal.fire("success","Address Added Successfully","success")

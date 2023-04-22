@@ -111,7 +111,9 @@ module.exports.isUserAuth = async (req, res) => {
       auth: true,
       image: userDetails.image || null,
     });
-  } catch (error) {}
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+  }
 };
 module.exports.get7Jobs = async (req, res) => {
   try {
@@ -293,6 +295,7 @@ module.exports.bookJob=async(req,res)=>{
     })
     if(!expert){
       console.log("no Expert");
+      res.json({"status":"error","message":"no expert available"})
     }else{
       const updatedExpert= await expertmodel.findOneAndUpdate(
         {_id:expert._id},
@@ -318,7 +321,8 @@ module.exports.bookJob=async(req,res)=>{
           }
 
         })
-        res.json({"status":"success",result:booking})
+        console.log(booking);
+        res.json({"status":"success",result:booking?._id})
       }
     }
     

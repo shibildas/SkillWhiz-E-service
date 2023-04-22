@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import axios from "../../axios/axios"
+
 import Swal from "sweetalert2"
 import ExpertReVerify from "./ExpertRe-Verify"
 import ExpertEdit from "./ExpertEdit"
 import ExpertReset from "./ExpertReset"
+import { expertAxiosInstance } from "../../axios/instance"
 
 const ExpertCard=()=>{
     const [show,setShow]=useState(false)
@@ -31,7 +32,7 @@ const ExpertCard=()=>{
         if (mobile === data?.mobile) {
           setShow(false);
         } else {
-        axios.post('/expert/re-Verify',{mobile:mobile},{headers:{"x-access-experttoken":localStorage.getItem("experttoken"),"Content-Type":'application/json'}}).then(res=>{
+        expertAxiosInstance.post('/re-Verify',{mobile:mobile}).then(res=>{
           if(res.data.status==="success"){
             const modalOTP=document.getElementById("modalOtp")
             modalOTP.checked=true

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { axios, expertlogin} from "../../import"
 import { Swal } from "../ExpertOTP/import"
+import { expertAxiosInstance } from "../../axios/instance"
 
 const ExpertEdit=()=>{
     const dispatch=useDispatch()
@@ -44,8 +45,7 @@ const ExpertEdit=()=>{
       }
       formData.append("name",name)
       formData.append("email",email)
-      axios.post("/expert/editProfile",formData,{headers:{
-        "x-access-experttoken": localStorage.getItem("experttoken"),
+      expertAxiosInstance.post("/editProfile",formData,{headers:{
             "Content-Type": "multipart/form-data",
       }}).then(res=>{
         const editUser= document.getElementById("editProfile")

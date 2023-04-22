@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import Swal from "sweetalert2"
 import { login } from "../../import"
+import { expertAxiosInstance } from "../../axios/instance"
 const ExpertReVerify=({mobile,handleshow})=>{
     const dispatch = useDispatch()
     const [otp, setOtp]=useState('')
@@ -16,7 +17,7 @@ const handleOtp=(e)=>{
         if((otp.length<6) || otp ===""){
             Swal.fire("Sorry", "Invalid Entry","error")
         }else{
-            axios.post("/expert/reVerify-otp",{otp:otp,mobile:mobile},{headers:{"x-access-experttoken":localStorage.getItem("experttoken"),"Content-Type":'application/json'}}).then(res=>{
+            expertAxiosInstance.post("/reVerify-otp",{otp:otp,mobile:mobile}).then(res=>{
                 if(res.data.status==="success"){
                     Swal.fire("success","MObile Number changed and Verified","success")
                     dispatch(login(res.data.result))

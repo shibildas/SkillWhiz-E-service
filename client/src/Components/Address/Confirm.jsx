@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Swal, axios, useNavigate } from "../ExpertOTP/import";
+import { userAxiosInstance } from "../../axios/instance";
 
 const ConfirmSchedule = ({ selectTime, job, address }) => {
   const navigate=useNavigate()
   const user = useSelector((state) => state.user.value);
   const [time, setTime] = useState(null);
   const [locate, setLocate] = useState({});
-  const [bookId,setBookId]=useState(null)
+  const [bookId,setBookId]=useState('')
   const [skill, setSkill] = useState(null);
   useEffect(() => {
     setTime(selectTime);
@@ -23,26 +24,21 @@ const ConfirmSchedule = ({ selectTime, job, address }) => {
       date: Date.now(),
       jobId: skill?._id,
     };
-    axios
+    userAxiosInstance
       .post(
         "/bookJob",
-        { ...data },
-        {
-          headers: {
-            "x-access-token": localStorage.getItem("token"),
-            "Content-Type": "application/json",
-          },
-        }
+        { ...data }
       )
       .then((res) => {
+        setBookId(res?.data?.result)
         if (res.data.status === "success") {
-          setBookId(res.data.result)
+          setBookId(res?.data?.result)
           Swal.fire("Success", "Job Slot Booked Successfully", "success");
           const confirmModal= document.getElementById("confirm")
           const addressModal= document.getElementById("selectAddress")
           confirmModal.checked=false
           addressModal.checked=false
-          navigate(`/booking/${bookId?._id}`)
+           navigate(`/bookings/${bookId}`)
         } else {
           Swal.fire("Sorry", "Job Slot not Booked", "error");
         }

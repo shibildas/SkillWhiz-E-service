@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import AddAddress from "./AddAddress"
 import axios from "../../axios/axios"
 import ConfirmSchedule from "./Confirm"
+import { userAxiosInstance } from "../../axios/instance"
 
 const Address=({selectTime,job})=>{
     const [load,setLoad]=useState(false)
     const [address,setAddress]=useState([])
     const [select,setSelect]=useState(null)
     useEffect(() => {
-        axios.get('/address',{headers:{"x-access-token":localStorage.getItem("token")}}).then(res=>{
+        userAxiosInstance.get('/address').then(res=>{
             if(res.data.status==="success"){
                 setAddress(res.data.result)
             }
@@ -17,11 +18,9 @@ const Address=({selectTime,job})=>{
     }, [load])
 
     const handleSelect=(ele)=>{
-        if(select===ele){
-            setSelect(null)
-        }else{   
+     
             setSelect(ele)
-        }
+        
       
 
     }

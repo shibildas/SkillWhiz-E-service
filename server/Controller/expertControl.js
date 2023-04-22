@@ -9,6 +9,7 @@ const cloudinary = require('../Controller/config/cloudinaryConfig')
 const jobsmodel = require("../Model/jobsSchema")
 const fs = require('fs');
 const { log } = require("console")
+const bookingmodel = require("../Model/bookingSchema")
 
 
 module.exports.postregister = async(req,res,next)=>{
@@ -331,11 +332,36 @@ module.exports.getSchedule= async(req,res)=>{
 
   try {
     const _id= req.expertId
-    const schedules = await expertmodel.findById(_id, { slots: 1 })
-  res.json({"status":"success",result:schedules.slots})
+    const schedules = await expertmodel.findById(_id, { slots: 1 ,bookedSlots:1})
+  res.json({"status":"success",result:schedules})
     
   } catch (error) {
     console.log(error);
     res.json({"status":"error",message:error.message})
     }
   }
+
+
+module.exports.getAppointments=async(req,res)=>{
+  try {
+    const id=req.expertId
+    const bookings= await bookingmodel.find({expertId:id}).populate('jobId')
+    res.json({"status":"success",result:bookings})
+    
+  } catch (error) {
+    res.json({"status":"error",message:error.message})
+    
+  }
+}
+
+module.exports.getBookings=async(req,res)=>{
+  try {
+    const id=req.params.id
+    const booking= await bookingmodel.findOne({_id:id}).populate('userId')
+    .populate('expertId').populate('jobId')
+    res.json({"status":"success",result:booking})
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+    
+  }
+}

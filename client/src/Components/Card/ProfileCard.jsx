@@ -28,16 +28,9 @@ const ProfileCard = () => {
       if (mobile === data?.mobile) {
         setShow(false);
       } else {
-        userAxiosInstance
-          .post(
+        userAxiosInstance.post(
             "/re-Verify",
-            { mobile: mobile },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
+            { mobile: mobile })
           .then((res) => {
             if (res.data.status === "success") {
               const modalOTP = document.getElementById("modalOtp");

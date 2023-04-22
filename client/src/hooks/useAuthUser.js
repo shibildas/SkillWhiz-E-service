@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { axios, login } from "../import";
 import { logout } from "../redux/user";
+import { userAxiosInstance } from "../axios/instance";
 
 function useAuthUser(){
   
@@ -9,10 +10,7 @@ function useAuthUser(){
     
     useEffect(() => {
       const modal=document.getElementById("my-modal-3")
-      axios
-          .get("/isUserAuth", {
-            headers: { "x-access-token": localStorage.getItem("token") },
-          })
+      userAxiosInstance.get("/isUserAuth")
           .then((response) => {
             if (!response.data.auth) {
               dispatch(logout())

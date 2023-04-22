@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AddSkill from "./AddSkill";
-import { Swal, axios } from "../ExpertOTP/import";
+import { Swal } from "../ExpertOTP/import";
+import { expertAxiosInstance } from "../../axios/instance";
 
 const Skills = () => {
   const [datas, setData] = useState([]);
@@ -11,12 +12,8 @@ const Skills = () => {
   };
 
   useEffect(() => {
-    axios
-      .get("/expert/getMyJobs", {
-        headers: {
-          "x-access-experttoken": localStorage.getItem("experttoken"),
-        },
-      })
+    expertAxiosInstance
+      .get("/getMyJobs")
       .then((res) => {
         if (res.data.status === "success") {
           setData(res.data.result);
@@ -41,12 +38,8 @@ const Skills = () => {
       reverseButtons: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        axios
-          .get(`/expert/removeSkill/${arg}`, {
-            headers: {
-              "x-access-experttoken": localStorage.getItem("experttoken"),
-            },
-          })
+        expertAxiosInstance
+          .get(`/removeSkill/${arg}`)
           .then((res) => {
             if (res.data.status === "success") {
               handleLoad();

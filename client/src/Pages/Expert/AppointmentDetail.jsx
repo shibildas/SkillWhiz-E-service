@@ -1,12 +1,11 @@
 import { useEffect ,useState} from "react"
 import socket from "../../socket/socket"
-import { axios } from "../../import"
 import { useParams } from "react-router-dom"
 import { Swal } from "../../Components/ExpertOTP/import"
 import Chat from "../../Components/Chat/Chat"
-import { userAxiosInstance } from "../../axios/instance"
+import { expertAxiosInstance } from "../../axios/instance"
 
-const BookingDetail=()=>{
+const AppointmentDetail=()=>{
     const {id}=useParams()
  
     const [booking,setBooking]=useState({})
@@ -18,7 +17,7 @@ const BookingDetail=()=>{
     }
 
     useEffect(()=>{
-        userAxiosInstance.get(`/booking/${id}`).then(res=>{
+        expertAxiosInstance.get(`/booking/${id}`).then(res=>{
             if(res.data.status==="success"){
                 setBooking(res.data.result)
                 console.log(booking);
@@ -67,8 +66,8 @@ const BookingDetail=()=>{
 <div className="divider "></div>
 <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Address: </h1> <h1>{booking?.address?.name?.toUpperCase()} <br/>{booking?.address?.house }<br/>{booking?.address?.street }<br/>{booking?.address?.pincode }</h1></div>
 <div className="divider "></div>
-<div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Partner Assigned: </h1> <h1>{booking?.expertId?.username?.toUpperCase()}<br/> Ph: +91- {booking?.expertId?.mobile}</h1></div>
-<div className="divider "></div>
+{/* <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Partner Assigned: </h1> <h1>{booking?.expertId?.username?.toUpperCase()}<br/> Ph: +91- {booking?.expertId?.mobile}</h1></div> */}
+{/* <div className="divider "></div> */}
 <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1>Rs: {booking?.estimate ? booking?.estimate :"0"}</h1></div>
 <div className="divider "></div>
 
@@ -80,4 +79,4 @@ const BookingDetail=()=>{
         </>
     )
 }
-export default BookingDetail
+export default AppointmentDetail
