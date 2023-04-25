@@ -87,7 +87,7 @@ const Jobs = () => {
     <div className="p-5 m-5">
       <AddJobs  handleLoad={handleLoad} load={load}/>
       <div className="flex justify-between">
-      <h1 className="p-3 font-extrabold text-amber-100 md:text-5xl sm:text-2xl tracking-widest">
+      <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">
         Jobs
       </h1>
       <label
@@ -137,12 +137,12 @@ const Jobs = () => {
 
                   </td>
                   <td>
-                  <button onClick={()=>handleUnList(data)} className="btn btn-outline btn-warning font-extrabold">{data?.listed ? "UnList" : "List"}</button> 
+                  <button onClick={()=>handleUnList(data)} className={`btn ${data?.listed ? "btn-warning":"btn-success"} font-extrabold`}>{data?.listed ? "UnList" : "List"}</button> 
                   </td>
                   <th>₹ {data.base_rate}  </th>
                   <th>₹ {data.add_rate} /Hr</th>
                   <th>
-                    <label htmlFor="editJobs" onClick={()=>setJob(data)} className="btn btn-ghost">Edit</label>
+                    <label htmlFor="editJobs" onClick={()=>setJob(data)} className="btn">Edit</label>
                   </th>
                 </tr>
               );

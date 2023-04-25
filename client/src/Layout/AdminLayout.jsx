@@ -22,7 +22,7 @@ const AdminLayout = () => {
       <NavbarAdmin />
       <div className="drawer drawer-mobile">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content border p-2 bg-gradient-to-br from-indigo-600 to-amber-800">
+        <div className="drawer-content border p-2 bg-slate-200">
           <div className="max-w-fit mx-auto">
           {isAdminAuth && (
             <Routes>

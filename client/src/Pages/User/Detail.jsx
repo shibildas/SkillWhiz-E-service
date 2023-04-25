@@ -13,7 +13,6 @@ const Detail = () => {
       .get(`/jobDetail/${jobId}`)
       .then((res) => {
         if (res.data.status === "success") {
-          console.log(res.data.result);
           setJob(res.data.result);
         } else {
           Swal.fire("sorry", "coudnt fetch data", "error");

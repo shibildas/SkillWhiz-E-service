@@ -5,10 +5,10 @@ import { adminAxiosInstance } from "../../../axios/instance"
 
 const EditJobs=({job,handleLoad})=>{
 
-    const [role ,setRole]=useState('')
+    const [role ,setRole]=useState()
     const [bRate,setBRate]= useState(0)
     const [adRate,setAdRate]=useState(0)
-    const [id,setId]=useState('')
+    const [id,setId]=useState()
     const [file,setFile]=useState(null)
     useEffect(() => {
         setRole(job?.job_role)
@@ -37,7 +37,7 @@ const EditJobs=({job,handleLoad})=>{
 
     const handleSubmit=(e)=>{
         e.preventDefault()
-        if(job==="" || bRate===null || adRate===null){
+        if(!job || bRate===null || adRate===null){
             Swal.fire("Sorry", "Please enter all details", "error");
 
         }else{
@@ -50,9 +50,7 @@ const EditJobs=({job,handleLoad})=>{
               formData.append("bRate",bRate)
               formData.append("adRate",adRate)
 
-              adminAxiosInstance.post("/editJob",formData,{headers:{
-                    "Content-Type": "multipart/form-data"
-              }}).then(res=>{
+              adminAxiosInstance.post("/editJob",formData).then(res=>{
                 const editJob=document.getElementById("editJobs")
                 if(res.data.status==="success"){
                     Swal.fire("Success", "Job Edit successfully", "success");

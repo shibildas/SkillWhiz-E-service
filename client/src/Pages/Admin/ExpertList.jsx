@@ -11,7 +11,6 @@ const ExpertList = () => {
   const [datas, handleLoad] = useGerExperts([]);
   const arra = [0, 1, 2, 3, 4];
   const handleBlock = (data) => {
-    setExpert(data);
     Swal.fire({
       title: "Are you sure?",
       text: "User will be Banned !!",
@@ -22,9 +21,9 @@ const ExpertList = () => {
       reverseButtons: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        if (expert?.isBanned) {
+        if (data?.isBanned) {
           adminAxiosInstance
-            .get(`/unBlockExpert/${expert._id}`)
+            .get(`/unBlockExpert/${data?._id}`)
             .then((res) => {
               if (res.data.status === "success") {
                 handleLoad();
@@ -32,9 +31,9 @@ const ExpertList = () => {
                 Swal.fire("UnBlocked!", "User has been unBlocked.", "success");
               }
             });
-        } else if (!expert.isBanned) {
+        } else if (!data?.isBanned) {
           adminAxiosInstance
-            .get(`/blockExpert/${expert._id}`)
+            .get(`/blockExpert/${data?._id}`)
             .then((res) => {
               if (res.data.status === "success") {
                 handleLoad();
@@ -52,7 +51,7 @@ const ExpertList = () => {
   return (
     <>
       <div className="p-3">
-        <h1 className="p-3 font-extrabold text-amber-100 md:text-5xl sm:text-2xl tracking-widest">
+        <h1 className="p-3 font-extrabold  md:text-5xl sm:text-2xl tracking-widest">
           Experts
         </h1>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl ">
@@ -110,14 +109,15 @@ const ExpertList = () => {
                           <br />
                           <span className="badge badge-ghost badge-sm flex flex-wrap">
                             {data?.skills.map(ele=>{
-                              return(ele.job_role +", ")
+                              return(ele.job_role?.toUpperCase() +", ")
                             })}
                           </span>
                         </td>
                         <td>
                           <button
-                            onClick={() => handleBlock(data)}
-                            className="btn btn-outline btn-warning font-extrabold"
+                            onClick={() =>{ 
+                              handleBlock(data)}}
+                            className={ `btn  ${data?.isBanned ? "btn-error":" btn-warning"} font-extrabold`}
                           >
                             {data?.isBanned ? "UnBlock" : "Block"}
                           </button>
@@ -133,10 +133,10 @@ const ExpertList = () => {
                             </label>
                           )}
                           {data?.identity?.status === "initial" && (
-                            <b className="p-3 text-orange-400">Initialized</b>
+                            <b className="p-3 text-orange-400 font-mono">Initialized</b>
                           )}
                           {data?.identity?.status === "approved" && (
-                            <b className="p-3 text-green-600">Completed</b>
+                            <b className="p-3 text-green-700">Completed</b>
                           )}
                         </td>
                         <th>

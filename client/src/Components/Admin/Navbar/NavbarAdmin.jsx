@@ -14,11 +14,11 @@ const NavbarAdmin = () => {
     }
   return (
     <>
-      <div className="navbar bg-gradient-to-b from-black to-purple-700 text-neutral-content shadow-2xl">
+      <div className="navbar bg-cyan-950 text-neutral-content shadow-2xl">
       <div className="navbar-start">
-        <label htmlFor="my-drawer-2"> s</label>
+      
         <label htmlFor="my-drawer-2" className="px-2 ">
-          <Link to="/"><img className="w-14 rounded-full cursor-pointer" src={logo} alt="logo" /></Link>
+          <img className="w-14 rounded-full cursor-pointer" src={logo} alt="logo" />
         </label></div>
         <div className="navbar-end">
           <div className="dropdown dropdown-end ">
@@ -42,6 +42,9 @@ const NavbarAdmin = () => {
               </li>
               <li>
                 <a>Settings</a>
+              </li>
+              <li>
+                <Link to="/">SkillWhiz</Link>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>

@@ -41,7 +41,7 @@ const UserList = () => {
           const editUser= document.getElementById("editUser")
           
           if(ele.isBanned){
-            adminAxiosInstance.get(`/unBlockUser/${ele._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
+            adminAxiosInstance.get(`/unBlockUser/${ele._id}`).then((res)=>{
               if(res.data.status==="success"){
                 handleLoad()
                 editUser.checked=false
@@ -81,7 +81,7 @@ const UserList = () => {
   return (
     <>
       <div className="p-3">
-        <h1 className="p-3 font-extrabold text-amber-100 md:text-5xl sm:text-2xl tracking-widest">
+        <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">
           Users
         </h1>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
@@ -130,7 +130,7 @@ const UserList = () => {
                  
                   
                 </td>
-                <td><button onClick={()=>handleBlock(ele)} className="btn btn-outline btn-warning font-extrabold">{ele?.isBanned ? "UnBlock" : "Block"}</button></td>
+                <td><button onClick={()=>handleBlock(ele)} className={`btn ${ele?.isBanned ? "btn-warning":"btn-error"} font-extrabold`}>{ele?.isBanned ? "UnBlock" : "Block"}</button></td>
                 <th className="flex justify-center">
                   <label htmlFor="editUser" onClick={()=>setUser(ele)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
