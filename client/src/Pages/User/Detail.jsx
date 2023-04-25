@@ -25,7 +25,7 @@ const Detail = () => {
       });
   }, []);
 
-  useAuthUser();
+
   return (
     <>
       <>

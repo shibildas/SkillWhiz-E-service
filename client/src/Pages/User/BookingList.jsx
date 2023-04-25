@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { axios } from "../../import";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Link } from "react-router-dom";
 import { userAxiosInstance } from "../../axios/instance";
+
 
 const BookingList = () => {
   const arr=[1,2,3,4,5,6]
@@ -12,10 +12,12 @@ const BookingList = () => {
         if(res.data.status==="success"){
             setBooking(res.data.result)
         }
+    }).catch(error=>{
+      console.log(error?.message);
     })
 
   }, []);
-  useAuthUser()
+
 
   return (
     <>

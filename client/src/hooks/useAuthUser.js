@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { axios, login } from "../import";
+import { login } from "../import";
 import { logout } from "../redux/user";
 import { userAxiosInstance } from "../axios/instance";
+import { useNavigate } from "react-router-dom";
 
 function useAuthUser(){
-  
+    const navigate=useNavigate()
     const dispatch = useDispatch();
     
     useEffect(() => {
@@ -17,6 +18,7 @@ function useAuthUser(){
               modal.checked=true
             } else {
               dispatch(login(response.data));
+              navigate('/')
               modal.checked=false
 
             }

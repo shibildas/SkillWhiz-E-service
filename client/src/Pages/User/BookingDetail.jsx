@@ -1,27 +1,31 @@
 import { useEffect ,useState} from "react"
-import socket from "../../socket/socket"
-import { axios } from "../../import"
 import { useParams } from "react-router-dom"
 import { Swal } from "../../Components/ExpertOTP/import"
 import Chat from "../../Components/Chat/Chat"
 import { userAxiosInstance } from "../../axios/instance"
+import useAuthUser from "../../hooks/useAuthUser"
+import { useSelector } from "react-redux"
 
 const BookingDetail=()=>{
-    const {id}=useParams()
- 
-    const [booking,setBooking]=useState({})
-    const [message,setMessage]= useState('')
-    const [messageRecieved,setMessageRecieved]= useState('')
 
-    const sendMessage =()=>{
-        socket.emit("send_message",{message:message})
-    }
+   const username=useSelector(state=>state.user.value._id)
+
+ 
+    const {id}=useParams()
+    const [booking,setBooking]=useState({})
+    const [user,setUser]=useState({})
+    const [other,setOther]=useState({})
+    useEffect(()=>{
+        setUser(booking?.userId)
+        setOther(booking?.expertId)
+
+    },[booking])
+  
 
     useEffect(()=>{
         userAxiosInstance.get(`/booking/${id}`).then(res=>{
             if(res.data.status==="success"){
                 setBooking(res.data.result)
-                console.log(booking);
 
             }else{
                 Swal.fire("error","NetworkError","error")
@@ -29,14 +33,7 @@ const BookingDetail=()=>{
         }).catch(error=>{
             Swal.fire("error",error.message,"error")
         })
-    },[])
-    useEffect(() => {
-        socket.on('recieve_message',(data)=>{
-            setMessageRecieved(data.message)
-        })
-     
-    }, [socket])
-    
+    },[])  
 
     return(
         <>
@@ -75,7 +72,7 @@ const BookingDetail=()=>{
     </div>
 </div>
         <div className="flex justify-center bg-slate-100 bg-opacity-60">
-        <Chat/>
+        <Chat room={id} username={username} user={user} other={other}/>
         </div>
         </>
     )

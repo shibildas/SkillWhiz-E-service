@@ -8,7 +8,7 @@ import Address from "../../Components/Address/Address";
 import { userAxiosInstance } from "../../axios/instance";
 
 const ScheduleJob=()=>{
-    useAuthUser()
+    // useAuthUser()
     const today = moment().startOf("day");
     const [slot, setSlot] = useState([]);
     const [job,setJob]=useState({})

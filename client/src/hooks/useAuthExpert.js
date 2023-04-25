@@ -11,6 +11,7 @@ function useAuthExpert() {
     expertAxiosInstance.get("/isExpertAuth").then((res) => {
         if (!res.data.auth) {
           dispatch(expertlogout())
+          localStorage.clear("experttoken")
         } else {
           dispatch(expertlogin(res.data));
         }

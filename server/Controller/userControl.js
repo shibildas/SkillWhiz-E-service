@@ -9,7 +9,8 @@ const serviceSid = process.env.serviceSid;
 const client = require("twilio")(accountSid, authToken);
 const cloudinary = require("../Controller/config/cloudinaryConfig");
 const expertmodel = require("../Model/expertSchema");
-const bookingmodel= require('../Model/bookingSchema')
+const bookingmodel= require('../Model/bookingSchema');
+const conversationmodel = require("../Model/conversationSchema");
 
 module.exports.postSignUp = async (req, res, next) => {
   try {
@@ -105,6 +106,7 @@ module.exports.isUserAuth = async (req, res) => {
     userDetails.auth = true;
 
     res.json({
+      _id:userDetails._id,
       mobile: userDetails.mobile,
       username: userDetails.username,
       email: userDetails.email,
@@ -321,6 +323,7 @@ module.exports.bookJob=async(req,res)=>{
           }
 
         })
+
         console.log(booking);
         res.json({"status":"success",result:booking?._id})
       }

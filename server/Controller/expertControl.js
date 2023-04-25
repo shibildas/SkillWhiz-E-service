@@ -100,6 +100,7 @@ module.exports.isExpertAuth = async (req, res) => {
     if (expertDetails.identity.status==="approved"){
 
       res.json({
+        "_id":expertDetails._id,
         "mobile":expertDetails.mobile,
         "username":expertDetails.username,
         "email":expertDetails.email,

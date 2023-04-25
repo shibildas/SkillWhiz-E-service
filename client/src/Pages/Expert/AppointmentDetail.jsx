@@ -4,17 +4,21 @@ import { useParams } from "react-router-dom"
 import { Swal } from "../../Components/ExpertOTP/import"
 import Chat from "../../Components/Chat/Chat"
 import { expertAxiosInstance } from "../../axios/instance"
+import { useSelector } from "react-redux"
 
 const AppointmentDetail=()=>{
+    const username= useSelector(state=>state.expert.value._id)
     const {id}=useParams()
- 
     const [booking,setBooking]=useState({})
-    const [message,setMessage]= useState('')
-    const [messageRecieved,setMessageRecieved]= useState('')
+    const [user,setUser]=useState({})
+    const [other,setOther]=useState({})
+    useEffect(()=>{
+        setUser(booking?.expertId)
+        setOther(booking?.userId)
 
-    const sendMessage =()=>{
-        socket.emit("send_message",{message:message})
-    }
+    },[booking])
+
+  
 
     useEffect(()=>{
         expertAxiosInstance.get(`/booking/${id}`).then(res=>{
@@ -29,12 +33,7 @@ const AppointmentDetail=()=>{
             Swal.fire("error",error.message,"error")
         })
     },[])
-    useEffect(() => {
-        socket.on('recieve_message',(data)=>{
-            setMessageRecieved(data.message)
-        })
-     
-    }, [socket])
+   
     
 
     return(
@@ -73,8 +72,8 @@ const AppointmentDetail=()=>{
 
     </div>
 </div>
-        <div className="flex justify-center bg-slate-100 bg-opacity-60">
-        <Chat/>
+        <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5 h-screen">
+        <Chat room={id} username={username} user={user} other={other}/>
         </div>
         </>
     )

@@ -3,13 +3,15 @@ const mongoose =require("mongoose");
 const messageSchema= mongoose.Schema(
     {
         conversationId:{
-            type:mongoose.Schema.Types.ObjectId,ref:"conversations"
+            type:mongoose.Schema.Types.ObjectId,ref:"bookings"
         },
         message:{
-            text:{type:String,required:true}
+            type:String,
+            required:true
         },
         sender:{
-            type:mongoose.Schema.Types.ObjectId, ref:"user"
+            type:String,
+            required:true
         }
 
     },{

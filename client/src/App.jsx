@@ -11,7 +11,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route exact path="/*" element={<UserLayout />} />
-
         <Route
           exact
           path="/expert/*"

@@ -93,7 +93,7 @@ const Schedules = () => {
           </h1>
           <h1 className="text-xl text-center font-bold">Choose Date / Time</h1>
           <h1 className="ml-2 my-10 text-xl font-bold">
-            Mark Only Available day & hour
+            Mark Only Available hours
           </h1>
           <div className="carousel carousel-center rounded-box mx-4">
             {dates.map((date) => (
@@ -129,16 +129,16 @@ const Schedules = () => {
                         startTime.format("MMMM Do YYYY, h:mm:ss a")
                       )
                         ? " bg-indigo-600 text-white"
-                        : "bg-indigo-300 text-black"
+                        : " text-black"
                     } ${
                       slot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))
                         && "bg-slate-300 cursor-not-allowed text-slate-100 outline outline-slate-900"
                         
                     } ${
                       bookedslot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))
-                        && "bg-green-400 cursor-not-allowed text-black outline-dashed"
+                        ? "bg-green-400 cursor-not-allowed text-black" :"bg-indigo-300"
                         
-                    } font-bold py-2 px-4 rounded-xl m-2`}
+                    } font-bold py-2 px-4 rounded-xl m-2 `}
                     onClick={() =>
                       handleTimeSlotSelect(
                         startTime.format("MMMM Do YYYY, h:mm:ss a")
