@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Swal, axios, useNavigate } from "../ExpertOTP/import";
+import { Swal, useNavigate } from "../ExpertOTP/import";
 import { userAxiosInstance } from "../../axios/instance";
 
 const ConfirmSchedule = ({ selectTime, job, address }) => {

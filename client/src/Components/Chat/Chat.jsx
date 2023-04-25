@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import socket from "../../socket/socket";
-import { useSelector } from "react-redux";
 
 const Chat = ({room,username,user,other}) => {
   

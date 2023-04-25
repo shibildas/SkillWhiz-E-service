@@ -1,16 +1,14 @@
 import { useCallback, useEffect} from "react";
 import { useDispatch } from "react-redux";
-import { axios, adminlogin } from "../import";
+import { adminlogin } from "../import";
 import { adminlogout } from "../redux/admin";
+import { adminAxiosInstance } from "../axios/instance";
 
 function useAuthAdmin(){
     const dispatch = useDispatch();
   
     const checkAdminAuth = useCallback(() => {
-        axios
-          .get("/admin/isAdminAuth", {
-            headers: { "x-access-admintoken": localStorage.getItem("admintoken") },
-          })
+        adminAxiosInstance.get("/isAdminAuth")
           .then((res) => {
             if (!res.data.auth) {
               dispatch(adminlogout());

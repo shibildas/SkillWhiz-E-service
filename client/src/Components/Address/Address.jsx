@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react"
-import AddAddress from "./AddAddress"
-import axios from "../../axios/axios"
 import ConfirmSchedule from "./Confirm"
 import { userAxiosInstance } from "../../axios/instance"
 

@@ -6,7 +6,7 @@ import ErrorPage from "../../Pages/Error/Error"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../../axios/axios"
-
 import OTP from "./OTP";
-export {Route, Routes,ExpertHome,ExpertNav,Footer,ErrorPage,useState,useNavigate,Swal,axios,OTP}
+
+
+export {Route, Routes,ExpertHome,ExpertNav,Footer,ErrorPage,useState,useNavigate,Swal,OTP}

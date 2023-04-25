@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { services } from "../../constants/constants";
 import Banner from "../../Components/Banner/Banner";
 import Invite from "../../Components/Invite/Invite";
-import axios from "../../axios/axios";
 import Swal from "sweetalert2";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Link } from "react-router-dom";
+import { userAxiosInstance } from "../../axios/instance";
 
 const MainPage = () => {
   useAuthUser()
@@ -14,7 +14,7 @@ const MainPage = () => {
   const [jobs,setJobs]= useState()
   useEffect(() => {
     setShow(true);
-    axios.get("/get7Jobs").then((res)=>{
+    userAxiosInstance.get("/get7Jobs").then((res)=>{
       if(res.data.status==="success"){
         setJobs(res.data.result)
       }else{

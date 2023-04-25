@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { axios } from "../../ExpertOTP/import";
 import Swal from "sweetalert2";
+import { adminAxiosInstance } from "../../../axios/instance";
 
 const EditExpert = ({ expert, handleLoad }) => {
   const [email,setEmail]=useState("")
@@ -52,8 +52,7 @@ const EditExpert = ({ expert, handleLoad }) => {
       formData.append("id",id)
       formData.append("name",name)
       formData.append("email",email)
-      axios.post("admin/editExpert",formData,{headers:{
-        "x-access-admintoken": localStorage.getItem("admintoken"),
+      adminAxiosInstance.post("/editExpert",formData,{headers:{
             "Content-Type": "multipart/form-data",
       }}).then(res=>{
         const editUser= document.getElementById("editExpert")

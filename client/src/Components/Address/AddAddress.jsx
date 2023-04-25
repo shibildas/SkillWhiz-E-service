@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Swal, axios } from "../ExpertOTP/import"
+import { Swal } from "../ExpertOTP/import"
 import { userAxiosInstance } from "../../axios/instance"
 
 const AddAddress=({handleLoad})=>{

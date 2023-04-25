@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import useAuthUser from "../../hooks/useAuthUser";
 import { useEffect, useState } from "react";
-import { axios } from "../../import";
 import { Swal } from "../../Components/ExpertOTP/import";
 import { userAxiosInstance } from "../../axios/instance";
 

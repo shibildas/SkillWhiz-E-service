@@ -1,7 +1,7 @@
-import { axios } from "../../../import";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { adminAxiosInstance } from "../../../axios/instance";
 
 const AddSlots = ({ expert, handleLoad }) => {
   const today = moment().startOf("day");
@@ -40,16 +40,10 @@ const AddSlots = ({ expert, handleLoad }) => {
   };
   const handleSubmit = () => {
     if (selectTime.length != 0) {
-      axios
+      adminAxiosInstance
         .post(
-          "/admin/addSchedule",
-          { dates: selectTime, _id: id },
-          {
-            headers: {
-              "x-access-admintoken": localStorage.getItem("admintoken"),
-              "Content-Type": "application/json",
-            },
-          }
+          "/addSchedule",
+          { dates: selectTime, _id: id }
         )
         .then((res) => {
           if (res.data.status === "success") {

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { axios, login } from "../../import";
+import { login } from "../../import";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/user";
+import { userAxiosInstance } from "../../axios/instance";
 
 const Signin = () => {
   const [mobile, setMobile] = useState("");
@@ -23,7 +24,7 @@ const Signin = () => {
     if (mobile === "" || password === "") {
       Swal.fire("sorry", "All fields are required!!", "error");
     } else {
-      axios
+      userAxiosInstance
         .post("/signin", {
           mobile: mobile,
           password: password,

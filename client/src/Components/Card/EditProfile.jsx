@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { axios, login } from "../../import"
+import { login } from "../../import"
 import { Swal } from "../ExpertOTP/import"
 import { userAxiosInstance } from "../../axios/instance"
 

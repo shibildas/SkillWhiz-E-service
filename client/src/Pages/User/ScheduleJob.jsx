@@ -2,7 +2,6 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom"
-import { axios } from "../../import"
 import useAuthUser from "../../hooks/useAuthUser"
 import Address from "../../Components/Address/Address";
 import { userAxiosInstance } from "../../axios/instance";

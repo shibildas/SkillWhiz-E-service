@@ -6,7 +6,7 @@ const MyAppointments = () => {
   const arr=[1,2,3,4,5,6]
     const [booking,setBooking]=useState([])
   useEffect(() => {
-    expertAxiosInstance.get('/myBookings',{headers:{"x-access-experttoken":localStorage.getItem("experttoken")}}).then(res=>{
+    expertAxiosInstance.get('/myBookings').then(res=>{
         if(res.data.status==="success"){
             setBooking(res.data.result)
         }

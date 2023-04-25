@@ -1,6 +1,6 @@
 import Swal from "sweetalert2"
-import { axios } from "../../ExpertOTP/import"
 import { useEffect, useState } from "react"
+import { adminAxiosInstance } from "../../../axios/instance"
 
 const Verification=({expert,handleLoad})=>{
     const [id,setId]=useState('')
@@ -23,7 +23,7 @@ const Verification=({expert,handleLoad})=>{
           }).then(res=>{
             if(res.isConfirmed){
             const verifyex= document.getElementById("exVerify")
-                axios.get(`/admin/verifyExpert/${id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")} }).then(res=>{
+                adminAxiosInstance.get(`/verifyExpert/${id}`).then(res=>{
                     if(res.data.status==="success"){
                         handleLoad()
                         verifyex.checked=false
@@ -58,7 +58,7 @@ const Verification=({expert,handleLoad})=>{
           }).then(res=>{
             if(res.isConfirmed){
             const verifyex= document.getElementById("exVerify")
-                axios.get(`/admin/rejectExpert/${id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")} }).then(res=>{
+                adminAxiosInstance.get(`/rejectExpert/${id}`).then(res=>{
                     if(res.data.status==="success"){
                         handleLoad()
                         verifyex.checked=false

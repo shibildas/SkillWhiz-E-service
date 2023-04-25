@@ -1,4 +1,4 @@
-import axios from "./axios/axios";
+
 import UserLayout from "./Layout/UserLayout";
 import ErrorPage from "./Pages/Error/Error";
 import AdminLogin from "./Pages/Admin/AdminLogin";
@@ -16,5 +16,5 @@ import { expertlogin } from "./redux/expert";
 import { adminlogin } from "./redux/admin";
 
 
-export {adminlogin,expertlogin,login,axios,UserLayout, ErrorPage, AdminLogin, LoginExpert,AdminPrivate,
+export {adminlogin,expertlogin,login,UserLayout, ErrorPage, AdminLogin, LoginExpert,AdminPrivate,
     AdminPublic,ExpertPrivate,ExpertPublic, BrowserRouter, Routes, Route }

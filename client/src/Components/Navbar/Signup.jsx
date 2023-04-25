@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "../../axios/axios";
 import Swal from "sweetalert2";
 import UserOtp from "./UserOtp";
+import { userAxiosInstance } from "../../axios/instance";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ const Signup = () => {
     } else {
       if(password===cPassword){
 
-        axios
+        userAxiosInstance
         .post("/signup", {
           username: name,
           email: email,

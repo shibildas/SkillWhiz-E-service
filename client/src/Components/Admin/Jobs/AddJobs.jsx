@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "../../../axios/axios";
 import Swal from "sweetalert2";
+import { adminAxiosInstance } from "../../../axios/instance";
 const AddJobs = ({handleLoad ,load}) => {
   const [job, setJob] = useState("");
   const [bRate, setBRate] = useState("");
@@ -34,10 +34,9 @@ const AddJobs = ({handleLoad ,load}) => {
       formData.append("bRate", bRate);
       formData.append("adRate", adRate);
 
-      axios
-        .post("/admin/addjobs", formData, {
+      adminAxiosInstance
+        .post("/addjobs", formData, {
           headers: {
-            "x-access-admintoken": localStorage.getItem("admintoken"),
             "Content-Type": "multipart/form-data",
           },
         })

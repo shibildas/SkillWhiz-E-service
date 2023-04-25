@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import AddJobs from "../../Components/Admin/Jobs/AddJobs";
-import axios from "../../axios/axios";
 import Swal from "sweetalert2";
 import EditJobs from "../../Components/Admin/Jobs/EditJobs";
+import { adminAxiosInstance } from "../../axios/instance";
 
 const Jobs = () => {
   const arra=[0,1,2,3,4]
@@ -15,10 +15,8 @@ const Jobs = () => {
   }
 
   useEffect(() => {
-    axios
-      .get("/admin/getJobs", {
-        headers: { "x-access-admintoken": localStorage.getItem("admintoken") },
-      })
+    adminAxiosInstance
+      .get("/getJobs")
       .then((res) => {
         if (res.data.status === "success") {
           setData(res.data.result);
@@ -45,7 +43,7 @@ const Jobs = () => {
       }).then((res)=>{
         if(res.isConfirmed){
           if(args.listed){
-            axios.get(`/admin/unListJob/${args._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")} }).then(res=>{
+            adminAxiosInstance.get(`/unListJob/${args._id}`).then(res=>{
                 if(res.data.status==="success"){
                     handleLoad()
                     Swal.fire(
@@ -57,7 +55,7 @@ const Jobs = () => {
             })
 
           }else if(!args.listed){
-            axios.get(`/admin/listJob/${args._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")} }).then(res=>{
+            adminAxiosInstance.get(`/listJob/${args._id}`).then(res=>{
                 if(res.data.status==="success"){
                     handleLoad()
                     Swal.fire(

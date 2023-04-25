@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { adminlogout } from "../../../redux/admin";
 const NavbarAdmin = () => {
     const navigate=useNavigate()

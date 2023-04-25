@@ -1,9 +1,9 @@
 import {  useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
-import axios from "../../axios/axios"
 import {adminlogin, adminlogout} from "../../redux/admin"
+import { adminAxiosInstance } from "../../axios/instance"
 
 
 
@@ -24,10 +24,8 @@ const AdminLogin=()=>{
         if(email==="" || password===""){
             Swal.fire("sorry","Credentials can't be empty","error")
         }else{
-            axios.post('/admin',{email,password}).then((resp)=>{
-                console.log("admin");
+            adminAxiosInstance.post('/',{email,password}).then((resp)=>{
                 if(!resp.data.auth){
-
                     Swal.fire(resp?.data?.message)
                 }else{
                     dispatch(adminlogin(resp.data))

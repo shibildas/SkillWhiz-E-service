@@ -2,12 +2,13 @@ import { useState } from "react";
 import Verification from "../../Components/Admin/Verification/Verification";
 import useGerExperts from "../../Services/useGetExperts";
 import EditExpert from "../../Components/Admin/EditExpert/EditExpert";
-import { Swal, axios } from "../../Components/ExpertOTP/import";
+import { Swal } from "../../Components/ExpertOTP/import";
 import AddSlots from "../../Components/Admin/AddSlots/AddSlots";
+import { adminAxiosInstance } from "../../axios/instance";
 
 const ExpertList = () => {
-  const [expert, setExpert] = useState();
-  const [datas, handleLoad] = useGerExperts();
+  const [expert, setExpert] = useState({});
+  const [datas, handleLoad] = useGerExperts([]);
   const arra = [0, 1, 2, 3, 4];
   const handleBlock = (data) => {
     setExpert(data);
@@ -22,12 +23,8 @@ const ExpertList = () => {
     }).then((res) => {
       if (res.isConfirmed) {
         if (expert?.isBanned) {
-          axios
-            .get(`/admin/unBlockExpert/${expert._id}`, {
-              headers: {
-                "x-access-admintoken": localStorage.getItem("admintoken"),
-              },
-            })
+          adminAxiosInstance
+            .get(`/unBlockExpert/${expert._id}`)
             .then((res) => {
               if (res.data.status === "success") {
                 handleLoad();
@@ -36,12 +33,8 @@ const ExpertList = () => {
               }
             });
         } else if (!expert.isBanned) {
-          axios
-            .get(`/admin/blockExpert/${expert._id}`, {
-              headers: {
-                "x-access-admintoken": localStorage.getItem("admintoken"),
-              },
-            })
+          adminAxiosInstance
+            .get(`/blockExpert/${expert._id}`)
             .then((res) => {
               if (res.data.status === "success") {
                 handleLoad();

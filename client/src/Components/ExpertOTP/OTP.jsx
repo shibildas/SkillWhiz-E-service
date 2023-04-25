@@ -1,4 +1,5 @@
-import { useState, Swal, axios } from "./import";
+import { expertAxiosInstance } from "../../axios/instance";
+import { useState, Swal } from "./import";
 
 const OTP = ({ mobile }) => {
   const [otp, setOtp] = useState("");
@@ -12,8 +13,8 @@ const OTP = ({ mobile }) => {
     if (otp.length < 6 || otp === "") {
       Swal.fire("Sorry", "Invalid Entry", "error");
     } else {
-      axios
-        .post("/expert/verify-otp", { otp: otp, mobile: mobile })
+      expertAxiosInstance
+        .post("/verify-otp", { otp: otp, mobile: mobile })
         .then((response) => {
           console.log("verified: " + response.data);
           if (response.data.status == "success") {

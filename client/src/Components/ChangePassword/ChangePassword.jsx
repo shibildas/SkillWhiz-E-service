@@ -1,6 +1,6 @@
 import { useState } from "react"
 import Swal from "sweetalert2"
-import { axios, useNavigate } from "../ExpertOTP/import"
+import { useNavigate } from "../ExpertOTP/import"
 import { useDispatch } from "react-redux"
 import { logout } from "../../redux/user"
 import { userAxiosInstance } from "../../axios/instance"

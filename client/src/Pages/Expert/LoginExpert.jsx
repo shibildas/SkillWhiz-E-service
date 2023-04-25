@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux";
-import { useState,useNavigate,Swal,axios,OTP} from "../../Components/ExpertOTP/import";
+import { useState,useNavigate,Swal,OTP} from "../../Components/ExpertOTP/import";
 import { expertlogin } from "../../import";
 import { useEffect } from "react";
+import { expertAxiosInstance } from "../../axios/instance";
 
 const LoginExpert = () => {
     const [show,setShow]=useState(true)
@@ -36,7 +37,7 @@ const LoginExpert = () => {
 
           if(password===cPassword){
 
-            axios.post('/expert/signup',{
+            expertAxiosInstance.post('/signup',{
               username:name,
               email:email,
               password:password,
@@ -62,7 +63,7 @@ const LoginExpert = () => {
       if(mobile==="" || password===""){
         Swal.fire("sorry","All fields are required!!","error")
       }else{
-        axios.post('/expert/signin',{
+        expertAxiosInstance.post('/signin',{
           mobile:mobile,
           password:password
         }).then((response)=>{

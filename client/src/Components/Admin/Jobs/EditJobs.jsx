@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import axios from "../../../axios/axios"
 import Swal from "sweetalert2"
+import { adminAxiosInstance } from "../../../axios/instance"
 
 
 const EditJobs=({job,handleLoad})=>{
@@ -50,7 +50,7 @@ const EditJobs=({job,handleLoad})=>{
               formData.append("bRate",bRate)
               formData.append("adRate",adRate)
 
-              axios.post("admin/editJob",formData,{headers:{ "x-access-admintoken": localStorage.getItem("admintoken"),
+              adminAxiosInstance.post("/editJob",formData,{headers:{
                     "Content-Type": "multipart/form-data"
               }}).then(res=>{
                 const editJob=document.getElementById("editJobs")

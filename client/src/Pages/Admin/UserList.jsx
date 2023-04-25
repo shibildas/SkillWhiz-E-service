@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import {axios} from "../../import"
 import Swal from "sweetalert2";
 import EditUser from "../../Components/Admin/EditUser/EditUser";
+import { adminAxiosInstance } from "../../axios/instance";
 
 const UserList = () => {
   const arra=[0,1,2,3,4]
@@ -15,7 +15,7 @@ const UserList = () => {
     
 
     useEffect(() => {
-        axios.get("/admin/getUsers",{headers:{"x-access-admintoken":localStorage.getItem("admintoken")}}).then((res)=>{
+        adminAxiosInstance.get("/getUsers").then((res)=>{
             if(res.data.status==="success"){
                 setDatas(res.data.result)
             }else{
@@ -41,7 +41,7 @@ const UserList = () => {
           const editUser= document.getElementById("editUser")
           
           if(ele.isBanned){
-            axios.get(`/admin/unBlockUser/${ele._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
+            adminAxiosInstance.get(`/unBlockUser/${ele._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
               if(res.data.status==="success"){
                 handleLoad()
                 editUser.checked=false
@@ -54,7 +54,7 @@ const UserList = () => {
               }
             })
           }else if(!ele.isBanned){
-            axios.get(`/admin/blockUser/${ele._id}`,{headers:{"x-access-admintoken": localStorage.getItem("admintoken")}}).then((res)=>{
+            adminAxiosInstance.get(`/blockUser/${ele._id}`).then((res)=>{
               if(res.data.status==="success"){
                 handleLoad()
                 editUser.checked=false

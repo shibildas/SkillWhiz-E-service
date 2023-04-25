@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
-import axios from "../axios/axios";
 import Swal from "sweetalert2";
+import { adminAxiosInstance } from "../axios/instance";
 
 const useGerExperts = () => {
   const[load,setLoad]=useState(false)
@@ -10,10 +10,8 @@ const useGerExperts = () => {
   }
 
   const fetchExperts = useCallback(() => {
-    axios
-      .get("/admin/getExperts", {
-        headers: { "x-access-admintoken": localStorage.getItem("admintoken") },
-      })
+    adminAxiosInstance
+      .get("/getExperts")
       .then((res) => {
         if (res.data.status === "success") {
           setData(res.data.result);
