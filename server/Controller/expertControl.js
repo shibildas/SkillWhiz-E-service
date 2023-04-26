@@ -106,8 +106,9 @@ module.exports.isExpertAuth = async (req, res) => {
         "email":expertDetails.email,
         "auth":true,
         "verified":true,
+        "identity":expertDetails.identity?.reason,
         "image":expertDetails.image||null,
-        "isVerified":expertDetails.isVerified
+        "isVerified":expertDetails.isVerified,
       })
     }else{
       res.json({
@@ -117,7 +118,8 @@ module.exports.isExpertAuth = async (req, res) => {
         "auth":true,
         "verified":false,
         "image":expertDetails.image||null,
-        "isVerified":expertDetails.isVerified
+        "isVerified":expertDetails.isVerified,
+        "identity":expertDetails.identity?.reason,
       })
 
     }

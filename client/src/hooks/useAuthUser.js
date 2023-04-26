@@ -3,10 +3,8 @@ import { useDispatch } from "react-redux";
 import { login } from "../import";
 import { logout } from "../redux/user";
 import { userAxiosInstance } from "../axios/instance";
-import { useNavigate } from "react-router-dom";
 
 function useAuthUser(){
-    const navigate=useNavigate()
     const dispatch = useDispatch();
     
     useEffect(() => {
@@ -15,10 +13,10 @@ function useAuthUser(){
           .then((response) => {
             if (!response.data.auth) {
               dispatch(logout())
+              localStorage.clear("token")
               modal.checked=true
             } else {
               dispatch(login(response.data));
-              navigate('/')
               modal.checked=false
 
             }

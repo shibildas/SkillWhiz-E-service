@@ -34,7 +34,9 @@ const expertSchema = new mongoose.Schema({
     front:String,
     back:String,
     status:{type:String,
-    default:"initial"}
+    default:"initial"},
+    reason:String
+
   },
   rating:{type:Array},
   isBanned:{type:Boolean, default:true},

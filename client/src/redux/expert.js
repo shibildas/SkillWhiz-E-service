@@ -3,7 +3,8 @@ import { createSlice} from '@reduxjs/toolkit';
 export const expertSlice = createSlice({
     name:"expertDetails",
     initialState:{value:{
-        isExpertAuth:false
+        isExpertAuth:false,
+        
     }},
     reducers:{
             expertlogin:(state, action)=>{

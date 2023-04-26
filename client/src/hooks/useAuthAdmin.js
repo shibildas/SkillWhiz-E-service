@@ -12,6 +12,7 @@ function useAuthAdmin(){
           .then((res) => {
             if (!res.data.auth) {
               dispatch(adminlogout());
+              localStorage.clear("admintoken")
             } else {
               dispatch(adminlogin(res.data));
             }

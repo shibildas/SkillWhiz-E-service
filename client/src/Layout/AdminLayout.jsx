@@ -1,12 +1,7 @@
 
-import { lazy,Suspense} from "react";
-import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import NavbarAdmin from "../Components/Admin/Navbar/NavbarAdmin";
 import Sidebar from "../Components/Admin/Navbar/Sidebar";
-import Dashboard from "../Pages/Admin/Dashboard";
-
-import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
-import ErrorPage from "../Pages/Error/Error";
 
 import { useSelector } from "react-redux";
 import useAuthAdmin from "../hooks/useAuthAdmin";

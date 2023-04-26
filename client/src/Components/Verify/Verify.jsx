@@ -93,6 +93,7 @@ if(file && allowed.includes(file.type)&& file.size<=maxSize){
             <span className="font-extrabold">
               Warning: Verify Your Profile{" "}
             </span>
+            {data?.identity!=""&&<span>, (Rejection Reason: {data?.identity})</span>}
           </div>
           <label
             htmlFor="verifyModal"

@@ -1,6 +1,7 @@
 import Swal from "sweetalert2"
 import { useEffect, useState } from "react"
 import { adminAxiosInstance } from "../../../axios/instance"
+import Reason from "./Reason"
 
 const Verification=({expert,handleLoad})=>{
     const [id,setId]=useState('')
@@ -99,13 +100,13 @@ const Verification=({expert,handleLoad})=>{
     <h1 className="p-3 font-bold">Status: {expert?.identity?.status}</h1>
     <h1 className="p-3">Name as per ID: <b> {expert?.identity?.name}</b></h1>
     <div className="p-3 flex justify-between">
-        <button onClick={handleReject} className="btn btn-error btn-outline">Reject</button>
+        <label htmlFor="reject" className="btn btn-error btn-outline">Reject</label>
         <button onClick={handleApprove} className="btn btn-success btn-outline">Approve</button>
 
     </div>
   </div>
 </div>
-
+<Reason id={id} handleLoad={handleLoad}/>
         </>
     )
 }

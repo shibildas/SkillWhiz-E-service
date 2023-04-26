@@ -1,11 +1,8 @@
 import { lazy, Suspense } from "react";
 const ExpertRouter = lazy(() => import("./Layout/ExpertLayout"));
 const AdminRouter = lazy(() => import("./Router/AdminRouter"));
-import { UserLayout, BrowserRouter, Routes, Route, ErrorPage  } from "./import";
+import { UserLayout, BrowserRouter, Routes, Route} from "./import";
 import ShimmerList from "./Components/Admin/Shimmer/ShimmerList";
-import AdminLayout from "./Layout/AdminLayout";
-
-
 
 
 function App() {
@@ -26,7 +23,6 @@ function App() {
               </Suspense>
           }
         />
-         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );

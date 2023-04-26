@@ -17,7 +17,7 @@ router.get('/unListJob/:id',Auth.adminProtect,adminControl.unListJob)
 router.get('/listJob/:id',Auth.adminProtect,adminControl.listJob)
 router.post('/editJob',Auth.adminProtect,mult.single("image"),adminControl.editJob)
 router.get('/verifyExpert/:id',Auth.adminProtect,adminControl.verifyExpert)
-router.get('/rejectExpert/:id',Auth.adminProtect,adminControl.rejectExpert)
+router.post('/rejectExpert/:id',Auth.adminProtect,adminControl.rejectExpert)
 
 router.post('/editExpert',Auth.adminProtect,mult.single('image'),adminControl.editExpert)
 router.get('/blockExpert/:id',Auth.adminProtect,adminControl.blockExpert)
