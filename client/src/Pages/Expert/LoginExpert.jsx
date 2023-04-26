@@ -16,7 +16,7 @@ const LoginExpert = () => {
   useEffect(() => {
     const token = localStorage.getItem("experttoken")
     if(token){
-      navigate("/expert")
+      navigate("/expert/home")
     }
   }, [])
   
@@ -47,7 +47,7 @@ const LoginExpert = () => {
               if(response.data.status === "success"){
                 const expertModal= document.getElementById("expert-otp")
                 expertModal.checked=true 
-                navigate('/expert')     
+                navigate('/expert/login')     
               }
               
             }).catch((error)=>{
@@ -74,7 +74,7 @@ const LoginExpert = () => {
             localStorage.setItem("experttoken",response.data.experttoken)
             dispatch(expertlogin(response.data.result))
             Swal.fire("success",response.data.message,"success")
-            navigate("/expert")
+            navigate("/expert/home")
           }
         })
       }

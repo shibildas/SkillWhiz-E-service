@@ -14,7 +14,7 @@ const Invite = ({show}) => {
             <h1 className="xl:text-5xl md:text-3xl font-extrabold">
               ARE YOU A SERVICE EXPERT ?
             </h1>
-            <button onClick={()=>navigate("/expertlogin")} className="bg-black p-2 rounded-xl font-bold hover:bg-yellow-400 hover:text-black text-yellow-400">
+            <button onClick={()=>navigate("/expert/login")} className="bg-black p-2 rounded-xl font-bold hover:bg-yellow-400 hover:text-black text-yellow-400">
               REGISTER AS A PARTNER{" "}
             </button>
           </div>

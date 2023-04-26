@@ -1,5 +1,5 @@
 import useAuthExpert from "../hooks/useAuthExpert";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import ExpertHome from "../Pages/Expert/ExpertHome";
 import ExpertNav from "../Components/ExpertNav/ExpertNav";
 import Footer from "../Components/Footer/Footer";
@@ -8,29 +8,36 @@ import Verify from "../Components/Verify/Verify";
 import { useSelector } from "react-redux";
 import { Suspense, lazy } from "react";
 import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
+import { LoginExpert } from "../import";
 const ExpertProfile = lazy(() => import("../Pages/Expert/ExpertProfile"));
 const Schedules = lazy(() => import("../Pages/Expert/Schedules"));
 const MyAppointments= lazy(()=> import("../Pages/Expert/MyAppointments") );
 const AppointmentDetail= lazy(()=> import("../Pages/Expert/AppointmentDetail") );
 
 const ExpertLayout = () => {
-  useAuthExpert();
   const isExpertAuth = useSelector((state) => state.expert.value.isExpertAuth);
-  const isVerified = useSelector((state) => state.expert.value.verified);
+  
+  useAuthExpert()
   return (
     <>
-      <ExpertNav />
+
+     <ExpertNav />
       <Verify />
       <div
-        className="max-w-screen-lg mx-auto bg-cover"
-        // style={{
-        //   backgroundImage:
-        //     "url(https://res.cloudinary.com/dpfnxwvps/image/upload/v1681639490/pxfuel_fjsdag.avif)",
-        // }}
-      >
-        {isExpertAuth && (
-          <Routes>
-            <Route path="/" element={<ExpertHome />} />
+        className="max-w-screen-lg mx-auto bg-cover">
+          {isExpertAuth ? <Outlet/>: <Navigate to="/expert/login"/>}
+      </div>
+      <Footer />
+    </>
+  );
+};
+function ExpertRouter() {
+  const isVerified = useSelector((state) => state.expert.value.verified);
+  return (
+   <Routes>
+    <Route path='/login' element={<LoginExpert/>}/>
+     <Route element={<ExpertLayout/>}>
+    <Route path="/home" element={<ExpertHome />}/>
             <Route
               path="/profile"
               element={
@@ -65,11 +72,11 @@ const ExpertLayout = () => {
             />}
 
             <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        )}
-      </div>
-      <Footer />
-    </>
-  );
-};
-export default ExpertLayout;
+      </Route>
+
+    
+   </Routes>
+  )
+}
+
+export default ExpertRouter
