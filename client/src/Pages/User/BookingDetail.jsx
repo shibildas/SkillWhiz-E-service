@@ -5,6 +5,7 @@ import Chat from "../../Components/Chat/Chat"
 import { userAxiosInstance } from "../../axios/instance"
 
 import { useSelector } from "react-redux"
+import Estimate from "../../Components/Estimate/Estimate"
 
 const BookingDetail=()=>{
 
@@ -13,11 +14,21 @@ const BookingDetail=()=>{
  
     const {id}=useParams()
     const [booking,setBooking]=useState({})
+    const [load,setLoad]=useState(false)
+    const [estimate,setEstimate]=useState({})
     const [user,setUser]=useState({})
+    const [job,setJob]=useState({})
     const [other,setOther]=useState({})
+    const [address,setAddress]=useState({})
+    const handleLoad=()=>{
+        setLoad(!load)
+    }
     useEffect(()=>{
         setUser(booking?.userId)
         setOther(booking?.expertId)
+        setAddress(booking?.address)
+        setEstimate(booking?.estimate)
+        setJob(booking?.jobId)
 
     },[booking])
   
@@ -33,7 +44,7 @@ const BookingDetail=()=>{
         }).catch(error=>{
             Swal.fire("error",error.message,"error")
         })
-    },[])  
+    },[load])  
 
     return(
         <>
@@ -45,7 +56,7 @@ const BookingDetail=()=>{
         <ul className="steps md:text-2xl text-sm  font-bold">
   <li data-content="📬" className="step step-secondary ">Open</li>
   <li data-content="⛹" className="step step-secondary">Partner Assigned</li>
-  <li data-content="⏲" className="step">In Progress</li>
+  <li data-content="⏲" className={`step ${estimate?.status==="approved" && "step-secondary"}`}>In Progress</li>
   <li data-content="✔" className="step">Completed</li>
   <li data-content="🗐" className="step">invoiced</li>
   <li data-content="📪" className="step">Closed</li>
@@ -66,14 +77,15 @@ const BookingDetail=()=>{
 <div className="divider "></div>
 <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Partner Assigned: </h1> <h1>{booking?.expertId?.username?.toUpperCase()}<br/> Ph: +91- {booking?.expertId?.mobile}</h1></div>
 <div className="divider "></div>
-<div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1>Rs: {booking?.estimate ? booking?.estimate :"0"}</h1></div>
+<div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1> {booking?.estimate?.amount ? <label  htmlFor={`${estimate?.status!=="approved" &&"estimate"}`} className={`  ${estimate?.status!=="approved" && "tooltip btn btn-sm btn-success"} font-extrabold text-xl`} data-tip="View Estimate">Rs : {booking?.estimate?.amount}</label> :"Estimation Pending"}{estimate?.status!=="approved" && <span className="indicator-item badge badge-primary">view</span>} </h1></div>
 <div className="divider "></div>
 
     </div>
 </div>
         <div className="flex justify-center bg-slate-100 bg-opacity-60">
-        <Chat room={id} username={username} user={user} other={other}/>
+        {/* <Chat room={id} username={username} user={user} other={other}/> */}
         </div>
+        <Estimate address={address} user={user} estimate={estimate} job={job} id={id} handleLoad={handleLoad}/>
         </>
     )
 }

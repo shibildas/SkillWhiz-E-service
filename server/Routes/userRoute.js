@@ -20,6 +20,7 @@ router.get('/address',auth.userProtect,userControl.getAddress)
 router.post('/bookJob',auth.userProtect,userControl.bookJob)
 router.get(`/booking/:id`, auth.userProtect,userControl.bookings)
 router.get("/myBookings",auth.userProtect,userControl.myBookings)
+router.get('/approveEstimate/:id',auth.userProtect,userControl.approveEstimate)
 
 
 module.exports = router

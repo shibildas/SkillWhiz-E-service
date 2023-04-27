@@ -338,8 +338,10 @@ module.exports.bookJob=async(req,res)=>{
 module.exports.bookings=async(req,res)=>{
   try {
     const id=req.params.id
-    const booking= await bookingmodel.findOne({_id:id}).populate('userId')
-    .populate('expertId').populate('jobId')
+    const booking= await bookingmodel.findOne({_id:id}).populate('userId', '-password')
+    .populate('expertId', '-password')
+    .populate('jobId')
+    .select('-userId.password -expertId.password')
     res.json({"status":"success",result:booking})
   } catch (error) {
     res.json({ status: "error", message: error.message });
@@ -351,9 +353,30 @@ module.exports.myBookings=async(req,res)=>{
   try {
     const id=req.userId
     const bookings= await bookingmodel.find({userId:id}).populate('jobId')
-    res.json({"status":"success",result:bookings})
+    if (bookings){
+      res.json({"status":"success",result:bookings})
+
+    }else{
+
+      res.json({ status: "error", message: "No Result" });
+    }
   } catch (error) {
     res.json({ status: "error", message: error.message });
     
+  }
+}
+module.exports.approveEstimate=async(req,res)=>{
+  try {
+    const id=req.params.id
+    const booking= await bookingmodel.findOneAndUpdate({_id:id},{$set:{'estimate.status':"approved"}})
+    if(booking){
+      res.json({"status":"success",result:booking})
+    }else{
+
+      res.json({ status: "error", message: "No Result" });
+    }
+  } catch (error) {
+    
+    res.json({ status: "error", message: error.message });
   }
 }

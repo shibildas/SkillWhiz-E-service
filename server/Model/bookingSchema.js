@@ -14,7 +14,8 @@ const bookingSchema= new mongoose.Schema({
     estimate:{
         hours:{type:Number, default:2},
         parts:[{pName:{type:String},price:{type:Number}}],
-        amount:{type:Number}
+        amount:{type:Number},
+        status:{type:String,default:"pending"}
     },
     payment:{
         payment_method:{type:String},

@@ -13,7 +13,7 @@ function useAuthUser(){
           .then((response) => {
             if (!response.data.auth) {
               dispatch(logout())
-              localStorage.clear("token")
+              // localStorage.clear("token")
               modal.checked=true
             } else {
               dispatch(login(response.data));
