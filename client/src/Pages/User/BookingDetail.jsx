@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import { Swal } from "../../Components/ExpertOTP/import"
 import Chat from "../../Components/Chat/Chat"
 import { userAxiosInstance } from "../../axios/instance"
-import useAuthUser from "../../hooks/useAuthUser"
+
 import { useSelector } from "react-redux"
 
 const BookingDetail=()=>{

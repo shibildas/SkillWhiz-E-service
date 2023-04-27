@@ -4,16 +4,23 @@ import { Swal } from "../../Components/ExpertOTP/import"
 import Chat from "../../Components/Chat/Chat"
 import { expertAxiosInstance } from "../../axios/instance"
 import { useSelector } from "react-redux"
+import AddEstimate from "../../Components/Estimate/AddEstimate"
 
 const AppointmentDetail=()=>{
     const username= useSelector(state=>state.expert.value._id)
     const {id}=useParams()
     const [booking,setBooking]=useState({})
+    const [job,setJob]=useState({})
     const [user,setUser]=useState({})
     const [other,setOther]=useState({})
+    const [load,setLoad]=useState(false)
+    const handleLoad=()=>{
+        setLoad(!load)
+    }
     useEffect(()=>{
         setUser(booking?.expertId)
         setOther(booking?.userId)
+        setJob(booking?.jobId)
 
     },[booking])
 
@@ -31,7 +38,7 @@ const AppointmentDetail=()=>{
         }).catch(error=>{
             Swal.fire("error",error.message,"error")
         })
-    },[])
+    },[load])
    
     
 
@@ -66,13 +73,14 @@ const AppointmentDetail=()=>{
 <div className="divider "></div>
 {/* <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Partner Assigned: </h1> <h1>{booking?.expertId?.username?.toUpperCase()}<br/> Ph: +91- {booking?.expertId?.mobile}</h1></div> */}
 {/* <div className="divider "></div> */}
-<div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1>Rs: {booking?.estimate ? booking?.estimate :"0"}</h1></div>
+<div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1> {booking?.estimate?.amount ? `Rs: ${booking?.estimate?.amount}` :<label htmlFor="addEstimate" className="btn btn-secondary">Add Estimate </label>}</h1></div>
 <div className="divider "></div>
 
     </div>
 </div>
         <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5 h-screen">
         <Chat room={id} username={username} user={user} other={other}/>
+        <AddEstimate bookId={id} jobId={job} handleLoad={handleLoad}/>
         </div>
         </>
     )

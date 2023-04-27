@@ -360,11 +360,28 @@ module.exports.getAppointments=async(req,res)=>{
 module.exports.getBookings=async(req,res)=>{
   try {
     const id=req.params.id
-    const booking= await bookingmodel.findOne({_id:id}).populate('userId')
-    .populate('expertId').populate('jobId')
+    const booking= await bookingmodel.findOne({_id:id}).populate('userId', '-password')
+    .populate('expertId', '-password')
+    .populate('jobId')
+    .select('-userId.password -expertId.password')
     res.json({"status":"success",result:booking})
   } catch (error) {
     res.json({ status: "error", message: error.message });
     
+  }
+}
+
+module.exports.sendEstimate=async(req,res)=>{
+  try {
+    const {bookId,hours,parts,amount}=req.body
+    const booking= await bookingmodel.findOneAndUpdate({_id:bookId},{$set:{estimate:{hours:hours,parts:[...parts],amount:amount}}})
+    if(booking){
+      res.json({"status":"success",result:booking})
+    }else{
+
+      res.json({ status: "error", message: "error.message" }) 
+    }
+  } catch (error) {
+    res.json({ status: "error", message: error.message }) 
   }
 }

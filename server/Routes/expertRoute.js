@@ -23,6 +23,7 @@ router.post("/addSchedule",Auth.expertProtect,expertControl.addSchedule)
 router.get('/getSchedule',Auth.expertProtect,expertControl.getSchedule)
 router.get('/myBookings',Auth.expertProtect,expertControl.getAppointments)
 router.get('/booking/:id',Auth.expertProtect,expertControl.getBookings)
+router.post('/sendEstimate',Auth.expertProtect,expertControl.sendEstimate)
 
 
 module.exports = router

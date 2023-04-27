@@ -5,11 +5,10 @@ const Chat = ({room,username,user,other}) => {
   
 
   const messagesColumnRef = useRef(null);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
   
-  const [messageRecieved, setMessageRecieved] = useState("");
-
+  const [messageRecieved, setMessageRecieved] = useState([]);
 
   const joinRoom = () => {
     if (room !== '' && username !== ''){
@@ -41,14 +40,14 @@ const Chat = ({room,username,user,other}) => {
       (a, b) => parseInt(a.__createdtime__) - parseInt(b.__createdtime__)
     );
   }
-  useEffect(() => {
-    messagesColumnRef.current.scrollTop =
-      messagesColumnRef.current.scrollHeight;
-  }, [messageRecieved]);
-  function formatDateFromTimestamp(timestamp) {
-    const date = new Date(timestamp);
-    return date.toLocaleString();
-  }
+  // useEffect(() => {
+  //   messagesColumnRef.current.scrollTop =
+  //     messagesColumnRef.current.scrollHeight;
+  // }, [messageRecieved]);
+  // function formatDateFromTimestamp(timestamp) {
+  //   const date = new Date(timestamp);
+  //   return date.toLocaleString();
+  // }
   const handleShow = () => {
     setShow(!show);
   };
@@ -91,15 +90,15 @@ const Chat = ({room,username,user,other}) => {
     <div key={i} className={`chat ${mes?.sender === user?._id ? 'chat-end':'chat-start'}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img src={`${mes.sender===user?._id}`? user?.image: other?.image} alt="avatar" />
+          <img src={`${mes?.sender !== user?._id}`? user?.image: other?.image} alt="avatar" />
         </div>
       </div>
       <div className="chat-header font-bold">
-      {`${mes?.sender===user?._id}`? (user?.name || user?.username):(other?.name ||other.username)}
+      {`${mes?.sender===user?._id}`? user?.username:other?.username}
         <time className="text-xs opacity-50">{mes.time}</time>
       </div>
       <div className="chat-bubble">{mes.message}</div>
-      {mes?.sender  && <div className="chat-footer opacity-50">Seen at {mes.time}</div>}
+      {mes?.sender  && <div className="chat-footer opacity-50">Seen at {mes?.time}</div>}
     </div>
   );
 })}

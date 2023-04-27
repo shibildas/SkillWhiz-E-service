@@ -56,9 +56,7 @@ server.use("/expert",expertRoute)
 //     console.log(`Server Listening at : http://127.0.0.1:${port}`);
 // })
 
-httpServer.listen(port, () => {
-    console.log(`Server listening at http://127.0.0.1:${port}`)
-  })
+
   let chatRoom=''
   let allUsers=[]
   const CHAT_BOT = 'ChatBot'
@@ -68,16 +66,16 @@ httpServer.listen(port, () => {
       console.log(username);
       let __createdtime__ = Date.now()
        createMessage(username, room, message, __createdtime__ ).then((res)=>{
-            console.log(res);
+            // console.log(res);
           }).catch(err=>console.log(err.message)) 
-        socket.emit('receive_message', {
-          message: `Welcome`,
-          username: CHAT_BOT,
-          __createdtime__,
-        });
-        socket.on('receive_message', (data) => {
-          console.log(data); // Do something with the data (e.g. display it on the frontend)
-        });
+          socket.on('receive_message', (data) => {
+            console.log(data); // Do something with the data (e.g. display it on the frontend)
+          socket.emit('receive_message',data)
+        
+      });
+      getMessages(room).then(last_100=>{
+        socket.emit('last_100_messages',last_100)
+      }).catch(err=>console.log(err))
 
         // chatRoom=room
         // allUsers.push({id:socket.id,username,room})
@@ -85,9 +83,6 @@ httpServer.listen(port, () => {
         // socket.to(room).emit('chatroom_users',chatRoomUsers)
         // socket.emit('chatroom_users',chatRoomUsers)
 
-        getMessages(room).then(last_100=>{
-          socket.emit('last_100_messages',last_100)
-        }).catch(err=>console.log(err))
 
 
         socket.on('disconnect', async () => {
@@ -117,5 +112,19 @@ httpServer.listen(port, () => {
       
 
   })
+
+  // io.on('connection', (socket)=>{
+  //   console.log(("socket is: ", socket));
+
+  //   socket.on("send_message", (payload)=>{
+  //     console.log("payLoad is: " ,payload);
+  //     io.emit("send_message",payload)
+  //   })
+
+  // })
+
+ httpServer.listen(port, () => {
+    console.log(`Server listening at http://127.0.0.1:${port}`)
+  })  
 
 module.exports = server
