@@ -25,10 +25,10 @@ const Schedules = () => {
   const getTimeSlots = () => {
     const timeSlots = [];
     if (selectedDate) {
-      for (let i = 10; i < 20; i += 2) {
+      for (let i = 10; i < 20; i += 5) {
         const startTime = moment(selectedDate).hour(i).minute(0);
         const endTime = moment(selectedDate)
-          .hour(i + 1)
+          .hour(i + 4)
           .minute(59);
         timeSlots.push({ startTime, endTime });
       }
@@ -86,7 +86,7 @@ const Schedules = () => {
   return (
     <>
       <div className="w-full h-full my-3">
-        <div className="bg-blue-100 rounded-xl p-5 h-[75vh]">
+        <div className="bg-blue-100 rounded-xl p-5 md:h-[75vh]">
          
           <h1 className="text-2xl font-extrabold text-center py-5">
             Fix Schedules
@@ -118,7 +118,7 @@ const Schedules = () => {
           </div>
           {selectedDate && (
             <>
-              <div className="flex flex-wrap justify-center mt-4">
+              <div className="flex flex-wrap justify-evenly mt-4">
                 {getTimeSlots().map(({ startTime, endTime }) => (
                   <button
                     key={`${startTime.format("hh:mm A")}-${endTime.format(
@@ -138,7 +138,7 @@ const Schedules = () => {
                       bookedslot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))
                         ? "bg-green-400 cursor-not-allowed text-black" :"bg-indigo-300"
                         
-                    } font-bold py-2 px-4 rounded-xl m-2 `}
+                    } font-bold py-2 px-4 rounded-xl m-2  h-40 `}
                     onClick={() =>
                       handleTimeSlotSelect(
                         startTime.format("MMMM Do YYYY, h:mm:ss a")

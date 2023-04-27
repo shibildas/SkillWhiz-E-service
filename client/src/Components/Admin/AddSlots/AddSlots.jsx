@@ -21,10 +21,10 @@ const AddSlots = ({ expert, handleLoad }) => {
   const getTimeSlots = () => {
     const timeSlots = [];
     if (selectedDate) {
-      for (let i = 10; i < 20; i += 2) {
+      for (let i = 10; i < 20; i += 5) {
         const startTime = moment(selectedDate).hour(i).minute(0);
         const endTime = moment(selectedDate)
-          .hour(i + 1)
+          .hour(i + 4)
           .minute(59);
         timeSlots.push({ startTime, endTime });
       }

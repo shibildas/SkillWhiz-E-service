@@ -33,10 +33,10 @@ const ScheduleJob=()=>{
   const getTimeSlots = () => {
     const timeSlots = [];
     if (selectedDate) {
-      for (let i = 10; i < 20; i += 2) {
+      for (let i = 10; i < 20; i += 5) {
         const startTime = moment(selectedDate).hour(i).minute(0);
         const endTime = moment(selectedDate)
-          .hour(i + 1)
+          .hour(i + 4)
           .minute(59);
         timeSlots.push({ startTime, endTime });
       }
@@ -46,7 +46,7 @@ const ScheduleJob=()=>{
 
     const {id}= useParams()
     useEffect(()=>{
-        userAxiosInstance.get(`/getSlots/${id}`,{headers:{"x-access-token":localStorage.getItem("token")}}).then(res=>{
+        userAxiosInstance.get(`/getSlots/${id}`).then(res=>{
             if(res.data.status==="success"){
                 setSlot(res.data.result)
                 setJob(res.data.job)
@@ -62,7 +62,7 @@ const ScheduleJob=()=>{
     return(
         <>
 
-        <div className="bg-blue-100 rounded-xl p-5 h-[75vh] my-6">
+        <div className="bg-blue-100 rounded-xl p-5 md:h-[75vh] my-6">
           <h1 className=" text-3xl border-2 p-2 border-gray-500 rounded-xl font-extrabold">{job?.job_role?.toUpperCase()}</h1>
             <h1 className="text-2xl font-extrabold text-center py-5">
               Book Appointment
@@ -96,7 +96,7 @@ const ScheduleJob=()=>{
             </div>
             {selectedDate && (
               <>
-                <div className="flex flex-wrap justify-center mt-4">
+                <div className="flex flex-wrap justify-evenly mt-4">
                   {getTimeSlots().map(({ startTime, endTime }) => (
                     (slot.includes(
                           startTime.format("MMMM Do YYYY, h:mm:ss a")
@@ -112,7 +112,7 @@ const ScheduleJob=()=>{
                           : "bg-indigo-300 text-black"
                       } 
                         
-                          font-bold py-2 px-4 rounded-xl m-2`}
+                          font-bold py-2 px-4 rounded-xl m-2 h-40`}
                       onClick={() =>
                         handleTimeSlotSelect(
                           startTime.format("MMMM Do YYYY, h:mm:ss a")
