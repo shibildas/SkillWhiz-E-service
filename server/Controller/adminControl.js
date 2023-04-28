@@ -45,6 +45,7 @@ module.exports.isAdminAuth = async (req, res) => {
     res.json({"auth":true,"result":admindetails, "status": "success", "message": "signin success" })
     } catch (error) {
         console.log(error)
+        res.json({"auth":false,"message":error.message})
     }
     
 

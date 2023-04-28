@@ -1,15 +1,16 @@
 import { lazy, Suspense } from "react";
-const ExpertRouter = lazy(() => import("./Layout/ExpertLayout"));
+const ExpertRouter = lazy(() => import("./Router/ExpertRouter"));
 const AdminRouter = lazy(() => import("./Router/AdminRouter"));
-import { UserLayout, BrowserRouter, Routes, Route} from "./import";
+import { BrowserRouter, Routes, Route} from "./import";
 import ShimmerList from "./Components/Admin/Shimmer/ShimmerList";
+import UserRouter from "./Router/UserRouter";
 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/*" element={<UserLayout />} />
+        <Route exact path="/*" element={<UserRouter />} />
         <Route exact path="/expert/*"
           element={
               <Suspense fallback={<ShimmerList />}>

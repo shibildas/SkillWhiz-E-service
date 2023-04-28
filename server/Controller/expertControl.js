@@ -125,6 +125,7 @@ module.exports.isExpertAuth = async (req, res) => {
     }
   } catch (error) {
       console.log(error);
+      res.json({'auth':false,message:error.message})
   }
   
 

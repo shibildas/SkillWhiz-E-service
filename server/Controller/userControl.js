@@ -106,15 +106,15 @@ module.exports.isUserAuth = async (req, res) => {
     userDetails.auth = true;
 
     res.json({
+      "auth": true,
       _id:userDetails._id,
       mobile: userDetails.mobile,
       username: userDetails.username,
       email: userDetails.email,
-      auth: true,
       image: userDetails.image || null,
     });
   } catch (error) {
-    res.json({ status: "error", message: error.message });
+    res.json({auth:false, status: "error", message: error.message });
   }
 };
 module.exports.get7Jobs = async (req, res) => {

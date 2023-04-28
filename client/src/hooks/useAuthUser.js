@@ -2,15 +2,13 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../import";
 import { logout } from "../redux/user";
-import { userAxiosInstance } from "../axios/instance";
+import { authUser } from "../Services/userApi";
 
 function useAuthUser(){
     const dispatch = useDispatch();
-    
     useEffect(() => {
       const modal=document.getElementById("my-modal-3")
-      userAxiosInstance.get("/isUserAuth")
-          .then((response) => {
+      authUser().then((response) => {
             if (!response.data.auth) {
               dispatch(logout())
               // localStorage.clear("token")

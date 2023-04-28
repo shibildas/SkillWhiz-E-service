@@ -4,6 +4,7 @@ import { AdminLogin, ErrorPage } from "../import";
 import AdminLayout from "../Layout/AdminLayout";
 import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
 import Dashboard from "../Pages/Admin/Dashboard";
+import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 const ExpertList = lazy(() => import("../Pages/Admin/ExpertList"));
 const UserList = lazy(() => import("../Pages/Admin/UserList"));
 const Jobs = lazy(() => import("../Pages/Admin/Jobs"));
@@ -12,6 +13,7 @@ function AdminRouter() {
     <>
       <Routes>
         <Route path="/login" element={<AdminLogin />} />
+        <Route element={<PrivateRoutes role={"admin"} route={'/admin/login'}/>}>
         <Route element={<AdminLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route
@@ -39,6 +41,7 @@ function AdminRouter() {
             }
           />
           <Route path="*" element={<ErrorPage />} />
+        </Route>
         </Route>
       </Routes>
     </>

@@ -8,8 +8,8 @@ const NavbarAdmin = () => {
 
 
     const handleLogout=()=>{
+      dispatch(adminlogout())
         localStorage.removeItem("admintoken")
-        dispatch(adminlogout())
         navigate("/admin/login")
     }
   return (
