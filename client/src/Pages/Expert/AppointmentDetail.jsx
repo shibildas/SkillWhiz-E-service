@@ -3,25 +3,50 @@ import { useParams } from "react-router-dom"
 import { Swal } from "../../Components/ExpertOTP/import"
 import Chat from "../../Components/Chat/Chat"
 import { expertAxiosInstance } from "../../axios/instance"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import AddEstimate from "../../Components/Estimate/AddEstimate"
+import Startjob from "../../Components/Start/Startjob"
+import { EndJob } from "../../Components/Start/EndJob"
+import { addBooking } from "../../redux/expert"
+
+
+
 
 const AppointmentDetail=()=>{
+    const dispatch=useDispatch()
+    const book=useSelector(state=> state.expert.value.bookings)
     const username= useSelector(state=>state.expert.value._id)
     const {id}=useParams()
+    const [show,setShow]=useState(false)
+    const [type,setType] = useState(false)
+    const [message,setMessage]=useState('')
     const [booking,setBooking]=useState({})
     const [job,setJob]=useState({})
     const [user,setUser]=useState({})
     const [other,setOther]=useState({})
     const [load,setLoad]=useState(false)
+    const [start,setStart]=useState('')
+    const [estimate,setEstimate]=useState({})
+
     const handleLoad=()=>{
         setLoad(!load)
     }
+    const handleAlert=(alert,msg)=>{
+        setType(alert)
+        setMessage(msg)
+        setShow(true)
+    }
+    const handleClose=()=>{
+        setMessage('')
+        setShow(false)
+    }
+
     useEffect(()=>{
         setUser(booking?.expertId)
         setOther(booking?.userId)
         setJob(booking?.jobId)
-
+        setStart(new Date(booking?.jobStart))
+        setEstimate(booking?.estimate)
     },[booking])
 
   
@@ -29,8 +54,8 @@ const AppointmentDetail=()=>{
     useEffect(()=>{
         expertAxiosInstance.get(`/booking/${id}`).then(res=>{
             if(res.data.status==="success"){
+                dispatch(addBooking(res.data.result))
                 setBooking(res.data.result)
-                console.log(booking);
 
             }else{
                 Swal.fire("error","NetworkError","error")
@@ -44,7 +69,15 @@ const AppointmentDetail=()=>{
 
     return(
         <>
+        {show && <div className={`alert ${type ? "alert-success" :"alert-error" } shadow-lg`}>
+ 
+
+    <span>{message}</span>
+    <button onClick={handleClose} className="btn btn-ghost btn-sm btn-circle">x</button>
+
+</div>}
         <div className="bg-slate-50 p-2 mt-5 rounded-t-xl flex justify-center">
+            
 
             <h1 className="text-xl md:text-3xl font-extrabold">Booking Detail</h1>
         </div>
@@ -52,7 +85,7 @@ const AppointmentDetail=()=>{
         <ul className="steps md:text-2xl text-sm  font-bold">
   <li data-content="📬" className="step step-secondary ">Open</li>
   <li data-content="⛹" className="step step-secondary">Partner Assigned</li>
-  <li data-content="⏲" className="step">In Progress</li>
+  <li data-content="⏲" className={`step ${booking?.estimate?.status==="approved" && "step-secondary"}`}>In Progress</li>
   <li data-content="✔" className="step">Completed</li>
   <li data-content="🗐" className="step">invoiced</li>
   <li data-content="📪" className="step">Closed</li>
@@ -75,12 +108,17 @@ const AppointmentDetail=()=>{
 {/* <div className="divider "></div> */}
 <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1> {booking?.estimate?.amount ? `Rs: ${booking?.estimate?.amount}` :<label htmlFor="addEstimate" className="btn btn-secondary">Add Estimate </label>}</h1></div>
 <div className="divider "></div>
+{(book?.estimate?.status==="approved" && book?.status==="pending" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Approved:</h1> <label className="btn btn-md " htmlFor="startJob">Start Job</label> </div>}
+{(book?.status==="started" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Job Started at:</h1> <div><h1>{start?.toLocaleDateString()} , {start?.toLocaleTimeString([], { hour12: true })}</h1><label htmlFor="endJob" className="btn m-2 btn-warning" >End job</label> </div> </div>}
+<div className="divider "></div>
 
     </div>
 </div>
         <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5 h-screen">
-        <Chat room={id} username={username} user={user} other={other}/>
+        {/* <Chat room={id} username={username} user={user} other={other}/> */}
         <AddEstimate bookId={id} jobId={job} handleLoad={handleLoad}/>
+        <Startjob id={id} handleLoad={handleLoad} handleAlert={handleAlert}/>
+        <EndJob  handleLoad={handleLoad} handleAlert={handleAlert}/>
         </div>
         </>
     )

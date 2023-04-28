@@ -82,7 +82,7 @@ const BookingDetail=()=>{
 
     </div>
 </div>
-        <div className="flex justify-center bg-slate-100 bg-opacity-60">
+        <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5">
         {/* <Chat room={id} username={username} user={user} other={other}/> */}
         </div>
         <Estimate address={address} user={user} estimate={estimate} job={job} id={id} handleLoad={handleLoad}/>

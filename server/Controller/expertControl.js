@@ -386,3 +386,17 @@ module.exports.sendEstimate=async(req,res)=>{
     res.json({ status: "error", message: error.message }) 
   }
 }
+module.exports.startJob=async(req,res)=>{
+  try {
+    const id=req.params.id
+    const time = new Date.now()
+    const booking= await bookingmodel.findOneAndUpdate({_id:id},{$set:{status:"started",jobStart:time}})
+    if(booking){
+      res.json({"status":"success"})
+    }else{
+      res.json({'status':'error'})
+    }
+  } catch (error) {
+    res.json({'status':'error',message:error.message}) 
+  }
+}

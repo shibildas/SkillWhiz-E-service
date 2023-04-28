@@ -24,6 +24,7 @@ router.get('/getSchedule',Auth.expertProtect,expertControl.getSchedule)
 router.get('/myBookings',Auth.expertProtect,expertControl.getAppointments)
 router.get('/booking/:id',Auth.expertProtect,expertControl.getBookings)
 router.post('/sendEstimate',Auth.expertProtect,expertControl.sendEstimate)
+router.get('/startJob/:id',Auth.expertProtect,expertControl.startJob)
 
 
 module.exports = router

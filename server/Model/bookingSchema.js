@@ -24,6 +24,8 @@ const bookingSchema= new mongoose.Schema({
     },
     status:{type:String, default:"pending"},
     booking_date: {type:Date, default: Date.now(), index:true},
+    jobStart:{type:Date},
+    jobEnd:{type:Date}
     
 },
 {

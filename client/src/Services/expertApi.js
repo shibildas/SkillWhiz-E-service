@@ -3,4 +3,7 @@ import { expertAxiosInstance } from "../axios/instance"
 const authExpert=()=>{
    return expertAxiosInstance.get('/isExpertAuth')
 }
-export {authExpert}
+const startJob=(id)=>{
+   return expertAxiosInstance.get(`/startJob/${id}`)
+}
+export {authExpert,startJob}
