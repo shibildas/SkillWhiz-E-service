@@ -10,7 +10,8 @@ const client = require("twilio")(accountSid, authToken);
 const cloudinary = require("../Controller/config/cloudinaryConfig");
 const expertmodel = require("../Model/expertSchema");
 const bookingmodel= require('../Model/bookingSchema');
-const conversationmodel = require("../Model/conversationSchema");
+const Razorpay = require('razorpay')
+const crypto = require('crypto')
 
 module.exports.postSignUp = async (req, res, next) => {
   try {
@@ -378,5 +379,54 @@ module.exports.approveEstimate=async(req,res)=>{
   } catch (error) {
     
     res.json({ status: "error", message: error.message });
+  }
+}
+module.exports.onlinePayment=async(req,res)=>{
+  try {
+    const instance=new Razorpay({
+      key_id:process.env.key_id,
+      key_secret:process.env.key_secret
+    })
+    const options={
+      amount:req.body.amount*100,
+      currency:"INR",
+      receipt: crypto.randomBytes(10).toString('hex')
+    }
+    instance.orders.create(options,(error,order)=>{
+      if(error){
+        console.log(error.message);
+        return res.json({status:500,message:"Something went Wrong"})
+      }else{
+        res.json({"status":"success",data:order})
+      }
+    })
+    
+  } catch (error) {
+    console.log(error.message);
+    return res.json({status:500,message:error.message})
+    
+  }
+
+}
+module.exports.verifyPayment=async(req,res)=>{
+  try {
+    const{
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature
+    }=req.body
+    const sign = razorpay_order_id+"|"+razorpay_payment_id
+
+    const expectedSign = crypto.createHmac("sha256",process.env.key_secret).update(sign.toString()).digest('hex')
+    if(razorpay_signature===expectedSign){
+      return res.json({"status":"success",message:"Payment verified successfully"})
+    }else{
+      return res.json({"status":400,message:"invalid Signature"})
+
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.json({status:500,message:error.message})
+    
   }
 }

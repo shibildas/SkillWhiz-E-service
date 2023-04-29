@@ -4,11 +4,13 @@ import { Swal } from "../../Components/ExpertOTP/import"
 import Chat from "../../Components/Chat/Chat"
 import { userAxiosInstance } from "../../axios/instance"
 
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Estimate from "../../Components/Estimate/Estimate"
+import { addBooking } from "../../redux/user"
 
 const BookingDetail=()=>{
-
+    const dispatch=useDispatch()
+    const book= useSelector(state=>state.user.value.bookings)
    const username=useSelector(state=>state.user.value._id)
 
  
@@ -37,6 +39,8 @@ const BookingDetail=()=>{
         userAxiosInstance.get(`/booking/${id}`).then(res=>{
             if(res.data.status==="success"){
                 setBooking(res.data.result)
+                dispatch(addBooking(res.data.result))
+
 
             }else{
                 Swal.fire("error","NetworkError","error")
@@ -79,7 +83,8 @@ const BookingDetail=()=>{
 <div className="divider "></div>
 <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1> {booking?.estimate?.amount ? <label  htmlFor={`${estimate?.status!=="approved" &&"estimate"}`} className={`  ${estimate?.status!=="approved" && "tooltip btn btn-sm btn-success"} font-extrabold text-xl`} data-tip="View Estimate">Rs : {booking?.estimate?.amount}</label> :"Estimation Pending"}{estimate?.status!=="approved" && <span className="indicator-item badge badge-primary">view</span>} </h1></div>
 <div className="divider "></div>
-
+{(book?.status==="completed" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Invoice Amount</h1> <div><h1 className="text-center">₹ {book?.bill_amount}</h1><label className="btn m-2 btn-warning" >Pay Online</label> </div> </div>}
+<div className="divider "></div>
     </div>
 </div>
         <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5">

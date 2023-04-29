@@ -6,4 +6,8 @@ const authExpert=()=>{
 const startJob=(id)=>{
    return expertAxiosInstance.get(`/startJob/${id}`)
 }
-export {authExpert,startJob}
+
+const endJob=(parts,hours,total,id)=>{
+   return expertAxiosInstance.post('/endJob',{parts,hours,total,id})
+}
+export {authExpert,startJob,endJob}

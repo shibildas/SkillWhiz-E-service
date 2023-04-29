@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { endJob } from '../../Services/expertApi'
 
 export const EndJob = ({ handleLoad, handleAlert }) => {
-  const dispatch = useDispatch()
   const booking = useSelector(state => state.expert.value.bookings)
+
   const [isEditMode, setIsEditMode] = useState(false)
   const [hours, setHours] = useState(booking?.estimate?.hours || '')
-  const [hoursRate, setHoursRate] = useState(booking?.jobId?.add_rate || null)
+  const [id, setId] = useState(null)
   const [parts, setParts] = useState(booking?.estimate?.parts || [])
   const [price, setPrice] = useState('')
-  const [partsPrice, setPartsPrice] = useState(booking?.estimate?.partsPrice || null)
+  const [partsPrice, setPartsPrice] = useState(null)
   const [partName, setPartName] = useState('')
   const [partPrice, setPartPrice] = useState('')
-
-  const handlePartsChange = (index, field, value) => {
-    const newParts = [...parts]
-    newParts[index][field] = value
-    setParts(newParts)
-  }
-
-  const handleAddPart = () => {
-    setIsEditMode(true)
+  const [edit,setEdit]=useState(false)
+  const handleEdit=()=>{
+    setEdit(!edit)
   }
 
   const handleDeletePart = (index) => {
@@ -43,24 +38,50 @@ export const EndJob = ({ handleLoad, handleAlert }) => {
     const res=parts?.reduce((total, part) => total + Number(part.price), 0)
     setPartsPrice(res)
     setPrice((hours*Number(booking?.jobId?.add_rate))+Number(booking?.jobId?.base_rate))
-  }, [parts])
+  }, [parts,hours])
   
-
-  const handleSave = () => {
-    const estimate = {
-      hours: Number(hours),
-      parts: parts.filter(part => part.pName && part.price),
-      partsPrice: parts.reduce((total, part) => total + Number(part.price), 0)
+  const increment=()=>{
+    if(hours<5){
+      setHours(hours+1)
     }
-
-    setIsEditMode(false)
   }
+  const decrement=()=>{
+    if(hours>2){
+      setHours(hours-1)
+    }
+  }
+  const handleSubmit=()=>{
+    const total=(partsPrice+price)
+    
+    endJob(parts,hours,total,id).then((res)=>{
+      const modal= document.getElementById('endJob')
+      if(res.data.status==="success"){
+        const alert=true
+        const msg="Job Saved Success, Kindly do the Payment"
+        handleLoad()
+        handleAlert(alert,msg)
+        modal.checked=false
+      }else{
+        const alert=false
+        const msg="Error, Job not saved"
+        handleLoad()
+        handleAlert(alert,msg)
+        modal.checked=false
 
+      }
+    }).catch(error=>{
+      const alert=false
+        const msg=error.message
+        handleLoad()
+        handleAlert(alert,msg)
+        modal.checked=false
+    })
+
+  }
   useEffect(() => {
     setHours(booking?.estimate?.hours)
     setParts(booking?.estimate?.parts)
-    // booking?.estimate.parts?.map(part=>setPartPrice(part.price))
-    // setPartsPrice(booking?.estimate?.partsPrice)
+    setId(booking?._id)
   }, [booking])
 
 
@@ -104,7 +125,7 @@ export const EndJob = ({ handleLoad, handleAlert }) => {
               </form>
             )}
             {!isEditMode && (
-              <button onClick={() => setIsEditMode(true)} className="btn btn-sm btn-outline-primary mt-2">Add Part</button>
+              <button onClick={() => setIsEditMode(true)} className="btn btn-sm btn-outline-primary mt-2 tooltip tooltip-right tooltip-info" data-tip="Add a new part">Add Part</button>
             )}
           </div>
           <div className="mt-4">
@@ -118,15 +139,31 @@ export const EndJob = ({ handleLoad, handleAlert }) => {
               <span className="font-bold">₹ {booking?.jobId?.add_rate} /hr</span>
             </div>
             <div className="flex justify-between mt-2">
-              <span>Hours Worked</span>
-              <span className="font-bold">{booking?.estimate?.hours} hrs</span>
+              <span>Hours Worked (<b onClick={handleEdit} className='underline text-cyan-600'>{ edit? "apply":"edit"}</b>)</span>
+              <div className='flex'>
+             {edit && <button onClick={decrement} className="btn btn-sm btn-primary btn-circle mx-2">
+        -
+      </button>}
+              <span className="font-bold">{hours} hrs</span>
+      {edit && <button onClick={increment} className="btn btn-sm btn-primary btn-circle mx-2">
+     +
+      </button>}
+              </div>
             </div>
             <div className="flex justify-between mt-2">
               <span>Total Labor Cost</span>
+              <span className="font-bold">₹{price} </span>
+            </div>
+            <div className="flex justify-between mt-2">
+              <span>Total Parts Cost</span>
+              <span className="font-bold">₹{partsPrice} </span>
+            </div>
+            <div className="flex justify-between mt-2">
+              <span>Total  Cost</span>
               <span className="font-bold">₹{partsPrice+price} </span>
             </div>
           </div>
-          <button className="btn btn-primary mt-4">Submit Jobcard</button>
+          <button onClick={handleSubmit} className="btn btn-primary mt-4 tooltip tooltip-right" data-tip="Save JobCard">Submit Jobcard</button>
         </div>
       </div>
     </>

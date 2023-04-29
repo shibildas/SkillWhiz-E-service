@@ -3,7 +3,8 @@ import {createSlice} from "@reduxjs/toolkit"
 export const userSlice = createSlice({
     name:"userDetails",
     initialState:{value:{
-        isUserAuth:false
+        isUserAuth:false,
+        bookings: {}
     }},
     reducers:{
         login:(state,action)=>{
@@ -15,9 +16,13 @@ export const userSlice = createSlice({
                 isUserAuth:false,
                 user:null
             }
+        },
+        addBooking: (state, action) => {
+            const booking = action.payload;
+            state.value.bookings = booking;
         }
     }
 })
 
-export const {login,logout} = userSlice.actions;
+export const {login,logout,addBooking} = userSlice.actions;
 export default userSlice.reducer

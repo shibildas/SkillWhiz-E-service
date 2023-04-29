@@ -86,8 +86,8 @@ const AppointmentDetail=()=>{
   <li data-content="📬" className="step step-secondary ">Open</li>
   <li data-content="⛹" className="step step-secondary">Partner Assigned</li>
   <li data-content="⏲" className={`step ${booking?.estimate?.status==="approved" && "step-secondary"}`}>In Progress</li>
-  <li data-content="✔" className="step">Completed</li>
-  <li data-content="🗐" className="step">invoiced</li>
+  <li data-content="✔" className={`step ${book?.status===("completed") && "step-secondary"}`}>Completed</li>
+  <li data-content="🗐" className={`step ${book?.status==="invoiced" && "step-secondary"}`}>invoiced</li>
   <li data-content="📪" className="step">Closed</li>
   {(booking?.status==="cancelled")&&<li data-content="🗙" className="step">Cancelled</li> }
 </ul>
@@ -110,6 +110,7 @@ const AppointmentDetail=()=>{
 <div className="divider "></div>
 {(book?.estimate?.status==="approved" && book?.status==="pending" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Approved:</h1> <label className="btn btn-md " htmlFor="startJob">Start Job</label> </div>}
 {(book?.status==="started" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Job Started at:</h1> <div><h1>{start?.toLocaleDateString()} , {start?.toLocaleTimeString([], { hour12: true })}</h1><label htmlFor="endJob" className="btn m-2 btn-warning" >End job</label> </div> </div>}
+{(book?.status==="completed" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Invoice Amount</h1> <div><h1 className="text-center">₹ {book?.bill_amount}</h1><label className="btn m-2 btn-warning" >Recieve Cash</label> </div> </div>}
 <div className="divider "></div>
 
     </div>

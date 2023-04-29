@@ -4,6 +4,7 @@ const bookingSchema= new mongoose.Schema({
     userId:{ type:mongoose.Schema.Types.ObjectId, required:true, ref:'user'},
     expertId:{ type:mongoose.Schema.Types.ObjectId, required:true, ref:'expert'},
     jobId:{ type:mongoose.Schema.Types.ObjectId, required:true, ref:'jobs'},
+    bill_amount:{type:Number},
     address:{
         name:{type:String},
         house:{type:String},
@@ -15,9 +16,10 @@ const bookingSchema= new mongoose.Schema({
         hours:{type:Number, default:2},
         parts:[{pName:{type:String},price:{type:Number}}],
         amount:{type:Number},
-        status:{type:String,default:"pending"}
+        status:{type:String,default:"pending"},    
     },
     payment:{
+        invoice:{type:String},
         payment_method:{type:String},
         payment_id:{type:String},
         payment_status:{type:String, default:'pending'},
@@ -25,8 +27,7 @@ const bookingSchema= new mongoose.Schema({
     status:{type:String, default:"pending"},
     booking_date: {type:Date, default: Date.now(), index:true},
     jobStart:{type:Date},
-    jobEnd:{type:Date}
-    
+    jobEnd:{type:Date}   
 },
 {
   timestamps: true,

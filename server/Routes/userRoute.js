@@ -21,6 +21,8 @@ router.post('/bookJob',auth.userProtect,userControl.bookJob)
 router.get(`/booking/:id`, auth.userProtect,userControl.bookings)
 router.get("/myBookings",auth.userProtect,userControl.myBookings)
 router.get('/approveEstimate/:id',auth.userProtect,userControl.approveEstimate)
+router.post('/payment',auth.userProtect,userControl.onlinePayment)
+router.post('/paymentVerify',auth.userProtect)
 
 
 module.exports = router
