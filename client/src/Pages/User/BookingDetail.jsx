@@ -7,6 +7,7 @@ import { userAxiosInstance } from "../../axios/instance"
 import { useDispatch, useSelector } from "react-redux"
 import Estimate from "../../Components/Estimate/Estimate"
 import { addBooking } from "../../redux/user"
+import { payOnline, verifyPayment } from "../../Services/userApi"
 
 const BookingDetail=()=>{
     const dispatch=useDispatch()
@@ -48,8 +49,40 @@ const BookingDetail=()=>{
         }).catch(error=>{
             Swal.fire("error",error.message,"error")
         })
-    },[load])  
+    },[load])
+    const initPayment=(data)=>{
+        const options={
+           key:"rzp_test_CBA26h7xqNYbSQ",
+           amount:data.amount,
+           currency:data.currency,
+           name:book?.jobId?.job_role,
+           image:book?.jobId?.image,
+           order_id:data.id,
+           handler:async(response)=>{
+            try {
+             const {data}= await verifyPayment(response)
+             console.log(data); 
+            } catch (error) {
+                console.log(error);
+            }
+           },
+           theme:{
+            color:"#3399cc"
+           }
+        }
+        const rzp1 = new window.Razorpay(options)
+        rzp1.open()
+    }  
+const handlePayment=async()=>{
+    try {
+        const {data}= await payOnline(book?.bill_amount)
+        console.log(data);
+        initPayment(data.data)
+    } catch (error) {
+        console.log(error);
+    }
 
+}
     return(
         <>
         <div className="bg-slate-50 p-2 mt-5 rounded-t-xl flex justify-center">
@@ -83,7 +116,7 @@ const BookingDetail=()=>{
 <div className="divider "></div>
 <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1> {booking?.estimate?.amount ? <label  htmlFor={`${estimate?.status!=="approved" &&"estimate"}`} className={`  ${estimate?.status!=="approved" && "tooltip btn btn-sm btn-success"} font-extrabold text-xl`} data-tip="View Estimate">Rs : {booking?.estimate?.amount}</label> :"Estimation Pending"}{estimate?.status!=="approved" && <span className="indicator-item badge badge-primary">view</span>} </h1></div>
 <div className="divider "></div>
-{(book?.status==="completed" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Invoice Amount</h1> <div><h1 className="text-center">₹ {book?.bill_amount}</h1><label className="btn m-2 btn-warning" >Pay Online</label> </div> </div>}
+{(book?.status==="completed" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Invoice Amount</h1> <div><h1 className="text-center">₹ {book?.bill_amount}</h1><label className="btn m-2 btn-warning" onClick={handlePayment} >Pay Online</label> </div> </div>}
 <div className="divider "></div>
     </div>
 </div>

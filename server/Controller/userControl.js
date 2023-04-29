@@ -395,15 +395,15 @@ module.exports.onlinePayment=async(req,res)=>{
     instance.orders.create(options,(error,order)=>{
       if(error){
         console.log(error.message);
-        return res.json({status:500,message:"Something went Wrong"})
+        return res.status(500).json({message:"Something went Wrong"})
       }else{
-        res.json({"status":"success",data:order})
+        res.status(200).json({data:order})
       }
     })
     
   } catch (error) {
-    console.log(error.message);
-    return res.json({status:500,message:error.message})
+    console.log(error);
+    return res.status(500).json({message:error.message})
     
   }
 
@@ -419,14 +419,14 @@ module.exports.verifyPayment=async(req,res)=>{
 
     const expectedSign = crypto.createHmac("sha256",process.env.key_secret).update(sign.toString()).digest('hex')
     if(razorpay_signature===expectedSign){
-      return res.json({"status":"success",message:"Payment verified successfully"})
+      return res.status(200).json({message:"Payment verified successfully"})
     }else{
-      return res.json({"status":400,message:"invalid Signature"})
+      return res.status(400).json({message:"invalid Signature"})
 
     }
   } catch (error) {
     console.log(error.message);
-    return res.json({status:500,message:error.message})
+    return res.status(500).json({message:error.message})
     
   }
 }
