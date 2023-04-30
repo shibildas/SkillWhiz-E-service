@@ -10,6 +10,9 @@ const payOnline=(amount)=>{
 const verifyPayment=(response,bookId)=>{
     return userAxiosInstance.post('/paymentVerify',{...response,bookId})
 }
+const getExpertContacts=()=>{
+    return userAxiosInstance.get('/getContacts')
+}
 
 
-export {authUser,payOnline,verifyPayment}
+export {authUser,payOnline,verifyPayment,getExpertContacts}

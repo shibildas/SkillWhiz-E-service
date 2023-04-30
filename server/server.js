@@ -123,6 +123,23 @@ server.use("/expert",expertRoute)
 
   // })
 
+  global.onlineUsers= new Map()
+
+  io.on("connection",(socket)=>{
+    global.chatSocket =socket
+
+    socket.on("add-user",(userId)=>{
+      onlineUsers.set(userId,socket.id)
+    })
+
+    socket.on('send-message',(data)=>{
+      const sendUserSocket= onlineUsers.get(data.to)
+      if(sendUserSocket){
+        socket.to(sendUserSocket).emit('msg-recieve',data.msg)
+      }
+    })
+  })
+
  httpServer.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
   })  

@@ -23,6 +23,7 @@ router.get("/myBookings",auth.userProtect,userControl.myBookings)
 router.get('/approveEstimate/:id',auth.userProtect,userControl.approveEstimate)
 router.post('/payment',auth.userProtect,userControl.onlinePayment)
 router.post('/paymentVerify',auth.userProtect,userControl.verifyPayment)
+router.get('/getContacts',auth.userProtect,userControl.getContacts)
 
 
 module.exports = router

@@ -100,7 +100,7 @@ const Navbar = () => {
               </a>
               <ul className="p-2 absolute">
                 <li>
-                  <a className="text-black">Submenu 1</a>
+                  <Link to="/chat" className="text-black">Chat 1</Link>
                 </li>
                 <li>
                   <a className="text-black">Submenu 2</a>

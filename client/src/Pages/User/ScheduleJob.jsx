@@ -2,12 +2,10 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom"
-import useAuthUser from "../../hooks/useAuthUser"
 import Address from "../../Components/Address/Address";
 import { userAxiosInstance } from "../../axios/instance";
 
 const ScheduleJob=()=>{
-    // useAuthUser()
     const today = moment().startOf("day");
     const [slot, setSlot] = useState([]);
     const [job,setJob]=useState({})
@@ -19,6 +17,7 @@ const ScheduleJob=()=>{
     dates.push(date);
   }
   const handleDateSelect = (date) => {
+    setSelectedTime(null);
     setSelectedDate(date);
   };
   const handleTimeSlotSelect = (startTime) => {
@@ -61,8 +60,7 @@ const ScheduleJob=()=>{
     },[])
     return(
         <>
-
-        <div className="bg-blue-100 rounded-xl p-5 md:h-[75vh] my-6">
+        <div className="bg-zinc-400  rounded-xl p-5 md:h-[75vh] my-6">
           <h1 className=" text-3xl border-2 p-2 border-gray-500 rounded-xl font-extrabold">{job?.job_role?.toUpperCase()}</h1>
             <h1 className="text-2xl font-extrabold text-center py-5">
               Book Appointment
@@ -71,16 +69,16 @@ const ScheduleJob=()=>{
               Choose Date / Time
             </h1>
             <h1 className="ml-2 my-10 text-xl font-bold">
-              Mark Only Available day & hour
+              Select Your Time Slot
             </h1>
             <div className="carousel carousel-center rounded-box mx-4 py-5">
               {dates.map((date) => (
                 <div key={date.valueOf()} className="carousel-item">
                   <div
-                    className={`m-2 shadow-xl shadow-black p-2 w-28 rounded-2xl cursor-pointer ${
+                    className={`m-2 shadow-xl shadow-black p-2 w-28 rounded-2xl text-white cursor-pointer ${
                       selectedDate && selectedDate.isSame(date, "day")
-                        ? "bg-indigo-400"
-                        : ""
+                        ? "bg-indigo-600"
+                        : "bg-zinc-700 "
                     }`}
                     onClick={() => handleDateSelect(date)}
                   >
@@ -108,11 +106,11 @@ const ScheduleJob=()=>{
                         selectTime===
                           startTime.format("MMMM Do YYYY, h:mm:ss a")
                         
-                          ? " bg-indigo-600 text-white"
-                          : "bg-indigo-300 text-black"
+                          ? " bg-zinc-800 text-white"
+                          : "bg-purple-500 text-black"
                       } 
                         
-                          font-bold py-2 px-4 rounded-xl m-2 h-40`}
+                         shadow-inner shadow-black font-bold py-2 px-4 rounded-xl m-2 h-40`}
                       onClick={() =>
                         handleTimeSlotSelect(
                           startTime.format("MMMM Do YYYY, h:mm:ss a")

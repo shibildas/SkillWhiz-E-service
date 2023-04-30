@@ -6,6 +6,7 @@ import { userAxiosInstance } from "../../axios/instance";
 const Detail = () => {
   const { jobId } = useParams();
   const [job, setJob] = useState({});
+  const [open,setOpen]=useState("collapse-open ")
 
   useEffect(() => {
     userAxiosInstance
@@ -26,7 +27,7 @@ const Detail = () => {
   return (
     <>
       <>
-        <div className="bg-white p-5 mt-5 sm:flex sm:justify-between border rounded-t-lg border-y-2">
+        <div className="bg-slate-700 text-white p-5 mt-5 sm:flex sm:justify-between border rounded-t-lg border-y-2">
           <h1 className="md:text-3xl sm:text-xl font-extrabold">
             {jobId.toUpperCase()}
           </h1>
@@ -45,9 +46,9 @@ const Detail = () => {
             Connect with us and get efficient services at the best rates.
           </p>
         </div>
-        <div tabIndex={0} className="collapse group bg-white py-2">
+        <div onClick={()=>setOpen("")} tabIndex={0} className={`collapse group collapse-plus ${open}  bg-white py-2`}>
 
-          <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-100 text-slate-800 group-focus:bg-yellow-500 group-focus:text-black">
+          <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-700 text-white group-focus:bg-yellow-500 group-focus:text-black">
             Rate Chart
           </div>
           <div className="collapse-content bg-slate-200 text-black ">
@@ -75,8 +76,8 @@ const Detail = () => {
             </p>
           </div>
         </div>
-        <div tabIndex={0} className="collapse group bg-white py-2">
-          <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-100 text-slate-800 group-focus:bg-yellow-500 group-focus:text-black">
+        <div onClick={()=>setOpen("")} tabIndex={0} className="collapse group collapse-plus bg-white py-2">
+          <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-700 text-white group-focus:bg-yellow-500 group-focus:text-black">
             Terms & Conditions
           </div>
           <div className="collapse-content bg-slate-200 text-black ">
@@ -92,8 +93,8 @@ const Detail = () => {
             </p>
           </div>
         </div>
-        <div tabIndex={0} className="collapse group bg-white py-2">
-          <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-100 text-slate-800 group-focus:bg-yellow-500 group-focus:text-black">
+        <div onClick={()=>setOpen("")} tabIndex={0} className="collapse group collapse-plus bg-white py-2">
+          <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-700 text-white group-focus:bg-yellow-500 group-focus:text-black">
             How it works?
           </div>
           <div className="collapse-content bg-slate-200 text-black ">
@@ -115,8 +116,8 @@ const Detail = () => {
             </p>
           </div>
         </div>
-        <div tabIndex={0} className="collapse group bg-white py-2">
-          <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-100 text-slate-800 group-focus:bg-yellow-500 group-focus:text-black">
+        <div onClick={()=>setOpen("")} tabIndex={0} className="collapse group collapse-plus bg-white py-2">
+          <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-700 text-white group-focus:bg-yellow-500 group-focus:text-black">
             FAQs
           </div>
           <div className="collapse-content bg-slate-200 text-black ">

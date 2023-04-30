@@ -9,8 +9,11 @@ const BookingList=lazy(()=> import ("../Pages/User/BookingList"));
 import { ErrorPage, UserLayout } from "../import";
 import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
+const Chat=lazy(()=> import ("../Pages/common/Chat"));
+import { useSelector } from "react-redux";
 
 function UserRouter() {
+  const user=useSelector(state=>state.user.value)
   return (
     <>
       <Routes>
@@ -22,6 +25,7 @@ function UserRouter() {
             <Route path="/job/schedule/:id" element={<Suspense fallback={<ShimmerList/>}><ScheduleJob /></Suspense>} />
             <Route path="/bookings/:id" element={<Suspense fallback={<ShimmerList/>}><BookingDetail /></Suspense>} />
             <Route path="/bookings" element={<Suspense fallback={<ShimmerList/>}><BookingList /></Suspense>} />
+            <Route path="/chat" element={<Suspense fallback={<ShimmerList/>}><Chat currentUser={user} user={true} /></Suspense>} />
             <Route path="/*" element={<ErrorPage />} />
           </Route>
         </Route>

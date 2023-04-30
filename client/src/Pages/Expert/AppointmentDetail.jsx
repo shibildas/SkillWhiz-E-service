@@ -22,7 +22,6 @@ const AppointmentDetail = () => {
   const [other, setOther] = useState({});
   const [load, setLoad] = useState(false);
   const [start, setStart] = useState("");
-  const [estimate, setEstimate] = useState({});
 
   const handleLoad = () => {
     setLoad(!load);
@@ -41,8 +40,7 @@ const AppointmentDetail = () => {
     setUser(book?.expertId);
     setOther(book?.userId);
     setJob(book?.jobId);
-    setStart(new Date(book?.jobStart));
-    setEstimate(book?.estimate);
+    setStart();
   }, [book]);
 
   useEffect(() => {
@@ -188,19 +186,19 @@ const AppointmentDetail = () => {
               </div>
             )}
             <div className="flex justify-between   font-semibold p-2 flex-wrap">
-             
+             {(book?.status === "started"||book?.status === "invoiced") && <>
               <h1 className="text-xl">Job Started at:</h1>{" "}
               <div>
                 <h1>
-                  {start?.toLocaleDateString()} ,{" "}
-                  {start?.toLocaleTimeString([], { hour12: true })}
+                  {new Date(book?.jobStart)?.toLocaleDateString()} ,{" "}
+                  {new Date(book?.jobStart)?.toLocaleTimeString([], { hour12: true })}
                 </h1>
           {book?.status === "started" && (
                 <label htmlFor="endJob" className="btn m-2 btn-warning">
                   End job
                 </label>
                   )}
-              </div>
+              </div></>}
             </div>
                 <div className="divider "></div>
             <div className="flex justify-between   font-semibold p-2 flex-wrap">

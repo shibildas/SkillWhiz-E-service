@@ -11,7 +11,8 @@ const cloudinary = require("../Controller/config/cloudinaryConfig");
 const expertmodel = require("../Model/expertSchema");
 const bookingmodel= require('../Model/bookingSchema');
 const Razorpay = require('razorpay')
-const crypto = require('crypto')
+const crypto = require('crypto');
+const { default: mongoose } = require("mongoose");
 
 module.exports.postSignUp = async (req, res, next) => {
   try {
@@ -436,5 +437,83 @@ module.exports.verifyPayment=async(req,res)=>{
     console.log(error.message);
     return res.status(500).json({message:error.message})
     
+  }
+}
+
+module.exports.getContacts=async(req,res)=>{
+  try {
+    const id=req.userId
+    const pipeline = [
+      {
+        $match: { userId: new mongoose.Types.ObjectId(id) }
+      },
+      {
+        $lookup: {
+          from: 'experts',
+          localField: 'expertId',
+          foreignField: '_id',
+          as: 'expert'
+        }
+      },
+      {
+        $unwind: '$expert'
+      },
+      {
+        $group: {
+          _id: '$_id',
+          email: {
+            $first: '$expert.email'
+          },
+          username: {
+            $first: '$expert.username'
+          },
+          mobile: {
+            $first: '$expert.mobile'
+          },
+          image: {
+            $first: '$expert.image'
+          },
+          bookingId: {
+            $first: '$_id'
+          }
+        }
+      },
+      {
+        $group: {
+          _id: '$email',
+          email: {
+            $first: '$email'
+          },
+          username: {
+            $first: '$username'
+          },
+          mobile: {
+            $first: '$mobile'
+          },
+          image: {
+            $first: '$image'
+          },
+          bookings: {
+            $push: {
+              bookingId: '$bookingId'
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          email: 1,
+          username: 1,
+          mobile: 1,
+          image: 1,
+          bookings: 1
+        }
+      }
+    ];
+const bookings = await bookingmodel.aggregate(pipeline);
+    res.json({"status":"success",result:[...bookings]})
+  } catch (error) {
+     res.status(500).json({message:error.message})
   }
 }

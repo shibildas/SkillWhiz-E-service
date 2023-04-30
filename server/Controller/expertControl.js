@@ -10,6 +10,7 @@ const jobsmodel = require("../Model/jobsSchema");
 const fs = require("fs");
 const { log } = require("console");
 const bookingmodel = require("../Model/bookingSchema");
+const { default: mongoose } = require("mongoose");
 
 module.exports.postregister = async (req, res, next) => {
   try {
@@ -414,7 +415,7 @@ module.exports.sendEstimate = async (req, res) => {
 module.exports.startJob = async (req, res) => {
   try {
     const id = req.params.id;
-    const time = new Date.now();
+    const time = Date.now();
     const booking = await bookingmodel.findOneAndUpdate(
       { _id: id },
       { $set: { status: "started", jobStart: time } }
@@ -431,7 +432,7 @@ module.exports.startJob = async (req, res) => {
 module.exports.endJob = async (req, res) => {
   try {
     const { parts, hours, total, id } = req.body;
-    console.log(req.body);
+    const time = Date.now();
     const booking = await bookingmodel.findOneAndUpdate(
       { _id: id },
       {
@@ -440,7 +441,8 @@ module.exports.endJob = async (req, res) => {
           "estimate.hours": hours,
           bill_amount: total,
           "payment.invoice": `INV_${id}`,
-          status:"completed"
+          status:"completed",
+          jobEnd:time
         },
       }
     );
@@ -456,3 +458,80 @@ module.exports.endJob = async (req, res) => {
 
   }
 };
+module.exports.getContacts=async(req,res)=>{
+  try {
+    const id=req.expertId
+    const pipeline = [
+      {
+        $match: { expertId: new mongoose.Types.ObjectId(id) }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      {
+        $unwind: '$user'
+      },
+      {
+        $group: {
+          _id: '$_id',
+          email: {
+            $first: '$user.email'
+          },
+          username: {
+            $first: '$user.username'
+          },
+          mobile: {
+            $first: '$user.mobile'
+          },
+          image: {
+            $first: '$user.image'
+          },
+          bookingId: {
+            $first: '$_id'
+          }
+        }
+      },
+      {
+        $group: {
+          _id: '$email',
+          email: {
+            $first: '$email'
+          },
+          username: {
+            $first: '$username'
+          },
+          mobile: {
+            $first: '$mobile'
+          },
+          image: {
+            $first: '$image'
+          },
+          bookings: {
+            $push: {
+              bookingId: '$bookingId'
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          email: 1,
+          username: 1,
+          mobile: 1,
+          image:1,
+          bookings: 1
+        }
+      }
+    ];
+const bookings = await bookingmodel.aggregate(pipeline);
+    res.json({"status":"success",result:bookings})
+  } catch (error) {
+     res.status(500).json({message:error.message})
+  }
+}

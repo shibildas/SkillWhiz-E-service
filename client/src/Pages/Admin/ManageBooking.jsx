@@ -1,27 +1,186 @@
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { getBookingBy } from '../../Services/adminApi'
-import { useDispatch, useSelector } from 'react-redux'
-import { addBooking } from '../../redux/admin'
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getBookingBy } from "../../Services/adminApi";
+import { useDispatch, useSelector } from "react-redux";
+import { addBooking } from "../../redux/admin";
 
 const ManageBooking = () => {
-    const booking = useSelector(state=> state.admin.value.addBooking)
-    const dispatch=useDispatch()
-    const {id}= useParams()
-    useEffect(() => {
-        getBookingBy(id).then(res=>{
-            if(res.data.status==="success"){
-                dispatch(addBooking(res.data.result))
-            }
-        })
-     
-    }, [])
-    
-  return (
-   <>
-   <h1>{booking?._id}</h1>
-   </>
-  )
-}
+  const booking = useSelector((state) => state.admin.value.bookings);
+  const dispatch = useDispatch();
+  const [value, setValue] = useState(0);
+  const { id } = useParams();
+  useEffect(() => {
+    getBookingBy(id).then((res) => {
+      if (res.data.status === "success") {
+        dispatch(addBooking(res.data.result));
+      }
+    });
+  }, []);
 
-export default ManageBooking
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (value < getInitialValue()) {
+        setValue(value + 1);
+      }
+    }, 15);
+    return () => clearInterval(interval);
+  }, [value,booking]);
+  function getInitialValue() {
+    switch (booking?.status) {
+      case 'completed':
+        return 100;
+      case 'invoiced':
+        return 80;
+      case 'started':
+        return 50;
+      case 'pending':
+        return 20;
+      default:
+        return 0;
+    }
+  }
+
+  return (
+    <>
+      <div className="p-6 ">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-semibold">
+            {booking?.jobId?.job_role?.toUpperCase()} with {booking?.expertId?.username}
+          </h2>
+          <div className="flex items-center space-x-4">
+            <button
+              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+       
+            >
+              Edit
+            </button>
+            <button
+              className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
+     
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-wrap mb-8">
+          <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pr-8 lg:py-0">
+            <div className="p-6 bg-slate-700 text-white shadow rounded-xl">
+              <h3 className="text-lg font-semibold mb-2">Customer Details</h3>
+              <div className="">
+                <p className="mb-1">
+                  <span className="font-semibold">Name:</span>{" "}
+                  {booking?.userId?.username}
+                </p>
+                <p className="mb-1">
+                  <span className="font-semibold">Email:</span>{" "}
+                  {booking?.userId?.email}
+                </p>
+                <p className="mb-1">
+                  <span className="font-semibold">Mobile:</span>{" "}
+                  {booking?.userId?.mobile}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pl-8 lg:pr-4 lg:py-0">
+            <div className="p-6 bg-slate-700 text-white rounded-xl shadow">
+              <h3 className="text-lg font-semibold mb-2">Expert Details</h3>
+              <div className="">
+                <p className="mb-1">
+                  <span className="font-semibold">Name:</span>{" "}
+                  {booking?.expertId?.username}
+                </p>
+                <p className="mb-1">
+                  <span className="font-semibold">Email:</span>{" "}
+                  {booking?.expertId?.email}
+                </p>
+                <p className="mb-1">
+                  <span className="font-semibold">Mobile:</span>{" "}
+                  {booking?.expertId?.mobile}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pl-4 lg:py-0">
+          <div className="bg-slate-700 text-white p-6 rounded-xl shadow-md mt-6">
+            <h2 className="text-2xl font-bold mb-6">Booking Detail</h2>
+            <div className="flex flex-wrap mx-2">
+              <div className="w-full px-2 mb-4">
+              <div
+      className="radial-progress"
+      style={{
+        "--value": `${value}`,
+        "--size": "12rem",
+        "--thickness": "2rem"
+      }}
+    >
+      {`${value}%`}
+    </div>
+                <div className="flex justify-between">
+                  <h3 className="text-lg font-bold">Job Role</h3>
+                  <p className="text-lg">{booking?.jobId?.job_role?.toUpperCase()}</p>
+                </div>
+              </div>
+            </div>
+            <div className="w-full px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Expert Name</h3>
+                <p className="text-lg">{booking?.expertId?.username}</p>
+              </div>
+            </div>
+            <div className="w-full  px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Expert Mobile</h3>
+                <p className="text-lg">{booking?.expertId?.mobile}</p>
+              </div>
+            </div>
+            <div className="w-full  px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Booking ID: </h3>
+                <p className="text-lg text-justify break-all ml-2">{booking?._id}</p>
+              </div>
+            </div>
+            <div className="w-full  px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Booking Date</h3>
+                <p className="text-lg">
+                  {new Date(booking?.booking_date)?.toLocaleString()}
+                </p>
+              </div>
+            </div>
+            <div className="w-full  px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Booking Slot</h3>
+                <p className="text-lg ml-2">{booking?.slot}</p>
+              </div>
+            </div>
+            <div className="w-full px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Booking Address</h3>
+                <p className="text-lg ml-2 break-all">
+                  {booking?.address.house}, {booking?.address?.street},{" "}
+                  {booking?.address.pincode}
+                </p>
+              </div>
+            </div>
+            <div className="w-full px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Booking Estimate</h3>
+                <p className="text-lg">{booking?.estimate?.amount} INR</p>
+              </div>
+            </div>
+            <div className="w-full px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Booking Status</h3>
+                <p className="text-lg">{booking?.status}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ManageBooking;

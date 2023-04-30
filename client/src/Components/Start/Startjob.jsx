@@ -17,10 +17,10 @@ const Startjob = ({id,handleLoad,handleAlert}) => {
     const modal= document.getElementById('startJob')
     startJob(id).then(res=>{
         if(res.data.status==="success"){
+          handleLoad()
             modal.checked=false
             const alert=true
             const msg="Job Started successfully"
-            handleLoad()
             handleAlert(alert,msg)
         }else{
             modal.checked=false
