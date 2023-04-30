@@ -9,6 +9,7 @@ const ExpertList = lazy(() => import("../Pages/Admin/ExpertList"));
 const UserList = lazy(() => import("../Pages/Admin/UserList"));
 const Jobs = lazy(() => import("../Pages/Admin/Jobs"));
 const BookingList =lazy(()=> import ('../Pages/Admin/BookingList'))
+const ManageBooking =lazy(()=> import ('../Pages/Admin/ManageBooking'))
 function AdminRouter() {
   return (
     <>
@@ -46,6 +47,14 @@ function AdminRouter() {
             element={
               <Suspense fallback={<ShimmerList />}>
                 <BookingList />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/bookings/:id"
+            element={
+              <Suspense fallback={<ShimmerList />}>
+                <ManageBooking/>
               </Suspense>
             }
           />

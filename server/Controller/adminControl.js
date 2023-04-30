@@ -6,6 +6,7 @@ const usermodel = require('../Model/userSchema')
 const expertmodel=require("../Model/expertSchema")
 const jobsmodel = require("../Model/jobsSchema")
 const cloudinary = require('../Controller/config/cloudinaryConfig')
+const bookingmodel= require('../Model/bookingSchema')
 
 module.exports.adminLogin = async (req, res) => {
     try {
@@ -341,4 +342,35 @@ module.exports.addSchedule= async (req,res)=>{
     }
    
     
+}
+
+module.exports.bookings=async(req,res)=>{
+    try {
+        const bookings= await bookingmodel.find().populate('jobId').select('-address')
+        if(bookings){
+
+            res.json({"status":"success",result:bookings})
+        }else{
+            res.json({'ststus':"error"})
+        }
+        
+    } catch (error) {
+        res.json({"status":"error",message:error.message})  
+        
+    }
+}
+module.exports.manageBooking=async(req,res)=>{
+    try {
+        const id=req.params.id
+        const booking = await bookingmodel
+      .findOne({ _id: id })
+      .populate("userId", "-password")
+      .populate("expertId", "-password -slots -bookedSlots")
+      .populate("jobId")
+      .select("-userId.password -expertId.password -expertId.slots -estimate.parts._id");
+    res.json({ status: "success", result: booking });    
+    } catch (error) {
+        res.json({"status":"error",message:error.message})  
+        
+    }
 }

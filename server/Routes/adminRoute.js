@@ -24,6 +24,7 @@ router.get('/blockExpert/:id',Auth.adminProtect,adminControl.blockExpert)
 router.get('/unBlockExpert/:id',Auth.adminProtect,adminControl.unBlockExpert)
 router.get('/getSchedule/:id',Auth.adminJwt,adminControl.getSchedule)
 router.post('/addSchedule',Auth.adminProtect,adminControl.addSchedule)
-
+router.get('/bookingList',Auth.adminProtect,adminControl.bookings)
+router.get('/getBooking/:id',Auth.adminProtect,adminControl.manageBooking)
 
 module.exports = router

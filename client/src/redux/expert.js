@@ -20,8 +20,8 @@ export const expertSlice = createSlice({
             }
         },
         addBooking: (state, action) => {
-            const booking = action.payload;
-            state.value.bookings = booking;
+            const booking = action.payload
+            state.value.bookings = booking
         }
     
     }

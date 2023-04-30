@@ -386,7 +386,7 @@ module.exports.getBookings = async (req, res) => {
       .populate("userId", "-password")
       .populate("expertId", "-password")
       .populate("jobId")
-      .select("-userId.password -expertId.password -estimate.parts._id");
+      .select("-userId.password -expertId.password -expertId.slots -estimate.parts._id");
     res.json({ status: "success", result: booking });
   } catch (error) {
     res.json({ status: "error", message: error.message });

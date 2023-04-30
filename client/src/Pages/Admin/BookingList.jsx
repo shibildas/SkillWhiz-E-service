@@ -1,8 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { bookingList } from '../../Services/adminApi';
+import { Link } from 'react-router-dom';
 
 const BookingList = () => {
     const arra = [0, 1, 2, 3, 4];
     const [datas,setDatas]=useState([])
+    useEffect(() => {
+     bookingList().then((res)=>{
+        if(res.data.status==="success"){
+            setDatas(res.data.result)
+        }else{
+
+        }
+     }).catch(error=>{
+
+     })
+    }, [])
+    
   return (
     <>
     <div className="p-3">
@@ -18,14 +32,14 @@ const BookingList = () => {
                 Booked Job
               </th>
               <th className="text-2xl bg-slate-400 text-stone-700">Status</th>
-              <th className="text-2xl bg-slate-400 text-stone-700">Estimate Status</th>
+              <th className="text-2xl bg-slate-400 text-stone-700">Estimate</th>
               <th className="text-2xl bg-slate-400 text-stone-700">
                 Slot Time
               </th>
               <th className="text-2xl bg-slate-400 text-stone-700">
                 Booking Date
               </th>
-              <th className="text-2xl bg-slate-400 text-stone-700">Invoiced </th>
+              <th className="text-2xl bg-slate-400 text-stone-700">Payment </th>
               <th className="text-2xl bg-slate-400 text-stone-700">Details </th>
             </tr>
           </thead>
@@ -44,8 +58,8 @@ const BookingList = () => {
                             <div className="mask mask-squircle w-12 h-12">
                               <img
                                 src={
-                                  data?.image
-                                    ? data.image
+                                  data?.jobId?.image
+                                    ? data.jobId?.image
                                     : "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
                                 }
                                 alt="PIC"
@@ -53,66 +67,39 @@ const BookingList = () => {
                             </div>
                           </div>
                           <div>
-                            <div className="font-bold">{data?.username}</div>
+                            <div className="font-bold">{data?.jobId?.job_role?.toUpperCase()}</div>
                             <div className="text-sm opacity-50">
                               {data?.email}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td>
-                        Contact: +91- {data?.mobile}
+                      <td className='font-bold'>
+                         {data?.status}
+                        <br />
+                        bookingId:
                         <br />
                         <span className="badge badge-ghost badge-sm flex flex-wrap">
-                          {data?.skills.map(ele=>{
-                            return(ele.job_role?.toUpperCase() +", ")
-                          })}
+                       {data?._id}
                         </span>
                       </td>
                       <td>
-                        <button
-                      
-                        //   className={ `btn  ${data?.isBanned ? "btn-error":" btn-warning"} font-extrabold`}
-                        >
-                          {/* {data?.isBanned ? "UnBlock" : "Block"} */}
-                        </button>
+                        
+                       {data?.estimate?.status} 
                       </td>
-                      <td className="flex justify-center">
-                        {data?.identity?.status === "pending" && (
-                          <label
-                            htmlFor="exVerify"
-                         
-                            className="btn"
-                          >
-                            Verify
-                          </label>
-                        )}
-                        {data?.identity?.status === "initial" && (
-                          <b className="p-3 text-orange-400 font-mono">Initialized</b>
-                        )}
-                        {data?.identity?.status === "approved" && (
-                          <b className="p-3 text-green-700">Completed</b>
-                        )}
+                      <td className=" font-bold">
+                       {data?.slot}
                       </td>
                       <th>
-                        <label
-                          htmlFor="editExpert"
-                      
-                          className="btn btn-ghost btn-outline"
-                        >
-                          Edit
-                        </label>
+                        {new Date(data?.booking_date)?.toLocaleString('en-US', {
+  timeZone: 'UTC'
+})}
                       </th>
                       <th>
-                        {data?.identity?.status === "approved" && (
-                          <label
-                            htmlFor="addSlots"
-                     
-                            className="btn btn-primary"
-                          >
-                            Add Slots
-                          </label>
-                        )}
+                        {data?.payment?.payment_status}
+                      </th>
+                      <th>
+                        <Link to={`/admin/bookings/${data?._id}`}><label className='underline font-bold text-gray-800 cursor-pointer' htmlFor="">View Detail</label></Link>
                       </th>
                     </tr>
                   );
