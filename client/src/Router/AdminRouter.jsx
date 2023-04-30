@@ -8,6 +8,7 @@ import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 const ExpertList = lazy(() => import("../Pages/Admin/ExpertList"));
 const UserList = lazy(() => import("../Pages/Admin/UserList"));
 const Jobs = lazy(() => import("../Pages/Admin/Jobs"));
+const BookingList =lazy(()=> import ('../Pages/Admin/BookingList'))
 function AdminRouter() {
   return (
     <>
@@ -37,6 +38,14 @@ function AdminRouter() {
             element={
               <Suspense fallback={<ShimmerList />}>
                 <Jobs />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/bookings"
+            element={
+              <Suspense fallback={<ShimmerList />}>
+                <BookingList />
               </Suspense>
             }
           />

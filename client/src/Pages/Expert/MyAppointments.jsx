@@ -16,8 +16,8 @@ const MyAppointments = () => {
 
   return (
     <>
-      <div className="bg-teal-100 bg-opacity-90 min-h-screen ">
-        <h1 className="text-center md:text-3xl text-xl font-bold">
+      <div className="bg-teal-500 bg-opacity-90 min-h-screen my-2 rounded-lg">
+        <h1 className="text-center md:text-3xl text-xl font-extrabold text-white p-2">
           My Appointments
         </h1>
 
@@ -36,7 +36,7 @@ const MyAppointments = () => {
               <p>Appointment Id: <b> {ele?._id}</b></p>
               <p>Time: <b>{ele?.slot}</b></p>
               <div className="card-actions justify-end">
-                <Link to={`/expert/myappointments/${ele?._id}`}><button className="btn btn-primary">View</button></Link>
+                <Link to={`/expert/myappointments/${ele?._id}`}><button className="btn btn-secondary">View</button></Link>
               </div>
             </div>
           </div>)}))

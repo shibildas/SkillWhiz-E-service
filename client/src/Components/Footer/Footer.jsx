@@ -7,11 +7,11 @@ import {
   social,
 } from "../../constants/constants";
 
-const Footer = () => {
+const Footer = ({teal}) => {
   return (
     <>
-      <div className=" bg-slate-300 bg-opacity-20">
-        <Link to="/admin/login"><h1 className="p-4 xl:text-6xl md:text-3xl font-bold mx-10">Why Skillwhiz ?</h1></Link>
+      <div className={` bg-slate-300 bg-opacity-20 mt-5 ${teal}`}>
+        <Link to="/admin/login"><h1 className={`p-4 xl:text-6xl md:text-3xl font-bold mx-10`}>Why Skillwhiz ?</h1></Link>
         <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {footerImg.map((img, index) => {
             return (
@@ -19,8 +19,8 @@ const Footer = () => {
                 key={2 + index}
                 className="p-2 flex flex-col justify-center items-center"
               >
-                <img className="w-20" src={img?.img} alt="image" />
-                <h1 className="mt-2 font-extrabold font-mono tracking-widest ">{img?.val}</h1>
+                <img className="w-20 filter brightness-50"  src={img?.img} alt="image" />
+                <h1 className={`mt-2 font-extrabold font-mono tracking-widest`}>{img?.val}</h1>
               </li>
             );
           })}

@@ -13,7 +13,7 @@ const ExpertLayout = () => {
         className="max-w-screen-lg mx-auto bg-cover">
            <Outlet/>
       </div>
-      <Footer />
+      <Footer teal={"text-teal-800"} />
     </>
   );
 };

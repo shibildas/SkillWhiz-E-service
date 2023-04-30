@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { expertAxiosInstance } from "../../axios/instance";
 
 const LoginExpert = () => {
-    const [show,setShow]=useState(true)
+    const [show,setShow]=useState(false)
     const [mobile,setMobile]=useState('')
     const [name,setName]=useState('')
     const [password,setPassword]=useState('')
@@ -83,65 +83,69 @@ const LoginExpert = () => {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-fuchsia-400 to-amber-400 h-screen flex justify-center items-center">
-        <div className="p-5 h-max w-max border-2 rounded-2xl bg-gradient-to-r from-lime-300 to-blue-200 ">
+      <div className="bg-slate-400 h-screen flex justify-center items-center">
+        <div className="p-5 h-max w-max border-2 rounded-2xl bg-teal-600 text-white">
         
 
-            <button onClick={ handleClose } className="btn btn-sm btn-circle absolute text-right ">✕</button>
-          <h3 className="text-3xl font-extrabold text-center p-2">{!show ? "Sign In" : "Register"}</h3>
+            <button onClick={ handleClose } className="btn btn-sm btn-circle btn-outline absolute text-right ">✕</button>
+          <h3 className="text-3xl font-extrabold text-center p-2 underline">{!show ? "Sign In" : "Register"}</h3>
             
           <div className="flex-grow flex justify-center items-center">
-            <div className="p-2">
+            <div className={`p-2 ${show && "md:flex"}`}>
+               <div className="mx-2">
                 {show && <>
-                
               <h1 className="font-bold py-2">Name</h1>
               <input
                 type="text"
-           
-                className="border rounded-md p-2"
+                
+                className="border rounded-md p-2 text-black font-bold"
                 placeholder="Username"
                 onChange={(e)=>setName(e.target.value)}
                 value={name}
                 required
-              />
+                />
               <h1 className="font-bold py-2">E-mail</h1>
               <input
                 type="text"
                 
-                className="border rounded-md p-2"
+                className="border rounded-md p-2 text-black font-bold"
                 placeholder="name@exampple.com"
                 onChange={(e)=>setEmail(e.target.value)}
                 value={email}
                 required
-              />
+                />
               
                 </>}
               <h1 className="font-bold py-2">Mobile</h1>
               <input
                 type="number"
                 min="0"
-                className="border rounded-md p-2"
+                className="border rounded-md p-2 text-black font-bold"
                 placeholder="+91-"
                 onChange={handleMobile}
                 value={mobile}
                 required
-              />
+                />
+              </div> 
+              {show && <div className="md:divider md:divider-horizontal"></div>}
+              <div className="mx-2">
+
               <h1 className="font-bold py-2">Password</h1>
               <input
                 type="password"
-                className="border rounded-md p-2"
+                className="border rounded-md p-2 text-black font-bold"
                 placeholder="Your Password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 required
-              />
+                />
              {!show ? 
              
              <p className="py-2">
                 Not an Expert?{" "}
                 <label
                   htmlFor="my-modal-6"
-                  className="font-bold cursor-pointer"
+                  className="font-bold cursor-pointer text-indigo-600 underline"
                     onClick={()=>setShow(true)}
                 >
                   Signup
@@ -149,19 +153,19 @@ const LoginExpert = () => {
               </p>:<><h1 className="font-bold py-2"> Confirm Password</h1>
              <input
                type="password"
-               className="border rounded-md p-2"
+               className="border rounded-md p-2 text-black font-bold"
                placeholder="Your Password"
                onChange={(e) => setCPassword(e.target.value)}
                value={cPassword}
                required
-             />
+               />
              <p className="py-2">
                 Already an Expert?{"  "}
                 <label
                   htmlFor="my-modal-6"
-                  className="font-bold cursor-pointer"
-                    onClick={()=>setShow(false)}
-                >
+                  className="font-bold cursor-pointer text-indigo-600 underline"
+                  onClick={()=>setShow(false)}
+                  >
                   SignIn
                 </label>
               </p>
@@ -174,6 +178,7 @@ const LoginExpert = () => {
                   Signup
                 </button></> }
               </div>
+                </div>
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ const BookingList = () => {
 
   return (
     <>
-      <div className="bg-teal-100 bg-opacity-90 h-screen">
+      <div className="bg-purple-300 bg-opacity-90 my-5 h-screen">
         <h1 className="text-center md:text-3xl text-xl font-bold">
           My Bookings
         </h1>

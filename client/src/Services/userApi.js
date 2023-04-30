@@ -7,8 +7,8 @@ const authUser=()=>{
 const payOnline=(amount)=>{
     return userAxiosInstance.post('/payment',{amount})
 }
-const verifyPayment=(response)=>{
-    return userAxiosInstance.post('/paymentVerify',response)
+const verifyPayment=(response,bookId)=>{
+    return userAxiosInstance.post('/paymentVerify',{...response,bookId})
 }
 
 

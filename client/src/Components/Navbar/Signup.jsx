@@ -58,15 +58,17 @@ const Signup = () => {
       {/* Put this part before </body> tag */}
       <input type="checkbox" id="my-modal-6" className="modal-toggle" />
       <div className="modal ">
-        <div className="modal-box relative w-auto bg-cover shadow-inner shadow-black" style={{backgroundImage:"url(https://res.cloudinary.com/dpfnxwvps/image/upload/c_crop,h_3810,o_90,w_3257/v1681457149/5232_tppors.avif)"}}>
+        <div className="modal-box relative w-auto max-w-3xl bg-gray-700 bg-opacity-80 text-white shadow-inner shadow-black">
+          
           <label
             htmlFor="my-modal-6"
             className="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
-          >
+            >
             ✕
           </label>
           <h1 className="text-center p-5 text-3xl font-extrabold">Signup</h1>
-          <form onSubmit={handlesignup}>
+          <form onSubmit={handlesignup} className="md:flex w-auto">
+            <div>
             <label className="p-2 font-bold"> Username </label>
             <div className="p-2">
               <input
@@ -78,7 +80,7 @@ const Signup = () => {
                 required
                 value={name}
                 placeholder="username"
-              />
+                />
             </div>
             <label className="p-2 font-bold"> E-mail </label>
             <div className="p-2">
@@ -91,7 +93,7 @@ const Signup = () => {
                 required
                 value={email}
                 placeholder="some@mail.com"
-              />
+                />
             </div>
             <label className="p-2 font-bold"> Mobile </label>
             <div className="p-2">
@@ -103,8 +105,12 @@ const Signup = () => {
                 required
                 value={mobile}
                 placeholder="+91-XXXXXXXX"
-              />
+                />
             </div>
+          </div>
+          <div className="md:divider md:divider-horizontal"></div> 
+          <div>
+
             <label className="p-2 font-bold"> Password </label>
             <div className="p-2">
               <input
@@ -129,22 +135,25 @@ const Signup = () => {
                 required
                 value={cPassword}
                 placeholder="Password"
-              />
+                />
             </div>
             <p className="p-2 font-bold">
               Already a member{" "}
               <label
                 htmlFor="my-modal-3"
                 onClick={handleclose}
-                className="font-extrabold cursor-pointer text-secondary-focus"
-              >
+                className="font-extrabold cursor-pointer text-rose-600 underline"
+                >
                 Signin
               </label>
             </p>
-
-            <button className="ml-24 btn btn-outline font-extrabold">
+                  <div className="flex justify-center">
+            <button className="btn btn-secondary font-extrabold">
               Sign up
             </button>
+                  </div>
+                    
+                </div>
           </form>
         </div>
       </div>

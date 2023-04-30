@@ -7,6 +7,7 @@ import { authAdmin } from '../Services/adminApi'
 import { adminlogin, adminlogout } from '../redux/admin'
 import { authExpert } from '../Services/expertApi'
 import { expertlogin, expertlogout } from '../redux/expert'
+
 function PrivateRoutes({role,route}) {
 const dispatch= useDispatch()
 let [auth,setAuth]=useState(null)
@@ -37,7 +38,7 @@ useEffect(() => {
         }
         setAuth(resp.data.auth)
     }).catch(resp=>{
-        setAuth(resp.data.auth)
+        setAuth(resp.data?.auth)
         navigate('/admin/login')
     })
   }else if(role==="expert"){
@@ -50,7 +51,7 @@ useEffect(() => {
         }
         setAuth(resp.data.auth)
     }).catch(resp=>{
-        setAuth(resp.data.auth)
+        setAuth(resp.data?.auth || null)
         navigate('/expert/login')
     })
   }

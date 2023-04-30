@@ -56,8 +56,8 @@ const Detail = () => {
                 <tbody>
                   <tr className="active">
                     <td>Basic Rate** (up to 2 hrs)</td>
-                    <td className="">₹ {job.base_rate}</td>
-                    <td>₹ {job.base_rate}</td>
+                    <td className="">₹ {job?.base_rate}</td>
+                    <td>₹ {job?.base_rate}</td>
                   </tr>
 
                   <tr>

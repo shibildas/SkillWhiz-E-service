@@ -58,23 +58,22 @@ const Skills = () => {
   };
   return (
     <>
-      <div className=" min-h-fit p-3 rounded-xl bg-orange-200 bg-opacity-80 my-5">
+      <div className=" min-h-fit p-3 rounded-xl bg-teal-100  my-5">
         <div className="flex justify-between">
           <h1 className="text-3xl font-extrabold">My Skills</h1>
-          <label className="btn btn-primary" htmlFor="addSkill">
-            AddSkill
+          <label className="btn btn-success" htmlFor="addSkill">
+            Add Skill
           </label>
         </div>
 
         {datas.length != 0 ? (
-          <div className="stats stats-vertical shadow m-2 sm:grid-cols-1 md:grid-cols-3 bg-opacity-50">
+          <div className=" shadow flex-wrap sm:grid-cols-1 md:grid-cols-3 p-2 ">
             {datas?.map((data, index) => {
               return (
-             
-                  <div key={index + "20"} className="stat ">
+                  <div key={index+"20"} className="stat rounded-xl bg-teal-600 m-2">
                     <button
                       onClick={() => handleClick(data?._id)}
-                      className="rounded-full w-6 h-6 p-1 hover:bg-orange-400 bg-slate-100"
+                      className="rounded-full w-6 h-6 p-1 hover:bg-orange-400 outline outline-1"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +85,7 @@ const Skills = () => {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth="2"
+                          strokeWidth="5"
                           d="M6 18L18 6M6 6l12 12"
                         />
                       </svg>
@@ -99,13 +98,13 @@ const Skills = () => {
                       </div>
                     </div>
 
-                    <div className="stat-value text-2xl max-w-[300px] truncate ">
+                    <div className="stat-value text-2xl max-w-[300px] text-gray-100 truncate ">
                       {data?.job_role?.toUpperCase()}
                     </div>
-                    <div className="stat-title font-bold text-xl">
+                    <div className="stat-title font-bold text-xl text-black">
                       Earn: ₹ {data?.base_rate * 0.8}
                     </div>
-                    <div className="stat-desc text-secondary">
+                    <div className="stat-desc font-bold text-lg text-amber-100">
                       Additional: ₹ {data?.add_rate * 0.85}/hr{" "}
                     </div>
                   </div>

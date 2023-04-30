@@ -49,8 +49,8 @@ const AdminLogin=()=>{
 
 return(
     <>
-    <div className="bg-gradient-to-r from-slate-400 to-teal-300 h-screen flex justify-center items-center">
-        <div className="p-5 h-max w-max border-2 rounded-2xl bg-gradient-to-r from-black to-teal-600 ">
+    <div className="bg-gradient-to-r from-slate-400 to-teal-600 h-screen flex justify-center items-center">
+        <div className="p-5 h-max w-max border-2 rounded-2xl bg-slate-700 ">
         
 
             <button onClick={ handleClose } className="btn btn-sm btn-circle btn-ghost absolute text-right text-white ">✕</button>

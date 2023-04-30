@@ -11,7 +11,7 @@ const UserLayout = () => {
       <div className=" max-w-screen-xl mx-auto rounded-2xl" style={{backgroundImage:"url(https://res.cloudinary.com/dpfnxwvps/image/upload/c_crop,h_3336,w_1488/v1681457153/13260_g3udrj.avif)"}}>
         <Outlet/>
       </div>
-      <Footer />
+      <Footer teal={"text-purple-800"} />
 
     </>
   );

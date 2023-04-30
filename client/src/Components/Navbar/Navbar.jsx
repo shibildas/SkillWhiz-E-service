@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar bg-gradient-to-b to-purple-400 from-violet-800 shadow-2xl text-white">
+      <div className="navbar bg-purple-500 shadow-2xl text-white">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -81,7 +81,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1 font-extrabold text-xl">
             <li>
               <a>Home</a>
             </li>

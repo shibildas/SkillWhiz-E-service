@@ -47,7 +47,7 @@ const Signin = () => {
     <>
       <input type="checkbox" id="my-modal-3" className="modal-toggle" />
       <div className="modal ">
-        <div className="modal-box relative w-auto shadow-inner bg-cover shadow-black" style={{backgroundImage:"url(https://res.cloudinary.com/dpfnxwvps/image/upload/c_crop,h_2145,o_60,w_995/v1681457153/13260_g3udrj.avif)"}}>
+        <div className="modal-box relative w-auto bg-opacity-75 shadow-inner bg-secondary shadow-black">
           <label
             htmlFor="my-modal-3"
             className="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"
@@ -87,7 +87,7 @@ const Signin = () => {
                 </label>{" "}
               </p>
               <div className="p-3 flex justify-center">
-                <button className="btn btn-outline btn-secondary font-extrabold">
+                <button className="btn font-extrabold">
                   Login
                 </button>
               </div>

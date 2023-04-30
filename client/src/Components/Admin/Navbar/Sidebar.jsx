@@ -12,6 +12,7 @@ const Sidebar=()=>{
   <li className="p-2 my-2 border shadow-black shadow-2xl rounded-md hover:bg-slate-900"><Link to="/admin/experts">ExpertList</Link></li>
   <li className="p-2 my-2 border shadow-black shadow-2xl rounded-md hover:bg-slate-900"><Link to="/admin/users">UserList</Link></li>
   <li className="p-2 my-2 border shadow-black shadow-2xl rounded-md hover:bg-slate-900"><Link to="/admin/jobs">Jobs</Link></li>
+  <li className="p-2 my-2 border shadow-black shadow-2xl rounded-md hover:bg-slate-900"><Link to="/admin/bookings">Bookings</Link></li>
 </ul>
 </div>  
         </>

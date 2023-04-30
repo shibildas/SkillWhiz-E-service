@@ -86,7 +86,7 @@ const Schedules = () => {
   return (
     <>
       <div className="w-full h-full my-3">
-        <div className="bg-blue-100 rounded-xl p-5 md:h-[75vh]">
+        <div className="bg-teal-800 rounded-xl p-5 md:h-[75vh] shadow-2xl text-white">
          
           <h1 className="text-2xl font-extrabold text-center py-5">
             Fix Schedules
@@ -101,8 +101,8 @@ const Schedules = () => {
                 <div
                   className={`m-2 shadow-2xl shadow-black p-2 w-28 rounded-2xl cursor-pointer ${
                     selectedDate && selectedDate.isSame(date, "day")
-                      ? "bg-indigo-400"
-                      : ""
+                      ? "bg-slate-800"
+                      : "bg-indigo-600"
                   }`}
                   onClick={() => handleDateSelect(date)}
                 >
@@ -132,13 +132,13 @@ const Schedules = () => {
                         : " text-black"
                     } ${
                       slot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))
-                        && "bg-slate-300 cursor-not-allowed text-slate-100 outline outline-slate-900"
+                        && "bg-slate-500 cursor-not-allowed text-slate-100 outline outline-slate-900"
                         
                     } ${
                       bookedslot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))
                         ? "bg-green-400 cursor-not-allowed text-black" :"bg-indigo-300"
                         
-                    } font-bold py-2 px-4 rounded-xl m-2  h-40 `}
+                    } font-bold py-2 px-4 rounded-xl m-2  h-40 shadow-inner shadow-black `}
                     onClick={() =>
                       handleTimeSlotSelect(
                         startTime.format("MMMM Do YYYY, h:mm:ss a")
@@ -156,7 +156,7 @@ const Schedules = () => {
               </div>
               {(selectTime.length != 0) && <div className="flex justify-center">
                 {" "}
-                <button onClick={handleSubmit} className="btn btn-primary m-5">
+                <button onClick={handleSubmit} className="btn btn-warning m-5">
                   Update
                 </button>
               </div>}

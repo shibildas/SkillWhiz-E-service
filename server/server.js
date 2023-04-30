@@ -57,61 +57,61 @@ server.use("/expert",expertRoute)
 // })
 
 
-  let chatRoom=''
-  let allUsers=[]
-  const CHAT_BOT = 'ChatBot'
-  io.on('connection', (socket) => {
-    console.log(`a user connected at ${socket.id}`)
-    socket.on("send_message",({username,room, message, } )=>{
-      console.log(username);
-      let __createdtime__ = Date.now()
-       createMessage(username, room, message, __createdtime__ ).then((res)=>{
-            // console.log(res);
-          }).catch(err=>console.log(err.message)) 
-          socket.on('receive_message', (data) => {
-            console.log(data); // Do something with the data (e.g. display it on the frontend)
-          socket.emit('receive_message',data)
+  // let chatRoom=''
+  // let allUsers=[]
+  // const CHAT_BOT = 'ChatBot'
+  // io.on('connection', (socket) => {
+  //   console.log(`a user connected at ${socket.id}`)
+  //   socket.on("send_message",({username,room, message, } )=>{
+  //     console.log(username);
+  //     let __createdtime__ = Date.now()
+  //      createMessage(username, room, message, __createdtime__ ).then((res)=>{
+  //           // console.log(res);
+  //         }).catch(err=>console.log(err.message)) 
+  //         socket.on('receive_message', (data) => {
+  //           console.log(data); // Do something with the data (e.g. display it on the frontend)
+  //         socket.emit('receive_message',data)
         
-      });
-      getMessages(room).then(last_100=>{
-        socket.emit('last_100_messages',last_100)
-      }).catch(err=>console.log(err))
+  //     });
+  //     getMessages(room).then(last_100=>{
+  //       socket.emit('last_100_messages',last_100)
+  //     }).catch(err=>console.log(err))
 
-        // chatRoom=room
-        // allUsers.push({id:socket.id,username,room})
-        // chatRoomUsers = allUsers.filter((user)=> user.room===room)
-        // socket.to(room).emit('chatroom_users',chatRoomUsers)
-        // socket.emit('chatroom_users',chatRoomUsers)
+  //       // chatRoom=room
+  //       // allUsers.push({id:socket.id,username,room})
+  //       // chatRoomUsers = allUsers.filter((user)=> user.room===room)
+  //       // socket.to(room).emit('chatroom_users',chatRoomUsers)
+  //       // socket.emit('chatroom_users',chatRoomUsers)
 
 
 
-        socket.on('disconnect', async () => {
-          console.log('User disconnected from the chat');
-          try {
-            const user = await usermodel.findOne({ _id: room});
-            const expert = await expertmodel.findOne({ _id: room});
-            if (user?.name) {
-              allUsers = leaveRoom(socket.id, allUsers);
-              socket.to(chatRoom).emit('chatroom_users', allUsers);
-              socket.to(chatRoom).emit('receive_message', {
-                message: `${user.name} has disconnected from the chat.`,
-              });
-            }
-            else if (expert?.username) {
-              allUsers = leaveRoom(socket.id, allUsers);
-              socket.to(chatRoom).emit('chatroom_users', allUsers);
-              socket.to(chatRoom).emit('receive_message', {
-                message: `${expert.username} has disconnected from the chat.`,
-              });
-            }
-          } catch (err) {
-            console.error(err);
-          }
-        });
-      })
+  //       socket.on('disconnect', async () => {
+  //         console.log('User disconnected from the chat');
+  //         try {
+  //           const user = await usermodel.findOne({ _id: room});
+  //           const expert = await expertmodel.findOne({ _id: room});
+  //           if (user?.name) {
+  //             allUsers = leaveRoom(socket.id, allUsers);
+  //             socket.to(chatRoom).emit('chatroom_users', allUsers);
+  //             socket.to(chatRoom).emit('receive_message', {
+  //               message: `${user.name} has disconnected from the chat.`,
+  //             });
+  //           }
+  //           else if (expert?.username) {
+  //             allUsers = leaveRoom(socket.id, allUsers);
+  //             socket.to(chatRoom).emit('chatroom_users', allUsers);
+  //             socket.to(chatRoom).emit('receive_message', {
+  //               message: `${expert.username} has disconnected from the chat.`,
+  //             });
+  //           }
+  //         } catch (err) {
+  //           console.error(err);
+  //         }
+  //       });
+  //     })
       
 
-  })
+  // })
 
   // io.on('connection', (socket)=>{
   //   console.log(("socket is: ", socket));
