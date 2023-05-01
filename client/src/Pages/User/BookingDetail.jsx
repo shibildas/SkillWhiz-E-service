@@ -17,20 +17,14 @@ const BookingDetail=()=>{
  
     const {id}=useParams()
     const [load,setLoad]=useState(false)
-    const [estimate,setEstimate]=useState({})
     const [user,setUser]=useState({})
-    const [job,setJob]=useState({})
     const [other,setOther]=useState({})
-    const [address,setAddress]=useState({})
     const handleLoad=()=>{
         setLoad(!load)
     }
     useEffect(()=>{
         setUser(book?.userId)
         setOther(book?.expertId)
-        setAddress(book?.address)
-        setEstimate(book?.estimate)
-        setJob(book?.jobId)
 
     },[book])
   
@@ -61,7 +55,11 @@ const BookingDetail=()=>{
             try {
              
              const {data}= await verifyPayment(response,id)
-             console.log(data); 
+             console.log(data);
+             if(data){
+
+                 handleLoad()
+             } 
             } catch (error) {
                 console.log(error);
             }
@@ -93,7 +91,7 @@ const handlePayment=async()=>{
         <ul className="steps md:text-2xl text-sm  font-bold">
   <li data-content="📬" className="step step-secondary ">Open</li>
   <li data-content="⛹" className="step step-secondary">Partner Assigned</li>
-  <li data-content="⏲" className={`step ${estimate?.status==="approved" } ${book?.status==="invoiced" && "step-secondary"} ${book?.status==="completed"&& "step-secondary"}`}>In Progress</li>
+  <li data-content="⏲" className={`step ${book?.estimate?.status==="approved" } ${book?.status==="invoiced" && "step-secondary"} ${book?.status==="completed"&& "step-secondary"}`}>In Progress</li>
   <li data-content="✔" className={`step ${book?.status==="invoiced"&& "step-secondary"} ${book?.status==="completed"&& "step-secondary"}`}>Completed</li>
   <li data-content="🗐" className={`step ${book?.status==="invoiced"&& "step-secondary"}`}>invoiced</li>
   <li data-content="📪" className="step">Closed</li>
@@ -114,15 +112,16 @@ const handlePayment=async()=>{
 <div className="divider "></div>
 <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Partner Assigned: </h1> <h1>{book?.expertId?.username?.toUpperCase()}<br/> Ph: +91- {book?.expertId?.mobile}</h1></div>
 <div className="divider "></div>
-<div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1> {book?.estimate?.amount ? <label  htmlFor={`${estimate?.status!=="approved" &&"estimate"}`} className={`  ${estimate?.status!=="approved" && "tooltip btn btn-sm btn-success"} font-extrabold text-xl`} data-tip="View Estimate">Rs : {book?.estimate?.amount}</label> :"Estimation Pending"}{estimate?.status!=="approved" && <span className="indicator-item badge badge-primary">view</span>} </h1></div>
+<div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Estimate Amount: </h1> <h1> {book?.estimate?.amount ? <label  htmlFor={`${book?.estimate?.status!=="approved" &&"estimate"}`} className={`  ${book?.estimate?.status!=="approved" && "tooltip btn btn-sm btn-success"} font-extrabold text-xl`} data-tip="View Estimate">Rs : {book?.estimate?.amount}</label> :"Estimation Pending"}{book?.estimate?.status!=="approved" && <span className="indicator-item badge badge-primary">view</span>} </h1></div>
 <div className="divider "></div>
-{(book?.status==="completed" )&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Invoice Amount</h1> <div><h1 className="text-center">₹ {book?.bill_amount}</h1><label className="btn m-2 btn-warning" onClick={handlePayment} >Pay Online</label> </div> </div>}
+{(book?.status==="completed" ||book?.status==="invoiced")&& <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Invoice Amount</h1> <div><h1 className="text-center">₹ {book?.bill_amount}</h1>{(book?.status==="completed" )&& <label className="btn m-2 btn-warning" onClick={handlePayment} >Pay Online</label>} </div> </div>}
 {book?.status==="invoiced"&& <>
+<div className="divider "></div>
 <div className="flex-col">
     <h1>Rate the Job</h1>
 <div className="rating">
   <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
-  <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" checked />
+  <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" defaultChecked />
   <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
   <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
   <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
@@ -139,7 +138,7 @@ const handlePayment=async()=>{
 <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5">
         {/* <Chat room={id} username={username} user={user} other={other}/> */}
         </div>
-        <Estimate address={address} user={user} estimate={estimate} job={job} id={id} handleLoad={handleLoad}/>
+        <Estimate address={book?.address} user={user} estimate={book?.estimate} job={book?.jobId} id={id} handleLoad={handleLoad}/>
         </>
     )
 }

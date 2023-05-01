@@ -200,6 +200,7 @@ const AppointmentDetail = () => {
                   )}
               </div></>}
             </div>
+            {(book?.status==="completed" )&&<>
                 <div className="divider "></div>
             <div className="flex justify-between   font-semibold p-2 flex-wrap">
               {" "}
@@ -210,8 +211,8 @@ const AppointmentDetail = () => {
               <label className="btn m-2 btn-warning">Recieve Cash</label>
               )}
               </div>{" "}
-            </div>
-          <div className="divider "></div>
+          {/* <div className="divider "></div> */}
+            </div></>}
           {book?.status === "invoiced" && (
             <>
               <div className="flex-col">

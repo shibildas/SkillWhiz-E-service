@@ -427,7 +427,6 @@ module.exports.verifyPayment=async(req,res)=>{
       'payment.payment_id':razorpay_payment_id,
       'payment.payment_status':"success",
     }})
-    console.log(booking);
       return res.status(200).json({message:"Payment verified successfully"})
 
     }else{

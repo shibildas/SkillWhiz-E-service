@@ -98,7 +98,7 @@ const ExpertList = () => {
                             </div>
                             <div>
                               <div className="font-bold">{data?.username}</div>
-                              <div className="text-sm opacity-50">
+                              <div className="text-sm font-bold">
                                 {data?.email}
                               </div>
                             </div>
@@ -133,10 +133,10 @@ const ExpertList = () => {
                             </label>
                           )}
                           {data?.identity?.status === "initial" && (
-                            <b className="p-3 text-orange-400 font-mono">Initialized</b>
+                            <b className="p-3 text-blue-900 font-mono">Initialized</b>
                           )}
                           {data?.identity?.status === "approved" && (
-                            <b className="p-3 text-green-700">Completed</b>
+                            <b className="p-3 text-green-900">Completed</b>
                           )}
                         </td>
                         <th>

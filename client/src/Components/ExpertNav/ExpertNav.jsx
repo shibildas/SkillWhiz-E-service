@@ -17,7 +17,7 @@ const navigate=useNavigate()
   
     return(
         <>
-        <div className="navbar bg-teal-600 shadow-2xl">
+        <div className="navbar bg-blue-900 shadow-2xl">
   <div className="navbar-start">
     <div className="dropdown">
       <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -50,7 +50,7 @@ const navigate=useNavigate()
           Services
           <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
         </a>
-        <ul className="p-2 bg-teal-600">
+        <ul className="p-2 bg-blue-900">
           <li><a>Submenu 1</a></li>
           <li><a>Submenu 2</a></li>
         </ul>
@@ -62,10 +62,10 @@ const navigate=useNavigate()
   <div className="dropdown dropdown-end">
       <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
-          <img src={data?.image ? data?.image :"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"} />
+          <img src={data?.image ? data?.image :"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"} alt="image" />
         </div>
       </label>
-      <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow text-white rounded-box w-52 bg-teal-600">
+      <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow text-white rounded-box w-52 bg-blue-900">
         <li>
           <Link to='/expert/profile' className="items-start flex-col underline">
             <b className="text-2xl" >{data?.username?.toUpperCase()?.substring(0,6)}</b>

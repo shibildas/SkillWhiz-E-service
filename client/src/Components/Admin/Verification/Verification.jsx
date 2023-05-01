@@ -100,13 +100,13 @@ const Verification=({expert,handleLoad})=>{
     <h1 className="p-3 font-bold">Status: {expert?.identity?.status}</h1>
     <h1 className="p-3">Name as per ID: <b> {expert?.identity?.name}</b></h1>
     <div className="p-3 flex justify-between">
-        <label htmlFor="reject" className="btn btn-error btn-outline">Reject</label>
+        <label htmlFor="Reject" className="btn btn-error btn-outline">Reject</label>
+<Reason id={id} handleLoad={handleLoad}/>
         <button onClick={handleApprove} className="btn btn-success btn-outline">Approve</button>
 
     </div>
   </div>
 </div>
-<Reason id={id} handleLoad={handleLoad}/>
         </>
     )
 }

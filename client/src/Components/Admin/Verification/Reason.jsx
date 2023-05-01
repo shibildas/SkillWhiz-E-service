@@ -9,7 +9,7 @@ const Reason = ({id,handleLoad}) => {
             if(reason===""){
                 setAlert(true)
              }else {const verifyex= document.getElementById("exVerify")
-            const reject =  document.getElementById('reject')
+            const reject =  document.getElementById('Reject')
                 adminAxiosInstance.post(`/rejectExpert/${id}`,{reason:reason}).then(res=>{
                     if(res.data.status==="success"){
                         handleLoad()
@@ -26,10 +26,10 @@ const Reason = ({id,handleLoad}) => {
     }
   return (
     <>
-    <input type="checkbox" id="reject" className="modal-toggle" />
+    <input type="checkbox" id="Reject" className="modal-toggle" />
 <div className="modal">
   <div className="modal-box relative bg-cyan-700 text-white">
-    <label htmlFor="reject" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+    <label htmlFor="Reject" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
     <h3 className="text-lg text-center font-bold">Are You Sure for Rejection?</h3>
     <div className='flex justify-center my-2'>
         <div>

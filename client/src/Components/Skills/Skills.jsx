@@ -58,7 +58,7 @@ const Skills = () => {
   };
   return (
     <>
-      <div className=" min-h-fit p-3 rounded-xl bg-teal-100  my-5">
+      <div className=" min-h-fit p-3 rounded-xl bg-white  my-5">
         <div className="flex justify-between">
           <h1 className="text-3xl font-extrabold">My Skills</h1>
           <label className="btn btn-success" htmlFor="addSkill">
@@ -70,10 +70,10 @@ const Skills = () => {
           <div className=" shadow flex-wrap sm:grid-cols-1 md:grid-cols-3 p-2 ">
             {datas?.map((data, index) => {
               return (
-                  <div key={index+"20"} className="stat rounded-xl bg-teal-600 m-2">
+                  <div key={index+"20"} className="stat rounded-xl bg-slate-600 m-2">
                     <button
                       onClick={() => handleClick(data?._id)}
-                      className="rounded-full w-6 h-6 p-1 hover:bg-orange-400 outline outline-1"
+                      className="rounded-full w-6 h-6 p-1 hover:bg-orange-400 text-white outline outline-1"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -93,18 +93,18 @@ const Skills = () => {
                     <div className="stat-figure text-secondary ">
                       <div className="avatar online">
                         <div className="w-16 rounded-full">
-                          <img src={data?.image} />
+                          <img src={data?.image} alt="image"/>
                         </div>
                       </div>
                     </div>
 
-                    <div className="stat-value text-2xl max-w-[300px] text-gray-100 truncate ">
+                    <div className="stat-value text-2xl max-w-[300px] text-slate-50 truncate ">
                       {data?.job_role?.toUpperCase()}
                     </div>
-                    <div className="stat-title font-bold text-xl text-black">
+                    <div className="stat-title font-bold text-xl text-cyan-100">
                       Earn: ₹ {data?.base_rate * 0.8}
                     </div>
-                    <div className="stat-desc font-bold text-lg text-amber-100">
+                    <div className="stat-desc font-bold text-lg text-amber-200">
                       Additional: ₹ {data?.add_rate * 0.85}/hr{" "}
                     </div>
                   </div>

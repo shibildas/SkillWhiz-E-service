@@ -35,11 +35,11 @@ const MainPage = () => {
         <div className="grid grid-cols-2 md:grid-cols-4">
           {jobs?.map((ele, index) => {
             return (
-              <Link to={`/job/${encodeURIComponent(ele?.job_role)}`} onClick={()=> setJob(ele)}
+              <Link to={`/job/${encodeURIComponent(ele?.job_role)}`}
                 className="flex flex-col justify-center items-center "
                 key={"A" + index}
               >
-                <img className="w-32 rounded-full cursor-pointer shadow-black shadow-2xl" src={ele?.image} alt="" />
+                <img className="w-32 rounded-full cursor-pointer shadow-black shadow-2xl" src={ele?.image} alt="image" />
                 <h1 className="p-2 font-extrabold cursor-pointer ">{ele?.job_role?.toUpperCase()}</h1>
               </Link>
             );
@@ -48,8 +48,8 @@ const MainPage = () => {
                 className="flex flex-col justify-center items-center "
                
               >
-                <img className="w-32 rounded-full cursor-pointer shadow-black shadow-2xl" src={services.img} alt="image" />
-                <h1 className="p-2 font-extrabold cursor-pointer">{services.val}</h1>
+                <img className="w-32 rounded-full cursor-pointer shadow-black shadow-2xl" src={services?.img} alt="image" />
+                <h1 className="p-2 font-extrabold cursor-pointer">{services?.val}</h1>
               </span>
         </div>
       </div>

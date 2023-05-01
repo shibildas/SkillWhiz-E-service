@@ -122,7 +122,7 @@ const UserList = () => {
 
                 </td>
                 <td>
-                      <div className="text-sm font-bold opacity-60">{ele?.email}</div>
+                      <div className="text-sm font-bold ">{ele?.email}</div>
 
                 </td>
                 <td>
