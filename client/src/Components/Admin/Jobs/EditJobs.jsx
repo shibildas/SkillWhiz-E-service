@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import Swal from "sweetalert2"
-import { adminAxiosInstance } from "../../../axios/instance"
+import { editJob } from "../../../Services/adminApi"
 
 
 const EditJobs=({job,handleLoad})=>{
@@ -50,13 +50,13 @@ const EditJobs=({job,handleLoad})=>{
               formData.append("bRate",bRate)
               formData.append("adRate",adRate)
 
-              adminAxiosInstance.post("/editJob",formData).then(res=>{
-                const editJob=document.getElementById("editJobs")
+              editJob(formData).then(res=>{
+                const editJobs=document.getElementById("editJobs")
                 if(res.data.status==="success"){
                     Swal.fire("Success", "Job Edit successfully", "success");
                     handleLoad()
                     setFile(null)
-                    editJob.checked=false
+                    editJobs.checked=false
                 }else{
                     Swal.fire("Sorry", "Job Edit failed", "error");
                 }

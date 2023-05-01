@@ -67,7 +67,7 @@ const Skills = () => {
         </div>
 
         {datas.length != 0 ? (
-          <div className=" shadow flex-wrap sm:grid-cols-1 md:grid-cols-3 p-2 ">
+          <div className=" shadow sm:grid-cols-1 md:grid-cols-3 p-2 ">
             {datas?.map((data, index) => {
               return (
                   <div key={index+"20"} className="stat rounded-xl bg-slate-600 m-2">
@@ -98,7 +98,7 @@ const Skills = () => {
                       </div>
                     </div>
 
-                    <div className="stat-value text-2xl max-w-[300px] text-slate-50 truncate ">
+                    <div className="stat-value text-2xl max-w-[300px] break-all text-slate-50 truncate ">
                       {data?.job_role?.toUpperCase()}
                     </div>
                     <div className="stat-title font-bold text-xl text-cyan-100">

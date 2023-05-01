@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { adminAxiosInstance } from "../../../axios/instance";
+import { editUser } from "../../../Services/adminApi";
 
 const EditUser = ({ user, handleLoad }) => {
   const [email,setEmail]=useState("")
@@ -51,15 +51,13 @@ const EditUser = ({ user, handleLoad }) => {
       formData.append("id",id)
       formData.append("name",name)
       formData.append("email",email)
-      adminAxiosInstance.post("/editUser",formData,{headers:{
-            "Content-Type": "multipart/form-data",
-      }}).then(res=>{
-        const editUser= document.getElementById("editUser")
+      editUser(formData).then(res=>{
+        const editUsers= document.getElementById("editUser")
         if(res.data.status==="success"){
           Swal.fire("Success", "User Edit successfully", "success");
           handleLoad()
           setFile(null)
-          editUser.checked=false
+          editUsers.checked=false
 
         }else{
           Swal.fire("Sorry", "User Edit failed", "error");

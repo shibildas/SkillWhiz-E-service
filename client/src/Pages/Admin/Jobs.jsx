@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AddJobs from "../../Components/Admin/Jobs/AddJobs";
 import Swal from "sweetalert2";
 import EditJobs from "../../Components/Admin/Jobs/EditJobs";
-import { adminAxiosInstance } from "../../axios/instance";
+import { getJobs, listJob, unListJob } from "../../Services/adminApi";
 
 const Jobs = () => {
   const arra=[0,1,2,3,4]
@@ -15,9 +15,7 @@ const Jobs = () => {
   }
 
   useEffect(() => {
-    adminAxiosInstance
-      .get("/getJobs")
-      .then((res) => {
+    getJobs().then((res) => {
         if (res.data.status === "success") {
           setData(res.data.result);
         } else {
@@ -43,7 +41,7 @@ const Jobs = () => {
       }).then((res)=>{
         if(res.isConfirmed){
           if(args.listed){
-            adminAxiosInstance.get(`/unListJob/${args._id}`).then(res=>{
+            unListJob(args?._id).then(res=>{
                 if(res.data.status==="success"){
                     handleLoad()
                     Swal.fire(
@@ -55,7 +53,7 @@ const Jobs = () => {
             })
 
           }else if(!args.listed){
-            adminAxiosInstance.get(`/listJob/${args._id}`).then(res=>{
+            listJob(args?._id).then(res=>{
                 if(res.data.status==="success"){
                     handleLoad()
                     Swal.fire(

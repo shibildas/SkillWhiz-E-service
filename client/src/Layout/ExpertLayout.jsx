@@ -10,7 +10,7 @@ const ExpertLayout = () => {
      <ExpertNav />
       <Verify />
       <div
-        className="max-w-screen-lg mx-auto bg-cover">
+        className="max-w-screen-lg mx-auto">
            <Outlet/>
       </div>
       <Footer teal={"text-teal-800"} />

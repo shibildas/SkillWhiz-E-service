@@ -10,17 +10,18 @@ import {
 const Footer = ({teal}) => {
   return (
     <>
-      <div className={` bg-slate-300 bg-opacity-20 mt-5 ${teal}`}>
-        <Link to="/admin/login"><h1 className={`p-4 xl:text-6xl md:text-3xl font-bold mx-10`}>Why Skillwhiz ?</h1></Link>
+      <div className={` bg-slate-300 bg-opacity-20  mt-5 ${teal}`}>
+        <div className="max-w-screen-xl mx-auto my-0">
+        <Link to="/admin/login"><h1 className={`p-4 xl:text-6xl md:text-3xl font-bold`}>Why Skillwhiz ?</h1></Link>
         <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {footerImg.map((img, index) => {
             return (
               <li
                 key={2 + index}
-                className="p-2 flex flex-col justify-center items-center"
-              >
-                <img className="w-20 filter brightness-50"  src={img?.img} alt="image" />
-                <h1 className={`mt-2 font-extrabold font-mono tracking-widest`}>{img?.val}</h1>
+                className="p-2 flex justify-evenly items-center"
+              ><div className="mx-2">
+                <img className="w-20 p-2"  src={img?.img} alt="image" />
+                <h1 className={` mt-2 p-2 font-extrabold font-mono tracking-widest`}>{img?.val}</h1></div>
               </li>
             );
           })}
@@ -38,8 +39,8 @@ const Footer = ({teal}) => {
           })}
         </ul>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 md:mt-10 p-5">
-          <li className="flex">
-            <img className="w-full float-right" src={icon} alt="image" />
+          <li className="flex justify-center">
+            <img className="w-3/4 float-right" src={icon} alt="image" />
           </li>
           <li className="">{comment}</li>
           <li className="">
@@ -48,14 +49,14 @@ const Footer = ({teal}) => {
               {social.map((app, index) => {
                 return (
                   <li key={20 + index} className="">
-                    <img src={app} alt="image" />
+                    <img className="w-5" src={app} alt="image" />
                   </li>
                 );
               })}
             </ul>
           </li>
         </ul>
-      </div>
+      </div></div>
     </>
   );
 };

@@ -3,7 +3,7 @@ const path = require("path")
 
 function checkFileType(file, cb) {
 
-    const filetypes = /jpeg|jpg|png|gif/;
+    const filetypes = /jpeg|jpg|png|gif|webp/;
 
     const mimetype = filetypes.test(file.mimetype);
 

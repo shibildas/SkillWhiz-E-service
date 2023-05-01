@@ -2,6 +2,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import UserOtp from "./UserOtp";
 import { userAxiosInstance } from "../../axios/instance";
+import { icon } from "../../constants/constants";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -66,6 +67,9 @@ const Signup = () => {
             >
             ✕
           </label>
+          <div className="flex justify-center rounded-full">
+            <img className="w-36 h-32 rounded-full filter brightness-200 saturate-200  " src={icon} alt="image"  />
+          </div>
           <h1 className="text-center p-5 text-3xl font-extrabold">Signup</h1>
           <form onSubmit={handlesignup} className="md:flex w-auto">
             <div>
@@ -142,7 +146,7 @@ const Signup = () => {
               <label
                 htmlFor="my-modal-3"
                 onClick={handleclose}
-                className="font-extrabold cursor-pointer text-rose-600 underline"
+                className="font-extrabold cursor-pointer text-yellow-500 underline"
                 >
                 Signin
               </label>

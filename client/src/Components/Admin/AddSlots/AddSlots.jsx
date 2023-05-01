@@ -2,6 +2,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { adminAxiosInstance } from "../../../axios/instance";
+import { addSchedule } from "../../../Services/adminApi";
 
 const AddSlots = ({ expert, handleLoad }) => {
   const today = moment().startOf("day");
@@ -35,17 +36,13 @@ const AddSlots = ({ expert, handleLoad }) => {
     if (selectTime.includes(startTime)) {
       setSelectedTime(selectTime.filter((val) => val !== startTime));
     } else {
-      setSelectedTime([...selectTime, startTime]);
+      setSelectedTime([...selectTime, startTime])
     }
   };
   const handleSubmit = () => {
     if (selectTime.length != 0) {
-      adminAxiosInstance
-        .post(
-          "/addSchedule",
-          { dates: selectTime, _id: id }
-        )
-        .then((res) => {
+      
+        addSchedule(selectTime,id).then((res) => {
           if (res.data.status === "success") {
             const modal = document.getElementById("addSlots");
             Swal.fire("success", "Slots Added Successfully", "success");

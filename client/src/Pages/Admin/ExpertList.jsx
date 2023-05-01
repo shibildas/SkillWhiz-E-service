@@ -4,7 +4,8 @@ import useGerExperts from "../../Services/useGetExperts";
 import EditExpert from "../../Components/Admin/EditExpert/EditExpert";
 import { Swal } from "../../Components/ExpertOTP/import";
 import AddSlots from "../../Components/Admin/AddSlots/AddSlots";
-import { adminAxiosInstance } from "../../axios/instance";
+
+import { blockExpert, unBlockExpert } from "../../Services/adminApi";
 
 const ExpertList = () => {
   const [expert, setExpert] = useState({});
@@ -22,25 +23,21 @@ const ExpertList = () => {
     }).then((res) => {
       if (res.isConfirmed) {
         if (data?.isBanned) {
-          adminAxiosInstance
-            .get(`/unBlockExpert/${data?._id}`)
-            .then((res) => {
-              if (res.data.status === "success") {
-                handleLoad();
+          unBlockExpert(data?._id).then((res) => {
+            if (res.data.status === "success") {
+              handleLoad();
 
-                Swal.fire("UnBlocked!", "User has been unBlocked.", "success");
-              }
-            });
+              Swal.fire("UnBlocked!", "User has been unBlocked.", "success");
+            }
+          });
         } else if (!data?.isBanned) {
-          adminAxiosInstance
-            .get(`/blockExpert/${data?._id}`)
-            .then((res) => {
-              if (res.data.status === "success") {
-                handleLoad();
+          blockExpert(data?._id).then((res) => {
+            if (res.data.status === "success") {
+              handleLoad();
 
-                Swal.fire("Blocked!", "User has been blocked.", "success");
-              }
-            });
+              Swal.fire("Blocked!", "User has been blocked.", "success");
+            }
+          });
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your data is safe :)", "error");
@@ -62,7 +59,9 @@ const ExpertList = () => {
                 <th className="text-2xl bg-slate-400 text-stone-700">
                   Name & E-mail
                 </th>
-                <th className="text-2xl bg-slate-400 text-stone-700">Jobs & contact</th>
+                <th className="text-2xl bg-slate-400 text-stone-700">
+                  Jobs & contact
+                </th>
                 <th className="text-2xl bg-slate-400 text-stone-700">Status</th>
                 <th className="text-2xl bg-slate-400 text-stone-700">
                   Verification
@@ -108,16 +107,19 @@ const ExpertList = () => {
                           Contact: +91- {data?.mobile}
                           <br />
                           <span className="badge badge-ghost badge-sm flex flex-wrap">
-                            {data?.skills.map(ele=>{
-                              return(ele.job_role?.toUpperCase() +", ")
+                            {data?.skills.map((ele) => {
+                              return ele.job_role?.toUpperCase() + ", ";
                             })}
                           </span>
                         </td>
                         <td>
                           <button
-                            onClick={() =>{ 
-                              handleBlock(data)}}
-                            className={ `btn  ${data?.isBanned ? "btn-error":" btn-warning"} font-extrabold`}
+                            onClick={() => {
+                              handleBlock(data);
+                            }}
+                            className={`btn  ${
+                              data?.isBanned ? "btn-error" : " btn-warning"
+                            } font-extrabold`}
                           >
                             {data?.isBanned ? "UnBlock" : "Block"}
                           </button>
@@ -133,7 +135,9 @@ const ExpertList = () => {
                             </label>
                           )}
                           {data?.identity?.status === "initial" && (
-                            <b className="p-3 text-blue-900 font-mono">Initialized</b>
+                            <b className="p-3 text-blue-900 font-mono">
+                              Initialized
+                            </b>
                           )}
                           {data?.identity?.status === "approved" && (
                             <b className="p-3 text-green-900">Completed</b>

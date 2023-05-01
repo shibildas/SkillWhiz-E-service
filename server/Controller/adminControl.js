@@ -115,14 +115,18 @@ module.exports.addJobs= async(req,res)=>{
         }else{
             const result = await cloudinary.uploader.upload(req.file.path,{format:'WebP',
                 transformation: [{ width: 200, height: 200 }]})
-            await jobsmodel.create({
+            const job= await jobsmodel.create({
                 job_role:req.body.job,
                 base_rate:req.body.bRate,
                 add_rate:req.body.adRate,
                 image:result.secure_url
             })
-            fs.unlinkSync(req.file.path);
             res.json({"status":"success",result:"Job Added Success"})
+            if(job){
+
+                fs.unlinkSync(req?.file?.path);
+            }
+
         }
 
     } catch (error) {

@@ -382,6 +382,7 @@ module.exports.getAppointments = async (req, res) => {
 module.exports.getBookings = async (req, res) => {
   try {
     const id = req.params.id;
+    console.log(id);
     const booking = await bookingmodel
       .findOne({ _id: id })
       .populate("userId", "-password")

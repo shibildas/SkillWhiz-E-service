@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import Swal from "sweetalert2";
-import { adminAxiosInstance } from "../axios/instance";
+import { getExperts } from "./adminApi";
 
 const useGerExperts = () => {
   const[load,setLoad]=useState(false)
@@ -10,9 +10,7 @@ const useGerExperts = () => {
   }
 
   const fetchExperts = useCallback(() => {
-    adminAxiosInstance
-      .get("/getExperts")
-      .then((res) => {
+    getExperts().then((res) => {
         if (res.data.status === "success") {
           setData(res.data.result);
         } else {

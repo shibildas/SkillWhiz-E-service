@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import EditUser from "../../Components/Admin/EditUser/EditUser";
-import { adminAxiosInstance } from "../../axios/instance";
+import { blockUser, getUsers, unBlockUser } from "../../Services/adminApi";
 
 const UserList = () => {
   const arra=[0,1,2,3,4]
@@ -15,7 +15,7 @@ const UserList = () => {
     
 
     useEffect(() => {
-        adminAxiosInstance.get("/getUsers").then((res)=>{
+        getUsers().then((res)=>{
             if(res.data.status==="success"){
                 setDatas(res.data.result)
             }else{
@@ -38,13 +38,11 @@ const UserList = () => {
         reverseButtons: true
       }).then((res)=>{
         if(res.isConfirmed){
-          const editUser= document.getElementById("editUser")
-          
           if(ele.isBanned){
-            adminAxiosInstance.get(`/unBlockUser/${ele._id}`).then((res)=>{
+            unBlockUser(ele?._id).then((res)=>{
               if(res.data.status==="success"){
                 handleLoad()
-                editUser.checked=false
+      
                 Swal.fire(
                   'UnBlocked!',
                   'User has been unBlocked.',
@@ -54,10 +52,10 @@ const UserList = () => {
               }
             })
           }else if(!ele.isBanned){
-            adminAxiosInstance.get(`/blockUser/${ele._id}`).then((res)=>{
+            blockUser(ele?._id).then((res)=>{
               if(res.data.status==="success"){
                 handleLoad()
-                editUser.checked=false
+              
                 Swal.fire(
                   'Blocked!',
                   'User has been blocked.',

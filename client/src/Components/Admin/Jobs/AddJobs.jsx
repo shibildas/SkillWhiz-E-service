@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { adminAxiosInstance } from "../../../axios/instance";
+import { addJob } from "../../../Services/adminApi";
 const AddJobs = ({handleLoad ,load}) => {
   const [job, setJob] = useState("");
   const [bRate, setBRate] = useState("");
@@ -34,25 +35,19 @@ const AddJobs = ({handleLoad ,load}) => {
       formData.append("bRate", bRate);
       formData.append("adRate", adRate);
 
-      adminAxiosInstance
-        .post("/addjobs", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
+      addJob(formData).then((res) => {
           console.log(res.data);
           if (res.data.status === "success") {
             Swal.fire("Success", "Job added successfully", "success");
-            const addJob = document.getElementById("Add-jobs")
-            addJob.checked=false
-            handleLoad(!load)
+            const addJobs = document.getElementById("Add-jobs")
             setJob("");
             setBRate("");
             setAdRate("");
             setSelectedFile(null);
+            addJobs.checked=false
+            handleLoad(!load)
           } else {
-            Swal.fire("Sorry", "Job adding failed", "error");
+            Swal.fire("Sorry", res.data.message, "error");
           }
         }).catch((error) => {
           console.error(error);
@@ -67,7 +62,7 @@ const AddJobs = ({handleLoad ,load}) => {
       <input type="checkbox" id="Add-jobs" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box w-auto">
-          <label htmlFor="Add-jobs" className="btn  float-right btn-circle">
+          <label htmlFor="Add-jobs" className="btn btn-sm float-right btn-circle">
             x
           </label>
           <h3 className="font-bold text-2xl text-center my-3">Let's Add Some Jobs</h3>

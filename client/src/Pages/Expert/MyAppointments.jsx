@@ -16,22 +16,22 @@ const MyAppointments = () => {
 
   return (
     <>
-      <div className="bg-teal-500 bg-opacity-90 min-h-screen my-2 rounded-lg">
-        <h1 className="text-center md:text-3xl text-xl font-extrabold text-white p-2">
+      <div className=" bg-opacity-90 min-h-screen my-2 rounded-lg">
+        <h1 className="text-center md:text-3xl text-xl font-extrabold  p-2">
           My Appointments
         </h1>
 
         <div className="flex flex-wrap justify-center md:mt-10">
           {(booking?.length)? (booking?.map((ele,index)=>{
           return(
-          <div key={index+20} className="card w-96 bg-base-400 shadow-xl image-full p-2">
-            <figure>
-              <img
+          <div key={index+20} className="card w-96 shadow-xl image-full p-2">
+            <figure className="p-2">
+              <img className="rounded-full brightness-75"
                 src={ele?.jobId?.image}
                 alt="job"
               />
             </figure>
-            <div className="card-body">
+            <div className="card-body rounded-xl">
               <h2 className="card-title">{ele?.jobId?.job_role?.toUpperCase()}</h2>
               <p>Appointment Id: <b> {ele?._id}</b></p>
               <p>Time: <b>{ele?.slot}</b></p>
