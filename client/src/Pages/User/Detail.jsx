@@ -1,9 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Swal } from "../../Components/ExpertOTP/import";
 import { userAxiosInstance } from "../../axios/instance";
+import { useDispatch } from "react-redux";
+import { showAlertError } from "../../Services/showAlert";
 
 const Detail = () => {
+  const dispatch=useDispatch()
   const { jobId } = useParams();
   const [job, setJob] = useState({});
   const [open,setOpen]=useState("collapse-open ")
@@ -15,11 +17,11 @@ const Detail = () => {
         if (res.data.status === "success") {
           setJob(res.data.result);
         } else {
-          Swal.fire("sorry", "coudnt fetch data", "error");
+         showAlertError(dispatch,"coudnt fetch data")
         }
       })
       .catch((error) => {
-        Swal.fire("error", error.message, "error");
+        showAlertError(dispatch,error.message)
       });
   }, []);
 

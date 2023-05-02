@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Link } from "react-router-dom";
 import { userAxiosInstance } from "../../axios/instance";
+import { useDispatch } from "react-redux";
+import { showAlertError } from "../../Services/showAlert";
 
 
 const BookingList = () => {
+  const dispatch=useDispatch()
   const arr=[1,2,3,4,5,6]
     const [booking,setBooking]=useState([])
   useEffect(() => {
@@ -13,7 +16,7 @@ const BookingList = () => {
             setBooking(res.data.result)
         }
     }).catch(error=>{
-      console.log(error?.message);
+      showAlertError(dispatch,error.message)
     })
 
   }, []);

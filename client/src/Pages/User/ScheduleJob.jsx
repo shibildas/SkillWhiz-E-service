@@ -1,11 +1,13 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import { useParams } from "react-router-dom"
 import Address from "../../Components/Address/Address";
 import { userAxiosInstance } from "../../axios/instance";
+import { useDispatch } from "react-redux";
+import { showAlertError } from "../../Services/showAlert";
 
 const ScheduleJob=()=>{
+  const dispatch=useDispatch()
     const today = moment().startOf("day");
     const [slot, setSlot] = useState([]);
     const [job,setJob]=useState({})
@@ -50,11 +52,11 @@ const ScheduleJob=()=>{
                 setSlot(res.data.result)
                 setJob(res.data.job)
             }else{
-              Swal.fire("error","networkError","error")
+              showAlertError(dispatch,"networkError")
             }
           }).catch(error=>{
             
-            Swal.fire("error",error,message,"error")
+            showAlertError(dispatch,error,message)
         })
 
     },[])

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Swal, useNavigate } from "../ExpertOTP/import";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "../ExpertOTP/import";
 import { userAxiosInstance } from "../../axios/instance";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 
 const ConfirmSchedule = ({ selectTime, job, address }) => {
+  const dispatch=useDispatch()
   const navigate=useNavigate()
   const user = useSelector((state) => state.user.value);
   const [time, setTime] = useState(null);
@@ -33,18 +35,18 @@ const ConfirmSchedule = ({ selectTime, job, address }) => {
         setBookId(res?.data?.result)
         if (res.data.status === "success") {
           setBookId(res?.data?.result)
-          Swal.fire("Success", "Job Slot Booked Successfully", "success");
+          showAlertSuccess(dispatch,"Job Slot Booked Successfully")
           const confirmModal= document.getElementById("confirm")
           const addressModal= document.getElementById("selectAddress")
           confirmModal.checked=false
           addressModal.checked=false
            navigate(`/bookings/${bookId}`)
         } else {
-          Swal.fire("Sorry", "Job Slot not Booked", "error");
+          showAlertError(dispatch,"Job Slot not Booked")
         }
       })
       .catch((error) => {
-        Swal.fire("error", error.message, "error");
+        showAlertError(dispatch,error.message)
       });
   };
   return (

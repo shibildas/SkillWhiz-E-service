@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { userAxiosInstance } from '../../axios/instance'
+import { showAlertError, showAlertSuccess } from '../../Services/showAlert'
+import { useDispatch } from 'react-redux'
 
 const Estimate = ({address,user,estimate,job,id,handleLoad}) => {
+  const dispatch=useDispatch()
 
     const [partRate,setPartRate]=useState(null)
     const [hourRate,setHourRate]=useState(null)
@@ -20,12 +23,20 @@ const Estimate = ({address,user,estimate,job,id,handleLoad}) => {
         window.print()
     }
     const handleApprove=()=>{
+      const modal= document.getElementById('estimate')
         userAxiosInstance.get(`/approveEstimate/${id}`).then(res=>{
             if(res.data.status==="success"){
                 handleLoad()
-                const modal= document.getElementById('estimate')
+                showAlertSuccess(dispatch,"success")
                 modal.checked=false
-            }
+              }else{
+                showAlertError(dispatch,"error occured")
+                modal.checked=false
+              }
+            }).catch(error=>{
+              showAlertError(dispatch,error.message)
+              
+              modal.checked=false
         })
 
     }

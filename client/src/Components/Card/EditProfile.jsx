@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../import"
-import { Swal } from "../ExpertOTP/import"
 import { userAxiosInstance } from "../../axios/instance"
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
+import Alert from "../Alert/Alert"
 
 const EditProfile=()=>{
     const dispatch=useDispatch()
@@ -19,6 +20,7 @@ const EditProfile=()=>{
   }, [user])
 
   const handleFile=(event)=>{
+    const dispatch=useDispatch()
     const file = event.target.files[0];
     const allowedTypes = ["image/jpeg", "image/png", "image/gif" ,"image/jpg"]; // allowed image types
     const maxSize = 0.5 * 1024 * 1024; // 0.5MB maximum file size
@@ -26,18 +28,14 @@ const EditProfile=()=>{
       setFile(file);
     } else {
       setFile(null);
-      Swal.fire(
-        "Sorry",
-        "Invalid file type or size. Please select a valid image file.",
-        "error"
-      );
+      showAlertError(dispatch,"Invalid file type or size. Please select a valid image file.")
     }
 
   }
   const handleSubmit=(e)=>{
     e.preventDefault()
     if(name==="" || email===""){
-      Swal.fire("Sorry", "Please enter all details", "error");
+      showAlertError(dispatch,"Please enter all details")
     }else{
       const formData = new FormData()
       if(file){
@@ -49,17 +47,15 @@ const EditProfile=()=>{
       }}).then(res=>{
         const editUser= document.getElementById("editProfile")
         if(res.data.status==="success"){
-          Swal.fire("Success", "User Edit successfully", "success");
+          showAlertSuccess(dispatch,"User Edit successfully")
           dispatch(login(res.data.result))
           setFile(null)
           editUser.checked=false
-
         }else{
-          Swal.fire("Sorry", "User Edit failed", "error");
+          showAlertError(dispatch,"User Edit failed")
         }
       }).catch((error) => {
-        console.error(error);
-        Swal.fire("Error", error.message, "error");
+        showAlertError(dispatch,error.message)
       });
 
     }
@@ -80,6 +76,7 @@ const EditProfile=()=>{
           <h3 className="text-2xl font-bold text-center p-3">
             Edit Profile
           </h3>
+          <Alert/>
           <div className="flex justify-center ">
             <form className="p-2 form-control" encType="multipart/form-data">
               <label className="label">

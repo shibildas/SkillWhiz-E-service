@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { services } from "../../constants/constants";
 import Banner from "../../Components/Banner/Banner";
 import Invite from "../../Components/Invite/Invite";
-import Swal from "sweetalert2";
 import useAuthUser from "../../hooks/useAuthUser";
 import { Link } from "react-router-dom";
 import { userAxiosInstance } from "../../axios/instance";
+import { useDispatch } from "react-redux";
+import { showAlertError } from "../../Services/showAlert";
 
 const MainPage = () => {
   useAuthUser()
-
+  const dispatch=useDispatch()
   const [show, setShow] = useState();
   const [jobs,setJobs]= useState()
   useEffect(() => {
@@ -19,11 +20,10 @@ const MainPage = () => {
         setJobs(res.data.result)
       }else{
 
-        Swal.fire("Sorry","Couldnt connect server","error")
+       showAlertError(dispatch,"Couldnt connect server")
       }
     }).catch((error)=>{
-      Swal.fire("Sorry",error.message,"error")
-
+      showAlertError(dispatch,error.message)
     })
   }, []);
 

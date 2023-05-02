@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import ReVerify from "./VerifyOTP";
 import EditProfile from "./EditProfile";
 import { userAxiosInstance } from "../../axios/instance";
@@ -50,7 +49,7 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="font-sans bg-cover bg-center my-10 rounded-2xl shadow-2xl shadow-black h-screen flex flex-row justify-center items-center">
+      <div className="font-sans bg-cover bg-center my-10 rounded-2xl shadow-2xl bg-gray-800 shadow-black h-screen flex flex-row justify-center items-center">
         <div className="card w-96 mx-auto bg-slate-300 opacity-95  shadow-2xl shadow-black hover:shadow">
           <div className="flex justify-end">
             <label

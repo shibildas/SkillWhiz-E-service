@@ -5,8 +5,7 @@ const Profile= ()=>{
    useAuthUser()
     return(
     <>
-      <ProfileCard/>  
-       
+      <ProfileCard/>    
     </>
     )
 }

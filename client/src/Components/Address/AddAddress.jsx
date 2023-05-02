@@ -1,18 +1,21 @@
 import { useState } from "react"
-import { Swal } from "../ExpertOTP/import"
 import { userAxiosInstance } from "../../axios/instance"
+import Alert from "../Alert/Alert"
+import { useDispatch } from "react-redux"
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
 
 const AddAddress=({handleLoad})=>{
+  const dispatch=useDispatch()
     const [name,setName]=useState('')
     const [house,setHouse]=useState('')
     const [street,setStreet]=useState('')
     const [pincode,setPincode]=useState()
     const handleSubmit=()=>{
         if(name===""||house===''||street===''||pincode===''){
-            Swal.fire("sorry","Fill all details",'error')
+            showAlertError(dispatch,"Fill all details")
         }else{
             if(pincode.length<6){
-                Swal.fire("sorry","Wrong Pin, pincode supposed to be 6 digits",'error')
+                showAlertError(dispatch,"Wrong Pin, pincode supposed to be 6 digits")
 
             }else{
                 userAxiosInstance.post('/addAddress',{name:name,
@@ -22,7 +25,7 @@ const AddAddress=({handleLoad})=>{
                 }).then((res)=>{
                         if(res.data.status==="success"){
                             const closemodal= document.getElementById("addAddress")
-                            Swal.fire("success","Address Added Successfully","success")
+                            showAlertSuccess(dispatch,"Address Added Successfully")
                             handleLoad()
                             closemodal.checked=false
 
@@ -46,6 +49,7 @@ const AddAddress=({handleLoad})=>{
   <div className="modal-box relative">
     <label htmlFor="addAddress" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
     <h3 className="text-lg text-center font-bold p-2">Add New Address</h3>
+    <Alert/>
     <div className="justify-center p-5">
     <label className="input-group input-group-vertical p-2">
     <span className="font-bold p-1 bg-slate-300 px-3 ">Name</span>

@@ -4,6 +4,8 @@ import { useNavigate } from "../ExpertOTP/import"
 import { useDispatch } from "react-redux"
 import { logout } from "../../redux/user"
 import { userAxiosInstance } from "../../axios/instance"
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
+import Alert from "../Alert/Alert"
 
 const ChangePassword=()=>{
     const [old,setOld]=useState('')
@@ -14,25 +16,25 @@ const ChangePassword=()=>{
 
     const handlePassword=()=>{
       if(old==="" || newPass==="" || confirm ===""){
-        Swal.fire("Error","Enter all details","error")
+        showAlertError(dispatch,"Enter all details")
 
       }else if((newPass===confirm) && (old!=newPass) ){
         userAxiosInstance.post('/updatePassword',{old:old,newPass:newPass}).then(res=>{
           if(res.data.status==="success"){
             const chPass= document.getElementById('chPass')
-            Swal.fire("Success","Password changed successfully. Relogin Now","")
+            showAlertSuccess(dispatch,"Password changed successfully. Relogin Now")
             chPass.checked=false
             localStorage.removeItem("token");
             dispatch(logout())
             navigate("/");
           }else{
-            Swal.fire("Sorry","Old Password is Wrong","error")
+            showAlertError(dispatch,"Old Password is Wrong")
           }
         }).catch(error=>{
-          Swal.fire("Error",error.message,"error")
+          showAlertError(dispatch,error.message)
         })
       }else{
-        Swal.fire("Sorry","cant use old password & confirm password should be same","error")
+        showAlertError(dispatch,"cant use old password & confirm password should be same")
       }
 
 
@@ -44,6 +46,7 @@ const ChangePassword=()=>{
   <div className="modal-box relative" style={{backgroundImage:"url(https://res.cloudinary.com/dpfnxwvps/image/upload/v1681451085/cool-background_8_wi7oi3.png)"}}>
     <label htmlFor="chPass" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
     <h3 className="text-2xl font-extrabold text-center ">Change Your Password</h3>
+    <Alert/>
     <div className="flex justify-center">
         <div className="form-control">
 

@@ -1,6 +1,5 @@
 import { useEffect ,useState} from "react"
 import { useParams } from "react-router-dom"
-import { Swal } from "../../Components/ExpertOTP/import"
 // import Chat from "../../Components/Chat/Chat"
 import { userAxiosInstance } from "../../axios/instance"
 
@@ -8,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Estimate from "../../Components/Estimate/Estimate"
 import { addBooking } from "../../redux/user"
 import { payOnline, verifyPayment } from "../../Services/userApi"
+import { showAlertError } from "../../Services/showAlert"
 
 const BookingDetail=()=>{
     const dispatch=useDispatch()
@@ -37,10 +37,10 @@ const BookingDetail=()=>{
 
 
             }else{
-                Swal.fire("error","NetworkError","error")
+                showAlertError(dispatch,"NetworkError")
             }
         }).catch(error=>{
-            Swal.fire("error",error.message,"error")
+            showAlertError(dispatch,error.message)
         })
     },[load])
     const initPayment=(data)=>{
