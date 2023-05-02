@@ -35,7 +35,6 @@ server.use(logger("dev"))
 server.use(express.urlencoded({extended:false}))
 server.use(express.json())
 
-
 //Routes
 server.use("/",userRoute)
 server.use("/admin",adminRoute)
@@ -60,6 +59,6 @@ server.use("/expert",expertRoute)
 //Server Listening
  httpServer.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
-  })  
+})  
 
 module.exports = server

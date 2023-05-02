@@ -30,12 +30,11 @@ export default function ChatInput({ handleSendMsg }) {
   };
 
   return (
-    <div className="grid grid-cols-5 items-center bg-gray-900 px-4 md:px-8 py-2">
-      <div className="col-span-1">
+    <div className=" input-group gap-2 w-full items-center bg-gray-900 px-4 md:px-8 py-2">
         <Button
           onClick={handleEmojiPickerhideShow}
           color="primary"
-          className="text-2xl"
+          className="text-2xl btn-sm md:btn-md"
         >
           <BsEmojiSmileFill />
         </Button>
@@ -48,17 +47,16 @@ export default function ChatInput({ handleSendMsg }) {
           onEmojiSelect={handleEmojiClick} 
           />
         )}
-      </div>
-      <form className="col-span-4 flex items-center" onSubmit={sendChat}>
+      <form className=" flex items-center input-group " onSubmit={sendChat}>
         <input
           type="text"
           placeholder="Type your message here"
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
-          className="w-full px-4 py-2 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+          className="w-full input px-4 py-2 bg-gray-700 input-sm md:input-md text-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
         />
-        <button type="submit">
-          <IoMdSend className="text-2xl text-white ml-2" />
+        <button type="submit" className="btn btn-primary btn-sm md:btn-md">
+          <IoMdSend className="md:text-4xl  text-white" />
         </button>
       </form>
     </div>
