@@ -58,7 +58,6 @@ export default function ChatContainer({data, currentChat, socket,user }) {
           </div>
           <h3 className="font-semibold text-xl md:text-2xl">{currentChat?.username}</h3>
         </div>
-        {/* <Logout /> */}
       </div>
       <div className="flex flex-col justify-end p-4 md:p-8 overflow-auto scrollbar-hide text-white">
         {messages.map((message,index) => (
