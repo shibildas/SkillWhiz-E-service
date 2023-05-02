@@ -11,7 +11,6 @@ const bodyParser = require("body-parser")
 const adminRoute = require("./Routes/adminRoute")
 const userRoute= require("./Routes/userRoute")
 const expertRoute= require("./Routes/expertRoute")
-
 const port = process.env.PORT
 const DATABASE_URL = process.env.DATABASE_URL
 const connectDb = require("./Controller/config/dbConfig")
@@ -20,6 +19,7 @@ const createMessage = require("./Controller/createMessage")
 const getMessages = require("./Controller/getMessages")
 const expertmodel = require("./Model/expertSchema")
 const leaveRoom = require("./Controller/utils/leaveRoom")
+const { ServiceContextImpl } = require("twilio/lib/rest/chat/v1/service")
 const httpServer = http.createServer(server)
 
 const io = new Server(httpServer, {
@@ -129,6 +129,7 @@ server.use("/expert",expertRoute)
     global.chatSocket =socket
 
     socket.on("add-user",(userId)=>{
+      console.log(userId);
       onlineUsers.set(userId,socket.id)
     })
 

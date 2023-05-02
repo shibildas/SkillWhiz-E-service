@@ -2,7 +2,6 @@ import { useEffect ,useState} from "react"
 import { useParams } from "react-router-dom"
 // import Chat from "../../Components/Chat/Chat"
 import { userAxiosInstance } from "../../axios/instance"
-
 import { useDispatch, useSelector } from "react-redux"
 import Estimate from "../../Components/Estimate/Estimate"
 import { addBooking } from "../../redux/user"

@@ -20,7 +20,7 @@ const Alert = () => {
   return (
     show ? (
       <>
-        <div className={`alert ${type} shadow-lg m-2`}>
+        <div className={`alert ${type} shadow-lg my-2 max-w-screen-xl`}>
           <div>
             {icon ? (
               <svg
@@ -55,7 +55,7 @@ const Alert = () => {
           </div>
         </div>
       </>
-    ):<div className="h-14 m-2">
+    ):<div className="md:h-14 my-2">
 
     </div>
   );

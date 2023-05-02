@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import useAuthUser from "../../hooks/useAuthUser";
 import { Link } from "react-router-dom";
 import { userAxiosInstance } from "../../axios/instance";
 import { useDispatch } from "react-redux";

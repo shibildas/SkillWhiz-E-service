@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Swal} from "../ExpertOTP/import";
 import { expertAxiosInstance } from "../../axios/instance";
+import { useDispatch } from "react-redux";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 
 const AddSkill = ({handleLoad,load}) => {
+  const dispatch=useDispatch()
   const [options, setOptions] = useState([]);
  
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +22,7 @@ const AddSkill = ({handleLoad,load}) => {
         if (res.data.status === "success") {
           setOptions(res.data.result);
         } else {
-          Swal.fire("error", "Network Error", "error");
+          showAlertError(dispatch,"Network Error")
         }
       });
   }, [load]);
@@ -36,7 +39,7 @@ const AddSkill = ({handleLoad,load}) => {
 
   function handleSubmit() {
     if (selectedOptions.length == 0) {
-      Swal.fire("Sorry","Select a Job First","error")
+      showAlertError(dispatch,"Select a Job First")
     } else {
       Swal.fire({
         title: "Are you sure?",
@@ -59,11 +62,11 @@ const AddSkill = ({handleLoad,load}) => {
                 addSkillModal.checked=false
                 handleLoad()
                 setSelectedOptions([])
-                Swal.fire("Success","Skills Added Successfully","success")
+                showAlertSuccess(dispatch,"Skills Added Successfully")
               }
 
             }).catch((error)=>{
-              Swal.fire("error","Error:"+error.message,"error")
+              showAlertError(dispatch,"Error:"+error.message)
             })
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire("Cancelled", "Your data is safe :)", "error");

@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import AddSkill from "./AddSkill";
 import { Swal } from "../ExpertOTP/import";
 import { expertAxiosInstance } from "../../axios/instance";
+import { useDispatch } from "react-redux";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 
 const Skills = () => {
+  const dispatch=useDispatch()
   const [datas, setData] = useState([]);
   const [load, setLoad] = useState(false);
   const [id, setId] = useState();
@@ -18,11 +21,11 @@ const Skills = () => {
         if (res.data.status === "success") {
           setData(res.data.result);
         } else {
-          Swal.fire("Sorry", "Network Error", "error");
+          showAlertError(dispatch,"Network Error")
         }
       })
       .catch((error) => {
-        Swal.fire("error", error.message, "error");
+        showAlertError(dispatch,error.message)
       });
   }, [load]);
 
@@ -43,13 +46,13 @@ const Skills = () => {
           .then((res) => {
             if (res.data.status === "success") {
               handleLoad();
-              Swal.fire("success", "Skill Removed", "success");
+              showAlertSuccess(dispatch,"Skill Removed")
             } else {
-              Swal.fire("Sorry", "Couldn't complete the request", "error");
+              showAlertError(dispatch,"Couldn't complete the request")
             }
           })
           .catch((error) => {
-            Swal.fire("Error", error.message, "error");
+            showAlertError(dispatch,error.message)
           });
       } else if (res.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your data is safe :)", "error");

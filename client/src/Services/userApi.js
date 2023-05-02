@@ -13,6 +13,12 @@ const verifyPayment=(response,bookId)=>{
 const getExpertContacts=()=>{
     return userAxiosInstance.get('/getContacts')
 }
+const getUserMessage=(data)=>{
+    return userAxiosInstance.post('/getMessage', data)
+ }
+ const addUserMessage=(data)=>{
+    return userAxiosInstance.post('/addMessage',data)
+ }
 
 
-export {authUser,payOnline,verifyPayment,getExpertContacts}
+export {addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts}

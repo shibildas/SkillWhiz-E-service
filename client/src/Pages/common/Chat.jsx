@@ -21,7 +21,7 @@ export default function Chat({currentUser,user}) {
   useEffect(() => {
     if (currentUser) {
       socket.current = io(baseUrl);
-      socket.current.emit("add-user", currentUser._id);
+      socket.current.emit("add-user", currentUser?._id);
     }
   }, [currentUser]);
 
@@ -37,7 +37,6 @@ export default function Chat({currentUser,user}) {
       }else if(!user){
         getUserContacts().then(res=>{
           if(res.data.status==="success"){
-
             setContacts(res.data.result)
           }
         })
@@ -51,7 +50,7 @@ export default function Chat({currentUser,user}) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-900 flex  justify-center">
       <div className="container mx-auto px-4 py-4 grid grid-cols-12 gap-4">
         <div className="col-span-2 flex flex-col items-center">
           <div className="bg-gray-800 p-4 rounded-lg w-full">
@@ -67,7 +66,7 @@ export default function Chat({currentUser,user}) {
                     ? "bg-blue-500"
                     : "hover:bg-gray-700"
                 } cursor-pointer p-2 rounded-lg mb-2`}
-                onClick={() => handleChatChange(contact)}
+                onClick={() => setCurrentChat(contact)}
               >
                 <UserCircleIcon className="text-white h-6 w-6 mr-2" />
                 <span className="text-white">{contact?.username}</span>
@@ -80,7 +79,7 @@ export default function Chat({currentUser,user}) {
 
             <Welcome />
           ) : (
-            <ChatContainer data={currentUser} currentChat={currentChat} socket={socket} />
+            <ChatContainer data={currentUser} currentChat={currentChat} socket={socket} user={user}/>
           )}
         </div>
       </div>

@@ -1,27 +1,36 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
-// import { v4 as uuidv4 } from "uuid";
-// import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
 import ChatInput from "./ChatInput";
-// import Logout from "./Logout";
-
-export default function ChatContainer({data, currentChat, socket }) {
+import { addUserMessage, getUserMessage } from "../../Services/userApi";
+import { addExpertMessage, getExpertMessage } from "../../Services/expertApi";
+export default function ChatContainer({data, currentChat, socket,user }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
   
+  useEffect( () => {
+    if(user){
+      getUserMessage({ from: data._id, to: currentChat.id }).then(response=>{
 
-//   useEffect(async () => {
-//     const data = await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
-//     const response = await axios.post(recieveMessageRoute, { from: data._id, to: currentChat._id });
-//     setMessages(response.data);
-//   }, [currentChat]);
+        setMessages(response.data)
+      })
+    }else{
+      getExpertMessage({ from: data._id, to: currentChat.id }).then(response=>{
+
+        setMessages(response.data)
+      })
+    }
+  }, [currentChat]);
 
   const handleSendMsg = async (msg) => {
-    // const data = await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY));
-    socket.current.emit("send-msg", { to: currentChat._id, from: data._id, msg });
-    await axios.post(sendMessageRoute, { from: data._id, to: currentChat?._id, message: msg });
+    socket.current.emit("send-message", { to: currentChat.id, from: data._id, msg });
+    if(user){
+      await addUserMessage({ from: data._id, to: currentChat?.id, message: msg,model:'user' })
+    }else{
+      await addExpertMessage({ from: data._id, to: currentChat?.id, message: msg ,model:'expert'})
+
+    }
     setMessages(prev => [...prev, { fromSelf: true, message: msg }]);
+
   };
 
   useEffect(() => {
@@ -51,7 +60,7 @@ export default function ChatContainer({data, currentChat, socket }) {
         </div>
         {/* <Logout /> */}
       </div>
-      <div className="flex flex-col justify-end p-4 md:p-8 overflow-auto scrollbar-hide">
+      <div className="flex flex-col justify-end p-4 md:p-8 overflow-auto scrollbar-hide text-white">
         {messages.map((message,index) => (
           <div key={index+222} className={`flex ${message?.fromSelf ? 'justify-end' : ''}`}>
             <div className={`bg-${message?.fromSelf ? 'blue' : 'purple'}-400 p-4 rounded-lg max-w-md md:max-w-2xl break-words my-2 md:my-4`}>

@@ -480,6 +480,9 @@ module.exports.getContacts=async(req,res)=>{
       {
         $group: {
           _id: '$_id',
+          id: {
+            $first: '$user._id'
+          },
           email: {
             $first: '$user.email'
           },
@@ -500,6 +503,9 @@ module.exports.getContacts=async(req,res)=>{
       {
         $group: {
           _id: '$email',
+          id: {
+            $first: '$id'
+          },
           email: {
             $first: '$email'
           },
@@ -522,6 +528,7 @@ module.exports.getContacts=async(req,res)=>{
       {
         $project: {
           _id: 0,
+          id:1,
           email: 1,
           username: 1,
           mobile: 1,

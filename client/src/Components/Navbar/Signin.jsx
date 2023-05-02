@@ -38,6 +38,8 @@ const Signin = () => {
           } else {
             localStorage.setItem("token", response.data.token);
             dispatch(login(response.data.result));
+            setMobile('')
+            setPassword('')
             handleclick();
             showAlertSuccess(dispatch,"login success")
           }

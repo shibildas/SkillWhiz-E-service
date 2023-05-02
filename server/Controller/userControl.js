@@ -460,6 +460,9 @@ module.exports.getContacts=async(req,res)=>{
       {
         $group: {
           _id: '$_id',
+          id:{
+            $first:'$expert._id'
+          },
           email: {
             $first: '$expert.email'
           },
@@ -480,6 +483,9 @@ module.exports.getContacts=async(req,res)=>{
       {
         $group: {
           _id: '$email',
+          id:{
+            $first:'$id'
+          },
           email: {
             $first: '$email'
           },
@@ -502,6 +508,7 @@ module.exports.getContacts=async(req,res)=>{
       {
         $project: {
           _id: 0,
+          id:1,
           email: 1,
           username: 1,
           mobile: 1,
@@ -511,6 +518,7 @@ module.exports.getContacts=async(req,res)=>{
       }
     ];
 const bookings = await bookingmodel.aggregate(pipeline);
+
     res.json({"status":"success",result:[...bookings]})
   } catch (error) {
      res.status(500).json({message:error.message})

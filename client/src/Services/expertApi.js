@@ -13,4 +13,10 @@ const endJob=(parts,hours,total,id)=>{
 const getUserContacts=()=>{
    return expertAxiosInstance.get('/getContacts')
 }
-export {authExpert,startJob,endJob,getUserContacts}
+const getExpertMessage=(data)=>{
+   return expertAxiosInstance.post('/getMessage', data)
+}
+const addExpertMessage=(data)=>{
+   return expertAxiosInstance.post('/addMessage',data)
+}
+export {addExpertMessage,getExpertMessage,authExpert,startJob,endJob,getUserContacts}
