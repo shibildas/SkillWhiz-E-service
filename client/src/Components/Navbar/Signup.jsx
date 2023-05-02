@@ -1,10 +1,13 @@
 import { useState } from "react";
-import Swal from "sweetalert2";
 import UserOtp from "./UserOtp";
 import { userAxiosInstance } from "../../axios/instance";
 import { icon } from "../../constants/constants";
+import Alert from "../Alert/Alert";
+import {showAlertError} from '../../Services/showAlert'
+import { useDispatch } from "react-redux";
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +27,7 @@ const Signup = () => {
   const handlesignup = (e) => {
     e.preventDefault();
     if (password === "" || email === "" || name === "" || mobile == "") {
-      Swal.fire("sorry","Fields cant be empty","error")
+      showAlertError(dispatch,"Fields cant be empty")
     } else {
       if(password===cPassword){
 
@@ -45,12 +48,11 @@ const Signup = () => {
           }
         })
         .catch((error) => {
-          console.log(error);
-          Swal.fire("sorry",error.message,"error")
+         showAlertError(dispatch,error.message) 
 
         });
       }else{
-        Swal.fire("sorry","Passwords doesnt match","error")
+        showAlertError(dispatch,"Passwords doesnt match")
       }
     }
   };
@@ -71,6 +73,7 @@ const Signup = () => {
             <img className="w-36 h-32 rounded-full filter brightness-200 saturate-200  " src={icon} alt="image"  />
           </div>
           <h1 className="text-center p-5 text-3xl font-extrabold">Signup</h1>
+          <Alert/>
           <form onSubmit={handlesignup} className="md:flex w-auto">
             <div>
             <label className="p-2 font-bold"> Username </label>

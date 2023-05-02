@@ -1,8 +1,11 @@
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { userAxiosInstance } from "../../axios/instance";
+import Alert from "../Alert/Alert";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import { useDispatch } from "react-redux";
 
 const UserOtp = ({ mobile }) => {
+  const dispatch=useDispatch()
   const [otp, setOtp] = useState("");
   const handleOtp = (e) => {
     const trimValue = e.target.value.replace(/[^0-9]/g, "");
@@ -12,22 +15,21 @@ const UserOtp = ({ mobile }) => {
   };
   const handleOTP = () => {
     if (otp.length < 6 || otp === "") {
-      Swal.fire("Sorry", "Invalid Entry", "error");
+      showAlertError(dispatch,"Invalid Entry")
     } else {
       userAxiosInstance
         .post("/verify-otp", { otp: otp, mobile: mobile })
         .then((response) => {
-          console.log("verified: " + response.data);
           if (response.data.status == "success") {
-            Swal.fire("success", response.data.message, "success");
+            showAlertSuccess(dispatch,response?.data?.message)
             const otpbox = document.getElementById("my-modal-otp");
             otpbox.checked = false;
           } else {
-            Swal.fire("Sorry", "Wrong OTP", "error");
+            showAlertError(dispatch,"Wrong OTP")
           }
         })
         .catch((error) => {
-          Swal.fire("sorry", "Wrong OTP. kindly reset. " + error, "error");
+          showAlertError(dispatch,"Wrong OTP. kindly reset. " + error?.message)
         });
     }
   };
@@ -46,6 +48,7 @@ const UserOtp = ({ mobile }) => {
           <h1 className="text-center p-2 text-2xl font-bold">
             Enter the OTP sent to +91-{mobile}
           </h1>
+          <Alert/>
           <div className="flex flex-col justify-center items-center">
             <input
               className="m-2 border h-10 w-36 text-center form-control rounded border-slate-500 my-2 tracking-widest"

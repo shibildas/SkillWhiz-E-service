@@ -1,10 +1,11 @@
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { login } from "../../import";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/user";
 import { userAxiosInstance } from "../../axios/instance";
 import { icon } from "../../constants/constants";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import Alert from "../Alert/Alert";
 
 const Signin = () => {
   const [mobile, setMobile] = useState("");
@@ -23,7 +24,7 @@ const Signin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (mobile === "" || password === "") {
-      Swal.fire("sorry", "All fields are required!!", "error");
+      showAlertError(dispatch,"All fields are required!!")
     } else {
       userAxiosInstance
         .post("/signin", {
@@ -32,13 +33,13 @@ const Signin = () => {
         })
         .then((response) => {
           if (!response.data.auth) {
+            showAlertError(dispatch,"invalid Credentials")
             dispatch(logout())
-            Swal.fire("sorry", response.data.message, "error");
           } else {
             localStorage.setItem("token", response.data.token);
             dispatch(login(response.data.result));
             handleclick();
-            Swal.fire("success", response.data.message, "success");
+            showAlertSuccess(dispatch,"login success")
           }
         });
     }
@@ -59,6 +60,7 @@ const Signin = () => {
             <img className="w-36 h-32 rounded-full filter brightness-200 saturate-200  " src={icon} alt="image"  />
           </div>
           <h3 className="text-3xl font-extrabold text-center p-2">Sign In</h3>
+          <Alert/>
           <div className=" p-5 ">
             <form onSubmit={handleLogin}>
               <h1 className="font-bold py-2">Mobile</h1>

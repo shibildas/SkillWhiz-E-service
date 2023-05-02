@@ -1,12 +1,14 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import ReVerify from "./VerifyOTP";
 import EditProfile from "./EditProfile";
 import { userAxiosInstance } from "../../axios/instance";
+import { showAlertError } from "../../Services/showAlert";
 
 const ProfileCard = () => {
+  const dispatch=useDispatch()
   const [show, setShow] = useState(false);
   const [mobile, setMobile] = useState("");
   const data = useSelector((state) => state.user.value);
@@ -38,11 +40,11 @@ const ProfileCard = () => {
             }
           })
           .catch((error) => {
-            Swal.fire("error", "Network Error:" + error.message, "error");
+            showAlertError(dispatch,"Network Error:" + error.message)
           });
       }
     } else {
-      Swal.fire("error", "Invalid mobile number", "error");
+      showAlertError(dispatch,"Invalid mobile number")
     }
   };
 
