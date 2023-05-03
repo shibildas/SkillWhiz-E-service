@@ -45,7 +45,6 @@ server.use("/expert",expertRoute)
     global.chatSocket =socket
 
     socket.on("add-user",(userId)=>{
-      console.log(userId);
       onlineUsers.set(userId,socket.id)
     })
 
