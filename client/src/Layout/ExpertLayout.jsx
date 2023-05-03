@@ -7,7 +7,6 @@ import Alert from "../Components/Alert/Alert";
 const ExpertLayout = () => {
   return (
     <>
-
      <ExpertNav />
       <Verify />
       <div

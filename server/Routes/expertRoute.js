@@ -4,7 +4,7 @@ const expertControl = require("../Controller/expertControl")
 const {expertProtect} = require('../Middlewares/Auth')
 const upload = require('../Middlewares/multer')
 const {getMessages,addMessage}=require('../Controller/messageControl')
-
+const {createReview,updateReview}=require('../Controller/apiControl')
 router.post("/signup",expertControl.postregister)
 router.post("/verify-otp",expertControl.verify)
 router.post('/signin',expertControl.signin)
@@ -29,5 +29,7 @@ router.post('/endJob',expertProtect,expertControl.endJob)
 router.get('/getContacts',expertProtect,expertControl.getContacts)
 router.post('/getMessage',expertProtect,getMessages)
 router.post('/addMessage',expertProtect,addMessage)
+router.post('/addReview',expertProtect,createReview)
+router.post('/updateReview',expertProtect,updateReview)
 
 module.exports = router

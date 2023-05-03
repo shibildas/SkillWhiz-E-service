@@ -13,6 +13,7 @@ const bookingmodel= require('../Model/bookingSchema');
 const Razorpay = require('razorpay')
 const crypto = require('crypto');
 const { default: mongoose } = require("mongoose");
+const reviewmodel = require("../Model/reviewSchema");
 
 module.exports.postSignUp = async (req, res, next) => {
   try {
@@ -344,7 +345,9 @@ module.exports.bookings=async(req,res)=>{
     .populate('expertId', '-password')
     .populate('jobId')
     .select('-userId.password -expertId.password')
-    res.json({"status":"success",result:booking})
+    const userId=booking.userId._id
+    const review= await reviewmodel.findOne({bookId:id,reviewBy:userId}).select('rating message')
+    res.json({ status: "success", result: {...booking.toObject(),review:review.toObject()} });
   } catch (error) {
     res.json({ status: "error", message: error.message });
     

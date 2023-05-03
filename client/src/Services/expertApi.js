@@ -19,4 +19,10 @@ const getExpertMessage=(data)=>{
 const addExpertMessage=(data)=>{
    return expertAxiosInstance.post('/addMessage',data)
 }
-export {addExpertMessage,getExpertMessage,authExpert,startJob,endJob,getUserContacts}
+const expertReview=(data)=>{
+   return expertAxiosInstance.post('/addReview',data)
+}
+const expertUpdateReview=(data)=>{
+   return expertAxiosInstance.post('/updateReview',data)
+}
+export {expertUpdateReview,addExpertMessage,expertReview,getExpertMessage,authExpert,startJob,endJob,getUserContacts}

@@ -9,7 +9,8 @@ module.exports.getMessages=async(req,res,next)=>{
         const projectedMessages=messages.map((msg)=>{
             return{
                 fromSelf:msg.sender.toString()===from,
-                message:msg.message.text
+                message:msg.message.text,
+                createdAt :new Date(msg.createdAt).toLocaleString()
             }
         })
         

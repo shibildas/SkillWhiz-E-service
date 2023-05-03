@@ -55,7 +55,7 @@ const Alert = () => {
           </div>
         </div>
       </>
-    ):<div className="md:h-14 my-2">
+    ):<div className="md:h-14 my-2 bg-opacity-0">
 
     </div>
   );

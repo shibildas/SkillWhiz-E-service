@@ -4,7 +4,7 @@ export const expertSlice = createSlice({
     name:"expertDetails",
     initialState:{value:{
         isExpertAuth:false,
-        bookings: {}
+        bookings: {},
     }},
     reducers:{
             expertlogin:(state, action)=>{
@@ -22,7 +22,8 @@ export const expertSlice = createSlice({
         addBooking: (state, action) => {
             const booking = action.payload
             state.value.bookings = booking
-        }
+        },
+       
     
     }
 });

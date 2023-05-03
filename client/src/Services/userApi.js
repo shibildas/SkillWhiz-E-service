@@ -19,6 +19,12 @@ const getUserMessage=(data)=>{
  const addUserMessage=(data)=>{
     return userAxiosInstance.post('/addMessage',data)
  }
+ const userReview=(data)=>{
+    return userAxiosInstance.post('/addReview',data)
+ }
+ const userUpdateReview=(data)=>{
+    return userAxiosInstance.post('/updateReview',data)
+ }
 
 
-export {addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts}
+export {userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}

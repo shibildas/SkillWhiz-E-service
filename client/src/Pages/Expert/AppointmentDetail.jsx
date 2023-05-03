@@ -8,6 +8,8 @@ import AddEstimate from "../../Components/Estimate/AddEstimate";
 import Startjob from "../../Components/Start/Startjob";
 import { EndJob } from "../../Components/Start/EndJob";
 import { addBooking } from "../../redux/expert";
+import Review from "../../Components/Review/Review";
+import ViewReview from "../../Components/Review/ViewReview";
 
 const AppointmentDetail = () => {
   const dispatch = useDispatch();
@@ -76,9 +78,11 @@ const AppointmentDetail = () => {
         </div>
       )}
       <div className="bg-slate-500 p-2 mt-5 rounded-t-xl flex justify-center">
-        <h1 className="text-xl md:text-3xl font-extrabold text-white p-3">Appointment Detail</h1>
+        <h1 className="text-xl md:text-3xl font-extrabold text-white p-3">
+          Appointment Detail
+        </h1>
       </div>
-      <div className="bg-teal-500 flex justify-center p-5 ">
+      <div className="bg-slate-100 flex justify-center p-5 ">
         <ul className="steps md:text-2xl text-sm  font-bold">
           <li data-content="📬" className="step step-secondary ">
             Open
@@ -90,11 +94,11 @@ const AppointmentDetail = () => {
             data-content="⏲"
             className={`step ${
               book?.estimate?.status === "approved" && "step-secondary"
-            } ${
-                book?.status === "completed" && "step-secondary"
-              } ${
-                book?.status === "invoiced" && "step-secondary"
-              }`}
+            } ${book?.status === "completed" && "step-secondary"} ${
+              book?.status === "invoiced" && "step-secondary"
+            } ${book?.status === "closed" && "step-secondary"}
+              
+              `}
           >
             In Progress
           </li>
@@ -102,21 +106,28 @@ const AppointmentDetail = () => {
             data-content="✔"
             className={`step ${
               book?.status === "completed" && "step-secondary"
-            } ${
-                book?.status === "invoiced" && "step-secondary"
-              }`}
+            } ${book?.status === "invoiced" && "step-secondary"} ${
+              book?.status === "closed" && "step-secondary"
+            }`}
           >
             Completed
           </li>
           <li
             data-content="🗐"
             className={`step ${
-              book?.status === "invoiced" && "step-secondary"
+              book?.status === "completed" && "step-secondary"
+            } ${book?.status === "invoiced" && "step-secondary"} ${
+              book?.status === "closed" && "step-secondary"
             }`}
           >
             invoiced
           </li>
-          <li data-content="📪" className="step">
+          <li
+            data-content="📪"
+            className={`step ${
+              book?.status === "completed" && "step-secondary"
+            } ${book?.status === "closed" && "step-secondary"}`}
+          >
             Closed
           </li>
           {book?.status === "cancelled" && (
@@ -126,7 +137,7 @@ const AppointmentDetail = () => {
           )}
         </ul>
       </div>
-      <div className="bg-teal-500 rounded-b-xl p-2 h-fit w-full flex justify-center shadow-xl">
+      <div className="bg-slate-100 rounded-b-xl p-2 h-fit w-full flex justify-center shadow-xl">
         <div className="w-3/5">
           <div className="divider "></div>
           <div className="flex justify-between   font-semibold p-2 flex-wrap">
@@ -185,85 +196,91 @@ const AppointmentDetail = () => {
                 </label>{" "}
               </div>
             )}
-            <div className="flex justify-between   font-semibold p-2 flex-wrap">
-             {(book?.status === "started"||book?.status === "invoiced") && <>
-              <h1 className="text-xl">Job Started at:</h1>{" "}
-              <div>
-                <h1>
-                  {new Date(book?.jobStart)?.toLocaleDateString()} ,{" "}
-                  {new Date(book?.jobStart)?.toLocaleTimeString([], { hour12: true })}
-                </h1>
-          {book?.status === "started" && (
-                <label htmlFor="endJob" className="btn m-2 btn-warning">
-                  End job
-                </label>
+            {(book?.status === "started" ||
+              book?.status === "invoiced" ||
+              book?.status === "closed") && (
+                <>
+                <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                <h1 className="text-xl">Job Started at:</h1>{" "}
+                <div>
+                  <h1>
+                    {new Date(book?.jobStart)?.toLocaleDateString()} ,{" "}
+                    {new Date(book?.jobStart)?.toLocaleTimeString([], {
+                      hour12: true,
+                    })}
+                  </h1>
+                  {book?.status === "started" && (
+                    <label htmlFor="endJob" className="btn m-2 btn-warning">
+                      End job
+                    </label>
                   )}
-              </div></>}
-            </div>
-            {(book?.status==="completed" )&&<>
+          </div>
+                </div>
                 <div className="divider "></div>
-            <div className="flex justify-between   font-semibold p-2 flex-wrap">
-              {" "}
-              <h1 className="text-xl">Invoice Amount</h1>{" "}
-              <div>
-                <h1 className="text-center">₹ {book?.bill_amount}</h1>
-          {book?.status === "completed" && (
-              <label className="btn m-2 btn-warning">Recieve Cash</label>
-              )}
-              </div>{" "}
-          {/* <div className="divider "></div> */}
-            </div></>}
-          {book?.status === "invoiced" && (
+              </>
+            )}
+            
+          {(book?.status === "completed" ||
+            book?.status === "invoiced" ||
+            book?.status === "closed") && (
             <>
-              <div className="flex-col">
-                <h1>Rate the Job</h1>
-                <div className="rating">
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                    checked
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                  />
-                  <input
-                    type="radio"
-                    name="rating-2"
-                    className="mask mask-star-2 bg-orange-400"
-                  />
+              <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                <h1 className="text-xl">Job Ended at:</h1>{" "}
+                <div>
+                  <h1>
+                    {new Date(book?.jobEnd)?.toLocaleDateString()} ,{" "}
+                    {new Date(book?.jobEnd)?.toLocaleTimeString([], {
+                      hour12: true,
+                    })}
+                  </h1>
                 </div>
-                <div className="flex justify-evenly">
-                  <textarea
-                    placeholder="Review here..."
-                    className="textarea textarea-bordered textarea-lg w-full max-w-xs"
-                  ></textarea>
-                </div>
-                <button className="btn btn-sm md:btn-md my-2">Submit </button>
               </div>
               <div className="divider "></div>
             </>
           )}
+          {(book?.status === "completed" ||
+            book?.status === "invoiced" ||
+            book?.status === "closed") && (
+            <>
+              <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                {" "}
+                <h1 className="text-xl">Invoice Amount</h1>{" "}
+                <div>
+                  <h1 className="text-center">₹ {book?.bill_amount}</h1>
+                  {book?.status === "completed" && (
+                    <label className="btn m-2 btn-warning">Recieve Cash</label>
+                  )}
+                </div>{" "}
+                {/* <div className="divider "></div> */}
+              </div>
+
+              <div className="divider "></div>
+            </>
+          )}
+          {!book?.review?._id ? (
+            <Review
+              user={false}
+              reviewBy={username}
+              myId={book?.userId?._id}
+              jobId={job?._id}
+              bookId={book?._id}
+              handleLoad={handleLoad}
+            />
+          ) : (
+            <>
+              <ViewReview
+                handleLoad={handleLoad}
+                user={false}
+                review={book?.review}
+                img={book?.expertId?.image}
+              />
+            </>
+          )}
         </div>
       </div>
-      <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5 h-screen">
-        {/* <Chat room={id} username={username} user={user} other={other}/> */}
-        <AddEstimate bookId={id} jobId={job} handleLoad={handleLoad} />
-        <Startjob id={id} handleLoad={handleLoad} handleAlert={handleAlert} />
-        <EndJob handleLoad={handleLoad} handleAlert={handleAlert} />
-      </div>
+      <AddEstimate bookId={id} jobId={job} handleLoad={handleLoad} />
+      <Startjob id={id} handleLoad={handleLoad} handleAlert={handleAlert} />
+      <EndJob handleLoad={handleLoad} handleAlert={handleAlert} />
     </>
   );
 };

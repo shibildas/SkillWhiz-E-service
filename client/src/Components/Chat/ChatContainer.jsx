@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import { addUserMessage, getUserMessage } from "../../Services/userApi";
 import { addExpertMessage, getExpertMessage } from "../../Services/expertApi";
+
+
 export default function ChatContainer({ data, currentChat, socket, user }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
@@ -54,14 +56,15 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
       });
     }
   }, []);
-
+  
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
-
+  
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
 
   return (
     <>
@@ -89,6 +92,14 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
                 message?.fromSelf ? "chat-end" : "chat-start"
               }`}
             >
+              <div class="chat-image avatar">
+                <div class="w-10 rounded-full">
+                  <img src={message?.fromSelf ? data?.image : currentChat?.image} />
+                </div>
+              </div>
+              <div class="chat-header">
+              {message?.fromSelf ? data?.username?.toUpperCase() : currentChat?.username?.toUpperCase()}
+              </div>
               <div
                 className={`chat-bubble ${
                   message?.fromSelf
@@ -98,11 +109,17 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
               >
                 <p className="text-white text-lg">{message?.message}</p>
               </div>
+              {message?.createdAt ? <div className="chat-footer">
+    Sent@ {message?.createdAt?.split(',')[0]} <br/>
+    Time@ {message?.createdAt?.split(',')[1]}
+  </div>: <div className="chat-footer">
+    Just Now
+    </div>}
             </div>
           ))}
           <div ref={scrollRef}></div>
         </div>
-      <ChatInput handleSendMsg={handleSendMsg} />
+        <ChatInput handleSendMsg={handleSendMsg} />
       </div>
     </>
   );

@@ -11,6 +11,7 @@ const fs = require("fs");
 const { log } = require("console");
 const bookingmodel = require("../Model/bookingSchema");
 const { default: mongoose } = require("mongoose");
+const reviewmodel = require("../Model/reviewSchema");
 
 module.exports.postregister = async (req, res, next) => {
   try {
@@ -389,7 +390,9 @@ module.exports.getBookings = async (req, res) => {
       .populate("expertId", "-password")
       .populate("jobId")
       .select("-userId.password -expertId.password -expertId.slots -estimate.parts._id");
-    res.json({ status: "success", result: booking });
+      const expertId=booking.expertId._id
+    const review= await reviewmodel.findOne({bookId:id,reviewBy:expertId}).select('rating message')
+    res.json({ status: "success", result: {...booking.toObject(),review:review.toObject()} });
   } catch (error) {
     res.json({ status: "error", message: error.message });
   }

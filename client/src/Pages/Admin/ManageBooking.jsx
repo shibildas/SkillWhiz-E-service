@@ -24,16 +24,18 @@ const ManageBooking = () => {
       }
     }, 15);
     return () => clearInterval(interval);
-  }, [value,booking]);
+  }, [value, booking]);
   function getInitialValue() {
     switch (booking?.status) {
-      case 'completed':
+      case "closed":
         return 100;
-      case 'invoiced':
+      case "invoiced":
         return 80;
-      case 'started':
+      case "completed":
+        return 60;
+      case "started":
         return 50;
-      case 'pending':
+      case "pending":
         return 20;
       default:
         return 0;
@@ -45,19 +47,14 @@ const ManageBooking = () => {
       <div className="p-6 ">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-semibold">
-            {booking?.jobId?.job_role?.toUpperCase()} with {booking?.expertId?.username}
+            {booking?.jobId?.job_role?.toUpperCase()} with{" "}
+            {booking?.expertId?.username?.toUpperCase()}
           </h2>
           <div className="flex items-center space-x-4">
-            <button
-              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
-       
-            >
+            <button className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
               Edit
             </button>
-            <button
-              className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
-     
-            >
+            <button className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
               Cancel
             </button>
           </div>
@@ -69,7 +66,7 @@ const ManageBooking = () => {
               <div className="">
                 <p className="mb-1">
                   <span className="font-semibold">Name:</span>{" "}
-                  {booking?.userId?.username}
+                  {booking?.userId?.username?.toUpperCase()}
                 </p>
                 <p className="mb-1">
                   <span className="font-semibold">Email:</span>{" "}
@@ -88,7 +85,7 @@ const ManageBooking = () => {
               <div className="">
                 <p className="mb-1">
                   <span className="font-semibold">Name:</span>{" "}
-                  {booking?.expertId?.username}
+                  {booking?.expertId?.username?.toUpperCase()}
                 </p>
                 <p className="mb-1">
                   <span className="font-semibold">Email:</span>{" "}
@@ -107,26 +104,28 @@ const ManageBooking = () => {
             <h2 className="text-2xl font-bold mb-6">Booking Detail</h2>
             <div className="flex flex-wrap mx-2">
               <div className="w-full px-2 mb-4">
-              <div
-      className="radial-progress"
-      style={{
-        "--value": `${value}`,
-        "--size": "12rem",
-        "--thickness": "2rem"
-      }}
-    >
-      {`${value}%`}
-    </div>
+                <div
+                  className="radial-progress"
+                  style={{
+                    "--value": `${value}`,
+                    "--size": "12rem",
+                    "--thickness": "2rem",
+                  }}
+                >
+                  {`${value}%`}
+                </div>
                 <div className="flex justify-between">
                   <h3 className="text-lg font-bold">Job Role</h3>
-                  <p className="text-lg">{booking?.jobId?.job_role?.toUpperCase()}</p>
+                  <p className="text-lg">
+                    {booking?.jobId?.job_role?.toUpperCase()}
+                  </p>
                 </div>
               </div>
             </div>
             <div className="w-full px-2 mb-4">
               <div className="flex justify-between">
                 <h3 className="text-lg font-bold">Expert Name</h3>
-                <p className="text-lg">{booking?.expertId?.username}</p>
+                <p className="text-lg">{booking?.expertId?.username?.toUpperCase()}</p>
               </div>
             </div>
             <div className="w-full  px-2 mb-4">
@@ -138,7 +137,9 @@ const ManageBooking = () => {
             <div className="w-full  px-2 mb-4">
               <div className="flex justify-between">
                 <h3 className="text-lg font-bold">Booking ID: </h3>
-                <p className="text-lg text-justify break-all ml-2">{booking?._id}</p>
+                <p className="text-lg text-justify break-all ml-2">
+                  {booking?._id}
+                </p>
               </div>
             </div>
             <div className="w-full  px-2 mb-4">
@@ -167,7 +168,13 @@ const ManageBooking = () => {
             <div className="w-full px-2 mb-4">
               <div className="flex justify-between">
                 <h3 className="text-lg font-bold">Booking Estimate</h3>
-                <p className="text-lg">{booking?.estimate?.amount} INR</p>
+                <p className="text-lg">{booking?.estimate?.amount ?booking?.estimate?.amount:0} INR</p>
+              </div>
+            </div>
+            <div className="w-full px-2 mb-4">
+              <div className="flex justify-between">
+                <h3 className="text-lg font-bold">Invoice Amount</h3>
+                <p className="text-lg font-bold">{booking?.bill_amount ? booking?.bill_amount:0} INR</p>
               </div>
             </div>
             <div className="w-full px-2 mb-4">
