@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import { getBookingBy } from "../../Services/adminApi";
 import { useDispatch, useSelector } from "react-redux";
 import { addBooking } from "../../redux/admin";
+import Range from "../../Components/Admin/Range/Range";
+import AddEstimate from "../../Components/Estimate/AddEstimate";
 
 const ManageBooking = () => {
   const booking = useSelector((state) => state.admin.value.bookings);
   const dispatch = useDispatch();
   const [value, setValue] = useState(0);
+  const [load,setLoad]=useState(false)
   const { id } = useParams();
   useEffect(() => {
     getBookingBy(id).then((res) => {
@@ -15,7 +18,7 @@ const ManageBooking = () => {
         dispatch(addBooking(res.data.result));
       }
     });
-  }, []);
+  }, [load]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,6 +28,10 @@ const ManageBooking = () => {
     }, 15);
     return () => clearInterval(interval);
   }, [value, booking]);
+
+  const handleLoad=()=>{
+    setLoad(!load)
+  }
   function getInitialValue() {
     switch (booking?.status) {
       case "closed":
@@ -61,6 +68,7 @@ const ManageBooking = () => {
         </div>
         <div className="flex flex-wrap mb-8">
           <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pr-8 lg:py-0">
+            
             <div className="p-6 bg-slate-700 text-white shadow rounded-xl">
               <h3 className="text-lg font-semibold mb-2">Customer Details</h3>
               <div className="">
@@ -78,29 +86,7 @@ const ManageBooking = () => {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pl-8 lg:pr-4 lg:py-0">
-            <div className="p-6 bg-slate-700 text-white rounded-xl shadow">
-              <h3 className="text-lg font-semibold mb-2">Expert Details</h3>
-              <div className="">
-                <p className="mb-1">
-                  <span className="font-semibold">Name:</span>{" "}
-                  {booking?.expertId?.username?.toUpperCase()}
-                </p>
-                <p className="mb-1">
-                  <span className="font-semibold">Email:</span>{" "}
-                  {booking?.expertId?.email}
-                </p>
-                <p className="mb-1">
-                  <span className="font-semibold">Mobile:</span>{" "}
-                  {booking?.expertId?.mobile}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pl-4 lg:py-0">
-          <div className="bg-slate-700 text-white p-6 rounded-xl shadow-md mt-6">
+            <div className="bg-slate-700 text-white p-6 rounded-xl shadow-md mt-6">
             <h2 className="text-2xl font-bold mb-6">Booking Detail</h2>
             <div className="flex flex-wrap mx-2">
               <div className="w-full px-2 mb-4">
@@ -125,7 +111,9 @@ const ManageBooking = () => {
             <div className="w-full px-2 mb-4">
               <div className="flex justify-between">
                 <h3 className="text-lg font-bold">Expert Name</h3>
-                <p className="text-lg">{booking?.expertId?.username?.toUpperCase()}</p>
+                <p className="text-lg">
+                  {booking?.expertId?.username?.toUpperCase()}
+                </p>
               </div>
             </div>
             <div className="w-full  px-2 mb-4">
@@ -168,13 +156,18 @@ const ManageBooking = () => {
             <div className="w-full px-2 mb-4">
               <div className="flex justify-between">
                 <h3 className="text-lg font-bold">Booking Estimate</h3>
-                <p className="text-lg">{booking?.estimate?.amount ?booking?.estimate?.amount:0} INR</p>
+                <p className="text-lg">
+                  {booking?.estimate?.amount ? booking?.estimate?.amount : 0}{" "}
+                  INR
+                </p>
               </div>
             </div>
             <div className="w-full px-2 mb-4">
               <div className="flex justify-between">
                 <h3 className="text-lg font-bold">Invoice Amount</h3>
-                <p className="text-lg font-bold">{booking?.bill_amount ? booking?.bill_amount:0} INR</p>
+                <p className="text-lg font-bold">
+                  {booking?.bill_amount ? booking?.bill_amount : 0} INR
+                </p>
               </div>
             </div>
             <div className="w-full px-2 mb-4">
@@ -184,8 +177,41 @@ const ManageBooking = () => {
               </div>
             </div>
           </div>
+          </div>
+          <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pl-8 lg:pr-4 lg:py-0">
+            
+            <div className="p-6 bg-slate-700 text-white rounded-xl shadow">
+              <h3 className="text-lg font-semibold mb-2">Expert Details</h3>
+              <div className="">
+                <p className="mb-1">
+                  <span className="font-semibold">Name:</span>{" "}
+                  {booking?.expertId?.username?.toUpperCase()}
+                </p>
+                <p className="mb-1">
+                  <span className="font-semibold">Email:</span>{" "}
+                  {booking?.expertId?.email}
+                </p>
+                <p className="mb-1">
+                  <span className="font-semibold">Mobile:</span>{" "}
+                  {booking?.expertId?.mobile}
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-slate-700 text-white p-6 rounded-xl shadow-md mt-6">
+              {!booking?.estimate?.amount && <div className="p-2"> <label className="btn btn-success btn-sm float-right" htmlFor="addEstimate">Add Estimate</label></div>}
+           
+           <Range/>
+          </div>
+          
+          </div>
+          
+        </div>
+        <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pl-4 lg:py-0">
+          
         </div>
       </div>
+      <AddEstimate admin={true} bookId={booking?._id} jobId={booking?.jobId}  handleLoad={handleLoad}/>
     </>
   );
 };

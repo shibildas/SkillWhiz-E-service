@@ -75,8 +75,12 @@ const editUser = (formData) => {
     },
   });
 };
+const sendAdminEstimate=(data)=>{
+  return adminAxiosInstance.post('/addEstimate',data)
+}
 
 export {
+  sendAdminEstimate,
   editUser,
   unBlockUser,
   blockUser,

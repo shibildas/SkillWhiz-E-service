@@ -25,4 +25,7 @@ const expertReview=(data)=>{
 const expertUpdateReview=(data)=>{
    return expertAxiosInstance.post('/updateReview',data)
 }
-export {expertUpdateReview,addExpertMessage,expertReview,getExpertMessage,authExpert,startJob,endJob,getUserContacts}
+const sendExpertEstimate=(data)=>{
+   return expertAxiosInstance.post('/sendEstimate',data)
+}
+export {sendExpertEstimate,expertUpdateReview,addExpertMessage,expertReview,getExpertMessage,authExpert,startJob,endJob,getUserContacts}

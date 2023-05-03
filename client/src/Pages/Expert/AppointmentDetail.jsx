@@ -278,7 +278,7 @@ const AppointmentDetail = () => {
           )}
         </div>
       </div>
-      <AddEstimate bookId={id} jobId={job} handleLoad={handleLoad} />
+      <AddEstimate admin={false} bookId={id} jobId={job} handleLoad={handleLoad} />
       <Startjob id={id} handleLoad={handleLoad} handleAlert={handleAlert} />
       <EndJob handleLoad={handleLoad} handleAlert={handleAlert} />
     </>

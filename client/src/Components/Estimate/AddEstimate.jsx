@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { expertAxiosInstance } from "../../axios/instance";
+import { useDispatch } from "react-redux";
+import { showAlertSuccess} from '../../Services/showAlert'
+import { sendExpertEstimate } from "../../Services/expertApi";
+import { sendAdminEstimate } from "../../Services/adminApi";
 
-function AddEstimate({ bookId,jobId ,handleLoad}) {
+function AddEstimate({admin, bookId,jobId ,handleLoad}) {
   const [hours, setHours] = useState("");
   const [hoursRate, setHoursRate] = useState(null)
   const [parts, setParts] = useState("");
@@ -10,6 +13,7 @@ function AddEstimate({ bookId,jobId ,handleLoad}) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
   const [selected, setSelected] = useState([]);
+  const dispatch=useDispatch()
   const handleSelect = (e) => {
     e.preventDefault()
     if (parts === "" || price === "") {
@@ -28,24 +32,47 @@ function AddEstimate({ bookId,jobId ,handleLoad}) {
         setMessage("Select Hours First")
         setError(true)
     }else{
-        expertAxiosInstance.post('/sendEstimate',{bookId:bookId,hours:hours,parts:selected, amount:(Number(hoursRate)+Number(partsPrice))}).then((res)=>{
-            if(res.data.status==="success"){
-                setParts("");
-                setPrice("");
-                setSelected([])
-                handleLoad()
-                const modal= document.getElementById("addEstimate")
-                modal.checked=false
-            }else{
-                setMessage("Something Went Wrong")
-                setError(true)
-            }
-        }).catch(error=>{
-            setMessage(error.message)
+      if(admin){
+        sendAdminEstimate({bookId:bookId,hours:hours,parts:selected, amount:(Number(hoursRate)+Number(partsPrice))}).then((res)=>{
+          if(res.data.status==="success"){
+            setParts("");
+            setPrice("");
+            setSelected([])
+            handleLoad()
+            showAlertSuccess(dispatch,"Estimation sent success")
+            const modal= document.getElementById("addEstimate")
+            modal.checked=false
+          }else{
+            setMessage("Something Went Wrong")
             setError(true)
+          }
+        }).catch(error=>{
+          setMessage(error.message)
+          setError(true)
         })
-    }
 
+      }else{
+
+        sendExpertEstimate({bookId:bookId,hours:hours,parts:selected, amount:(Number(hoursRate)+Number(partsPrice))}).then((res)=>{
+          if(res.data.status==="success"){
+            setParts("");
+            setPrice("");
+            setSelected([])
+            handleLoad()
+            showAlertSuccess(dispatch,"Estimation sent success")
+            const modal= document.getElementById("addEstimate")
+            modal.checked=false
+          }else{
+            setMessage("Something Went Wrong")
+            setError(true)
+          }
+        }).catch(error=>{
+          setMessage(error.message)
+          setError(true)
+        })
+      }
+      }
+      
   }
   useEffect(() => {
     setPartsPrice(selected?.reduce((acc,curr)=>{

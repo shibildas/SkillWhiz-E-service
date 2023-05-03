@@ -33,3 +33,21 @@ try {
     
 }
 }
+module.exports.sendEstimate = async (req, res) => {
+    try {
+      const { bookId, hours, parts, amount } = req.body;
+      const booking = await bookingmodel.findOneAndUpdate(
+        { _id: bookId },
+        {
+          $set: { estimate: { hours: hours, parts: [...parts], amount: amount } },
+        }
+      );
+      if (booking) {
+        res.json({ status: "success", result: booking });
+      } else {
+        res.json({ status: "error", message: "error.message" });
+      }
+    } catch (error) {
+      res.json({ status: "error", message: error.message });
+    }
+  };
