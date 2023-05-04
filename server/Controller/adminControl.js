@@ -378,3 +378,22 @@ module.exports.manageBooking=async(req,res)=>{
         
     }
 }
+module.exports.managePayment=async(req,res)=>{
+    try {
+        const {bookId,transId}=req.body
+        const booking= await bookingmodel.findOneAndUpdate({_id:bookId},{$set:{status:"invoiced",
+      'payment.payment_method':"adm_online",
+      'payment.payment_id':`adm_${transId}`,
+      'payment.payment_status':"success",
+    }})
+    if(booking){
+        res.json({ status: "success", result: booking });     
+    }else{
+
+        res.json({ status: "error", result: "No Result" });     
+    }
+    } catch (error) {
+        res.json({"status":"error",message:error.message})  
+        
+    }
+}

@@ -21,7 +21,8 @@ const bookingSchema= new mongoose.Schema({
     payment:{
         invoice:{type:String},
         payment_method:{type:String},
-        payment_id:{type:String},
+        payment_id:{type:String,unique: true,
+          lowercase: true,},
         payment_status:{type:String, default:'pending'},
     },
     status:{type:String, default:"pending"},

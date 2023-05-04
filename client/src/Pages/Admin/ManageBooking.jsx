@@ -8,6 +8,7 @@ import AddEstimate from "../../Components/Estimate/AddEstimate";
 import Estimate from "../../Components/Estimate/Estimate";
 import Startjob from "../../Components/Start/Startjob";
 import { EndJob } from "../../Components/Start/EndJob";
+import Pay from "../../Components/Admin/Pay/Pay";
 
 const ManageBooking = () => {
   const booking = useSelector((state) => state.admin.value.bookings);
@@ -53,6 +54,7 @@ const ManageBooking = () => {
     }
   }
 
+
   return (
     <>
       <div className="p-6 ">
@@ -62,19 +64,16 @@ const ManageBooking = () => {
             {booking?.expertId?.username?.toUpperCase()}
           </h2>
           <div className="flex items-center space-x-4">
-            <button className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
-              Edit
-            </button>
-            <button className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
+            {booking?.status==="pending"&&<label htmlFor="cancelBook" className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
               Cancel
-            </button>
+            </label>}
           </div>
         </div>
         <div className="flex flex-wrap mb-8">
           <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pr-8 lg:py-0">
             
             <div className="p-6 bg-slate-700 text-white shadow rounded-xl">
-              <h3 className="text-lg font-semibold mb-2">Customer Details</h3>
+              <h3 className="text-lg font-semibold mb-2 underline underline-offset-2">Customer Details</h3>
               <div className="">
                 <p className="mb-1">
                   <span className="font-semibold">Name:</span>{" "}
@@ -91,7 +90,7 @@ const ManageBooking = () => {
               </div>
             </div>
             <div className="bg-slate-700 text-white p-6 rounded-xl shadow-md mt-6">
-            <h2 className="text-2xl font-bold mb-6">Booking Detail</h2>
+            <h2 className="text-2xl font-bold mb-6 underline underline-offset-2">Booking Detail</h2>
             <div className="flex flex-wrap mx-2">
               <div className="w-full px-2 mb-4">
                 <div
@@ -185,7 +184,7 @@ const ManageBooking = () => {
           <div className="w-full px-4 mb-8 sm:w-1/2 lg:w-1/3 sm:px-6 lg:pl-8 lg:pr-4 lg:py-0">
             
             <div className="p-6 bg-slate-700 text-white rounded-xl shadow">
-              <h3 className="text-lg font-semibold mb-2">Expert Details</h3>
+              <h3 className="text-lg font-semibold mb-2 underline underline-offset-2">Expert Details</h3>
               <div className="">
                 <p className="mb-1">
                   <span className="font-semibold">Name:</span>{" "}
@@ -203,9 +202,12 @@ const ManageBooking = () => {
             </div>
             
             <div className="bg-slate-700 text-white p-6 rounded-xl shadow-md mt-6">
-              {!booking?.estimate?.amount && <div className="p-2"> <label className="btn btn-success btn-sm float-right" htmlFor="addEstimate">Add Estimate</label></div>}
-           
+            <h3 className="text-lg font-semibold mb-2 underline underline-offset-2">Booking Cycle</h3>
+              {!booking?.estimate?.amount && <div className="my-5"> <label className="btn btn-success btn-sm float-right" htmlFor="addEstimate">Add Estimate</label></div>}
+           <div>
+
            <Range booking={booking}/>
+           </div>
           </div>
           
           </div>
@@ -225,6 +227,7 @@ const ManageBooking = () => {
         handleLoad={handleLoad}/>
         <Startjob id={id} handleLoad={handleLoad} admin={true}/>
         <EndJob booking={booking} handleLoad={handleLoad} admin={true} />
+        <Pay booking={booking} handleLoad={handleLoad}/>
     </>
   );
 };

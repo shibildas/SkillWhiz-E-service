@@ -31,5 +31,6 @@ router.post('/addEstimate',adminProtect,sendEstimate)
 router.get('/approveEstimate/:id',adminProtect,approveEstimate)
 router.get('/startJob/:id',adminProtect,startJob)
 router.post('/endJob',adminProtect,endJob)
+router.post('/adminPay',adminProtect,adminControl.managePayment)
 
 module.exports = router

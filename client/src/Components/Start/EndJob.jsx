@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { endJob } from '../../Services/expertApi'
 import { showAlertError, showAlertSuccess } from '../../Services/showAlert'
 import { adminEndJob } from '../../Services/adminApi'
 
 export const EndJob = ({booking, handleLoad, admin }) => {
   const dispatch=useDispatch()
-  // const booking = useSelector(state => state.expert.value.bookings)
   const [isEditMode, setIsEditMode] = useState(false)
   const [hours, setHours] = useState(booking?.estimate?.hours || '')
   const [id, setId] = useState(null)
@@ -37,7 +36,7 @@ export const EndJob = ({booking, handleLoad, admin }) => {
     }
   }
   useEffect(() => {
-    const res=parts?.reduce((total, part) => total + Number(part.price), 0)
+    const res=parts?.reduce((total, part) => total + Number(part?.price), 0)
     setPartsPrice(res)
     setPrice(((hours-2)*Number(booking?.jobId?.add_rate))+Number(booking?.jobId?.base_rate))
   }, [parts,hours])
