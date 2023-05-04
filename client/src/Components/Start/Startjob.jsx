@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import { startJob } from '../../Services/expertApi';
+import { showAlertError, showAlertSuccess } from '../../Services/showAlert';
+import { useDispatch } from 'react-redux';
+import { adminStartJob } from '../../Services/adminApi';
 
-const Startjob = ({id,handleLoad,handleAlert}) => {
+const Startjob = ({admin,id,handleLoad}) => {
+  const dispatch=useDispatch()
     const [currentTime, setCurrentTime] = useState(moment().format('h:mm:ss a'));
 
     useEffect(() => {
@@ -15,26 +19,51 @@ const Startjob = ({id,handleLoad,handleAlert}) => {
   const currentDate = moment().format('MMMM Do YYYY');
   const handleStart=()=>{
     const modal= document.getElementById('startJob')
-    startJob(id).then(res=>{
+    if(admin){
+      adminStartJob(id).then(res=>{
         if(res.data.status==="success"){
           handleLoad()
-            modal.checked=false
-            const alert=true
-            const msg="Job Started successfully"
-            handleAlert(alert,msg)
+          modal.checked=false
+          
+          const msg="Job Started successfully"
+          showAlertSuccess(dispatch,msg)
         }else{
-            modal.checked=false
-            const alert=false
-            const msg ="Couldn't start job, Some Error Occured"
-            handleAlert(alert,msg)
+          modal.checked=false
+          
+          const msg ="Couldn't start job, Some Error Occured"
+          showAlertError(dispatch,msg)
         }
-    }).catch(error=>{
+      }).catch(error=>{
         modal.checked=false
-        const alert=false
+        
         const msg =error.message
-        handleAlert(alert,msg)
+        showAlertError(dispatch,msg)
+        
+      })
 
-    })
+    }else{
+
+      startJob(id).then(res=>{
+        if(res.data.status==="success"){
+          handleLoad()
+          modal.checked=false
+          
+          const msg="Job Started successfully"
+          showAlertSuccess(dispatch,msg)
+        }else{
+          modal.checked=false
+          
+          const msg ="Couldn't start job, Some Error Occured"
+          showAlertError(dispatch,msg)
+        }
+      }).catch(error=>{
+        modal.checked=false
+        
+        const msg =error.message
+        showAlertError(dispatch,msg)
+        
+      })
+    }
   }
   return (
     <>

@@ -6,6 +6,7 @@ import { addBooking } from "../../redux/admin";
 import Range from "../../Components/Admin/Range/Range";
 import AddEstimate from "../../Components/Estimate/AddEstimate";
 import Estimate from "../../Components/Estimate/Estimate";
+import Startjob from "../../Components/Start/Startjob";
 
 const ManageBooking = () => {
   const booking = useSelector((state) => state.admin.value.bookings);
@@ -221,6 +222,7 @@ const ManageBooking = () => {
         job={booking?.jobId}
         id={id}
         handleLoad={handleLoad}/>
+        <Startjob id={id} handleLoad={handleLoad} admin={true}/>
     </>
   );
 };
