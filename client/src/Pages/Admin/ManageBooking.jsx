@@ -203,8 +203,11 @@ const ManageBooking = () => {
             
             <div className="bg-slate-700 text-white p-6 rounded-xl shadow-md mt-6">
             <h3 className="text-lg font-semibold mb-2 underline underline-offset-2">Booking Cycle</h3>
-              {!booking?.estimate?.amount && <div className="my-5"> <label className="btn btn-success btn-sm float-right" htmlFor="addEstimate">Add Estimate</label></div>}
-           <div>
+              <div className="my-2">
+                {!booking?.estimate?.amount &&  <label className="btn btn-success btn-sm float-right my-2" htmlFor="addEstimate">Add Estimate</label>}
+                </div>
+          
+           <div className="my-2">
 
            <Range booking={booking}/>
            </div>

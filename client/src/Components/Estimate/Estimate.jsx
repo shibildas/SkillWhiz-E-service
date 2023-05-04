@@ -3,6 +3,7 @@ import { showAlertError, showAlertSuccess } from '../../Services/showAlert'
 import { useDispatch } from 'react-redux'
 import { userApproveEstimate } from '../../Services/userApi'
 import { adminApproveEstimate } from '../../Services/adminApi'
+import CancelEstimate from './CancelEstimate'
 
 const Estimate = ({admin,address,user,estimate,job,id,handleLoad}) => {
   const dispatch=useDispatch()
@@ -59,6 +60,8 @@ const Estimate = ({admin,address,user,estimate,job,id,handleLoad}) => {
         })
       }
 
+    }
+    const handleDecline=()=>{
     }
     
   return (
@@ -128,12 +131,12 @@ return(
       </tr>
       <tr>
         <td colSpan="3" className="py-4 text-right font-semibold">Total: </td>
-        <td className="py-4 font-extrabold text-xl"> ₹ {hourRate+partRate}</td>
+        <td className="py-4 font-extrabold text-xl"> ₹ {parseInt(hourRate)+parseInt(partRate)}</td>
       </tr>
     </tfoot>
   </table>
   <div className="flex justify-between items-center mb-8">
-        <button className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">Decline</button>
+        <label htmlFor='cancelEst' className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">Decline</label>
         <button onClick={handleApprove} className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Accept</button>
       </div>
 </div>
@@ -141,6 +144,7 @@ return(
 
   </div>
 </div>
+<CancelEstimate handleLoad={handleLoad} admin={admin} id={id}/>
     
     </>
   )

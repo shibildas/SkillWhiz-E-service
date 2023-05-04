@@ -90,8 +90,12 @@ const adminEndJob=(parts,hours,total,id)=>{
 const adminPay=(data)=>{
   return adminAxiosInstance.post('/adminPay',data)
 }
+const adminDecline=(data)=>{
+  return adminAxiosInstance.post('/decline',data)
+}
 
 export {
+  adminDecline,
   adminPay,
   adminEndJob,
   adminStartJob,

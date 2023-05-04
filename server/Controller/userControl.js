@@ -347,7 +347,7 @@ module.exports.bookings=async(req,res)=>{
     .select('-userId.password -expertId.password')
     const userId=booking.userId._id
     const review= await reviewmodel.findOne({bookId:id,reviewBy:userId}).select('rating message')
-    res.json({ status: "success", result: {...booking.toObject(),review:review.toObject()} });
+    res.json({ status: "success", result: {...booking?.toObject(),review:review?.toObject()} });
   } catch (error) {
     res.json({ status: "error", message: error.message });
     

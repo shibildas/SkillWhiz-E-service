@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
 
 const Range = ({booking}) => {
   const [range,setRange]=useState(undefined)
+  const [show,setShow]=useState(false)
   const handleChange=()=>{
        if(range<5){
         const value=(parseInt(range)+1)
@@ -33,6 +33,7 @@ const Range = ({booking}) => {
     }
    }
    useEffect(()=>{
+    setShow(false)
     if(booking?.status==="pending"){
       setRange(1)
     }
@@ -45,9 +46,13 @@ const Range = ({booking}) => {
     if(booking?.status==='completed'){
       setRange(4)
     }
-    if(booking?.status==='invoiced'){
+    if(booking?.status==='invoiced' || booking?.status==='closed'){
       setRange(5)
     }
+    if(!booking?.estimate?.amount){
+      setShow(true)
+    }
+
 
    },[booking])
     
@@ -55,7 +60,7 @@ const Range = ({booking}) => {
     <>
     <div className='md:pt-5'>
 
-<input type="range" min={0} max={5} value={range} onInput={handleChange} className="range range-warning bg-white" step={1}  />
+<input type="range" min={0} max={5} value={range} onInput={handleChange} className="range range-warning bg-white" step={1} disabled={show} />
     </div>
 <div className="w-full flex justify-between text-xs px-2">
   <span className={`break-all mr-2`}> Open</span>

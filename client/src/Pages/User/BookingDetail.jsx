@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import Chat from "../../Components/Chat/Chat"
 import { userAxiosInstance } from "../../axios/instance";
 import { useDispatch, useSelector } from "react-redux";
@@ -195,7 +195,7 @@ const BookingDetail = () => {
                 "Estimation Pending"
               )}
               {book?.estimate?.status !== "approved" && (
-                <span className="indicator-item badge badge-primary">view</span>
+                <Link to='/chat'><span className="indicator-item badge badge-primary tooltip tooltip-top mx-2" data-tip="Chat to Your Expert">Chat</span></Link>
               )}{" "}
             </h1>
           </div>
@@ -258,7 +258,7 @@ const BookingDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {!book?.review?._id ? (
+          {(!book?.review?._id && book?.status==='completed')&&  (
             <Review
               user={true}
               reviewBy={username}
@@ -267,7 +267,7 @@ const BookingDetail = () => {
               bookId={book?._id}
               handleLoad={handleLoad}
             />
-          ) : (
+          )} : {book?.review?._id &&(
             <ViewReview
               handleLoad={handleLoad}
               user={true}

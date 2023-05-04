@@ -3,7 +3,7 @@ const router = express.Router()
 const adminControl = require('../Controller/adminControl')
 const {adminProtect}= require('../Middlewares/Auth')
 const mult= require("../Middlewares/multer")
-const {sendEstimate,approveEstimate,startJob,endJob}= require('../Controller/apiControl')
+const {sendEstimate,approveEstimate,startJob,endJob,declineEstimate}= require('../Controller/apiControl')
 
 router.post('/',adminControl.adminLogin)
 router.get('/isAdminAuth',adminProtect,adminControl.isAdminAuth)
@@ -32,5 +32,6 @@ router.get('/approveEstimate/:id',adminProtect,approveEstimate)
 router.get('/startJob/:id',adminProtect,startJob)
 router.post('/endJob',adminProtect,endJob)
 router.post('/adminPay',adminProtect,adminControl.managePayment)
+router.post('/decline',adminProtect,declineEstimate)
 
 module.exports = router

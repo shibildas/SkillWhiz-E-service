@@ -28,6 +28,9 @@ const getUserMessage=(data)=>{
  const userApproveEstimate=(id)=>{
     return userAxiosInstance.get(`/approveEstimate/${id}`)
  }
+ const userDecline=(data)=>{
+    return userAxiosInstance.post('/decline',data)
+ }
 
 
-export {userApproveEstimate,userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}
+export {userDecline,userApproveEstimate,userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}

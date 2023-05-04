@@ -257,7 +257,7 @@ const AppointmentDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {!book?.review?._id ? (
+          {(!book?.review?._id && book?.status==='completed')&& (
             <Review
               user={false}
               reviewBy={username}
@@ -266,7 +266,7 @@ const AppointmentDetail = () => {
               bookId={book?._id}
               handleLoad={handleLoad}
             />
-          ) : (
+          )} {book?.review?._id && (
             <>
               <ViewReview
                 handleLoad={handleLoad}

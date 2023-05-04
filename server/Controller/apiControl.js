@@ -39,7 +39,7 @@ module.exports.sendEstimate = async (req, res) => {
       const booking = await bookingmodel.findOneAndUpdate(
         { _id: bookId },
         {
-          $set: { estimate: { hours: hours, parts: [...parts], amount: amount } },
+          $set: { estimate: { hours: hours, parts: [...parts], amount: amount} },
         }
       );
       if (booking) {
@@ -109,6 +109,20 @@ module.exports.sendEstimate = async (req, res) => {
       }
     } catch (error) {
       res.json({ status: "error",message:error.message });
-  
+      
+    }
+  }
+  module.exports.declineEstimate=async(req,res)=>{
+    try {
+      const {id,text}=req.body
+      const booking= await bookingmodel.findByIdAndUpdate(id,{$set:{estimate:{reason:text,hours:2,status:'pending'}}})
+      if(booking){
+        res.json({'status':'success'})
+      }else{
+        res.json({'status':'error',message:'no Data'})
+      }      
+    } catch (error) {
+      
+      res.json({ status: "error",message:error.message });
     }
   }
