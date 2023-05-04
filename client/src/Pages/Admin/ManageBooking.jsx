@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addBooking } from "../../redux/admin";
 import Range from "../../Components/Admin/Range/Range";
 import AddEstimate from "../../Components/Estimate/AddEstimate";
+import Estimate from "../../Components/Estimate/Estimate";
 
 const ManageBooking = () => {
   const booking = useSelector((state) => state.admin.value.bookings);
@@ -24,6 +25,7 @@ const ManageBooking = () => {
     const interval = setInterval(() => {
       if (value < getInitialValue()) {
         setValue(value + 1);
+        
       }
     }, 15);
     return () => clearInterval(interval);
@@ -201,7 +203,7 @@ const ManageBooking = () => {
             <div className="bg-slate-700 text-white p-6 rounded-xl shadow-md mt-6">
               {!booking?.estimate?.amount && <div className="p-2"> <label className="btn btn-success btn-sm float-right" htmlFor="addEstimate">Add Estimate</label></div>}
            
-           <Range/>
+           <Range booking={booking}/>
           </div>
           
           </div>
@@ -212,6 +214,13 @@ const ManageBooking = () => {
         </div>
       </div>
       <AddEstimate admin={true} bookId={booking?._id} jobId={booking?.jobId}  handleLoad={handleLoad}/>
+      <Estimate admin={true}
+        address={booking?.address}
+        user={booking?.userId}
+        estimate={booking?.estimate}
+        job={booking?.jobId}
+        id={id}
+        handleLoad={handleLoad}/>
     </>
   );
 };

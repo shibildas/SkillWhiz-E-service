@@ -280,7 +280,7 @@ const BookingDetail = () => {
       <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5">
         {/* <Chat room={id} username={username} user={user} other={other}/> */}
       </div>
-      <Estimate
+      <Estimate admin={false}
         address={book?.address}
         user={user}
         estimate={book?.estimate}

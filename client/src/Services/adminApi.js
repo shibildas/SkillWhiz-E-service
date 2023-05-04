@@ -78,8 +78,12 @@ const editUser = (formData) => {
 const sendAdminEstimate=(data)=>{
   return adminAxiosInstance.post('/addEstimate',data)
 }
+const adminApproveEstimate=(id)=>{
+  return  adminAxiosInstance.get(`/approveEstimate/${id}`)
+}
 
 export {
+  adminApproveEstimate,
   sendAdminEstimate,
   editUser,
   unBlockUser,

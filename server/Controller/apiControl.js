@@ -51,3 +51,18 @@ module.exports.sendEstimate = async (req, res) => {
       res.json({ status: "error", message: error.message });
     }
   };
+  module.exports.approveEstimate=async(req,res)=>{
+    try {
+      const id=req.params.id
+      const booking= await bookingmodel.findOneAndUpdate({_id:id},{$set:{'estimate.status':"approved"}})
+      if(booking){
+        res.json({"status":"success",result:booking})
+      }else{
+  
+        res.json({ status: "error", message: "No Result" });
+      }
+    } catch (error) {
+      
+      res.json({ status: "error", message: error.message });
+    }
+  }

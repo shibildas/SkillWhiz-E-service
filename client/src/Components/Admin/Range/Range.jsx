@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Range = () => {
+const Range = ({booking}) => {
     const [range,setRange]=useState(1)
     useEffect(() => {
       
@@ -10,9 +10,19 @@ const Range = () => {
        if(range<5){
         const value= (range+1)
         setRange(value)
+        if(value===2){
+          const aproveEst=document.getElementById('estimate')
+          aproveEst.checked=true
+        }
 
     }
    }
+   useEffect(()=>{
+    if(booking?.estimate?.status==="approved"){
+      setRange(2)
+    }
+
+   },[booking])
     
   return (
     <>

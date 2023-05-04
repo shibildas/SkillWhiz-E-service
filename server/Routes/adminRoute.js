@@ -3,7 +3,7 @@ const router = express.Router()
 const adminControl = require('../Controller/adminControl')
 const {adminProtect}= require('../Middlewares/Auth')
 const mult= require("../Middlewares/multer")
-const {sendEstimate}= require('../Controller/apiControl')
+const {sendEstimate,approveEstimate}= require('../Controller/apiControl')
 
 router.post('/',adminControl.adminLogin)
 router.get('/isAdminAuth',adminProtect,adminControl.isAdminAuth)
@@ -28,5 +28,6 @@ router.post('/addSchedule',adminProtect,adminControl.addSchedule)
 router.get('/bookingList',adminProtect,adminControl.bookings)
 router.get('/getBooking/:id',adminProtect,adminControl.manageBooking)
 router.post('/addEstimate',adminProtect,sendEstimate)
+router.get('/approveEstimate/:id',adminProtect,approveEstimate)
 
 module.exports = router

@@ -25,6 +25,9 @@ const getUserMessage=(data)=>{
  const userUpdateReview=(data)=>{
     return userAxiosInstance.post('/updateReview',data)
  }
+ const userApproveEstimate=(id)=>{
+    return userAxiosInstance.get(`/approveEstimate/${id}`)
+ }
 
 
-export {userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}
+export {userApproveEstimate,userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}
