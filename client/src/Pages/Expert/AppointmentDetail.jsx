@@ -280,7 +280,7 @@ const AppointmentDetail = () => {
       </div>
       <AddEstimate admin={false} bookId={id} jobId={job} handleLoad={handleLoad} />
       <Startjob id={id} handleLoad={handleLoad} admin={false} />
-      <EndJob handleLoad={handleLoad} handleAlert={handleAlert} />
+      <EndJob handleLoad={handleLoad} admin={false} />
     </>
   );
 };

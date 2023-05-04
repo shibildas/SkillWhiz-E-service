@@ -7,6 +7,7 @@ import Range from "../../Components/Admin/Range/Range";
 import AddEstimate from "../../Components/Estimate/AddEstimate";
 import Estimate from "../../Components/Estimate/Estimate";
 import Startjob from "../../Components/Start/Startjob";
+import { EndJob } from "../../Components/Start/EndJob";
 
 const ManageBooking = () => {
   const booking = useSelector((state) => state.admin.value.bookings);
@@ -223,6 +224,7 @@ const ManageBooking = () => {
         id={id}
         handleLoad={handleLoad}/>
         <Startjob id={id} handleLoad={handleLoad} admin={true}/>
+        <EndJob booking={booking} handleLoad={handleLoad} admin={true} />
     </>
   );
 };

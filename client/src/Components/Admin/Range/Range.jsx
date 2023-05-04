@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
-const Range = () => {
-  const booking = useSelector((state) => state.user.value.bookings);
-    const [range,setRange]=useState(null)
-    const [action,setAction]=useState(false)
+const Range = ({booking}) => {
+  // const booking = useSelector((state) => state.user.value.bookings);
+    const [range,setRange]=useState(undefined)
     useEffect(() => {
       
     }, [])
 
    const handleChange=()=>{
+   
        if(range<5){
-        const value= (range+1)
+        const value=(parseInt(range)+1)
         setRange(value)
         if(value===2){
           const aproveEst=document.getElementById('estimate')
@@ -25,23 +25,31 @@ const Range = () => {
           setRange(2)
           
         }
+        if(value===4){
+          const endjob=document.getElementById('endJob')
+          endjob.checked=true
+          setRange(3)
+          
+        }
 
     }
    }
    useEffect(()=>{
-    setAction(false)
     if(booking?.estimate?.status==="approved" && booking?.status==='pending'){
       setRange(2)
     }
     if(booking?.status==='started'){
       setRange(3)
     }
+    if(booking?.status==='completed'){
+      setRange(4)
+    }
 
    },[booking])
     
   return (
     <>
-    <input type="range" min="0" max="5" value={range} onChange={handleChange} className="range" step="1" disabled={action}  />
+<input type="range" min={0} max={5} value={range} onInput={handleChange} className="range" step={1}  />
 <div className="w-full flex justify-between text-xs px-2">
   <span className='break-all mr-2'> Open</span>
   <span className='break-all mx-2'> Assigned </span>

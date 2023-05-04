@@ -414,35 +414,6 @@ module.exports.startJob = async (req, res) => {
     res.json({ status: "error", message: error.message });
   }
 };
-module.exports.endJob = async (req, res) => {
-  try {
-    const { parts, hours, total, id } = req.body;
-    const time = Date.now();
-    const booking = await bookingmodel.findOneAndUpdate(
-      { _id: id },
-      {
-        $set: {
-          "estimate.parts": [...parts],
-          "estimate.hours": hours,
-          bill_amount: total,
-          "payment.invoice": `INV_${id}`,
-          status:"completed",
-          jobEnd:time
-        },
-      }
-    );
-    if(booking){
-
-      res.json({ status: "success" });
-    }else{
-      res.json({ status: "error" });
-      
-    }
-  } catch (error) {
-    res.json({ status: "error",message:error.message });
-
-  }
-};
 module.exports.getContacts=async(req,res)=>{
   try {
     const id=req.expertId

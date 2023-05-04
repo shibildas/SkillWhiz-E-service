@@ -84,8 +84,12 @@ const adminApproveEstimate=(id)=>{
 const adminStartJob=(id)=>{
   return adminAxiosInstance.get(`/startJob/${id}`)
 }
+const adminEndJob=(parts,hours,total,id)=>{
+  return adminAxiosInstance.post('/endJob',{parts,hours,total,id})
+}
 
 export {
+  adminEndJob,
   adminStartJob,
   adminApproveEstimate,
   sendAdminEstimate,

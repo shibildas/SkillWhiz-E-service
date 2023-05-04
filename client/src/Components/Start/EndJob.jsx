@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { endJob } from '../../Services/expertApi'
+import { showAlertError, showAlertSuccess } from '../../Services/showAlert'
+import { adminEndJob } from '../../Services/adminApi'
 
-export const EndJob = ({ handleLoad, handleAlert }) => {
-  const booking = useSelector(state => state.expert.value.bookings)
-
+export const EndJob = ({booking, handleLoad, admin }) => {
+  const dispatch=useDispatch()
+  // const booking = useSelector(state => state.expert.value.bookings)
   const [isEditMode, setIsEditMode] = useState(false)
   const [hours, setHours] = useState(booking?.estimate?.hours || '')
   const [id, setId] = useState(null)
@@ -37,7 +39,7 @@ export const EndJob = ({ handleLoad, handleAlert }) => {
   useEffect(() => {
     const res=parts?.reduce((total, part) => total + Number(part.price), 0)
     setPartsPrice(res)
-    setPrice((hours*Number(booking?.jobId?.add_rate))+Number(booking?.jobId?.base_rate))
+    setPrice(((hours-2)*Number(booking?.jobId?.add_rate))+Number(booking?.jobId?.base_rate))
   }, [parts,hours])
   
   const increment=()=>{
@@ -52,31 +54,57 @@ export const EndJob = ({ handleLoad, handleAlert }) => {
   }
   const handleSubmit=()=>{
     const total=(partsPrice+price)
-    
-    endJob(parts,hours,total,id).then((res)=>{
-      const modal= document.getElementById('endJob')
-      if(res.data.status==="success"){
-        const alert=true
-        const msg="Job Saved Success, Kindly do the Payment"
-        handleLoad()
-        handleAlert(alert,msg)
-        modal.checked=false
-      }else{
-        const alert=false
-        const msg="Error, Job not saved"
-        handleLoad()
-        handleAlert(alert,msg)
-        modal.checked=false
-
-      }
-    }).catch(error=>{
-      const alert=false
+    if(admin){
+      adminEndJob(parts,hours,total,id).then((res)=>{
+        const modal= document.getElementById('endJob')
+        if(res.data.status==="success"){
+          const msg="Job Saved Success, Kindly do the Payment"
+          handleLoad()
+          showAlertSuccess(dispatch,msg)
+          modal.checked=false
+        }else{
+          
+          const msg="Error, Job not saved"
+          handleLoad()
+          showAlertError(dispatch,msg)
+          modal.checked=false
+          
+        }
+      }).catch(error=>{
+        
         const msg=error.message
         handleLoad()
-        handleAlert(alert,msg)
+        showAlertError(dispatch,msg)
         modal.checked=false
-    })
+      })
 
+    }else{
+
+      
+      endJob(parts,hours,total,id).then((res)=>{
+        const modal= document.getElementById('endJob')
+        if(res.data.status==="success"){
+          const msg="Job Saved Success, Kindly do the Payment"
+          handleLoad()
+          showAlertSuccess(dispatch,msg)
+          modal.checked=false
+        }else{
+          
+          const msg="Error, Job not saved"
+          handleLoad()
+          showAlertError(dispatch,msg)
+          modal.checked=false
+          
+        }
+      }).catch(error=>{
+        
+        const msg=error.message
+        handleLoad()
+        showAlertError(dispatch,msg)
+        modal.checked=false
+      })
+      
+    }
   }
   useEffect(() => {
     setHours(booking?.estimate?.hours)
