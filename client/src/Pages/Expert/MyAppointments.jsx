@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { expertAxiosInstance } from "../../axios/instance";
+import moment from "moment";
 
 const MyAppointments = () => {
   const arr=[1,2,3,4,5,6]
@@ -36,7 +37,7 @@ const MyAppointments = () => {
               <p>Appointment Id: <b> {ele?._id}</b></p>
               <p>Time: <b>{ele?.slot}</b></p>
               <div className="card-actions justify-end">
-                <Link to={`/expert/myappointments/${ele?._id}`}><button className="btn btn-secondary">View</button></Link>
+                {(moment(ele?.slot, 'MMMM Do YYYY, h:mm:ss a')?.isSameOrBefore()&& ele?.status==='pending')?"Expired":<Link to={`/expert/myappointments/${ele?._id}`}><button className="btn btn-secondary">View</button></Link>}
               </div>
             </div>
           </div>)}))

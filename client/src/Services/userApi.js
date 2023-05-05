@@ -34,6 +34,9 @@ const getUserMessage=(data)=>{
  const userCancelBook=(data)=>{
    return userAxiosInstance.post('/cancelBooking',data)
  }
+ const getAllJobs=()=>{
+   return userAxiosInstance.get('/getAllJobs')
+ }
 
 
-export {userCancelBook,userDecline,userApproveEstimate,userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}
+export {getAllJobs,userCancelBook,userDecline,userApproveEstimate,userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}

@@ -1,4 +1,6 @@
 const bookingmodel = require('../Model/bookingSchema')
+const expertmodel = require('../Model/expertSchema')
+const jobsmodel = require('../Model/jobsSchema')
 const reviewmodel=require('../Model/reviewSchema')
 const usermodel = require('../Model/userSchema')
 
@@ -155,3 +157,17 @@ module.exports.sendEstimate = async (req, res) => {
       
     }
   }
+
+module.exports.allJobs=async (req,res) => {
+  try {
+    const experts = await expertmodel.find().select("skills");
+
+    const skillIds = experts.flatMap((expert) => expert.skills);
+
+    const jobs = await jobsmodel.find({ _id: { $in: skillIds } });
+    const jobRoles = Array.from(new Set(jobs.map((job) => job)));
+    res.json({'status':'success',result:jobRoles})
+  } catch (error) {
+    res.json({ status: "error",message:error.message });
+  }
+};

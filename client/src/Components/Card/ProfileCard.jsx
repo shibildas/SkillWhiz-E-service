@@ -50,9 +50,9 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="font-sans text-white rounded-2xl shadow-2xl bg-gray-800 shadow-black h-full">
+      <div className="font-sans card text-white rounded-2xl shadow-2xl bg-gray-800 shadow-black h-full">
+        <div className="card-body w-full p-2 mx-auto ">
         <h1 className=" p-3 text-2xl font-extrabold underline underline-offset-4">My Profile</h1>
-        <div className="card w-full p-2 mx-auto ">
           <div className="flex justify-end">
             <label
               htmlFor="editProfile"
@@ -121,7 +121,7 @@ const ProfileCard = () => {
                   onChange={handleNumber}
                   min="0"
                   placeholder="Type here"
-                  className=" mx-1 input input-secondary w-1/2"
+                  className=" mx-1 input text-black font-semibold input-secondary w-1/2"
                 />
                 <button
                   onClick={handleVerify}
@@ -172,10 +172,10 @@ const ProfileCard = () => {
           </div>
         </div>
         <div className="m-4 text-black">
-          <Link><div className="flex justify-center py-5 bg-slate-300 mx-2 rounded-2xl shadow-2xl cursor-pointer shadow-black hover:shadow-inner"> <h1 className="text-xl font-extrabold ">My Bookings</h1></div></Link>
+          <Link to='/bookings'><div className="flex justify-center py-5 bg-slate-300 mx-2 rounded-2xl shadow-2xl cursor-pointer shadow-black hover:shadow-inner"> <h1 className="text-xl font-extrabold ">My Bookings</h1></div></Link>
         </div>
         <div className="m-4 text-black">
-          <Link><div className="flex justify-center py-5 bg-slate-300 mx-2 rounded-2xl shadow-2xl cursor-pointer shadow-black hover:shadow-inner"> <h1 className="text-xl font-extrabold ">Chat</h1></div></Link>
+          <Link to='/chat'><div className="flex justify-center py-5 bg-slate-300 mx-2 rounded-2xl shadow-2xl cursor-pointer shadow-black hover:shadow-inner"> <h1 className="text-xl font-extrabold ">Chat</h1></div></Link>
         </div>
       </div>
       <ChangePassword />

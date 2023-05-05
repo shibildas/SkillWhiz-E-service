@@ -4,7 +4,7 @@ const userControl = require("../Controller/userControl")
 const {userProtect} = require("../Middlewares/Auth")
 const upload= require("../Middlewares/multer")
 const {getMessages,addMessage}=require('../Controller/messageControl')
-const {createuserReview,updateReview,approveEstimate,declineEstimate,cancelBooking}= require('../Controller/apiControl')
+const {createuserReview,updateReview,approveEstimate,declineEstimate,cancelBooking, allJobs}= require('../Controller/apiControl')
 
 router.post('/signup',userControl.postSignUp)
 router.post('/verify-otp',userControl.verifyOTP)
@@ -32,6 +32,7 @@ router.post('/addReview',userProtect,createuserReview)
 router.post('/updateReview',userProtect,updateReview)
 router.post('/decline',userProtect,declineEstimate)
 router.post('/cancelBooking',userProtect,cancelBooking)
+router.get('/getAllJobs',userProtect,allJobs)
 
 
 module.exports = router

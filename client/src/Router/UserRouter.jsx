@@ -10,6 +10,7 @@ import { ErrorPage, UserLayout } from "../import";
 import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
 const Chat=lazy(()=> import ("../Pages/common/Chat"));
+const AllServices=lazy(()=>import ('../Pages/User/AllServices'))
 import { useSelector } from "react-redux";
 
 function UserRouter() {
@@ -22,6 +23,7 @@ function UserRouter() {
           <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
             <Route path="/profile" element={<Suspense fallback={<ShimmerList/>}><Profile /></Suspense>} />
             <Route path="/job/:jobId" element={<Suspense fallback={<ShimmerList/>}><Detail /></Suspense>} />
+            <Route path='/alljobs'element={<Suspense fallback={<ShimmerList/>}><AllServices/></Suspense>}/>
             <Route path="/job/schedule/:id" element={<Suspense fallback={<ShimmerList/>}><ScheduleJob /></Suspense>} />
             <Route path="/bookings/:id" element={<Suspense fallback={<ShimmerList/>}><BookingDetail /></Suspense>} />
             <Route path="/bookings" element={<Suspense fallback={<ShimmerList/>}><BookingList /></Suspense>} />
