@@ -5,9 +5,8 @@ import { userApproveEstimate } from '../../Services/userApi'
 import { adminApproveEstimate } from '../../Services/adminApi'
 import CancelEstimate from './CancelEstimate'
 
-const Estimate = ({admin,address,user,estimate,job,id,handleLoad}) => {
+const Estimate = ({admin,address,user,estimate,job,id,handleLoad,book}) => {
   const dispatch=useDispatch()
-
     const [partRate,setPartRate]=useState(null)
     const [hourRate,setHourRate]=useState(null)
     useEffect(() => {
@@ -60,8 +59,6 @@ const Estimate = ({admin,address,user,estimate,job,id,handleLoad}) => {
         })
       }
 
-    }
-    const handleDecline=()=>{
     }
     
   return (
@@ -135,10 +132,10 @@ return(
       </tr>
     </tfoot>
   </table>
-  <div className="flex justify-between items-center mb-8">
+  {book !== "cancelled" && <div className="flex justify-between items-center mb-8">
         <label htmlFor='cancelEst' className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">Decline</label>
         <button onClick={handleApprove} className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Accept</button>
-      </div>
+      </div>}
 </div>
 
 

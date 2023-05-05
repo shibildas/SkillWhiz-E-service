@@ -27,9 +27,10 @@ const bookingSchema= new mongoose.Schema({
         payment_status:{type:String, default:'pending'},
     },
     status:{type:String, default:"pending"},
-    booking_date: {type:Date, default: Date.now(), index:true},
+    booking_date:{type:Date, default: Date.now(), index:true},
     jobStart:{type:Date},
-    jobEnd:{type:Date}   
+    jobEnd:{type:Date},
+    reason:{type:String}   
 },
 {
   timestamps: true,

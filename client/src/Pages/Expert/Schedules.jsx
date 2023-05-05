@@ -154,12 +154,12 @@ const Schedules = () => {
                   </button>
                 ))}
               </div>
-              {(selectTime.length != 0) && <div className="flex justify-center">
+             <div className="flex justify-center">
                 {" "}
-                <button onClick={handleSubmit} className="btn btn-warning m-5">
+                <button onClick={handleSubmit} className="btn btn-warning shadow-md shadow-black m-5" disabled={selectTime.length === 0}>
                   Update
                 </button>
-              </div>}
+              </div>
             </>
           )}
         </div>

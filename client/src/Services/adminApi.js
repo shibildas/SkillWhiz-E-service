@@ -93,8 +93,12 @@ const adminPay=(data)=>{
 const adminDecline=(data)=>{
   return adminAxiosInstance.post('/decline',data)
 }
+const adminCancelBook=(data)=>{
+  return adminAxiosInstance.post('/cancelBooking',data)
+}
 
 export {
+  adminCancelBook,
   adminDecline,
   adminPay,
   adminEndJob,

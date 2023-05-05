@@ -31,6 +31,9 @@ const getUserMessage=(data)=>{
  const userDecline=(data)=>{
     return userAxiosInstance.post('/decline',data)
  }
+ const userCancelBook=(data)=>{
+   return userAxiosInstance.post('/cancelBooking',data)
+ }
 
 
-export {userDecline,userApproveEstimate,userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}
+export {userCancelBook,userDecline,userApproveEstimate,userUpdateReview,addUserMessage,getUserMessage,authUser,payOnline,verifyPayment,getExpertContacts,userReview}

@@ -90,7 +90,7 @@ const AppointmentDetail = () => {
           <li data-content="⛹" className="step step-secondary">
             Partner Assigned
           </li>
-          <li
+         { book?.status !== "cancelled" && <><li
             data-content="⏲"
             className={`step ${
               book?.estimate?.status === "approved" && "step-secondary"
@@ -129,9 +129,9 @@ const AppointmentDetail = () => {
             } ${book?.status === "closed" && "step-secondary"}`}
           >
             Closed
-          </li>
+          </li></>}
           {book?.status === "cancelled" && (
-            <li data-content="🗙" className="step">
+            <li data-content="🗙" className="step step-secondary">
               Cancelled
             </li>
           )}
@@ -179,9 +179,9 @@ const AppointmentDetail = () => {
               {book?.estimate?.amount ? (
                 `Rs: ${book?.estimate?.amount}`
               ) : (
-                <label htmlFor="addEstimate" className="btn btn-secondary">
+                (book?.status !== "cancelled"?<label htmlFor="addEstimate" className="btn btn-secondary">
                   Add Estimate{" "}
-                </label>
+                </label>: 'Nil')
               )}
             </h1>
           </div>

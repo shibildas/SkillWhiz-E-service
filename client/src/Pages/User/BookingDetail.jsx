@@ -9,6 +9,7 @@ import { payOnline, verifyPayment } from "../../Services/userApi";
 import { showAlertError } from "../../Services/showAlert";
 import Review from "../../Components/Review/Review";
 import ViewReview from "../../Components/Review/ViewReview";
+import CancelBook from "../../Components/CancelBooking/CancelBook";
 
 const BookingDetail = () => {
   const dispatch = useDispatch();
@@ -91,7 +92,7 @@ const BookingDetail = () => {
           <li data-content="⛹" className="step step-secondary">
             Partner Assigned
           </li>
-          <li
+          {book?.status !== "cancelled" &&<><li
             data-content="⏲"
             className={`step ${book?.estimate?.status === "approved"} ${
               book?.status === "invoiced" && "step-secondary"
@@ -124,9 +125,9 @@ const BookingDetail = () => {
             className={`step ${book?.status === "closed" && "step-secondary"}`}
           >
             Closed
-          </li>
+          </li></>}
           {book?.status === "cancelled" && (
-            <li data-content="🗙" className="step">
+            <li data-content="🗙" className="step step-secondary">
               Cancelled
             </li>
           )}
@@ -194,12 +195,34 @@ const BookingDetail = () => {
               ) : (
                 "Estimation Pending"
               )}
-              {book?.estimate?.status !== "approved" && (
+              {(book?.estimate?.status !== "approved"&& book?.status !== "cancelled") && (
                 <Link to='/chat'><span className="indicator-item badge badge-primary tooltip tooltip-top mx-2" data-tip="Chat to Your Expert">Chat</span></Link>
               )}{" "}
             </h1>
           </div>
           <div className="divider "></div>
+          {(book?.status === "cancelled") && (
+            <>
+              <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                <h1 className="text-xl">Cancel Reason:</h1>{" "}
+                <div>
+                  <h1 className="">{book?.reason}</h1>
+                </div>
+              </div>
+              <div className="divider "></div>
+            </>
+          )}
+          {(book?.status === "pending") && (
+            <>
+              <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                <h1 className="text-xl">Not Happy?</h1>{" "}
+                <div>
+                  <label className="btn btn-error" htmlFor="cancelBook">Cancel Job</label>
+                </div>
+              </div>
+              <div className="divider "></div>
+            </>
+          )}
           {(book?.status === "started" ||
             book?.status === "invoiced" ||
             book?.status === "closed") && (
@@ -280,14 +303,15 @@ const BookingDetail = () => {
       <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5">
         {/* <Chat room={id} username={username} user={user} other={other}/> */}
       </div>
-      <Estimate admin={false}
+      <Estimate book={book?.status} admin={false}
         address={book?.address}
         user={user}
         estimate={book?.estimate}
         job={book?.jobId}
         id={id}
         handleLoad={handleLoad}
-      />
+        />
+        <CancelBook  admin={false} handleLoad={handleLoad} id={id}/>
     </>
   );
 };

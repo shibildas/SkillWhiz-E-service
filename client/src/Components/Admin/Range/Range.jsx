@@ -52,6 +52,10 @@ const Range = ({booking}) => {
     if(!booking?.estimate?.amount){
       setShow(true)
     }
+    if(booking?.status==='cancelled'){
+      setRange(5)
+      setShow(true)
+    }
 
 
    },[booking])
@@ -64,11 +68,11 @@ const Range = ({booking}) => {
     </div>
 <div className="w-full flex justify-between text-xs px-2">
   <span className={`break-all mr-2`}> Open</span>
-  <span className={`break-all mr-2 ${range===1 && "font-extrabold text-lg"}`}> Assigned </span>
-  <span className={`break-all mr-2 ${range===2 && "font-extrabold text-lg"}`}> Approval </span>
+  {booking?.status!=='cancelled' &&<><span className={`break-all mr-2 ${range===1 && "font-extrabold text-lg"}`}> Assigned </span>
+ <span className={`break-all mr-2 ${range===2 && "font-extrabold text-lg"}`}> Approval </span>
   <span className={`break-all mr-2 ${range===3 && "font-extrabold text-lg"}`}> Job Started </span>
-  <span className={`break-all mr-2 ${range===4 && "font-extrabold text-lg"}`}> Invoiced </span>
-  <span className={`break-all mr-2 ${range===5 && "font-extrabold text-lg"}`}> Paid </span>
+  <span className={`break-all mr-2 ${range===4 && "font-extrabold text-lg"}`}> Invoiced </span></> }
+  <span className={`break-all mr-2 ${range===5 && "font-extrabold text-lg"}`}> {booking?.status==='cancelled' ?"Cancelled":"Paid"} </span>
 
  
 </div>

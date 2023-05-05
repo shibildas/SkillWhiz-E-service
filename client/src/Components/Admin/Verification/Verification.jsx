@@ -22,7 +22,7 @@ const Verification = ({ expert, handleLoad }) => {
       .then((res) => {
         if (res.isConfirmed) {
           const verifyex = document.getElementById("exVerify");
-          verifyExpert.then((res) => {
+          verifyExpert(id).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
               verifyex.checked = false;

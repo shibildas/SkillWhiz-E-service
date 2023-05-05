@@ -126,3 +126,18 @@ module.exports.sendEstimate = async (req, res) => {
       res.json({ status: "error",message:error.message });
     }
   }
+
+  module.exports.cancelBooking=async(req,res)=>{
+    try {
+      const {id,reason}=req.body
+      const booking= await bookingmodel.findByIdAndUpdate(id,{$set:{reason:reason,status:'cancelled'}})
+      if(booking){
+        res.json({'status':'success'})
+      }else{
+        res.json({'status':'error',message:'no Data'})
+      } 
+    } catch (error) {
+      res.json({ status: "error",message:error.message });
+      
+    }
+  }
