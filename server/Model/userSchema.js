@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim:true,
   },
- 
   password: {
     type: String,
     trim:true,
@@ -32,12 +31,13 @@ const userSchema = new mongoose.Schema({
     pincode:{type:Number},
   }],
   isBanned:{type:Boolean, default:true},
+  vouchers:[{type:mongoose.Schema.Types.ObjectId,ref:'vouchers'}],
+  loyality:{type:Number,default:0}
 },
 {
   timestamps:true,
 }
 );
-
 
 const usermodel = mongoose.model("user",userSchema )
 module.exports = usermodel

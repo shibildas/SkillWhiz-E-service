@@ -5,6 +5,7 @@ import ReVerify from "./VerifyOTP";
 import EditProfile from "./EditProfile";
 import { userAxiosInstance } from "../../axios/instance";
 import { showAlertError } from "../../Services/showAlert";
+import { Link } from "react-router-dom";
 
 const ProfileCard = () => {
   const dispatch=useDispatch()
@@ -49,8 +50,9 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="font-sans bg-cover bg-center my-10 rounded-2xl shadow-2xl bg-gray-800 shadow-black h-screen flex flex-row justify-center items-center">
-        <div className="card w-96 mx-auto bg-slate-300 opacity-95  shadow-2xl shadow-black hover:shadow">
+      <div className="font-sans text-white rounded-2xl shadow-2xl bg-gray-800 shadow-black h-full">
+        <h1 className=" p-3 text-2xl font-extrabold underline underline-offset-4">My Profile</h1>
+        <div className="card w-full p-2 mx-auto ">
           <div className="flex justify-end">
             <label
               htmlFor="editProfile"
@@ -144,7 +146,7 @@ const ProfileCard = () => {
           <hr className="mt-8" />
           <div className="flex p-4">
             <div className="w-1/2 text-center">
-              <button className="font-bold btn btn-ghost btn-outline">
+              <button className="font-bold btn btn-success btn-outline">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -168,6 +170,12 @@ const ProfileCard = () => {
               </label>
             </div>
           </div>
+        </div>
+        <div className="m-4 text-black">
+          <Link><div className="flex justify-center py-5 bg-slate-300 mx-2 rounded-2xl shadow-2xl cursor-pointer shadow-black hover:shadow-inner"> <h1 className="text-xl font-extrabold ">My Bookings</h1></div></Link>
+        </div>
+        <div className="m-4 text-black">
+          <Link><div className="flex justify-center py-5 bg-slate-300 mx-2 rounded-2xl shadow-2xl cursor-pointer shadow-black hover:shadow-inner"> <h1 className="text-xl font-extrabold ">Chat</h1></div></Link>
         </div>
       </div>
       <ChangePassword />

@@ -115,6 +115,7 @@ module.exports.isUserAuth = async (req, res) => {
       username: userDetails.username,
       email: userDetails.email,
       image: userDetails.image || null,
+      loyality:userDetails?.loyality || 0,
     });
   } catch (error) {
     res.json({auth:false, status: "error", message: error.message });

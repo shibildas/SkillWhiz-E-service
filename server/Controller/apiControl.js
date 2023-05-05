@@ -1,5 +1,6 @@
 const bookingmodel = require('../Model/bookingSchema')
 const reviewmodel=require('../Model/reviewSchema')
+const usermodel = require('../Model/userSchema')
 
 
 module.exports.createReview= async (req,res)=>{
@@ -11,6 +12,23 @@ module.exports.createReview= async (req,res)=>{
     const booking =await bookingmodel.findByIdAndUpdate(bookId,
         {status:'closed'}
         )
+            res.json({'status':'success',result: booking})
+    } catch (error) {
+        res.json({'status':'error',message:error.message})     
+    }
+}
+module.exports.createuserReview= async (req,res)=>{
+    try {
+        const {reviewBy,myId,reviewModel,myIdModel,jobId,bookId,message,rating}=req.body
+        const review=await reviewmodel.create({
+            reviewBy,myId,reviewModel,myIdModel,jobId,bookId,message,rating
+    })
+    const booking =await bookingmodel.findByIdAndUpdate(bookId,
+        {status:'closed'}
+        )
+        const user = await usermodel.findById(reviewBy);
+        user.loyality = (user?.loyality || 0) + 100; // Assuming a user earns 10 points for a review
+        await user.save();
             res.json({'status':'success',result: booking})
     } catch (error) {
         res.json({'status':'error',message:error.message})     
