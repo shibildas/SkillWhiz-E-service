@@ -164,7 +164,7 @@ module.exports.allJobs=async (req,res) => {
 
     const skillIds = experts.flatMap((expert) => expert.skills);
 
-    const jobs = await jobsmodel.find({ _id: { $in: skillIds } });
+    const jobs = await jobsmodel.find({ _id: { $in: skillIds }, listed: true  });
     const jobRoles = Array.from(new Set(jobs.map((job) => job)));
     res.json({'status':'success',result:jobRoles})
   } catch (error) {

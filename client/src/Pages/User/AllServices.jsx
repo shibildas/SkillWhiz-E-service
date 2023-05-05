@@ -23,20 +23,23 @@ showAlertError(dispatch,'something went wrong')
   return (
     <>
     <div>
-    <div className=" my-10  border border-stone-400 rounded-2xl shadow-2xl bg-opacity-80 bg-slate-200">
-        <h1 className="p-5 font-extrabold md:text-4xl">All SERVICES</h1>
-        <div className="grid grid-cols-2 md:grid-cols-4">
+    <div className=" my-10 card  border border-stone-400 rounded-2xl shadow-2xl bg-opacity-80 bg-slate-200 mx-2">
+        <div className="card-body ">
+        <h1 className="p-5 font-extrabold md:text-4xl underline underline-offset-4">All SERVICES</h1>
+        <div className='grid grid-cols-2 md:grid-cols-4'>
+
         {jobs?.map((ele, index) => {
             return (
-              <Link to={`/job/${encodeURIComponent(ele?.job_role)}`}
-                className="flex flex-col justify-center items-center "
+                <Link to={`/job/${encodeURIComponent(ele?.job_role)}`}
+                className="flex flex-col justify-center items-center my-8 "
                 key={"B" + index}
-              >
-                <img className="w-32 rounded-full cursor-pointer shadow-black shadow-2xl" src={ele?.image} alt="image" />
+                >
+                <img className="w-24 rounded-full cursor-pointer shadow-black shadow-2xl" src={ele?.image} alt="image" />
                 <h1 className="p-2 font-extrabold cursor-pointer ">{ele?.job_role?.toUpperCase()}</h1>
               </Link>
             );
-          })}
+        })}
+        </div>
 
     </div>
     </div>

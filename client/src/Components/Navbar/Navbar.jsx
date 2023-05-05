@@ -60,10 +60,10 @@ const Navbar = () => {
                 </a>
                 <ul className="p-2 absolute">
                   <li>
-                    <a className="">Submenu 1</a>
+                    <Link to='/chat' className="">Chat</Link>
                   </li>
                   <li>
-                    <a>Submenu 2</a>
+                    <Link to='/alljobs'>All Services</Link>
                   </li>
                 </ul>
               </li>
@@ -103,7 +103,7 @@ const Navbar = () => {
                   <Link to="/chat" className="text-black">Chat 1</Link>
                 </li>
                 <li>
-                  <a className="text-black">Submenu 2</a>
+                  <Link to='/alljobs' className="text-black">All Services</Link>
                 </li>
               </ul>
             </li>
