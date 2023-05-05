@@ -11,11 +11,7 @@ module.exports.createReview= async (req,res)=>{
     const booking =await bookingmodel.findByIdAndUpdate(bookId,
         {status:'closed'}
         )
-        if(review & booking){
-            res.json({'status':'success'})
-        }else{
-            res.json({'status':'error'})
-        }
+            res.json({'status':'success',result: booking})
     } catch (error) {
         res.json({'status':'error',message:error.message})     
     }

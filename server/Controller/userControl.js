@@ -244,7 +244,9 @@ module.exports.getJob = async (req, res) => {
   try {
     const job_role = req.params.id;
     const job = await jobsmodel.findOne({ job_role });
-    res.json({ status: "success", result: job });
+    const reviews= await reviewmodel.find({jobId:job._id, reviewModel:'user'}).populate('reviewBy','username image' ).limit(10)
+    const jobWithReviews = Object.assign({}, job.toObject(), { reviews })
+    res.json({ status: "success", result: jobWithReviews});
   } catch (error) {
     res.json({ status: "error", message: error.message });
   }

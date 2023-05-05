@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { userAxiosInstance } from "../../axios/instance";
 import { useDispatch } from "react-redux";
 import { showAlertError } from "../../Services/showAlert";
+import ReviewCard from "../../Components/Card/ReviewCard";
 
 const Detail = () => {
   const dispatch=useDispatch()
@@ -130,7 +131,22 @@ const Detail = () => {
           </div>
         </div>
         <div className="bg-white p-5">
-         <h1 className="text-xl font-bold">Customer Review</h1> 
+          <div>
+
+         <h1 className="text-xl font-bold">Customer Review</h1>
+          </div>
+          {job?.reviews?.length!=0 ? 
+          <div className="grid lg:grid-cols-4 md:grid-cols-2">
+          {job?.reviews?.map((rev,index)=>{
+            return(
+              <div className=" p-2 mx-auto" key={index}>
+            <ReviewCard user={rev?.reviewBy} msg={rev?.message} rating={rev?.rating}/>
+            </div>
+            )
+          })}
+          </div>: <div>No Reviews Added</div>}
+          
+
         </div>
       </>
     </>

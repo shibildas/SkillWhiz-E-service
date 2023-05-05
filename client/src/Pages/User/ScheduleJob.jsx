@@ -78,17 +78,17 @@ const ScheduleJob=()=>{
                 <div key={date.valueOf()} className="carousel-item">
                   <div
                     className={`m-2 shadow-xl shadow-black p-2 w-28 rounded-2xl text-white cursor-pointer ${
-                      selectedDate && selectedDate.isSame(date, "day")
+                      selectedDate && selectedDate?.isSame(date, "day")
                         ? "bg-indigo-600"
                         : "bg-zinc-700 "
                     }`}
                     onClick={() => handleDateSelect(date)}
                   >
                     <h1 className="text-center font-bold">
-                      {date.format("dddd")}
+                      {date?.format("dddd")}
                     </h1>
                     <h1 className="text-center text-4xl font-extrabold p-2">
-                      {date.format("D")}
+                      {date?.format("D")}
                     </h1>
                   </div>
                 </div>
@@ -98,7 +98,7 @@ const ScheduleJob=()=>{
               <>
                 <div className="flex flex-wrap justify-evenly mt-4">
                   {getTimeSlots().map(({ startTime, endTime }) => (
-                    (slot.includes(
+                    (slot?.includes(
                           startTime.format("MMMM Do YYYY, h:mm:ss a")
                         ))&& <button
                       key={`${startTime.format("hh:mm A")}-${endTime.format(

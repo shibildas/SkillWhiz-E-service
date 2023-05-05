@@ -281,7 +281,7 @@ const BookingDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {(!book?.review?._id && book?.status==='completed')&&  (
+          {(!book?.review?._id && book?.status==='invoiced')&&  (
             <Review
               user={true}
               reviewBy={username}
@@ -290,7 +290,7 @@ const BookingDetail = () => {
               bookId={book?._id}
               handleLoad={handleLoad}
             />
-          )} : {book?.review?._id &&(
+          )}  {book?.review?._id &&(
             <ViewReview
               handleLoad={handleLoad}
               user={true}
