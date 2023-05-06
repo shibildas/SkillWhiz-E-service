@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { userAxiosInstance } from "../../axios/instance"
 import Alert from "../Alert/Alert"
 import { useDispatch } from "react-redux"
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
+import { addAddress } from "../../Services/userApi"
 
 const AddAddress=({handleLoad})=>{
   const dispatch=useDispatch()
@@ -18,7 +18,7 @@ const AddAddress=({handleLoad})=>{
                 showAlertError(dispatch,"Wrong Pin, pincode supposed to be 6 digits")
 
             }else{
-                userAxiosInstance.post('/addAddress',{name:name,
+                addAddress({name:name,
                     house:house,
                     street:street,
                     pincode:pincode

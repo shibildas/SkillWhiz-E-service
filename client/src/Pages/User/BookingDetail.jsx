@@ -281,7 +281,7 @@ const BookingDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {(!book?.review?._id && book?.status==='invoiced')&&  (
+          {(!book?.review?._id && (book?.status==='invoiced'|| book?.status==='closed'))&&  (
             <Review
               user={true}
               reviewBy={username}

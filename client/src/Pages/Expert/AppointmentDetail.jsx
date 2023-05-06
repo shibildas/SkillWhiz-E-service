@@ -257,7 +257,7 @@ const AppointmentDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {(!book?.review?._id && book?.status==='completed')&& (
+          {(!book?.review?._id &&(book?.status==='invoiced'|| book?.status==='closed'))&& (
             <Review
               user={false}
               reviewBy={username}

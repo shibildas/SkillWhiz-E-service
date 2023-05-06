@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import ConfirmSchedule from "./Confirm"
-import { userAxiosInstance } from "../../axios/instance"
 import AddAddress from "./AddAddress"
+import { getAddress } from "../../Services/userApi"
 
 const Address=({selectTime,job})=>{
     const [load,setLoad]=useState(false)
     const [address,setAddress]=useState([])
     const [select,setSelect]=useState(null)
     useEffect(() => {
-        userAxiosInstance.get('/address').then(res=>{
+        getAddress().then(res=>{
             if(res.data.status==="success"){
                 setAddress(res.data.result)
             }

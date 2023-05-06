@@ -106,9 +106,9 @@ const ExpertList = () => {
                         <td>
                           Contact: +91- {data?.mobile}
                           <br />
-                          <span className="badge badge-ghost badge-sm flex flex-wrap">
+                          <span className="max-w-screen-sm flex flex-wrap">
                             {data?.skills.map((ele) => {
-                              return ele.job_role?.toUpperCase() + ", ";
+                              return(<h1 className="break-all badge font-semibold badge-sm p-1 m-1">{ele.job_role?.toUpperCase() }</h1>) ;
                             })}
                           </span>
                         </td>
@@ -124,7 +124,7 @@ const ExpertList = () => {
                             {data?.isBanned ? "UnBlock" : "Block"}
                           </button>
                         </td>
-                        <td className="flex justify-center">
+                        <td className="">
                           {data?.identity?.status === "pending" && (
                             <label
                               htmlFor="exVerify"

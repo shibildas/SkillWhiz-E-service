@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "../ExpertOTP/import";
-import { userAxiosInstance } from "../../axios/instance";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import { bookJobs } from "../../Services/userApi";
 
 const ConfirmSchedule = ({ selectTime, job, address }) => {
   const dispatch=useDispatch()
@@ -26,12 +26,7 @@ const ConfirmSchedule = ({ selectTime, job, address }) => {
       date: Date.now(),
       jobId: skill?._id,
     };
-    userAxiosInstance
-      .post(
-        "/bookJob",
-        { ...data }
-      )
-      .then((res) => {
+    bookJobs(data).then((res) => {
         setBookId(res?.data?.result)
         if (res.data.status === "success") {
           setBookId(res?.data?.result)
