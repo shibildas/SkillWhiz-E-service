@@ -86,12 +86,12 @@ const Schedules = () => {
   return (
     <>
       <div className="w-full h-full my-3">
-        <div className="bg-teal-800 rounded-xl p-5 md:h-[75vh] shadow-2xl text-white">
+        <div className="bg-slate-700 rounded-xl p-5 md:h-[75vh] shadow-2xl text-white">
          
-          <h1 className="text-2xl font-extrabold text-center py-5">
+          <h1 className="text-2xl font-extrabold text-center py-5 underline underline-offset-2">
             Fix Schedules
           </h1>
-          <h1 className="text-xl text-center font-bold">Choose Date / Time</h1>
+          <h1 className="text-xl text-center font-bold underline underline-offset-2">Choose Date / Time</h1>
           <h1 className="ml-2 my-10 text-xl font-bold">
             Mark Only Available hours
           </h1>
@@ -132,7 +132,7 @@ const Schedules = () => {
                         : " text-black"
                     } ${
                       slot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))
-                        && "bg-slate-500 cursor-not-allowed text-slate-100 outline outline-slate-900"
+                        && "bg-slate-400 cursor-not-allowed text-slate-100 outline outline-slate-900"
                         
                     } ${
                       bookedslot.includes(startTime.format("MMMM Do YYYY, h:mm:ss a"))

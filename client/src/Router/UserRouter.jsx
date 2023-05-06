@@ -11,6 +11,7 @@ import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
 const Chat=lazy(()=> import ("../Pages/common/Chat"));
 const AllServices=lazy(()=>import ('../Pages/User/AllServices'))
+const AboutUs = lazy(()=> import('../Pages/common/AboutUs'))
 import { useSelector } from "react-redux";
 
 function UserRouter() {
@@ -21,13 +22,14 @@ function UserRouter() {
         <Route element={<UserLayout />}>
           <Route exact path="/" element={<MainPage />} />
           <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
+            <Route exact path="/aboutus" element={<Suspense fallback={<ShimmerList/>}><AboutUs /></Suspense>} />
             <Route path="/profile" element={<Suspense fallback={<ShimmerList/>}><Profile /></Suspense>} />
             <Route path="/job/:jobId" element={<Suspense fallback={<ShimmerList/>}><Detail /></Suspense>} />
             <Route path='/alljobs'element={<Suspense fallback={<ShimmerList/>}><AllServices/></Suspense>}/>
             <Route path="/job/schedule/:id" element={<Suspense fallback={<ShimmerList/>}><ScheduleJob /></Suspense>} />
             <Route path="/bookings/:id" element={<Suspense fallback={<ShimmerList/>}><BookingDetail /></Suspense>} />
             <Route path="/bookings" element={<Suspense fallback={<ShimmerList/>}><BookingList /></Suspense>} />
-            <Route path="/chat" element={<Suspense fallback={<ShimmerList/>}><Chat currentUser={user} user={true} /></Suspense>} />
+            <Route path="/chat" element={<Suspense fallback={<ShimmerList/>}><Chat currentUser={user} user={true}/></Suspense>} />
             <Route path="/*" element={<ErrorPage />} />
           </Route>
         </Route>

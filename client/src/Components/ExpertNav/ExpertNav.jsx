@@ -32,11 +32,10 @@ const navigate=useNavigate()
             <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
           </a>
           <ul className="p-2 bg-slate-100">
-            <li><a>Submenu 1</a></li>
-            <li><a>Submenu 2</a></li>
+          <li><Link to='/expert/chat'>Chat</Link></li>
           </ul>
         </li>
-        <li><a>About us</a></li>
+        <li><Link to='/expert/aboutus'>About us</Link></li>
       </ul>
     </div>
     <Link to="/expert/home" className="px-2 cursor-pointer"><img className="w-14 rounded-full sxhadow-2xl" src={logo} alt="logo" /></Link>
@@ -51,11 +50,11 @@ const navigate=useNavigate()
           <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
         </a>
         <ul className="p-2 bg-blue-900">
-          <li><a>Submenu 1</a></li>
-          <li><a>Submenu 2</a></li>
+        <li><Link to='/expert/chat'>Chat</Link></li>
+     
         </ul>
       </li>
-      <li><a>About us</a></li>
+      <li><Link to='/expert/aboutus'>About us</Link></li>
     </ul>
   </div>
   <div className="navbar-end">
