@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import AddSkill from "./AddSkill";
 import { Swal } from "../ExpertOTP/import";
-import { expertAxiosInstance } from "../../axios/instance";
 import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import { getmyJobs, removeSkill } from "../../Services/expertApi";
 
 const Skills = () => {
   const dispatch=useDispatch()
@@ -15,9 +15,7 @@ const Skills = () => {
   };
 
   useEffect(() => {
-    expertAxiosInstance
-      .get("/getMyJobs")
-      .then((res) => {
+    getmyJobs().then((res) => {
         if (res.data.status === "success") {
           setData(res.data.result);
         } else {
@@ -30,7 +28,6 @@ const Skills = () => {
   }, [load]);
 
   const handleClick = (arg) => {
-    setId(arg);
     Swal.fire({
       title: "Are you sure?",
       text: "Selected Jobs will be Removed from your Profile !!",
@@ -41,9 +38,7 @@ const Skills = () => {
       reverseButtons: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        expertAxiosInstance
-          .get(`/removeSkill/${arg}`)
-          .then((res) => {
+        removeSkill(arg).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
               showAlertSuccess(dispatch,"Skill Removed")

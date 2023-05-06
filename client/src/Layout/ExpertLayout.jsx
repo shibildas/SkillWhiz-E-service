@@ -14,7 +14,7 @@ const ExpertLayout = () => {
           <Alert/>
            <Outlet/>
       </div>
-      <Footer teal={"text-teal-800"} />
+      <Footer teal={"text-blue-900"} />
     </>
   );
 };

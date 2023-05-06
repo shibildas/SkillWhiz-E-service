@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux";
-import { useState,useNavigate,Swal,OTP} from "../../Components/ExpertOTP/import";
+import { useState,useNavigate,OTP} from "../../Components/ExpertOTP/import";
 import { expertlogin } from "../../import";
 import { useEffect } from "react";
-import { expertAxiosInstance } from "../../axios/instance";
+import Alert from "../../Components/Alert/Alert";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import { expertSignIn } from "../../Services/expertApi";
 
 const LoginExpert = () => {
     const [show,setShow]=useState(false)
@@ -32,18 +34,17 @@ const LoginExpert = () => {
     }
     const expertSignup=()=>{
         if(password ==="" || email ==="" || name ==="" || mobile ===""){
-            Swal.fire("sorry","Please fill all required ","error")
+            showAlertError(dispatch,"Please fill all required ")
         }else{
 
           if(password===cPassword){
 
-            expertAxiosInstance.post('/signup',{
+            expertSignup({
               username:name,
               email:email,
               password:password,
               mobile:mobile
             }).then((response)=>{
-              console.log(response.data);
               if(response.data.status === "success"){
                 const expertModal= document.getElementById("expert-otp")
                 expertModal.checked=true 
@@ -51,29 +52,28 @@ const LoginExpert = () => {
               }
               
             }).catch((error)=>{
-              Swal.fire("sorry",error.message,"error")
+              showAlertError(dispatch,error.message)
             })
           }else{
-            Swal.fire("sorry","Passwords doesnt match ","error")
+            showAlertError(dispatch,"Passwords doesnt match ")
           }
         }
 
     }
     const handleExpertLogin=()=>{
       if(mobile==="" || password===""){
-        Swal.fire("sorry","All fields are required!!","error")
+       showAlertError(dispatch,"All fields are required!!")
       }else{
-        expertAxiosInstance.post('/signin',{
+        expertSignIn({
           mobile:mobile,
           password:password
         }).then((response)=>{
-          console.log(response.data);
           if(!response.data.auth){
-            Swal.fire("sorry",response.data.message,"error")
+            showAlertError(dispatch,response.data.message)
           }else{
             localStorage.setItem("experttoken",response.data.experttoken)
             dispatch(expertlogin(response.data.result))
-            Swal.fire("success",response.data.message,"success")
+            showAlertSuccess(dispatch,"Expert Sign In Success")
             navigate("/expert/home")
           }
         })
@@ -84,10 +84,10 @@ const LoginExpert = () => {
   return (
     <>
       <div className="bg-slate-400 h-screen flex justify-center items-center">
-        <div className="p-5 h-max w-max border-2 rounded-2xl bg-teal-600 text-white">
+        <div className="p-5 h-max w-max border-2 rounded-2xl bg-blue-950 text-white">
         
 
-            <button onClick={ handleClose } className="btn btn-sm btn-circle btn-outline absolute text-right ">✕</button>
+            <button onClick={ handleClose } className="btn btn-sm btn-circle btn-warning absolute text-right ">✕</button>
           <h3 className="text-3xl font-extrabold text-center p-2 underline">{!show ? "Sign In" : "Register"}</h3>
             
           <div className="flex-grow flex justify-center items-center">
@@ -145,7 +145,7 @@ const LoginExpert = () => {
                 Not an Expert?{" "}
                 <label
                   htmlFor="my-modal-6"
-                  className="font-bold cursor-pointer text-indigo-600 underline"
+                  className="font-bold cursor-pointer text-teal-100 underline"
                     onClick={()=>setShow(true)}
                 >
                   Signup
@@ -163,7 +163,7 @@ const LoginExpert = () => {
                 Already an Expert?{"  "}
                 <label
                   htmlFor="my-modal-6"
-                  className="font-bold cursor-pointer text-indigo-600 underline"
+                  className="font-bold cursor-pointer text-purple-300 underline"
                   onClick={()=>setShow(false)}
                   >
                   SignIn
@@ -171,14 +171,15 @@ const LoginExpert = () => {
               </p>
              </> }
               <div className="p-3 flex justify-center">
-              {!show ? <> <button onClick={handleExpertLogin} className="btn btn-outline font-extrabold">
+              {!show ? <> <button onClick={handleExpertLogin} className="btn btn-warning font-extrabold">
                   Login
                 </button></> :
-              <> <button onClick={expertSignup} className="btn btn-outline font-extrabold">
+              <> <button onClick={expertSignup} className="btn btn-secondary font-extrabold">
                   Signup
                 </button></> }
               </div>
                 </div>
+              <Alert/>
             </div>
           </div>
         </div>

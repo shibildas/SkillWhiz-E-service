@@ -1,13 +1,13 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-
-import Swal from "sweetalert2";
 import ExpertReVerify from "./ExpertRe-Verify";
 import ExpertEdit from "./ExpertEdit";
 import ExpertReset from "./ExpertReset";
-import { expertAxiosInstance } from "../../axios/instance";
+import { expertReVerify } from "../../Services/expertApi";
+import { showAlertError } from "../../Services/showAlert";
 
 const ExpertCard = () => {
+  const dispatch=useDispatch()
   const [show, setShow] = useState(false);
   const [mobile, setMobile] = useState("");
   const data = useSelector((state) => state.expert.value);
@@ -29,20 +29,18 @@ const ExpertCard = () => {
       if (mobile === data?.mobile) {
         setShow(false);
       } else {
-        expertAxiosInstance
-          .post("/re-Verify", { mobile: mobile })
-          .then((res) => {
+        expertReVerify(mobile).then((res) => {
             if (res.data.status === "success") {
               const modalOTP = document.getElementById("modalOtp");
               modalOTP.checked = true;
             }
           })
           .catch((error) => {
-            Swal.fire("error", "Network Error:" + error.message, "error");
+            showAlertError(dispatch,error.message)
           });
       }
     } else {
-      Swal.fire("error", "Invalid mobile number", "error");
+     showAlertError(dispatch,"Invalid mobile number")
     }
   };
   return (

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { expertlogin} from "../../import"
-import { Swal } from "../ExpertOTP/import"
-import { expertAxiosInstance } from "../../axios/instance"
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
+import { editExpertProfile } from "../../Services/expertApi"
 
 const ExpertEdit=()=>{
     const dispatch=useDispatch()
@@ -26,18 +26,14 @@ const ExpertEdit=()=>{
       setFile(file);
     } else {
       setFile(null);
-      Swal.fire(
-        "Sorry",
-        "Invalid file type or size. Please select a valid image file.",
-        "error"
-      );
+      showAlertError(dispatch, "Invalid file type or size. Please select a valid image file.")
     }
 
   }
   const handleSubmit=(e)=>{
     e.preventDefault()
     if(name==="" || email===""){
-      Swal.fire("Sorry", "Please enter all details", "error");
+      showAlertError(dispatch,"Please enter all details")
     }else{
       const formData = new FormData()
       if(file){
@@ -45,22 +41,19 @@ const ExpertEdit=()=>{
       }
       formData.append("name",name)
       formData.append("email",email)
-      expertAxiosInstance.post("/editProfile",formData,{headers:{
-            "Content-Type": "multipart/form-data",
-      }}).then(res=>{
+      editExpertProfile(formData).then(res=>{
         const editUser= document.getElementById("editProfile")
         if(res.data.status==="success"){
-          Swal.fire("Success", "User Edit successfully", "success");
+          showAlertSuccess(dispatch,"User Edit successfully")
           dispatch(expertlogin(res.data.result))
           setFile(null)
           editUser.checked=false
 
         }else{
-          Swal.fire("Sorry", "User Edit failed", "error");
+          showAlertError(dispatch,"User Edit failed")
         }
       }).catch((error) => {
-        console.error(error);
-        Swal.fire("Error", error.message, "error");
+        showAlertError(dispatch,error.message)
       });
 
     }

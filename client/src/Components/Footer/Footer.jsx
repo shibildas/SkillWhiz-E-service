@@ -10,7 +10,7 @@ import {
 const Footer = ({teal}) => {
   return (
     <>
-      <div className={` bg-slate-300 bg-opacity-20  mt-5 ${teal}`}>
+      <div className={` bg-slate-400 bg-opacity-20  mt-5 ${teal}`}>
         <div className="max-w-screen-xl mx-auto my-0">
         <Link to="/admin/login"><h1 className={`p-4 xl:text-6xl md:text-3xl font-bold`}>Why Skillwhiz ?</h1></Link>
         <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">

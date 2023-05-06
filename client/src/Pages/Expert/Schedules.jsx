@@ -1,9 +1,11 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import { expertAxiosInstance } from "../../axios/instance";
+import { expertAddSchedule, getexpertSchedule } from "../../Services/expertApi";
+import { useDispatch } from "react-redux";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 
 const Schedules = () => {
+  const dispatch=useDispatch()
   const today = moment().startOf("day");
   const [load, setLoad] = useState(false);
   const [slot, setSlot] = useState([]);
@@ -46,40 +48,36 @@ const Schedules = () => {
 
   const handleSubmit = () => {
     if (selectTime.length != 0) {
-      expertAxiosInstance
-        .post(
-          "/addSchedule",
+      expertAddSchedule(
           { dates: selectTime },
         )
         .then((res) => {
           if (res.data.status === "success") {
-            Swal.fire("success", "Slots Added Successfully", "success");
+            showAlertSuccess(dispatch,"Slots Added Successfully")
             setSelectedTime([]);
             handleLoad();
           } else {
-            Swal.fire("sorry", "Slots not Added ", "error");
+            showAlertError(dispatch,"Slots not Added ")
           }
         })
         .catch((error) => {
-          Swal.fire("sorry", error.message, "error");
+          showAlertError(dispatch,error.message)
         });
     } else {
-      Swal.fire("sorry", "Select Time slots First", "error");
+      showAlertError(dispatch,"Select Time slots First")
     }
   }
   useEffect(() => {
-    expertAxiosInstance
-      .get("/getSchedule")
-      .then((res) => {
+    getexpertSchedule().then((res) => {
         if (res.data.status === "success") {
           setSlot(res.data.result?.slots);
           setBookedSlot(res.data.result?.bookedSlots);
         } else {
-          Swal.fire("sorry", "something went wrong", "error");
+          showAlertError(dispatch,"something went wrong")
         }
       })
       .catch((error) => {
-        Swal.fire("sorry", error.message, "error");
+        showAlertError(dispatch,error.message)
       });
   }, [load]);
 

@@ -10,6 +10,7 @@ import { EndJob } from "../../Components/Start/EndJob";
 import { addBooking } from "../../redux/expert";
 import Review from "../../Components/Review/Review";
 import ViewReview from "../../Components/Review/ViewReview";
+import { getExpertBooking } from "../../Services/expertApi";
 
 const AppointmentDetail = () => {
   const dispatch = useDispatch();
@@ -46,9 +47,7 @@ const AppointmentDetail = () => {
   }, [book]);
 
   useEffect(() => {
-    expertAxiosInstance
-      .get(`/booking/${id}`)
-      .then((res) => {
+    getExpertBooking(id).then((res) => {
         if (res.data.status === "success") {
           dispatch(addBooking(res.data.result));
         } else {

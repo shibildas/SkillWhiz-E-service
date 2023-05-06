@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Swal} from "../ExpertOTP/import";
-import { expertAxiosInstance } from "../../axios/instance";
 import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import { addSkill, getJobList } from "../../Services/expertApi";
 
 const AddSkill = ({handleLoad,load}) => {
   const dispatch=useDispatch()
@@ -16,9 +16,7 @@ const AddSkill = ({handleLoad,load}) => {
   };
 
   useEffect(() => {
-    expertAxiosInstance
-      .get("/getAllJobs")
-      .then((res) => {
+    getJobList().then((res) => {
         if (res.data.status === "success") {
           setOptions(res.data.result);
         } else {
@@ -51,12 +49,7 @@ const AddSkill = ({handleLoad,load}) => {
         reverseButtons: true,
       }).then((res) => {
         if (res.isConfirmed) {
-          expertAxiosInstance
-            .post(
-              "/addSkill",
-              { skills: selectedOptions }
-            )
-            .then((res) => {
+          addSkill({ skills: selectedOptions }).then((res) => {
               if(res.data.status==="success"){
                 const addSkillModal= document.getElementById("addSkill")
                 addSkillModal.checked=false

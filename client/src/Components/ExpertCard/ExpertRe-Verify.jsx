@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import Swal from "sweetalert2"
 import { login } from "../../import"
-import { expertAxiosInstance } from "../../axios/instance"
+import Alert from "../Alert/Alert"
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
+import { expertReverifyOTP } from "../../Services/expertApi"
 const ExpertReVerify=({mobile,handleshow})=>{
     const dispatch = useDispatch()
     const [otp, setOtp]=useState('')
@@ -14,21 +15,21 @@ const handleOtp=(e)=>{
 }
     const handleOTP=()=>{
         if((otp.length<6) || otp ===""){
-            Swal.fire("Sorry", "Invalid Entry","error")
+            showAlertError(dispatch,"Invalid Entry")
         }else{
-            expertAxiosInstance.post("/reVerify-otp",{otp:otp,mobile:mobile}).then(res=>{
+            expertReverifyOTP({otp:otp,mobile:mobile}).then(res=>{
                 if(res.data.status==="success"){
-                    Swal.fire("success","MObile Number changed and Verified","success")
+                    showAlertSuccess(dispatch,"Mobile Number changed and Verified")
                     dispatch(login(res.data.result))
                     handleshow()
                     const modalOtp=document.getElementById("modalOtp")
                     modalOtp.checked=false
 
                 }else{
-                    Swal.fire("Sorry","Wrong OTP","error")  
+                   showAlertError(dispatch,"Wrong OTP")
                 }
             }).catch(error=>{
-                Swal.fire("sorry","Wrong OTP. kindly reset. "+error,"error")
+                showAlertError(dispatch,error.message)
             })
 
         }
@@ -50,6 +51,7 @@ const handleOtp=(e)=>{
 
     </div>
   </div>
+  <Alert/>
 </div>
         
         </>

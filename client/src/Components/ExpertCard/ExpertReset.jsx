@@ -1,9 +1,10 @@
 import { useState } from "react"
-import Swal from "sweetalert2"
 import { useNavigate } from "../ExpertOTP/import"
 import { useDispatch } from "react-redux"
 import { expertlogout } from "../../redux/expert"
-import { expertAxiosInstance } from "../../axios/instance"
+import { updateExpertPassword } from "../../Services/expertApi"
+import Alert from "../Alert/Alert"
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
 
 const ExpertReset=()=>{
     const [old,setOld]=useState('')
@@ -14,25 +15,25 @@ const ExpertReset=()=>{
 
     const handlePassword=()=>{
       if(old==="" || newPass==="" || confirm ===""){
-        Swal.fire("Error","Enter all details","error")
+       showAlertError(dispatch,"Enter all details")
 
       }else if((newPass===confirm) && (old!=newPass) ){
-        expertAxiosInstance.post('/updatePassword',{old:old,newPass:newPass}).then(res=>{
+        updateExpertPassword({old:old,newPass:newPass}).then(res=>{
           if(res.data.status==="success"){
             const chPass= document.getElementById('chPass')
-            Swal.fire("Success","Password changed successfully. Relogin Now","")
+            showAlertSuccess(dispatch,"Password changed successfully. Relogin Now")
             chPass.checked=false
             localStorage.removeItem("experttoken");
             dispatch(expertlogout())
             navigate("/expertlogin");
           }else{
-            Swal.fire("Sorry","Old Password is Wrong","error")
+            showAlertError(dispatch,"Old Password is Wrong")
           }
         }).catch(error=>{
-          Swal.fire("Error",error.message,"error")
+          showAlertError(dispatch,error.message)
         })
       }else{
-        Swal.fire("Sorry","cant use old password & confirm password should be same","error")
+        showAlertError(dispatch,"cant use old password & confirm password should be same")
       }
 
 
@@ -66,6 +67,7 @@ const ExpertReset=()=>{
 
     </div>
   </div>
+  <Alert/>
 </div>
         </>
     )

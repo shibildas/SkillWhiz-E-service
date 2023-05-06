@@ -1,7 +1,11 @@
-import { expertAxiosInstance } from "../../axios/instance";
-import { useState, Swal } from "./import";
+import { useDispatch } from "react-redux";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import { useState } from "./import";
+import { expertVerifyOTP } from "../../Services/expertApi";
+import Alert from "../Alert/Alert";
 
 const OTP = ({ mobile }) => {
+  const dispatch=useDispatch()
   const [otp, setOtp] = useState("");
   const handleOtp = (e) => {
     const trimValue = e.target.value.replace(/[^0-9]/g, "");
@@ -11,22 +15,21 @@ const OTP = ({ mobile }) => {
   };
   const handleOTP = () => {
     if (otp.length < 6 || otp === "") {
-      Swal.fire("Sorry", "Invalid Entry", "error");
+      showAlertError(dispatch,"Invalid Entry")
     } else {
-      expertAxiosInstance
-        .post("/verify-otp", { otp: otp, mobile: mobile })
+      expertVerifyOTP({ otp: otp, mobile: mobile })
         .then((response) => {
           console.log("verified: " + response.data);
           if (response.data.status == "success") {
-            Swal.fire("success", response.data.message, "success");
+            showAlertSuccess(dispatch,response.data.message)
             const otpbox = document.getElementById("expert-otp");
             otpbox.checked = false;
           } else {
-            Swal.fire("Sorry", "Wrong OTP", "error");
+            showAlertError(dispatch,"Wrong OTP")
           }
         })
         .catch((error) => {
-          Swal.fire("sorry", "Wrong OTP. kindly reset. " + error, "error");
+          showAlertError(dispatch,error.message)
         });
     }
   };
@@ -58,6 +61,7 @@ const OTP = ({ mobile }) => {
               Submit
             </button>
           </div>
+          <Alert/>
         </div>
       </div>
     </>
