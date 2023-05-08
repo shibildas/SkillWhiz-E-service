@@ -5,22 +5,30 @@ import {Doughnut} from 'react-chartjs-2'
 const Donut = () => {
     ChartJS.register(ArcElement, Tooltip, Legend);
     const data = {
-        labels: ['jan', 'feb', 'march'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
         datasets: [
           {
-            label:"New Chart",
-            data: [2,4,6],
-            backgroundColor: ['#ff6384','#36a2eb','#cc65fe'],
-            borderColor: ['#ff6384','#36a2eb','#cc65fe'],
-            borderWidth: '10px',
+            label: 'Sales',
+            data: [1200, 1800, 900, 2000, 1500, 2500],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8BC34A', '#9C27B0', '#FF9800'],
+            borderWidth: 2,
           },
         ],
       };
-      
+    
+      // Define the chart options
+      const options = {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          },
+        },
+      };
     
   return (
-    <div>
-        <Doughnut data={data}/>
+    <div className='p-2 md:p-5 md:col-2'>
+        <Doughnut data={data} options={options}/>
 
     </div>
   )

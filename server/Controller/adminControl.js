@@ -397,3 +397,14 @@ module.exports.managePayment=async(req,res)=>{
         
     }
 }
+module.exports.getCounts=async(req,res)=>{
+    try {
+        const userCount= await usermodel.countDocuments()
+        const expertCount= await expertmodel.countDocuments()
+        const bookingCount=await bookingmodel.countDocuments()
+        const cancelCount=await bookingmodel.countDocuments({status:"cancelled"})
+        res.status(201).json({"status":"success",result:{userCount,expertCount,bookingCount,cancelCount}})
+    } catch (error) {
+        res.status(400).json({"status":"error",message:error.message})  
+    }
+}

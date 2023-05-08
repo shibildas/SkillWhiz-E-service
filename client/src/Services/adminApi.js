@@ -96,8 +96,12 @@ const adminDecline=(data)=>{
 const adminCancelBook=(data)=>{
   return adminAxiosInstance.post('/cancelBooking',data)
 }
+const getCounts=()=>{
+  return adminAxiosInstance.get('/getCardCounts')
+}
 
 export {
+  getCounts,
   adminCancelBook,
   adminDecline,
   adminPay,

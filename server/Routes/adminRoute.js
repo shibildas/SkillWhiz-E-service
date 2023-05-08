@@ -19,7 +19,6 @@ router.get('/listJob/:id',adminProtect,adminControl.listJob)
 router.post('/editJob',adminProtect,mult.single("image"),adminControl.editJob)
 router.get('/verifyExpert/:id',adminProtect,adminControl.verifyExpert)
 router.post('/rejectExpert/:id',adminProtect,adminControl.rejectExpert)
-
 router.post('/editExpert',adminProtect,mult.single('image'),adminControl.editExpert)
 router.get('/blockExpert/:id',adminProtect,adminControl.blockExpert)
 router.get('/unBlockExpert/:id',adminProtect,adminControl.unBlockExpert)
@@ -34,5 +33,6 @@ router.post('/endJob',adminProtect,endJob)
 router.post('/adminPay',adminProtect,adminControl.managePayment)
 router.post('/decline',adminProtect,declineEstimate)
 router.post('/cancelBooking',adminProtect,cancelBooking)
+router.get('/getCardCounts',adminProtect,adminControl.getCounts)
 
 module.exports = router
