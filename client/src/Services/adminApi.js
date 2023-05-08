@@ -99,8 +99,12 @@ const adminCancelBook=(data)=>{
 const getCounts=()=>{
   return adminAxiosInstance.get('/getCardCounts')
 }
+const getChartData=()=>{
+  return adminAxiosInstance.get('/getChartData')
+}
 
 export {
+  getChartData,
   getCounts,
   adminCancelBook,
   adminDecline,

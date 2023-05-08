@@ -34,5 +34,5 @@ router.post('/adminPay',adminProtect,adminControl.managePayment)
 router.post('/decline',adminProtect,declineEstimate)
 router.post('/cancelBooking',adminProtect,cancelBooking)
 router.get('/getCardCounts',adminProtect,adminControl.getCounts)
-
+router.get('/getChartData',adminProtect,adminControl.getChartData)
 module.exports = router

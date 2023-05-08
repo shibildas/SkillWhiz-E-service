@@ -1,8 +1,10 @@
 import { useState } from "react";
-import Swal from "sweetalert2";
-import { adminAxiosInstance } from "../../../axios/instance";
 import { addJob } from "../../../Services/adminApi";
+import { useDispatch } from "react-redux";
+import Alert from '../../Alert/Alert'
+import { showAlertError, showAlertSuccess } from "../../../Services/showAlert";
 const AddJobs = ({handleLoad ,load}) => {
+  const dispatch = useDispatch()
   const [job, setJob] = useState("");
   const [bRate, setBRate] = useState("");
   const [adRate, setAdRate] = useState("");
@@ -16,18 +18,14 @@ const AddJobs = ({handleLoad ,load}) => {
       setSelectedFile(file);
     } else {
       setSelectedFile(null);
-      Swal.fire(
-        "Sorry",
-        "Invalid file type or size. Please select a valid image file.",
-        "error"
-      );
+     showAlertError(dispatch,"Invalid file type or size. Please select a valid image file.")
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (job === "" || bRate === "" || adRate === "" || selectedFile === null) {
-      Swal.fire("Sorry", "Please enter all details", "error");
+      showAlertError(dispatch,"Please enter all details")
     } else {
       const formData = new FormData();
       formData.append("image", selectedFile);
@@ -38,7 +36,7 @@ const AddJobs = ({handleLoad ,load}) => {
       addJob(formData).then((res) => {
           console.log(res.data);
           if (res.data.status === "success") {
-            Swal.fire("Success", "Job added successfully", "success");
+            showAlertSuccess(dispatch,"Job added successfully")
             const addJobs = document.getElementById("Add-jobs")
             setJob("");
             setBRate("");
@@ -47,11 +45,11 @@ const AddJobs = ({handleLoad ,load}) => {
             addJobs.checked=false
             handleLoad(!load)
           } else {
-            Swal.fire("Sorry", res.data.message, "error");
+           showAlertError(dispatch,res.data.message)
           }
         }).catch((error) => {
           console.error(error);
-          Swal.fire("Error", error.message, "error");
+          showAlertError(dispatch,error.message)
         });
     }
   };
@@ -121,6 +119,7 @@ const AddJobs = ({handleLoad ,load}) => {
               </button>
             </div>
           </form>
+        <Alert/>
         </div>
       </div>
     </>

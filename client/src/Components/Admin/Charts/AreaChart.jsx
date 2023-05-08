@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip);
 
-const AreaChart = () => {
+const AreaChart = ({heading}) => {
     const data = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
@@ -18,7 +18,6 @@ const AreaChart = () => {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
-            fill:true,
           },
         ],
       };
@@ -47,6 +46,7 @@ const AreaChart = () => {
       };
   return (
     <div className='p-2 md:p-5 md:col-10'>
+      <div className="chart-heading text-2xl font-semibold underline underline-offset-4">{heading}dgcbnh</div>
          <Line data={data} options={options} />
 
     </div>

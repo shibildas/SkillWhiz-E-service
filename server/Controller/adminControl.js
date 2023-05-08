@@ -25,12 +25,13 @@ module.exports.adminLogin = async (req, res) => {
                 res.json({"auth":false, "status": "failed", "message": "Invalid Credentials "})
             }
         }else{
-            res.json({"adminauth":false, "status": "failed", "message": "No Admin found" })
+            res.json({"auth":false, "status": "failed", "message": "No Admin found" })
 
         }
         
     } catch (error) {
-        console.log(error)
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
    
 }
@@ -46,7 +47,7 @@ module.exports.isAdminAuth = async (req, res) => {
     res.json({"auth":true,"result":admindetails, "status": "success", "message": "signin success" })
     } catch (error) {
         console.log(error)
-        res.json({"auth":false,"message":error.message})
+        res.status(400).json({"auth":false,"message":error.message})
     }
     
 
@@ -57,7 +58,8 @@ module.exports.getUsers = async (req,res)=>{
         const users = await usermodel.find({})  
         res.json({"status":"success",result:users})
     } catch (error) {
-        res.json({"status":"failed",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
         
     }
 }
@@ -82,7 +84,8 @@ module.exports.addUsers =async (req,res)=>{
         }
         
     } catch (error) {
-        res.json({"status": "failed", "message":error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
         
     }
 }
@@ -91,7 +94,8 @@ module.exports.getExperts= async(req,res)=>{
         const experts= await expertmodel.find({}).populate('skills')
         res.json({"status":"success",result:experts})      
     } catch (error) {
-        res.json({"status":"failed","message":error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 
 }
@@ -101,7 +105,8 @@ module.exports.getJobs= async(req,res)=>{
         res.json({"status":"success",result:jobs})
         
     } catch (error) {
-        res.json({"status":"failed","message":error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 
 }
@@ -130,7 +135,8 @@ module.exports.addJobs= async(req,res)=>{
         }
 
     } catch (error) {
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
         
     }
 
@@ -144,7 +150,8 @@ module.exports.blockUser=async (req,res)=>{
         await usermodel.findByIdAndUpdate({_id},{$set:{isBanned:true}})
         res.json({"status":"success",result:"Blocked the user"})
     } catch (error) {
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
     
 }
@@ -154,7 +161,8 @@ module.exports.unBlockUser=async (req,res)=>{
         await usermodel.findByIdAndUpdate({_id},{$set:{isBanned:false}})
         res.json({"status":"success",result:"UnBlocked the user"})
     } catch (error) {
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 
 }
@@ -188,7 +196,8 @@ module.exports.editUser=async(req,res)=>{
         
         
     } catch (error) {
-        res.json({"status":"error",message:error.message}) 
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 }
 
@@ -198,7 +207,8 @@ module.exports.unListJob=async (req,res)=>{
         await jobsmodel.findByIdAndUpdate({_id},{$set:{listed:false}})
         res.json({"status":"success",result:"Unlisted the Job"})
     } catch (error) {
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 
 }
@@ -208,7 +218,8 @@ module.exports.listJob=async (req,res)=>{
         await jobsmodel.findByIdAndUpdate({_id},{$set:{listed:true}})
         res.json({"status":"success",result:"Listed the Job"})
     } catch (error) {
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 
 }
@@ -241,7 +252,8 @@ module.exports.editJob=async(req,res)=>{
         }
         
     } catch (error) {
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
         
     }
 }
@@ -251,7 +263,8 @@ module.exports.verifyExpert=async (req,res)=>{
         await expertmodel.findByIdAndUpdate({_id},{$set:{identity:{status:"approved",reason:""}}})
         res.json({"status":"success",result:"Expert Approved"})
     } catch (error) {
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 
 }
@@ -263,7 +276,8 @@ module.exports.rejectExpert=async (req,res)=>{
         await expertmodel.findByIdAndUpdate({_id},{$set:{identity:{status:"initial",reason:reason},isVerified:false}})
         res.json({"status":"success",result:"Expert rejected for reApply"})
     } catch (error) {
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 
 }
@@ -298,7 +312,8 @@ module.exports.editExpert=async(req,res)=>{
         
         
     } catch (error) {
-        res.json({"status":"error",message:error.message}) 
+        res.status(400).json({"status":"error",message:error.message})  
+
     }
 }
 module.exports.blockExpert= async (req,res)=>{
@@ -307,7 +322,8 @@ module.exports.blockExpert= async (req,res)=>{
             await expertmodel.findByIdAndUpdate({_id},{$set:{isBanned:true}})
             res.json({"status":"success",result:"Blocked the expert"})
         } catch (error) {
-            res.json({"status":"error",message:error.message})
+            res.status(400).json({"status":"error",message:error.message})  
+
         }
         
     }
@@ -317,7 +333,8 @@ module.exports.unBlockExpert= async (req,res)=>{
             await expertmodel.findByIdAndUpdate({_id},{$set:{isBanned:false}})
             res.json({"status":"success",result:"UnBlocked the expert"})
         } catch (error) {
-            res.json({"status":"error",message:error.message})
+            res.status(400).json({"status":"error",message:error.message})  
+
         }
         
     }
@@ -330,7 +347,8 @@ module.exports.getSchedule= async (req,res)=>{
         
       } catch (error) {
   
-        res.json({"status":"error",message:error.message})
+        res.status(400).json({"status":"error",message:error.message})  
+
         }
     
 }
@@ -342,7 +360,8 @@ module.exports.addSchedule= async (req,res)=>{
     res.json({"status":"success","message":"Slots Added Successfully"})
         
     } catch (error) {
-        res.json({"status":"error",message:error.message})  
+        res.status(400).json({"status":"error",message:error.message})  
+ 
     }
    
     
@@ -359,7 +378,8 @@ module.exports.bookings=async(req,res)=>{
         }
         
     } catch (error) {
-        res.json({"status":"error",message:error.message})  
+        res.status(400).json({"status":"error",message:error.message})  
+
         
     }
 }
@@ -374,7 +394,8 @@ module.exports.manageBooking=async(req,res)=>{
       .select("-userId.password -expertId.password -expertId.slots -estimate.parts._id");
     res.json({ status: "success", result: booking });    
     } catch (error) {
-        res.json({"status":"error",message:error.message})  
+        res.status(400).json({"status":"error",message:error.message})  
+
         
     }
 }
@@ -393,7 +414,8 @@ module.exports.managePayment=async(req,res)=>{
         res.json({ status: "error", result: "No Result" });     
     }
     } catch (error) {
-        res.json({"status":"error",message:error.message})  
+        res.status(400).json({"status":"error",message:error.message})  
+ 
         
     }
 }
@@ -406,5 +428,30 @@ module.exports.getCounts=async(req,res)=>{
         res.status(201).json({"status":"success",result:{userCount,expertCount,bookingCount,cancelCount}})
     } catch (error) {
         res.status(400).json({"status":"error",message:error.message})  
+    }
+}
+module.exports.getChartData=async(req,res)=>{
+    try {
+        const pieData=await expertmodel.aggregate([
+            {
+              $lookup: {
+                from: "jobs",
+                localField: "skills",
+                foreignField: "_id",
+                as: "job_skills",
+              },
+            },
+            { $unwind: "$job_skills" },
+            {
+              $group: {
+                _id: "$job_skills.job_role",
+                expert_count: { $count: {} },
+              },
+            },
+          ])
+          res.status(201).json({"status":"success",result:pieData})
+    } catch (error) {
+        res.status(400).json({"status":"error",message:error.message})  
+        
     }
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import Swal from "sweetalert2"
 import { editJob } from "../../../Services/adminApi"
-
+import { useDispatch } from "react-redux"
+import { showAlertError, showAlertSuccess } from "../../../Services/showAlert"
+import Alert from "../../Alert/Alert"
 
 const EditJobs=({job,handleLoad})=>{
 
@@ -16,7 +17,8 @@ const EditJobs=({job,handleLoad})=>{
         setAdRate(job?.add_rate)
         setId(job?._id)
 
-    }, [job])
+      }, [job])
+      const dispatch=useDispatch()
     
     const handleFile=(event)=>{
         const file = event.target.files[0];
@@ -26,19 +28,15 @@ const EditJobs=({job,handleLoad})=>{
           setFile(file);
         } else {
           setFile(null);
-          Swal.fire(
-            "Sorry",
-            "Invalid file type or size. Please select a valid image file.",
-            "error"
-          );
+          showAlertError(dispatch,"Invalid file type or size. Please select a valid image file.")
         }
     
       }
 
     const handleSubmit=(e)=>{
         e.preventDefault()
-        if(!job || bRate===null || adRate===null){
-            Swal.fire("Sorry", "Please enter all details", "error");
+        if(role===''|| bRate==='' || adRate===''){
+            showAlertError(dispatch,"Enter All Details")
 
         }else{
             const formData = new FormData()
@@ -53,17 +51,17 @@ const EditJobs=({job,handleLoad})=>{
               editJob(formData).then(res=>{
                 const editJobs=document.getElementById("editJobs")
                 if(res.data.status==="success"){
-                    Swal.fire("Success", "Job Edit successfully", "success");
+                    showAlertSuccess(dispatch,"Job Edit successfully")
                     handleLoad()
                     setFile(null)
                     editJobs.checked=false
                 }else{
-                    Swal.fire("Sorry", "Job Edit failed", "error");
+                    showAlertError(dispatch,"Job Edit failed")
                 }
 
               }).catch((error) => {
                 console.error(error);
-                Swal.fire("Error", error.message, "error");
+                showAlertError(dispatch,error.message)
               });
 
         }
@@ -116,6 +114,7 @@ const EditJobs=({job,handleLoad})=>{
               </div>
             </form>
           </div>
+          <Alert/>
         </div>
       </div> 
         </>
