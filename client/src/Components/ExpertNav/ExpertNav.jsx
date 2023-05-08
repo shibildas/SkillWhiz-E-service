@@ -60,7 +60,7 @@ const navigate=useNavigate()
   <div className="navbar-end">
   <div className="dropdown dropdown-end">
       <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
+        <div className="w-10 rounded-full outline outline-2 text-white">
           <img src={data?.image ? data?.image :"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"} alt="image" />
         </div>
       </label>

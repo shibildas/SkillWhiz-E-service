@@ -64,20 +64,16 @@ const expertSignIn=(data)=>{
    return expertAxiosInstance.post('/signin',data)
 }
 const expertVerifyOTP=(data)=>{
-   return expertAxiosInstance
-   .post("/verify-otp",data)
+   return expertAxiosInstance.post("/verify-otp",data)
 }
 const expertbookings=()=>{
    return expertAxiosInstance.get('/myBookings')
 }
 const expertAddSchedule=(data)=>{
-   return expertAxiosInstance
-   .post(
-     "/addSchedule",data)
+   return expertAxiosInstance.post("/addSchedule",data)
 }
 const getexpertSchedule=()=>{
-   return expertAxiosInstance
-   .get("/getSchedule")
+   return expertAxiosInstance.get("/getSchedule")
 }
 
 export {getexpertSchedule,expertAddSchedule,expertbookings,expertVerifyOTP,expertSignIn,expertSignup,expertReverifyOTP,editExpertProfile,updateExpertPassword,expertReVerify,getExpertBooking,addSkill,getJobList,removeSkill,getmyJobs,sendExpertEstimate,expertUpdateReview,addExpertMessage,expertReview,getExpertMessage,authExpert,startJob,endJob,getUserContacts}

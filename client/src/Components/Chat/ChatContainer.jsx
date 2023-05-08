@@ -74,7 +74,7 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
             <div className="rounded-full overflow-hidden h-12 w-12 md:h-16 md:w-16">
               <img
                 className="h-full w-full object-cover"
-                src={currentChat?.image}
+                src={currentChat?.image ? currentChat?.image :"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"}
                 alt="avatar"
               />
             </div>
