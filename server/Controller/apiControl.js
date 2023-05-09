@@ -14,9 +14,9 @@ module.exports.createReview= async (req,res)=>{
     const booking =await bookingmodel.findByIdAndUpdate(bookId,
         {status:'closed'}
         )
-            res.json({'status':'success',result: booking})
+            res.status(201).json({'status':'success',result: booking})
     } catch (error) {
-        res.json({'status':'error',message:error.message})     
+        res.status(400).json({'status':'error',message:error.message})     
     }
 }
 module.exports.createuserReview= async (req,res)=>{
@@ -31,9 +31,9 @@ module.exports.createuserReview= async (req,res)=>{
         const user = await usermodel.findById(reviewBy);
         user.loyality = (user?.loyality || 0) + 100; // Assuming a user earns 10 points for a review
         await user.save();
-            res.json({'status':'success',result: booking})
+            res.status(201).json({'status':'success',result: booking})
     } catch (error) {
-        res.json({'status':'error',message:error.message})     
+        res.status(400).json({'status':'error',message:error.message})     
     }
 }
 

@@ -1,3 +1,13 @@
+ /**
+ * @swagger
+ * /expert/signup:
+ *  post:
+ *    description: Use to request all customers
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ */
+
 const express = require('express')
 const router = express.Router()
 const expertControl = require("../Controller/expertControl")

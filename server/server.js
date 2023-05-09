@@ -1,4 +1,6 @@
 const express = require ("express")
+const swaggerjsdoc=require('swagger-jsdoc')
+const swaggerui = require('swagger-ui-express')
 const server = express()
 const logger = require("morgan")
 const path = require('path')
@@ -55,9 +57,33 @@ server.use("/expert",expertRoute)
       }
     })
   })
-//Server Listening
+  const options={
+    definition:{
+      openapi:'3.0.0',
+      info:{
+        title:"SkillWhiz E-Services API Docs",
+        version:'1.0.0',
+        description:"This is a simple E-Service API made with Express, NodeJs, Cloudinary, MongoDB, JsonWebToken, RazorPay, Socket.io, Twilio, morgan",
+        contact:{
+          name:"Shibildev",
+          email:"shibildas@gmail.com",
+        },
+      },
+      servers:[
+        {
+          url:`http://127.0.0.1:${port}`
+        }
+      ],
+    },
+    apis:['./Routes/*.js'],
+  }
+  const spacs=swaggerjsdoc(options)
+  server.use('/api-docs',swaggerui.serve,
+  swaggerui.setup(spacs))
+  //Server Listening
  httpServer.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
+    console.log(`Api Documentation at http://127.0.0.1:${port}/api-docs`)
 })  
 
 module.exports = server

@@ -23,6 +23,8 @@
     "nodemon": "^2.0.22",
     "razorpay": "^2.8.6",
     "socket.io": "^4.6.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3",
     "twilio": "^4.9.0"
   }
 }

@@ -43,10 +43,10 @@ module.exports.postSignUp = async (req, res, next) => {
         mobile,
         password: hashPassword,
       });
-      res.json({ status: "success", message: "signup success" });
+      res.status(201).json({ status: "success", message: "signup success" });
     }
   } catch (error) {
-    res.json({ status: "failed", message: error.message });
+    res.status(400).json({ status: "failed", message: error.message });
   }
 };
 module.exports.verifyOTP = async (req, res) => {
