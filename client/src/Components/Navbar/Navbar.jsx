@@ -58,7 +58,7 @@ const Navbar = () => {
                     <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
                   </svg>
                 </a>
-                <ul className="p-2 absolute">
+                <ul className="p-2 absolute bg-white underline">
                   <li>
                     <Link to='/chat' className="">Chat</Link>
                   </li>
@@ -81,7 +81,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 font-extrabold text-xl">
+          <ul className="menu menu-horizontal px-1 font-extrabold text-xl ">
             <li>
               <Link to='/'>Home</Link>
             </li>
@@ -98,15 +98,15 @@ const Navbar = () => {
                   <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </svg>
               </a>
-              <ul className="p-2 absolute">
+              <ul className="p-2 bg-purple-500 underline">
                 <li>
-                  <Link to="/chat" className="text-black">Chat 1</Link>
-                </li>
-                <li>
-                  <Link to='/alljobs' className="text-black">All Services</Link>
+                  <Link to="/chat" className="text-slate-100">Chat 1</Link>
                 </li>
               </ul>
             </li>
+                <li>
+                  <Link to='/alljobs' className="">All Services</Link>
+                </li>
             <li>
               <Link to='/aboutus'> About us</Link>
             </li>

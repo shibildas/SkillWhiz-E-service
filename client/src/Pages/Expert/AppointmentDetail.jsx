@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Swal } from "../../Components/ExpertOTP/import";
-// import Chat from "../../Components/Chat/Chat";
-import { expertAxiosInstance } from "../../axios/instance";
 import { useDispatch, useSelector } from "react-redux";
 import AddEstimate from "../../Components/Estimate/AddEstimate";
 import Startjob from "../../Components/Start/Startjob";
@@ -11,71 +8,34 @@ import { addBooking } from "../../redux/expert";
 import Review from "../../Components/Review/Review";
 import ViewReview from "../../Components/Review/ViewReview";
 import { getExpertBooking } from "../../Services/expertApi";
+import { showAlertError } from "../../Services/showAlert";
 
 const AppointmentDetail = () => {
   const dispatch = useDispatch();
   const book = useSelector((state) => state.expert.value.bookings);
-  const username = useSelector((state) => state.expert.value._id);
   const { id } = useParams();
-  const [show, setShow] = useState(false);
-  const [type, setType] = useState(false);
-  const [message, setMessage] = useState("");
-  const [job, setJob] = useState({});
-  const [user, setUser] = useState({});
-  const [other, setOther] = useState({});
   const [load, setLoad] = useState(false);
-  const [start, setStart] = useState("");
+
 
   const handleLoad = () => {
     setLoad(!load);
   };
-  const handleAlert = (alert, msg) => {
-    setType(alert);
-    setMessage(msg);
-    setShow(true);
-  };
-  const handleClose = () => {
-    setMessage("");
-    setShow(false);
-  };
-
-  useEffect(() => {
-    setUser(book?.expertId);
-    setOther(book?.userId);
-    setJob(book?.jobId);
-    setStart();
-  }, [book]);
-
   useEffect(() => {
     getExpertBooking(id).then((res) => {
         if (res.data.status === "success") {
           dispatch(addBooking(res.data.result));
         } else {
-          Swal.fire("error", "NetworkError", "error");
+          showAlertError(dispatch,"NetworkError")
         }
       })
       .catch((error) => {
-        Swal.fire("error", error.message, "error");
+        showAlertError(dispatch,error.message)
       });
   }, [load]);
 
   return (
     <>
-      {show && (
-        <div
-          className={`alert ${
-            type ? "alert-success" : "alert-error"
-          } shadow-lg`}
-        >
-          <span>{message}</span>
-          <button
-            onClick={handleClose}
-            className="btn btn-ghost btn-sm btn-circle"
-          >
-            x
-          </button>
-        </div>
-      )}
+      
       <div className="bg-slate-500 p-2 mt-5 rounded-t-xl flex justify-center">
         <h1 className="text-xl md:text-3xl font-extrabold text-white p-3">
           Appointment Detail
@@ -168,8 +128,6 @@ const AppointmentDetail = () => {
             </h1>
           </div>
           <div className="divider "></div>
-          {/* <div className="flex justify-between   font-semibold p-2 flex-wrap"> <h1 className="text-xl">Partner Assigned: </h1> <h1>{book?.expertId?.username?.toUpperCase()}<br/> Ph: +91- {book?.expertId?.mobile}</h1></div> */}
-          {/* <div className="divider "></div> */}
           <div className="flex justify-between   font-semibold p-2 flex-wrap">
             {" "}
             <h1 className="text-xl">Estimate Amount: </h1>{" "}
@@ -250,7 +208,6 @@ const AppointmentDetail = () => {
                     <label className="btn m-2 btn-warning">Recieve Cash</label>
                   )}
                 </div>{" "}
-                {/* <div className="divider "></div> */}
               </div>
 
               <div className="divider "></div>
@@ -259,9 +216,9 @@ const AppointmentDetail = () => {
           {(!book?.review?._id &&(book?.status==='invoiced'|| book?.status==='closed'))&& (
             <Review
               user={false}
-              reviewBy={username}
+              reviewBy={book?.expert?._id}
               myId={book?.userId?._id}
-              jobId={job?._id}
+              jobId={book?.jobId?._id}
               bookId={book?._id}
               handleLoad={handleLoad}
             />
@@ -277,7 +234,7 @@ const AppointmentDetail = () => {
           )}
         </div>
       </div>
-      <AddEstimate admin={false} bookId={id} jobId={job} handleLoad={handleLoad} />
+      <AddEstimate admin={false} bookId={id} jobId={book?.jobId} handleLoad={handleLoad} />
       <Startjob id={id} handleLoad={handleLoad} admin={false} />
       <EndJob booking={book} handleLoad={handleLoad} admin={false} />
     </>

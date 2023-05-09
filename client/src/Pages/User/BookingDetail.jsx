@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-// import Chat from "../../Components/Chat/Chat"
 import { userAxiosInstance } from "../../axios/instance";
 import { useDispatch, useSelector } from "react-redux";
 import Estimate from "../../Components/Estimate/Estimate";
 import { addBooking } from "../../redux/user";
 import { payOnline, verifyPayment } from "../../Services/userApi";
-import { showAlertError } from "../../Services/showAlert";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 import Review from "../../Components/Review/Review";
 import ViewReview from "../../Components/Review/ViewReview";
 import CancelBook from "../../Components/CancelBooking/CancelBook";
@@ -14,19 +13,12 @@ import CancelBook from "../../Components/CancelBooking/CancelBook";
 const BookingDetail = () => {
   const dispatch = useDispatch();
   const book = useSelector((state) => state.user.value.bookings);
-  const username = useSelector((state) => state.user.value._id);
-
   const { id } = useParams();
   const [load, setLoad] = useState(false);
-  const [user, setUser] = useState({});
-  const [other, setOther] = useState({});
   const handleLoad = () => {
     setLoad(!load);
   };
-  useEffect(() => {
-    setUser(book?.userId);
-    setOther(book?.expertId);
-  }, [book]);
+
 
   useEffect(() => {
     userAxiosInstance
@@ -53,12 +45,12 @@ const BookingDetail = () => {
       handler: async (response) => {
         try {
           const { data } = await verifyPayment(response, id);
-          console.log(data);
           if (data) {
             handleLoad();
+            showAlertSuccess(dispatch,"Payment success")
           }
         } catch (error) {
-          console.log(error);
+          showAlertError(dispatch,error.message)
         }
       },
       theme: {
@@ -71,10 +63,9 @@ const BookingDetail = () => {
   const handlePayment = async () => {
     try {
       const { data } = await payOnline(book?.bill_amount);
-      console.log(data);
       initPayment(data.data);
     } catch (error) {
-      console.log(error);
+      showAlertError(dispatch,error.message)
     }
   };
   return (
@@ -284,7 +275,7 @@ const BookingDetail = () => {
           {(!book?.review?._id && (book?.status==='invoiced'|| book?.status==='closed'))&&  (
             <Review
               user={true}
-              reviewBy={username}
+              reviewBy={book?.userId?._id}
               myId={book?.userId?._id}
               jobId={book?.jobId?._id}
               bookId={book?._id}
@@ -301,11 +292,10 @@ const BookingDetail = () => {
         </div>
       </div>
       <div className="flex justify-center bg-slate-100 bg-opacity-60 mb-5">
-        {/* <Chat room={id} username={username} user={user} other={other}/> */}
       </div>
       <Estimate book={book?.status} admin={false}
         address={book?.address}
-        user={user}
+        user={book?.userId}
         estimate={book?.estimate}
         job={book?.jobId}
         id={id}
