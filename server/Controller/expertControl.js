@@ -19,7 +19,7 @@ module.exports.postregister = async (req, res, next) => {
     const user = await expertmodel.findOne({ email });
     const mob = await expertmodel.findOne({ mobile });
     if (user || mob) {
-      res.json({ status: "failed", message: "User already exist login now" });
+      res.status(401).json({ status: "failed", message: "User already exist login now" });
     } else {
       client.verify.v2
         .services(serviceSid)
@@ -31,7 +31,7 @@ module.exports.postregister = async (req, res, next) => {
           console.log(ver);
         })
         .catch((error) => {
-          res.json({ status: "failed", message: error.message });
+          res.status(401).json({ status: "failed", message: error.message });
         });
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password.trim(), salt);
@@ -41,10 +41,10 @@ module.exports.postregister = async (req, res, next) => {
         password: hashPassword,
         mobile,
       });
-      res.json({ status: "success", message: "signup success" });
+      res.status(201).json({ status: "success", message: "signup success" });
     }
   } catch (error) {
-    res.json({ status: "failed", message: error.message });
+    res.status(401).json({ status: "failed", message: error.message });
   }
 };
 

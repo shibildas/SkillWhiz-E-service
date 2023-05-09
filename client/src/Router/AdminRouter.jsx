@@ -10,6 +10,7 @@ const UserList = lazy(() => import("../Pages/Admin/UserList"));
 const Jobs = lazy(() => import("../Pages/Admin/Jobs"));
 const BookingList =lazy(()=> import ('../Pages/Admin/BookingList'))
 const ManageBooking =lazy(()=> import ('../Pages/Admin/ManageBooking'))
+const VoucherList = lazy(() => import ('../Pages/Admin/VoucherList'))
 function AdminRouter() {
   return (
     <>
@@ -55,6 +56,14 @@ function AdminRouter() {
             element={
               <Suspense fallback={<ShimmerList />}>
                 <ManageBooking/>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/vouchers"
+            element={
+              <Suspense fallback={<ShimmerList />}>
+                <VoucherList/>
               </Suspense>
             }
           />

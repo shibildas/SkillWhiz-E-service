@@ -102,8 +102,12 @@ const getCounts=()=>{
 const getChartData=()=>{
   return adminAxiosInstance.get('/getChartData')
 }
+const getVouchers=()=>{
+  return adminAxiosInstance.get('/getVouchers')
+}
 
 export {
+  getVouchers,
   getChartData,
   getCounts,
   adminCancelBook,

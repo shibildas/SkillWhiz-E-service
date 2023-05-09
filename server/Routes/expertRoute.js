@@ -1,12 +1,43 @@
- /**
+/**
  * @swagger
  * /expert/signup:
  *  post:
- *    description: Use to request all customers
+ *    description: Use to register a new expert
+ *    parameters:
+ *      - name: username
+ *        description: The name of the expert
+ *        in: body
+ *        required: true
+ *        schema:
+ *          type: string
+ *      - name: email
+ *        description: The email of the expert
+ *        in: body
+ *        required: true
+ *        schema:
+ *          type: string
+ *          format: email
+ *      - name: password
+ *        description: The password of the expert
+ *        in: body
+ *        required: true
+ *        schema:
+ *          type: string
+ *          format: password
+ *      - name: mobile
+ *        description: The mobile number of the expert
+ *        in: body
+ *        required: true
+ *        schema:
+ *          type: integer
+ *          format: number
  *    responses:
- *      '200':
- *        description: A successful response
+ *      '201':
+ *        description: The expert has been registered successfully
+ *      '401':
+ *        description: The expert registration was unsuccessful
  */
+
 
 const express = require('express')
 const router = express.Router()
@@ -15,6 +46,8 @@ const {expertProtect} = require('../Middlewares/Auth')
 const upload = require('../Middlewares/multer')
 const {getMessages,addMessage}=require('../Controller/messageControl')
 const {createReview,updateReview,sendEstimate,startJob,endJob}=require('../Controller/apiControl')
+
+
 router.post("/signup",expertControl.postregister)
 router.post("/verify-otp",expertControl.verify)
 router.post('/signin',expertControl.signin)

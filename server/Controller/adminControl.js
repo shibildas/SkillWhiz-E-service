@@ -6,7 +6,8 @@ const usermodel = require('../Model/userSchema')
 const expertmodel=require("../Model/expertSchema")
 const jobsmodel = require("../Model/jobsSchema")
 const cloudinary = require('../Controller/config/cloudinaryConfig')
-const bookingmodel= require('../Model/bookingSchema')
+const bookingmodel= require('../Model/bookingSchema');
+const vouchermodel = require('../Model/voucherSchema');
 
 module.exports.adminLogin = async (req, res) => {
     try {
@@ -467,6 +468,16 @@ module.exports.getChartData=async(req,res)=>{
             }, {})
           ).map(([date, count]) => ({ date, count }));
           res.status(201).json({"status":"success",result:{pieData,result}})
+    } catch (error) {
+        res.status(400).json({"status":"error",message:error.message})  
+        
+    }
+}
+module.exports.getVouchers=async(req,res)=>{
+    try {
+        const vouchers= await vouchermodel.find({listed:true})
+        res.status(201).json({"status":"success",result:vouchers})
+        
     } catch (error) {
         res.status(400).json({"status":"error",message:error.message})  
         
