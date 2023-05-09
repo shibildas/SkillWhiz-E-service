@@ -430,8 +430,12 @@ module.exports.getCounts=async(req,res)=>{
         res.status(400).json({"status":"error",message:error.message})  
     }
 }
+
 module.exports.getChartData=async(req,res)=>{
     try {
+        const start = new Date();
+        start.setDate(start.getDate() - 30);
+        const end = new Date();
         const pieData=await expertmodel.aggregate([
             {
               $lookup: {
@@ -449,7 +453,21 @@ module.exports.getChartData=async(req,res)=>{
               },
             },
           ])
-          res.status(201).json({"status":"success",result:pieData})
+
+          const bookings = await bookingmodel.find({
+            "payment.payment_status": "success",
+            jobEnd: { $gte: start, $lte: end }
+          }).sort({ jobEnd: 1 });
+          
+          const result = Object.entries(
+            bookings.reduce((acc, booking) => {
+                const date = new Date(booking?.jobEnd);
+                const dateString = date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });
+                acc[dateString] = (acc[dateString] || 0) + 1;
+              return acc;
+            }, {})
+          ).map(([date, count]) => ({ date, count }));
+          res.status(201).json({"status":"success",result:{pieData,result}})
     } catch (error) {
         res.status(400).json({"status":"error",message:error.message})  
         

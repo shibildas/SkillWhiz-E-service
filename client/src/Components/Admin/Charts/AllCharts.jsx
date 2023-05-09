@@ -22,8 +22,8 @@ export const AllCharts = () => {
   return (
     <>
     <div className="grid grid-cols-1 md:grid-cols-2 md:col-12 gap-3 my-10">
-<Donut val={data} heading="Experts by Job Role"/>
-<AreaChart/>
+<Donut val={data?.pieData} heading="Experts by Job Role"/>
+<AreaChart val={data?.result} heading="Paid Bookings by Date"/>
     </div>
     </>
   )
