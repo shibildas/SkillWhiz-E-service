@@ -38,12 +38,13 @@ const VoucherList = () => {
                 <th className="text-2xl  bg-slate-400 text-stone-700">Sl no.</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Image</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Name</th>
-                <th className="text-2xl  bg-slate-400 text-stone-700">Voucher Code</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Code</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Discount</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Points</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">End Date</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Status</th>
                 <th className="text-2xl  bg-slate-400 text-stone-700">Listed</th>
+                <th className="text-2xl  bg-slate-400 text-stone-700">Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -66,20 +67,31 @@ const VoucherList = () => {
                 </td>
                 <td>
                     <div>
-                      <div className="font-bold">{ele?.username?.toUpperCase()}</div>
+                      <div className="font-bold">{ele?.vouchername?.toUpperCase()}</div>
                     </div>
 
                 </td>
                 <td>
-                      <div className="text-sm font-bold ">{ele?.email}</div>
+                      <div className="text-sm font-bold ">{ele?.code?.toUpperCase()}</div>
 
                 </td>
                 <td>
-                  {ele?.mobile}
+                ₹ {ele?.discount}
                  
                   
                 </td>
-                <td><button onClick={()=>handleBlock(ele)} className={`btn ${ele?.isBanned ? "btn-warning":"btn-error"} font-extrabold`}>{ele?.isBanned ? "UnBlock" : "Block"}</button></td>
+                <td>
+                {ele?.points} Points
+                 
+                  
+                </td>
+                <td>
+                {ele?.endDate && new Date(ele?.endDate)?.toLocaleDateString()}
+                 
+                  
+                </td>
+                <td>{new Date(ele?.endDate)> new Date() ? "Valid":"Expired"}</td>
+                <td><button onClick={()=>handleBlock(ele)} className={`btn ${ele?.listed ? "btn-warning":"btn-error"} font-extrabold`}>{ele?.listed ? "Unlist" : "List"}</button></td>
                 <th className="flex justify-center">
                   <label htmlFor="editUser" onClick={()=>setUser(ele)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
@@ -87,7 +99,7 @@ const VoucherList = () => {
               </tr>)
               })):(arra.map((e)=>{
                 return(<tr key={e} className={(e%2==0)? "active":""}>
-                  <td colSpan="8">
+                  <td colSpan="10">
                     <div className="animate-pulse flex space-x-4">
                       <div className="rounded-full bg-gray-400 h-12 w-12"></div>
                       <div className="flex-1 space-y-4 py-1">
@@ -105,7 +117,7 @@ const VoucherList = () => {
           </table>
         </div>
       </div>
-      <AddVoucher/>
+      <AddVoucher handleLoad={handleLoad}/>
     </>
   )
 }

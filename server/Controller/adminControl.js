@@ -116,7 +116,7 @@ module.exports.addJobs= async(req,res)=>{
         const job_role=req.body.job?.toLowerCase()
         const job = await jobsmodel.findOne({job_role : job_role})
         if(job){
-            res.json({"status":"error",message:"Job Name Already Exist"})
+            res.status(400).json({"status":"error",message:"Job Name Already Exist"})
         }else{
             const result = await cloudinary.uploader.upload(req.file.path,{format:'WebP',
                 transformation: [{ width: 200, height: 200 }]})
@@ -126,7 +126,7 @@ module.exports.addJobs= async(req,res)=>{
                 add_rate:req.body.adRate,
                 image:result.secure_url
             })
-            res.json({"status":"success",result:"Job Added Success"})
+            res.status(201).json({"status":"success",result:"Job Added Success"})
             if(job){
 
                 fs.unlinkSync(req?.file?.path);
@@ -475,11 +475,45 @@ module.exports.getChartData=async(req,res)=>{
 }
 module.exports.getVouchers=async(req,res)=>{
     try {
-        const vouchers= await vouchermodel.find({listed:true})
+        const vouchers= await vouchermodel.find()
         res.status(201).json({"status":"success",result:vouchers})
         
     } catch (error) {
         res.status(400).json({"status":"error",message:error.message})  
         
     }
+}
+
+module.exports.addVoucher= async(req,res)=>{
+    try {
+        const code=req.body.code?.toLowerCase()
+        const voucher = await vouchermodel.findOne({code : code})
+        if(voucher){
+            res.status(400).json({"status":"error",message:"Voucher Code already exists"})
+        }else{
+            const result = await cloudinary.uploader.upload(req.file.path,{format:'WebP',
+                transformation: [{ width: 400, height: 200 }]})
+            const newVoucher= await vouchermodel.create({
+                code:req.body.code,
+                vouchername:req.body.name,
+                discount:req.body.discount,
+                endDate:req.body.endDate,
+                points:req.body.points,
+                image:result.secure_url
+            })
+            res.status(201).json({"status":"success",result:newVoucher})
+            if(voucher){
+
+                fs.unlinkSync(req?.file?.path);
+            }
+
+        }
+
+    } catch (error) {
+        res.status(400).json({"status":"error",message:error.message})  
+
+        
+    }
+
+
 }

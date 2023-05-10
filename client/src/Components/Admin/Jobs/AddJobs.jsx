@@ -34,7 +34,6 @@ const AddJobs = ({handleLoad ,load}) => {
       formData.append("adRate", adRate);
 
       addJob(formData).then((res) => {
-          console.log(res.data);
           if (res.data.status === "success") {
             showAlertSuccess(dispatch,"Job added successfully")
             const addJobs = document.getElementById("Add-jobs")

@@ -1,3 +1,4 @@
+import MyVouchers from "../../Components/Card/MyVouchers";
 import OtherCard from "../../Components/Card/OtherCard";
 import ProfileCard from "../../Components/Card/ProfileCard";
 
@@ -10,6 +11,7 @@ const Profile= ()=>{
       </div>
       <div className="m-2 ">
         <OtherCard/>
+        <MyVouchers/>
       </div>
     </div>
     )

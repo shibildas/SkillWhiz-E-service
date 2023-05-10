@@ -105,8 +105,12 @@ const getChartData=()=>{
 const getVouchers=()=>{
   return adminAxiosInstance.get('/getVouchers')
 }
+const addVoucher=(data)=>{
+  return adminAxiosInstance.post('/addVoucher',data)
+}
 
 export {
+  addVoucher,
   getVouchers,
   getChartData,
   getCounts,

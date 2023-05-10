@@ -2,14 +2,16 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { showAlertError } from '../../../Services/showAlert';
+import { showAlertError, showAlertSuccess } from '../../../Services/showAlert';
 import Alert from '../../Alert/Alert';
 import DateInput from './DateInput';
+import { addVoucher } from '../../../Services/adminApi';
 
-const AddVoucher = () => {
+const AddVoucher = ({handleLoad}) => {
     const dispatch=useDispatch()
     const [name,setName]=useState('')
     const [code,setCode]=useState('')
+    const [points,setPoints]=useState('')
     const [discount,setDiscount]=useState('')
     const [selectedFile, setSelectedFile] = useState(null);
     const [date,setDate]=useState('')
@@ -26,7 +28,39 @@ const AddVoucher = () => {
      showAlertError(dispatch,"Invalid file type or size. Please select a valid image file.")
     }
   };
-  const handleSubmit=()=>{
+  const handleSubmit=(e)=>{
+e.preventDefault()
+if(name===''|| code===''|| points===''|| discount===''|| selectedFile===null){
+  showAlertError(dispatch,"Please enter all details")
+}else{
+  const formData=new FormData()
+  formData.append('image',selectedFile)
+  formData.append('code',code)
+  formData.append('name',name)
+  formData.append('endDate',date)
+  formData.append('discount',discount)
+  formData.append('points',points)
+  addVoucher(formData).then((res)=>{
+    if(res.data.status==='success'){
+      showAlertSuccess(dispatch,"Voucher Added Successfully")
+      const addVouch= document.getElementById('Add-vouchers')
+      setName('')
+      setCode('')
+      setDiscount('')
+      setPoints('')
+      setDate('')
+      setSelectedFile(null)
+      handleLoad()
+      addVouch.checked=false
+
+    }else{
+      showAlertError(dispatch,"something went wrong")
+    }
+  }).catch((error)=>{
+    showAlertError(dispatch,error.message)
+  })
+
+}
 
   }
   function formatDate(date) {
@@ -36,6 +70,9 @@ const AddVoucher = () => {
       day: 'numeric' 
     });
   }
+  const today = new Date();
+  today.setDate(today.getDate()+1)
+  today.setHours(0, 0, 0, 0);
   
   return (
     <>
@@ -56,7 +93,7 @@ const AddVoucher = () => {
               onChange={(e) => setName(e.target.value)}
               required
               minLength={3}
-              placeholder="eg: Electrician"
+              placeholder="eg: WELCOME@200"
               className="input input-bordered input-accent w-full max-w-xs"
             />
             <label className="label">
@@ -79,6 +116,19 @@ const AddVoucher = () => {
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
               min="0"
+              placeholder="eg: 20"
+              className="input input-bordered input-accent w-full max-w-xs"
+            />
+            <label className="label">
+              <span className="label-text">
+                Points Needed
+              </span>
+            </label>
+            <input
+              type="number"
+              value={points}
+              onChange={(e) => setPoints(e.target.value)}
+              min="0"
               placeholder="eg: 200"
               className="input input-bordered input-accent w-full max-w-xs"
             />
@@ -96,6 +146,7 @@ const AddVoucher = () => {
             selected={date}
             onChange={(date)=>setDate(date)}
             dateFormat="dd/MM/yyyy"
+            minDate={today}
             customInput={<DateInput value={date ? formatDate(date) : ''} onClick={() => document.activeElement.blur()} />}
             
             />

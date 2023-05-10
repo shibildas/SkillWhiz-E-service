@@ -13,6 +13,7 @@ const DateInput = ({ value, onClick }) => {
       className="input input-bordered input-accent w-full max-w-xs"
       onClick={onClick}
       value={value}
+      placeholder='DD/MM/YYYY'
       readOnly
       />
       </>

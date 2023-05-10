@@ -74,7 +74,7 @@ module.exports.verifyOTP = async (req, res) => {
 };
 module.exports.signin = async (req, res) => {
   const { mobile, password } = req.body;
-  const user = await usermodel.findOne({ mobile: mobile });
+  const user = await usermodel.findOne({ mobile: mobile }).populate({ path: 'vouchers', select: '-users' })
   if (user) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (user.mobile === mobile && isMatch) {
@@ -105,7 +105,7 @@ module.exports.signin = async (req, res) => {
 
 module.exports.isUserAuth = async (req, res) => {
   try {
-    let userDetails = await usermodel.findById(req.userId);
+    let userDetails = await usermodel.findById(req.userId).populate({ path: 'vouchers', select: '-users' });
     userDetails.auth = true;
 
     res.json({
@@ -116,6 +116,7 @@ module.exports.isUserAuth = async (req, res) => {
       email: userDetails.email,
       image: userDetails.image || null,
       loyality:userDetails?.loyality || 0,
+      vouchers:userDetails?.vouchers || []
     });
   } catch (error) {
     res.json({auth:false, status: "error", message: error.message });
@@ -425,7 +426,6 @@ module.exports.verifyPayment=async(req,res)=>{
       return res.status(400).json({message:"invalid Signature"})
     }
   } catch (error) {
-    console.log(error.message);
     return res.status(500).json({message:error.message})
     
   }
@@ -514,5 +514,23 @@ const bookings = await bookingmodel.aggregate(pipeline);
     res.json({"status":"success",result:[...bookings]})
   } catch (error) {
      res.status(500).json({message:error.message})
+  }
+}
+
+module.exports.redeemVoucher=async(req,res)=>{
+  try {
+    const userId=req.userId
+    const {id,points}=req.body
+    const updatedUser=await usermodel.findOneAndUpdate( { _id: userId, vouchers: { $ne: id } },
+      {$addToSet: { vouchers: id },$inc:{loyality:-points}},{new:true}).populate({ path: 'vouchers', select: '-users' })
+      if(updatedUser){
+
+        res.status(201).json({"status":"success",result:updatedUser})
+      }else{
+        res.status(200).json({"status":"error",message:"already used"})
+        
+      }
+  } catch (error) {
+    res.status(500).json({message:error.message})
   }
 }

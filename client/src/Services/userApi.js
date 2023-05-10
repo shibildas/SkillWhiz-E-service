@@ -45,8 +45,16 @@ const getAddress=()=>{
 const addAddress=(data)=>{
   return  userAxiosInstance.post('/addAddress',data)
 }
+const getAllVouchers=()=>{
+  return userAxiosInstance.get('/getvouchers')
+}
+const redeemVoucher=(data)=>{
+  return userAxiosInstance.post('/redeemVoucher',data)
+}
 
 export {
+  redeemVoucher,
+  getAllVouchers,
   addAddress,
   getAddress,
    bookJobs,

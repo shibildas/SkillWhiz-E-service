@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import AllVouchers from '../Vouchers/AllVouchers'
 
 function Reward() {
     const user=useSelector(state=>state.user.value)
@@ -11,10 +12,11 @@ function Reward() {
     <h2 className="card-title text-2xl">Rewards</h2>
     <p>You have <b className='text-3xl font-extrabold text-yellow-300'> {user?.loyality ? user?.loyality : 0  } </b>  Loyality Points </p>
     <div className="card-actions justify-end">
-      <button className="btn btn-primary" disabled={user?.loyality===0}>Get Vouchers</button>
+      <label htmlFor='allvouchers' className="btn btn-primary" disabled={user?.loyality===0}>Get Vouchers</label>
     </div>
   </div>
 </div>
+<AllVouchers/>
     </>
   )
 }
