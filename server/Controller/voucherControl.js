@@ -36,10 +36,10 @@ module.exports.applyVoucher=async(req,res)=>{
         })
         const user= await usermodel.findByIdAndUpdate(userId,{
             $pull:{vouchers:id}
-        },{new:true})
+        },{new:true}).populate({path:'vouchers',select:'-users'}).select('-password')
         res.status(201).json({'status':'success',result:"Applied Success"})
        }else{
-        res.json({'status':'error',message:'voucher already used'})
+        res.json({'status':'error',message:user})
        }
     } catch (error) {
         

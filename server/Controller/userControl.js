@@ -345,7 +345,7 @@ module.exports.bookJob=async(req,res)=>{
 module.exports.bookings=async(req,res)=>{
   try {
     const id=req.params.id
-    const booking= await bookingmodel.findOne({_id:id}).populate('userId', '-password')
+    const booking= await bookingmodel.findOne({_id:id}).populate('userId', '-password').populate({path:'voucherId',select:'-users'})
     .populate('expertId', '-password')
     .populate('jobId')
     .select('-userId.password -expertId.password')
@@ -522,7 +522,7 @@ module.exports.redeemVoucher=async(req,res)=>{
     const userId=req.userId
     const {id,points}=req.body
     const updatedUser=await usermodel.findOneAndUpdate( { _id: userId, vouchers: { $ne: id } },
-      {$addToSet: { vouchers: id },$inc:{loyality:-points}},{new:true}).populate({ path: 'vouchers', select: '-users' })
+      {$addToSet: { vouchers: id },$inc:{loyality:-points}},{new:true}).populate({ path: 'vouchers', select: '-users' }).select('-password')
       if(updatedUser){
 
         res.status(201).json({"status":"success",result:updatedUser})
