@@ -112,14 +112,14 @@ const AddSkill = ({handleLoad,load}) => {
                     <div className="bg-slate-100  rounded-md shadow-lg ">
                       {options.map((option) => (
                         <button
-                          key={option._id}
+                          key={option?._id}
                           type="button"
                           className={`w-full rounded-md border border-slate-400 text-left flex items-center justify-between px-4 py-2 ${
-                            selectedOptions.includes(option._id)
+                            selectedOptions.includes(option?._id)
                               ? "bg-blue-500 text-white"
                               : "text-gray-900"
                           }`}
-                          onClick={() => handleOptionClick(option._id)}
+                          onClick={() => handleOptionClick(option?._id)}
                         >
                           <span className="flex items-center">
                             <img
@@ -140,7 +140,7 @@ const AddSkill = ({handleLoad,load}) => {
                               </span>
                             </span>
                           </span>
-                          {selectedOptions.includes(option._id) && (
+                          {selectedOptions.includes(option?._id) && (
                             <span className="flex-shrink-0"></span>
                           )}
                         </button>

@@ -30,7 +30,9 @@ const bookingSchema= new mongoose.Schema({
     booking_date:{type:Date, default: Date.now(), index:true},
     jobStart:{type:Date},
     jobEnd:{type:Date},
-    reason:{type:String}   
+    reason:{type:String},
+    voucherId:{type:mongoose.Schema.Types.ObjectId, required:true, ref:'vouchers'},
+    discount:{type:Number}  
 },
 {
   timestamps: true,

@@ -4,21 +4,28 @@ import { userAxiosInstance } from "../../axios/instance";
 import { useDispatch, useSelector } from "react-redux";
 import Estimate from "../../Components/Estimate/Estimate";
 import { addBooking } from "../../redux/user";
-import { payOnline, verifyPayment } from "../../Services/userApi";
+import { applyVoucher, payOnline, verifyPayment } from "../../Services/userApi";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 import Review from "../../Components/Review/Review";
 import ViewReview from "../../Components/Review/ViewReview";
 import CancelBook from "../../Components/CancelBooking/CancelBook";
+import Alert from "../../Components/Alert/Alert";
+
 
 const BookingDetail = () => {
   const dispatch = useDispatch();
+  const option=useSelector(state=>state.user.value.vouchers)
   const book = useSelector((state) => state.user.value.bookings);
   const { id } = useParams();
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState({});
   const [load, setLoad] = useState(false);
   const handleLoad = () => {
     setLoad(!load);
   };
-
+    const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     userAxiosInstance
@@ -60,6 +67,11 @@ const BookingDetail = () => {
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
+  function handleOptionClick(optionValue) {
+   
+      setSelectedOption( optionValue);
+    
+  }
   const handlePayment = async () => {
     try {
       const { data } = await payOnline(book?.bill_amount);
@@ -68,6 +80,24 @@ const BookingDetail = () => {
       showAlertError(dispatch,error.message)
     }
   };
+  const handleApply=()=>{
+    if(!selectedOption?._id){
+      showAlertError(dispatch,"Select a voucher to apply")
+    }else{
+      applyVoucher({id:selectedOption?._id,bookId:id,}).then((res)=>{
+        if(res.data.status==='success'){
+          showAlertSuccess(dispatch,`Voucher Applied Success, You saved Rs.${selectedOption?.discount}`)
+          setSelectedOption({})
+          handleLoad()
+        }else{
+          showAlertError(dispatch,"Coupon already exists")
+        }
+      }).catch(error=>{
+        showAlertError(dispatch,error.message)
+      })
+    }
+
+  }
   return (
     <>
       <div className="bg-slate-700 p-2 mt-5 rounded-t-xl flex justify-center">
@@ -75,7 +105,7 @@ const BookingDetail = () => {
           Booking Detail
         </h1>
       </div>
-      <div className="bg-purple-300 p-5 bg-opacity-95 flex justify-center ">
+      <div className="bg-purple-100 p-5 bg-opacity-95 flex justify-center ">
         <ul className="steps md:text-2xl text-sm  font-bold">
           <li data-content="📬" className="step step-secondary ">
             Open
@@ -124,7 +154,7 @@ const BookingDetail = () => {
           )}
         </ul>
       </div>
-      <div className="bg-purple-300 p-2 h-fit w-full flex justify-center opacity-95 rounded-b-xl shadow-xl">
+      <div className="bg-purple-100 p-2 h-fit w-full flex justify-center opacity-95 rounded-b-xl shadow-xl">
         <div className="w-3/5">
           <div className="divider "></div>
           <div className="flex justify-between   font-semibold p-2 flex-wrap">
@@ -214,7 +244,7 @@ const BookingDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {(book?.status === "started" ||
+          {(book?.status === "started" ||book?.status === "completed" ||
             book?.status === "invoiced" ||
             book?.status === "closed") && (
             <>
@@ -247,6 +277,77 @@ const BookingDetail = () => {
                   </h1>
                 </div>
               </div>
+              <div className="divider "></div>
+            </>
+          )}
+          {book?.status === "completed" && (
+            <>
+              <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                {" "}
+                <h1 className="text-xl">Use Vouchers</h1>{" "}
+                <div>
+                <div className="inline-block relative w-full  ">
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-between border border-gray-300 p-2 rounded-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out"
+                  onClick={toggleDropdown}
+                >
+                  <span className="block truncate">
+                    {selectedOption?._id ? `${selectedOption?.vouchername},Discount: ₹ ${selectedOption?.discount} `: "Select Option"}
+                  </span>
+                  <svg
+                    className="h-5 w-5 text-gray-400"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M7 7l3-3 3 3m0 6l-3 3-3-3" />
+                  </svg>
+                </button>
+                <div className="absolute z-10 left-0 mt-2 w-full h-2/5">
+                  {isOpen && (
+                    <div className="bg-slate-100  rounded-md shadow-lg ">
+                      {option.map((opt) => (
+                        <button
+                          key={opt?._id}
+                          type="button"
+                          className={`w-full rounded-md border border-slate-400 text-left flex items-center justify-between px-4 py-2 text-gray-900
+                          `}
+                          onClick={() => {handleOptionClick(opt)
+                            setIsOpen(!isOpen)
+                          }}
+                        >
+                          <span className="flex items-center">
+        
+                            <span className="font-extrabold ">
+                              {opt?.vouchername},
+                            </span>
+                            <span className="mx-2 flex-col text-xs">
+                             
+                             
+                                <b className="">Discount: ₹ {opt?.discount}</b>
+                               
+                             
+                            </span>
+                          </span>
+                          
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+                  {book?.status === "completed" && (
+                    <label
+                      className="btn m-2 btn-success"
+                      onClick={handleApply}
+                    >
+                      Apply
+                    </label>
+                  )}{" "}
+                </div>{" "}
+              </div>
+              <Alert/>
               <div className="divider "></div>
             </>
           )}
