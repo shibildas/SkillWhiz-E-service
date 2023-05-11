@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { getVouchers } from '../../Services/adminApi'
+import { getVouchers, listVoucher, unListVoucher } from '../../Services/adminApi'
 import { useDispatch } from 'react-redux'
-import { showAlertError } from '../../Services/showAlert'
+import { showAlertError, showAlertSuccess } from '../../Services/showAlert'
 import AddVoucher from '../../Components/Admin/Vouchers/AddVoucher'
+import EditVoucher from '../../Components/Admin/Vouchers/EditVoucher'
+import Confirm from '../../Components/Confirm/Confirm'
 
 
 const VoucherList = () => {
     const dispatch=useDispatch()
     const arra=[0,1,2,3,4]
+    const [id,setId]=useState('')
     const [datas,setDatas]=useState([])
     const [load,setLoad]=useState(false)
     useEffect(()=>{
@@ -24,13 +27,46 @@ const VoucherList = () => {
     const handleLoad=()=>{
         setLoad(!load)
     }
+    const handleunlist=()=>{
+      const confirmmodal=document.getElementById('confirm')
+      if(id?.listed){
+ unListVoucher(id?._id).then((res)=>{
+  if(res.data.status==='success'){
+    handleLoad()
+      showAlertSuccess(dispatch," Voucher unlisted success")
+      confirmmodal.checked=false
+  }else{
+    showAlertError(dispatch,'error occured')
+    confirmmodal.checked=false
+  }
+ }).catch(error=>{
+  showAlertError(dispatch,error.message)
+  confirmmodal.checked=false
+ })
+}else if(!id?.listed){
+  
+  listVoucher(id?._id).then((res)=>{
+    if(res.data.status==='success'){
+    handleLoad()
+      showAlertSuccess(dispatch," Voucher listed success")
+      confirmmodal.checked=false
+    }else{
+      showAlertError(dispatch,'error occured')
+      confirmmodal.checked=false
+    }
+  }).catch(error=>{
+    showAlertError(dispatch,error.message)
+    confirmmodal.checked=false
+   })
+      }
+    }
   return (
     <>
       <div className="p-3">
-        <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">
+        <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest underline underline-offset-2">
           Vouchers
         </h1>
-        <label htmlFor="Add-vouchers" className='btn'>Add Voucher</label>
+        <label htmlFor="Add-vouchers" className='btn float-right my-2'>Add Voucher</label>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
           <table className="table w-full ">
             <thead>
@@ -91,9 +127,9 @@ const VoucherList = () => {
                   
                 </td>
                 <td>{new Date(ele?.endDate)> new Date() ? "Valid":"Expired"}</td>
-                <td><button onClick={()=>handleBlock(ele)} className={`btn ${ele?.listed ? "btn-warning":"btn-error"} font-extrabold`}>{ele?.listed ? "Unlist" : "List"}</button></td>
+                <td><label htmlFor='confirm' onClick={()=>setId(ele)} className={`btn ${ele?.listed ? "btn-warning":"btn-error"} font-extrabold`}>{ele?.listed ? "Unlist" : "List"}</label></td>
                 <th className="flex justify-center">
-                  <label htmlFor="editUser" onClick={()=>setUser(ele)} className="btn btn-ghost btn-outline">Edit</label>
+                  <label htmlFor="editvoucher" onClick={()=>setId(ele)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
 
               </tr>)
@@ -118,6 +154,8 @@ const VoucherList = () => {
         </div>
       </div>
       <AddVoucher handleLoad={handleLoad}/>
+      <EditVoucher id={id}/>
+      <Confirm handleFunction={handleunlist}/>
     </>
   )
 }

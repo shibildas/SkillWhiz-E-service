@@ -108,8 +108,20 @@ const getVouchers=()=>{
 const addVoucher=(data)=>{
   return adminAxiosInstance.post('/addVoucher',data)
 }
+const getThisVoucher=(id)=>{
+  return adminAxiosInstance.get(`/getVoucher/${id}`)
+}
+const unListVoucher=(id)=>{
+  return adminAxiosInstance.get(`/unlistVoucher/${id}`)
+}
+const listVoucher=(id)=>{
+  return adminAxiosInstance.get(`/listVoucher/${id}`)
+}
 
 export {
+  listVoucher,
+  unListVoucher,
+  getThisVoucher,
   addVoucher,
   getVouchers,
   getChartData,

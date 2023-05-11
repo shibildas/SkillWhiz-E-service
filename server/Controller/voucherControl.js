@@ -67,8 +67,35 @@ module.exports.unapplyVoucher=async(req,res)=>{
         res.status(201).json({'status':'success',result:user})
        }else{
         res.json({'status':'error',message:user})
-       }
+    }
+} catch (error) {
+    
+}
+}
+module.exports.getThisVoucher=async(req,res)=>{
+    try {
+        const id= req.params.id
+        const voucher= await vouchermodel.findOne({_id:id})
+        res.status(201).json({"status":'success',result:voucher})
     } catch (error) {
-        
+        res.json({'status':'error',message:user})   
+    }
+}
+module.exports.unlistVoucher=async(req,res)=>{
+    try {
+        const id= req.params.id
+        const voucher= await vouchermodel.findByIdAndUpdate(id,{$set:{listed:false}})
+        res.status(201).json({"status":'success',result:voucher})
+    } catch (error) {
+        res.json({'status':'error',message:user})   
+    }
+}
+module.exports.listVoucher=async(req,res)=>{
+    try {
+        const id= req.params.id
+        const voucher= await vouchermodel.findByIdAndUpdate(id,{$set:{listed:true}})
+        res.status(201).json({"status":'success',result:voucher})
+    } catch (error) {
+        res.json({'status':'error',message:user})   
     }
 }
