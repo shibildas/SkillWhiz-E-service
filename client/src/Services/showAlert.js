@@ -18,3 +18,11 @@ export function showAlertError(dispatch,msg) {
       show:true
   }));
 }
+export function showAlertWarning(dispatch,msg) {
+  dispatch(setAlert({
+      type: 'alert-warning',
+      icon:false,
+      message: msg,
+      show:true
+  }));
+}

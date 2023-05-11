@@ -37,7 +37,34 @@ module.exports.applyVoucher=async(req,res)=>{
         const user= await usermodel.findByIdAndUpdate(userId,{
             $pull:{vouchers:id}
         },{new:true}).populate({path:'vouchers',select:'-users'}).select('-password')
-        res.status(201).json({'status':'success',result:"Applied Success"})
+        res.status(201).json({'status':'success',result:user})
+       }else{
+        res.json({'status':'error',message:user})
+       }
+    } catch (error) {
+        
+    }
+}
+
+module.exports.unapplyVoucher=async(req,res)=>{
+    try {
+        const userId= req.userId
+        const {id,bookId}=req.body
+        const currentDate= new Date()
+        const voucher= await vouchermodel.findOne({_id:id,
+            users:  { $in: [userId] } ,
+            listed: true,
+            endDate: { $gte: currentDate }
+        },).select('-users')
+       if(voucher){
+        const updatedvoucher= await vouchermodel.findOneAndUpdate({_id:id, users:{ $in: [userId] }},{$pull:{users:userId}},{new:true})
+        const booking= await bookingmodel.findByIdAndUpdate(bookId,{
+            voucherId:null,discount:null 
+        })
+        const user= await usermodel.findByIdAndUpdate(userId,{
+            $addToSet:{vouchers:id}
+        },{new:true}).populate({path:'vouchers',select:'-users'}).select('-password')
+        res.status(201).json({'status':'success',result:user})
        }else{
         res.json({'status':'error',message:user})
        }

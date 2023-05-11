@@ -54,8 +54,12 @@ const redeemVoucher=(data)=>{
 const applyVoucher=(data)=>{
   return userAxiosInstance.post('/applyVoucher',data)
 }
+const removeVoucher=(data)=>{
+  return userAxiosInstance.post('/removeVoucher',data)
+}
 
 export {
+  removeVoucher,
   applyVoucher,
   redeemVoucher,
   getAllVouchers,

@@ -4,8 +4,8 @@ import { userAxiosInstance } from "../../axios/instance";
 import { useDispatch, useSelector } from "react-redux";
 import Estimate from "../../Components/Estimate/Estimate";
 import { addBooking, login } from "../../redux/user";
-import { applyVoucher, payOnline, verifyPayment } from "../../Services/userApi";
-import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import { applyVoucher, payOnline, removeVoucher, verifyPayment } from "../../Services/userApi";
+import { showAlertError, showAlertSuccess, showAlertWarning } from "../../Services/showAlert";
 import Review from "../../Components/Review/Review";
 import ViewReview from "../../Components/Review/ViewReview";
 import CancelBook from "../../Components/CancelBooking/CancelBook";
@@ -16,6 +16,7 @@ const BookingDetail = () => {
   const option = useSelector((state) => state.user.value.vouchers);
   const book = useSelector((state) => state.user.value.bookings);
   const { id } = useParams();
+  const [show,setShow]=useState(true)
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState({});
   const [load, setLoad] = useState(false);
@@ -71,7 +72,7 @@ const BookingDetail = () => {
   }
   const handlePayment = async () => {
     try {
-      const { data } = await payOnline(book?.bill_amount);
+      const { data } = await payOnline((book?.bill_amount)-(book?.discount || 0));
       initPayment(data.data);
     } catch (error) {
       showAlertError(dispatch, error.message);
@@ -100,6 +101,21 @@ const BookingDetail = () => {
         });
     }
   };
+  const handleRemove=()=>{
+    removeVoucher({id:book?.voucherId?._id,bookId:id}).then((res)=>{
+      if(res.data.status==='success'){
+        dispatch(login(res.data.result))
+        showAlertWarning(dispatch,"Voucher removed")
+        setShow(true)
+        handleLoad()
+      }else{
+        showAlertError(dispatch," something Went Wrong")
+      }
+    }).catch(error=>{
+      showAlertError(dispatch, error.message);
+    })
+
+  }
   return (
     <>
       <div className="bg-slate-700 p-2 mt-5 rounded-t-xl flex justify-center">
@@ -299,11 +315,11 @@ const BookingDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {book?.status === "completed" && (
+          {(book?.status === "completed" || book?.voucherId?._id) && (
             <>
               <div className="flex justify-between   font-semibold p-2 flex-wrap">
                 {" "}
-                <h1 className="text-xl">Use Vouchers</h1>{" "}
+                <h1 className="text-xl">Vouchers</h1>{" "}
                 <div>
                   {!book?.voucherId && (
                     <div className="inline-block relative w-full  ">
@@ -357,7 +373,7 @@ const BookingDetail = () => {
                       </div>
                     </div>
                   )}
-                  {book?.status === "completed" && !book?.voucherId?._id && (
+                  {(book?.status === "completed"  ) && !book?.voucherId?._id && (
                     <label
                       className="btn m-2 btn-success"
                       onClick={handleApply}
@@ -369,7 +385,7 @@ const BookingDetail = () => {
                     <figure>
                       <img src={book?.voucherId?.image} alt="image" />
                     </figure>
-                    <div className="card-body">
+                    {show?<div className="card-body">
                       <h2 className="card-title">
                         {book?.voucherId?.vouchername}
                       </h2>
@@ -377,9 +393,13 @@ const BookingDetail = () => {
                         Rs. {book?.voucherId?.discount}
                       </h2>
                       <div className="card-actions justify-end">
-                        <button className="btn btn-warning">Remove</button>
+                       
+                       {book?.status === "completed" && <button className="btn btn-warning" onClick={()=>setShow(false)}>Remove</button>}
                       </div>
-                    </div>
+                    </div>:<div className="card-body rounded-xl">
+                        <button className="btn btn-success my-auto" onClick={()=>setShow(true)} >Cancel</button>
+                        <button className="btn btn-error my-auto" onClick={handleRemove}>Remove</button>
+                      </div>}
                   </div>}
                 </div>{" "}
               </div>
@@ -394,8 +414,10 @@ const BookingDetail = () => {
               <div className="flex justify-between   font-semibold p-2 flex-wrap">
                 {" "}
                 <h1 className="text-xl">Invoice Amount</h1>{" "}
-                <div>
-                  <h1 className="text-center">₹ {book?.bill_amount}</h1>
+                <div className="">
+                  <h1 className="">Invoice : ₹ {(book?.bill_amount)}</h1>
+                  <h1 className="">Discount : - ₹ {(book?.discount || 0)}</h1>
+                  <h1 className="text-xl font-semibold">Total : ₹ {(book?.bill_amount)-(book?.discount || 0)}</h1>
                   {book?.status === "completed" && (
                     <label
                       className="btn m-2 btn-warning"
