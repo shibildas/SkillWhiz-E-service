@@ -181,7 +181,7 @@ module.exports.editUser=async(req,res)=>{
                     }
                 })
                 fs.unlinkSync(req.file.path)
-                res.json({"status":"success",result:"User edit Success"})
+                res.status(201).json({"status":"success",result:"User edit Success"})
         }else{
             await usermodel.findByIdAndUpdate({_id:id},{
                 $set:{
@@ -190,7 +190,7 @@ module.exports.editUser=async(req,res)=>{
                     email:email,
                 }
             })
-            res.json({"status":"success",result:"User edit Success"})
+            res.status(201).json({"status":"success",result:"User edit Success"})
 
         }
         
@@ -279,9 +279,7 @@ module.exports.rejectExpert=async (req,res)=>{
         res.status(400).json({"status":"error",message:error.message})  
 
     }
-
 }
-
 module.exports.editExpert=async(req,res)=>{
     try {
         const {name,email,mobile,id}=req.body

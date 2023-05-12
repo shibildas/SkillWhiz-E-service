@@ -5,13 +5,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { showAlertError, showAlertSuccess } from '../../../Services/showAlert';
 import Alert from '../../Alert/Alert';
 import DateInput from './DateInput';
+import { editVoucher } from '../../../Services/adminApi';
 
-const EditVoucher = ({id}) => {
+const EditVoucher = ({id,handleLoad}) => {
     const dispatch=useDispatch()
     const [name,setName]=useState('')
     const [code,setCode]=useState('')
     const [points,setPoints]=useState('')
     const [discount,setDiscount]=useState('')
+    const [vouchId,setId]=useState('')
     const [selectedFile, setSelectedFile] = useState(null);
     const [date,setDate]=useState('')
 
@@ -20,9 +22,12 @@ const EditVoucher = ({id}) => {
         setCode(id?.code)
         setPoints(id?.points)
         setDiscount(id?.discount)
-        // const mydate= new Date(id?.endDate)?.toLocaleDateString()
-        // setDate(formatDate(id?.endDate))
-
+        setId(id?._id)
+        if (id?.endDate) {
+          const parsedDate = new Date(id.endDate);
+          setDate(parsedDate);
+        }
+        
     },[id])
 
     const handleFileChange = (event) => {
@@ -38,18 +43,32 @@ const EditVoucher = ({id}) => {
       };
       const handleSubmit=(e)=>{
     e.preventDefault()
-    if(name===''|| code===''|| points===''|| discount===''|| selectedFile===null){
+    if(name===''|| code===''|| points===''|| discount===''){
       showAlertError(dispatch,"Please enter all details")
     }else{
       const formData=new FormData()
-      formData.append('image',selectedFile)
+      if(selectedFile){
+        formData.append('image',selectedFile)
+      }
+      formData.append('id',vouchId)
       formData.append('code',code)
       formData.append('name',name)
       formData.append('endDate',date)
       formData.append('discount',discount)
       formData.append('points',points)
-      
-    
+      editVoucher(formData).then(res=>{
+        const editvouch=document.getElementById('editvoucher')
+        if(res.data.status==='success'){
+          showAlertSuccess(dispatch,"Voucher Edit Success")
+          handleLoad()
+          setSelectedFile(null)
+          editvouch.checked=false
+        }else{
+          showAlertError(dispatch,'already exists')
+        }
+      }).catch(error=>{
+        showAlertError(dispatch,error.message)
+      })
     }
     
       }
@@ -138,7 +157,6 @@ const EditVoucher = ({id}) => {
             dateFormat="dd/MM/yyyy"
             minDate={today}
             customInput={<DateInput value={date ? formatDate(date) : ''} onClick={() => document.activeElement.blur()} />}
-            
             />
             </div>
             <div className="my-2 flex-wrap">

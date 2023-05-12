@@ -4,7 +4,7 @@ const adminControl = require('../Controller/adminControl')
 const {adminProtect}= require('../Middlewares/Auth')
 const mult= require("../Middlewares/multer")
 const {sendEstimate,approveEstimate,startJob,endJob,declineEstimate,cancelBooking}= require('../Controller/apiControl')
-const { getThisVoucher, unlistVoucher, listVoucher } = require('../Controller/voucherControl')
+const { getThisVoucher, unlistVoucher, listVoucher, editVoucher } = require('../Controller/voucherControl')
 
 router.post('/',adminControl.adminLogin)
 router.get('/isAdminAuth',adminProtect,adminControl.isAdminAuth)
@@ -41,4 +41,5 @@ router.post('/addVoucher',adminProtect,mult.single('image'),adminControl.addVouc
 router.get('/getVoucher/:id',adminProtect,getThisVoucher)
 router.get('/unlistVoucher/:id',adminProtect,unlistVoucher)
 router.get('/listVoucher/:id',adminProtect,listVoucher)
+router.post('/editVoucher',adminProtect,mult.single('image'),editVoucher)
 module.exports = router

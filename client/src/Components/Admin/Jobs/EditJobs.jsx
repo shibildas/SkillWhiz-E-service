@@ -58,9 +58,7 @@ const EditJobs=({job,handleLoad})=>{
                 }else{
                     showAlertError(dispatch,"Job Edit failed")
                 }
-
               }).catch((error) => {
-                console.error(error);
                 showAlertError(dispatch,error.message)
               });
 

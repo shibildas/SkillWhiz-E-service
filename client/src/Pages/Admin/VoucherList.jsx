@@ -154,7 +154,7 @@ const VoucherList = () => {
         </div>
       </div>
       <AddVoucher handleLoad={handleLoad}/>
-      <EditVoucher id={id}/>
+      <EditVoucher id={id} handleLoad={handleLoad}/>
       <Confirm handleFunction={handleunlist}/>
     </>
   )

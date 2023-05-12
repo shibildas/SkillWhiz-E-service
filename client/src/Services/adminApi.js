@@ -117,8 +117,12 @@ const unListVoucher=(id)=>{
 const listVoucher=(id)=>{
   return adminAxiosInstance.get(`/listVoucher/${id}`)
 }
+const editVoucher=(data)=>{
+  return adminAxiosInstance.post('/editVoucher',data)
+}
 
 export {
+  editVoucher,
   listVoucher,
   unListVoucher,
   getThisVoucher,
