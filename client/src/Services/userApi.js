@@ -37,7 +37,7 @@ const getAllJobs = () => {
   return userAxiosInstance.get("/getAllJobs");
 };
 const bookJobs = (data) => {
-  return userAxiosInstance.post("/bookJob", { ...data });
+  return userAxiosInstance.post("/bookJob", data );
 };
 const getAddress=()=>{
   return userAxiosInstance.get('/address')
@@ -57,8 +57,12 @@ const applyVoucher=(data)=>{
 const removeVoucher=(data)=>{
   return userAxiosInstance.post('/removeVoucher',data)
 }
+const verifyCancel = (response, bookId) => {
+  return userAxiosInstance.post("/verifyCancel", { ...response, bookId });
+};
 
 export {
+  verifyCancel,
   removeVoucher,
   applyVoucher,
   redeemVoucher,

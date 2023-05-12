@@ -26,7 +26,12 @@ const ConfirmSchedule = ({ selectTime, job, address }) => {
       date: Date.now(),
       jobId: skill?._id,
     };
-    bookJobs(data).then((res) => {
+    bookJobs({
+      time: time,
+      address: locate,
+      date: Date.now(),
+      jobId: skill?._id,
+    }).then((res) => {
         setBookId(res?.data?.result)
         if (res.data.status === "success") {
           setBookId(res?.data?.result)
@@ -35,7 +40,7 @@ const ConfirmSchedule = ({ selectTime, job, address }) => {
           const addressModal= document.getElementById("selectAddress")
           confirmModal.checked=false
           addressModal.checked=false
-           navigate(`/bookings/${bookId}`)
+           navigate(`/bookings`)
         } else {
           showAlertError(dispatch,"Job Slot not Booked")
         }

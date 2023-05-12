@@ -142,6 +142,7 @@ const AppointmentDetail = () => {
               )}
             </h1>
           </div>
+          {book?.estimate?.reason&&<div className="text-lg p-2">Rejected Reason: {book?.estimate?.reason}</div>}
           <div className="divider "></div>
           {book?.estimate?.status === "approved" &&
             book?.status === "pending" && (

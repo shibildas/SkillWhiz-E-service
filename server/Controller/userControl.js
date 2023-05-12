@@ -534,3 +534,28 @@ module.exports.redeemVoucher=async(req,res)=>{
     res.status(500).json({message:error.message})
   }
 }
+module.exports.verifyCancel= async(req,res)=>{
+  try {
+    const{
+      bookId,
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature
+    }=req.body
+    const sign = razorpay_order_id+"|"+razorpay_payment_id
+    const expectedSign = crypto.createHmac("sha256",process.env.key_secret).update(sign.toString()).digest('hex')
+
+    if(razorpay_signature===expectedSign){
+      const booking= await bookingmodel.findOneAndUpdate({_id:bookId},{$set:{status:'cancelled','payment.payment_method':"online",
+      'payment.payment_id':razorpay_payment_id,
+      'payment.payment_status':"success",}})
+      return res.status(200).json({message:"Payment verified successfully"})
+
+    }else{
+      return res.status(400).json({message:"invalid Signature"})
+    }
+  } catch (error) {
+    return res.status(500).json({message:error.message})
+    
+  }
+}

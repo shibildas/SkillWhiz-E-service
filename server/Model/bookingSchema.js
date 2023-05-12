@@ -31,7 +31,7 @@ const bookingSchema= new mongoose.Schema({
     jobStart:{type:Date},
     jobEnd:{type:Date},
     reason:{type:String},
-    voucherId:{type:mongoose.Schema.Types.ObjectId, required:true, ref:'vouchers'},
+    voucherId:{type:mongoose.Schema.Types.ObjectId, ref:'vouchers'},
     discount:{type:Number}  
 },
 {

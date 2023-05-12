@@ -4,12 +4,13 @@ import { userAxiosInstance } from "../../axios/instance";
 import { useDispatch, useSelector } from "react-redux";
 import Estimate from "../../Components/Estimate/Estimate";
 import { addBooking, login } from "../../redux/user";
-import { applyVoucher, payOnline, removeVoucher, verifyPayment } from "../../Services/userApi";
+import { applyVoucher, payOnline, removeVoucher, verifyCancel, verifyPayment } from "../../Services/userApi";
 import { showAlertError, showAlertSuccess, showAlertWarning } from "../../Services/showAlert";
 import Review from "../../Components/Review/Review";
 import ViewReview from "../../Components/Review/ViewReview";
 import CancelBook from "../../Components/CancelBooking/CancelBook";
 import Alert from "../../Components/Alert/Alert";
+import Confirm from '../../Components/Confirm/Confirm'
 
 const BookingDetail = () => {
   const dispatch = useDispatch();
@@ -78,6 +79,43 @@ const BookingDetail = () => {
       showAlertError(dispatch, error.message);
     }
   };
+  const initCancel =(data)=>{
+    const options = {
+      key: "rzp_test_CBA26h7xqNYbSQ",
+      amount: data.amount,
+      currency: data.currency,
+      name: book?.jobId?.job_role,
+      image: book?.jobId?.image,
+      order_id: data.id,
+      handler: async (response) => {
+        try {
+          const confirmmodal= document.getElementById('confirm')
+          const { data } = await verifyCancel(response, id);
+          if (data) {
+            confirmmodal.checked=false
+            handleLoad();
+            showAlertSuccess(dispatch, "Payment success");
+          }
+        } catch (error) {
+          showAlertError(dispatch, error.message);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+
+  }
+  const handleCancel= async ()=>{
+    try {
+      const {data} = await payOnline(((book?.estimate.amount)*.2)) 
+      initCancel(data.data)
+    } catch (error) {
+      showAlertError(dispatch, error.message);
+    }
+  }
   const handleApply = () => {
     if (!selectedOption?._id) {
       showAlertError(dispatch, "Select a voucher to apply");
@@ -265,7 +303,7 @@ const BookingDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {book?.status === "pending" && (
+          {(book?.status === "pending" && book?.estimate.status==='pending' )&& (
             <>
               <div className="flex justify-between   font-semibold p-2 flex-wrap">
                 <h1 className="text-xl">Not Happy?</h1>{" "}
@@ -275,6 +313,20 @@ const BookingDetail = () => {
                   </label>
                 </div>
               </div>
+              <div className="divider "></div>
+            </>
+          )}
+          {book?.status === "pending" && (
+            <>
+              <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                <h1 className="text-xl">Not Happy?</h1>{" "}
+                <div>
+                  <label className="btn btn-error" htmlFor="confirm">
+                    Cancel Job
+                  </label>
+                </div>
+              </div>
+              <div>** You will be charged 20% of estimate amount if you cancel the job now on</div>
               <div className="divider "></div>
             </>
           )}
@@ -463,6 +515,7 @@ const BookingDetail = () => {
         id={id}
         handleLoad={handleLoad}
       />
+      <Confirm handleFunction={handleCancel}/>
       <CancelBook admin={false} handleLoad={handleLoad} id={id} />
     </>
   );
