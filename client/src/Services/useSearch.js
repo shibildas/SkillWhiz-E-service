@@ -75,6 +75,17 @@ export function filterUsers([searchText, filter], datas){
       );
  
     default:
-        break;
+        return datas;
  }
+}
+
+export function filterJobs([searchText, filter], datas){
+    switch (parseInt(filter)) {
+        case 1:
+            return datas.filter((content) =>
+            content?.job_role?.toLowerCase().includes(searchText.toLowerCase())
+          );
+          default:
+            return datas;
+}
 }

@@ -6,12 +6,16 @@ import { getJobs, listJob, unListJob } from "../../Services/adminApi";
 import { FcPortraitMode } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import Search from "../../Components/Search/Search";
+import { filterJobs } from "../../Services/useSearch";
 
 const Jobs = () => {
   const dispatch= useDispatch()
   const arra=[0,1,2,3,4]
   const [load, setLoad]=useState(false)
   const [datas, setData] = useState();
+  const [filteredDatas, setFilteredDatas] = useState();
+  const [filter,setFilter]=useState(null)
   const [job,setJob]=useState()
 
   const handleLoad=()=>{
@@ -73,18 +77,30 @@ const Jobs = () => {
 
 
 }
+const handleFilters=(args)=>{
+  setFilter(args)
+}
+const handleSearch=(searchText)=>{
+  const data=filterJobs([searchText,filter],datas)
+  setFilteredDatas(data)
+}
   return (
     <div className="p-5 m-5">
       <AddJobs  handleLoad={handleLoad} load={load}/>
       <div className="flex justify-between">
-      <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">
+      
+
+      <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest underline underline-offset-4">
         Jobs
       </h1>
+      <Search handleSearch={handleSearch} setFilter={handleFilters} filterList={['Role']}/>
       <label
         htmlFor="Add-jobs"
         className="btn btn-outline my-2 float-right shadow-black shadow-2xl"
-      >
-        Add Jobs <FcPortraitMode style={{width:"20px"}}/></label> </div>
+        >
+        Add Jobs <FcPortraitMode style={{width:"20px"}}/></label>
+        
+        </div>
       <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
         <table className="table w-full">
           <thead>
@@ -99,7 +115,7 @@ const Jobs = () => {
             </tr>
           </thead>
           <tbody>
-            {datas ? (datas?.map((data, index) => {
+            {filteredDatas ? (filteredDatas?.map((data, index) => {
               return (
                 <tr key={index + 10} className={(index%2==0)? "active":"hover"}>
                   <th>{index + 1}</th>
