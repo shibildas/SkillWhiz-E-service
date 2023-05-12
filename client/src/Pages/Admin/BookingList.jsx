@@ -1,28 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import { bookingList } from '../../Services/adminApi';
 import { Link } from 'react-router-dom';
+import Search from '../../Components/Search/Search';
+import { useDispatch } from 'react-redux';
+import { showAlertError } from '../../Services/showAlert';
+import { filterbooking } from '../../Services/useSearch';
 
 const BookingList = () => {
+  const dispatch=useDispatch()
     const arra = [0, 1, 2, 3, 4];
+    const [filter,setFilter]=useState(null)
     const [datas,setDatas]=useState([])
+    const [filteredDatas,setFilteredDatas]=useState([])
     useEffect(() => {
      bookingList().then((res)=>{
         if(res.data.status==="success"){
             setDatas(res.data.result)
+            setFilteredDatas(res.data.result)
         }else{
-
+showAlertError(dispatch,'network Error')
         }
      }).catch(error=>{
-
+showAlertError(dispatch,error.message)
      })
     }, [])
-    
+    const handleFilters=(args)=>{
+      setFilter(args)
+    }
+    const handleSearch=(searchText)=>{
+      const data=filterbooking([searchText,filter],datas)
+      setFilteredDatas(data)
+    }
   return (
     <>
     <div className="p-3">
       <h1 className="p-3 font-extrabold  md:text-5xl sm:text-2xl tracking-widest">
         Bookings
       </h1>
+      <div className='flex justify-center mb-2'>
+        <Search handleSearch={handleSearch} filterList={['Job','Status','Estimate','Slot','Book Date','Payment']} setFilter={handleFilters}/>
+      </div>
       <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl ">
         <table className="table w-full ">
           <thead>
@@ -44,8 +61,8 @@ const BookingList = () => {
             </tr>
           </thead>
           <tbody>
-            {datas?.length != 0
-              ? datas?.map((data, index) => {
+            {filteredDatas?.length != 0
+              ? filteredDatas?.map((data, index) => {
                   return (
                     <tr
                       key={index + 10}

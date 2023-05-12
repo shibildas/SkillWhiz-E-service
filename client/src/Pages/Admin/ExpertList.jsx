@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Verification from "../../Components/Admin/Verification/Verification";
 import useGerExperts from "../../Services/useGetExperts";
 import EditExpert from "../../Components/Admin/EditExpert/EditExpert";
@@ -6,11 +6,18 @@ import { Swal } from "../../Components/ExpertOTP/import";
 import AddSlots from "../../Components/Admin/AddSlots/AddSlots";
 
 import { blockExpert, unBlockExpert } from "../../Services/adminApi";
+import { filterUsers } from "../../Services/useSearch";
+import Search from "../../Components/Search/Search";
 
 const ExpertList = () => {
   const [expert, setExpert] = useState({});
   const [datas, handleLoad] = useGerExperts([]);
+  const [filterdDatas,setFilteredDatas]= useState([])
+  const [filter,setFilter]=useState(null)
   const arra = [0, 1, 2, 3, 4];
+  useEffect(()=>{
+    setFilteredDatas(datas)
+  },[datas])
   const handleBlock = (data) => {
     Swal.fire({
       title: "Are you sure?",
@@ -44,6 +51,13 @@ const ExpertList = () => {
       }
     });
   };
+  const handleFilters=(args)=>{
+    setFilter(args)
+  }
+  const handleSearch=(searchText)=>{
+    const data=filterUsers([searchText,filter],datas)
+    setFilteredDatas(data)
+  }
 
   return (
     <>
@@ -51,6 +65,9 @@ const ExpertList = () => {
         <h1 className="p-3 font-extrabold  md:text-5xl sm:text-2xl tracking-widest">
           Experts
         </h1>
+        <div className="flex justify-center mb-2">
+          <Search handleSearch={handleSearch} filterList={['Name','E-mail','Mobile']} setFilter={handleFilters}/>
+        </div>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl ">
           <table className="table w-full ">
             <thead>
@@ -73,8 +90,8 @@ const ExpertList = () => {
               </tr>
             </thead>
             <tbody>
-              {datas?.length != 0
-                ? datas?.map((data, index) => {
+              {filterdDatas?.length != 0
+                ? filterdDatas?.map((data, index) => {
                     return (
                       <tr
                         key={index + 10}

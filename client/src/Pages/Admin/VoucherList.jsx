@@ -5,18 +5,22 @@ import { showAlertError, showAlertSuccess } from '../../Services/showAlert'
 import AddVoucher from '../../Components/Admin/Vouchers/AddVoucher'
 import EditVoucher from '../../Components/Admin/Vouchers/EditVoucher'
 import Confirm from '../../Components/Confirm/Confirm'
-
+import Search from '../../Components/Search/Search'
+import { filterVoucher } from '../../Services/useSearch'
 
 const VoucherList = () => {
     const dispatch=useDispatch()
     const arra=[0,1,2,3,4]
     const [id,setId]=useState('')
+    const [filter,setFilter]=useState(null)
     const [datas,setDatas]=useState([])
+    const [filteredDatas,setFilteredDatas]=useState([])
     const [load,setLoad]=useState(false)
     useEffect(()=>{
         getVouchers().then((res)=>{
             if(res.data.status==="success"){
                 setDatas(res.data.result)
+                setFilteredDatas(res.data.result)
             }else{
                 showAlertError(dispatch,"something went wrong")
             }
@@ -60,13 +64,25 @@ const VoucherList = () => {
    })
       }
     }
+    const handleSearch=(searchText)=>{
+      const data=filterVoucher([searchText,filter],datas)
+      setFilteredDatas(data)
+
+    }
+    const settingFilter=(args)=>{
+      setFilter(args)
+    }
   return (
     <>
       <div className="p-3">
+        <div className='md:flex justify-between'>
+
         <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest underline underline-offset-2">
           Vouchers
         </h1>
+        <Search handleSearch={handleSearch} filterList={['Name','Code']} setFilter={settingFilter}/>
         <label htmlFor="Add-vouchers" className='btn float-right my-2'>Add Voucher</label>
+        </div>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
           <table className="table w-full ">
             <thead>
@@ -84,7 +100,7 @@ const VoucherList = () => {
               </tr>
             </thead>
             <tbody>
-              {datas?.length ? (datas?.map((ele,index)=>{
+              {filteredDatas?.length ? (filteredDatas?.map((ele,index)=>{
                 return(
 
                 <tr key={index+110} className={(index%2==0)? "active":"hover"}>

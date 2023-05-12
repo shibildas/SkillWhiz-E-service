@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import EditUser from "../../Components/Admin/EditUser/EditUser";
 import { blockUser, getUsers, unBlockUser } from "../../Services/adminApi";
+import Search from "../../Components/Search/Search";
+import { filterUsers } from "../../Services/useSearch";
 
 const UserList = () => {
   const arra=[0,1,2,3,4]
     const [datas,setDatas]= useState()
+    const [filterdDatas,setFilteredDatas]= useState([])
     const [user,setUser]=useState()
+    const [filter,setFilter]=useState(null)
     const [load,setLoad]=useState(false)
 
     const handleLoad=()=>{
@@ -18,6 +22,7 @@ const UserList = () => {
         getUsers().then((res)=>{
             if(res.data.status==="success"){
                 setDatas(res.data.result)
+                setFilteredDatas(res.data.result)
             }else{
                 Swal.fire("Sorry","Couldn't fetch Data","error")
             }
@@ -74,6 +79,13 @@ const UserList = () => {
       })
   
     }
+    const handleFilters=(args)=>{
+      setFilter(args)
+    }
+    const handleSearch=(searchText)=>{
+      const data=filterUsers([searchText,filter],datas)
+      setFilteredDatas(data)
+    }
     
 
   return (
@@ -82,6 +94,9 @@ const UserList = () => {
         <h1 className="p-3 font-extrabold md:text-5xl sm:text-2xl tracking-widest">
           Users
         </h1>
+        <div className="flex justify-center mb-2">
+          <Search handleSearch={handleSearch} filterList={['Name','E-mail','Mobile']} setFilter={handleFilters}/>
+        </div>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl">
           <table className="table w-full ">
             <thead>
@@ -96,7 +111,7 @@ const UserList = () => {
               </tr>
             </thead>
             <tbody>
-              {datas ? (datas?.map((ele,index)=>{
+              {filterdDatas ? (filterdDatas?.map((ele,index)=>{
                 return(
 
                 <tr key={index+110} className={(index%2==0)? "active":"hover"}>
