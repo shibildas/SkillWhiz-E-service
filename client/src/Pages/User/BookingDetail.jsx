@@ -316,7 +316,7 @@ const BookingDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {book?.status === "pending" && (
+          {(book?.status === "pending" && book?.estimate?.status==='approved') &&  (
             <>
               <div className="flex justify-between   font-semibold p-2 flex-wrap">
                 <h1 className="text-xl">Not Happy?</h1>{" "}
