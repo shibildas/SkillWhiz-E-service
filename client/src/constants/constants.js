@@ -1,10 +1,9 @@
 import more from "../assets/more.png";
-import {BASE_URL,ADMIN_URL,EXPERT_URL} from 'import.meta.env'
 
 export const error = "http://clipart-library.com/images/kc85anX6i.gif";
-export const baseUrl = BASE_URL;
-export const expertBaseUrl = ADMIN_URL;
-export const AdminBaseUrl = EXPERT_URL;
+export const baseUrl = import.meta.env.BASE_URL;
+export const expertBaseUrl = import.meta.env.ADMIN_URL;
+export const AdminBaseUrl = import.meta.env.EXPERT_URL;
 export const footerImg = [
   {
     img: "https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611439/asset_63_c4q8zi.webp",
