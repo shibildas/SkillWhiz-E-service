@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 import Search from "../../Components/Search/Search";
 import { filterJobs } from "../../Services/useSearch";
+import Confirm from "../../Components/Confirm/Confirm";
 
 const Jobs = () => {
   const dispatch= useDispatch()
@@ -17,6 +18,7 @@ const Jobs = () => {
   const [filteredDatas, setFilteredDatas] = useState();
   const [filter,setFilter]=useState(null)
   const [job,setJob]=useState()
+  const [args,setArgs]=useState({})
 
   const handleLoad=()=>{
     setLoad(!load)
@@ -26,6 +28,7 @@ const Jobs = () => {
     getJobs().then((res) => {
         if (res.data.status === "success") {
           setData(res.data.result);
+          setFilteredDatas(res.data.result)
         } else {
           showAlertError(dispatch,"Couldn't fetch Data")
           setLoad(false)
@@ -36,45 +39,39 @@ const Jobs = () => {
       });
   }, [load]);
 
-  const handleUnList=(args)=>{
- 
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'Job will be Affected !!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes,  Confirm!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then((res)=>{
-        if(res.isConfirmed){
+  const handleUnList=()=>{
+ const confirmmodal = document.getElementById('confirm') 
+  
           if(args.listed){
             unListJob(args?._id).then(res=>{
                 if(res.data.status==="success"){
+                  confirmmodal.checked=false
                     handleLoad()
+                    setArgs({})
                     showAlertSuccess(dispatch,'Job has been unListed.')
+                }else{
+                    showAlertError(dispatch,'something went wrong')
                 }
+            }).catch(error=>{
+              showAlertError(dispatch,error.message)
+
             })
 
           }else if(!args.listed){
             listJob(args?._id).then(res=>{
                 if(res.data.status==="success"){
+                  confirmmodal.checked=false
                     handleLoad()
+                    setArgs({})
                     showAlertSuccess(dispatch, 'Job has been Listed.')
+                  }else{
+                    showAlertError(dispatch,'something went wrong')
                 }
+            }).catch(error=>{
+              showAlertError(dispatch,error.message)
+
             })
-
           }
-
-        }else if (result.dismiss === Swal.DismissReason.cancel) {
-           showAlertSuccess(dispatch,'Your data is safe :)')
-          }
-    
-    }).catch((error) => {
-        console.error(error);
-        showAlertError(dispatch,error.message)
-      });
-
 
 }
 const handleFilters=(args)=>{
@@ -142,7 +139,7 @@ const handleSearch=(searchText)=>{
 
                   </td>
                   <td>
-                  <button onClick={()=>handleUnList(data)} className={`btn ${data?.listed ? "btn-warning":"btn-success"} font-extrabold`}>{data?.listed ? "UnList" : "List"}</button> 
+                  <label htmlFor="confirm" onClick={()=>setArgs(data)} className={`btn ${data?.listed ? "btn-warning":"btn-success"} font-extrabold`}>{data?.listed ? "UnList" : "List"}</label> 
                   </td>
                   <th>₹ {data.base_rate}  </th>
                   <th>₹ {data.add_rate} /Hr</th>
@@ -171,6 +168,7 @@ const handleSearch=(searchText)=>{
         </table>
       </div>
       <EditJobs job={job} handleLoad={handleLoad}/>
+      <Confirm handleFunction={handleUnList}/>
     </div>
   );
 };

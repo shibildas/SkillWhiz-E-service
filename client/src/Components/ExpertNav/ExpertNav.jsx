@@ -73,7 +73,6 @@ const navigate=useNavigate()
         </li>
         {data?.verified && <Link to="/expert/myappointments"><li><a>My Appointments</a></li></Link>}
         <li><Link to='/expert/chat'>Chat</Link></li>
-        <li><a>Settings</a></li>
         <li className="font-extrabold underline"><a onClick={handleLogout}>Logout</a></li>
       </ul>
     </div>

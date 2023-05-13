@@ -141,9 +141,7 @@ const Navbar = () => {
                   <li>
                     <Link to="/bookings">My Bookings</Link>
                   </li>
-                  <li>
-                    <a>Settings</a>
-                  </li>
+                 
                   <li>
                     <a onClick={handleLogout}>Logout</a>
                   </li>
