@@ -38,7 +38,7 @@ server.use(express.urlencoded({extended:false}))
 server.use(express.json())
 
 //Routes
-server.use("/backend/",userRoute)
+server.use("/backend",userRoute)
 server.use("/backend/admin",adminRoute)
 server.use("/backend/expert",expertRoute)
 //Chat Socket
