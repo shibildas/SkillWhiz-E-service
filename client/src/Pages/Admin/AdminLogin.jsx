@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import {adminlogin, adminlogout} from "../../redux/admin"
 import { login } from "../../Services/adminApi"
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
+import Alert from "../../Components/Alert/Alert"
 
 
 
@@ -22,21 +24,21 @@ const AdminLogin=()=>{
 
     const handleAdmin=()=>{
         if(email==="" || password===""){
-            Swal.fire("sorry","Credentials can't be empty","error")
+            showAlertError(dispatch,"Credentials can't be empty")
         }else{
             login(email,password).then((resp)=>{
                 if(!resp.data.auth){
-                    Swal.fire(resp?.data?.message)
+                   showAlertError(dispatch,resp?.data?.message)
                 }else{
                     dispatch(adminlogin(resp.data))
                     localStorage.setItem("admintoken",resp.data.token)
-                    Swal.fire("success",resp.data.message,"success")
+                    showAlertSuccess(dispatch,resp.data.message)
                     dispatch(adminlogin(resp.data))
                     navigate('/admin')
                 }
             }).catch((err)=>{
                 dispatch(adminlogout())
-                Swal.fire('sorry',err.message,'error')
+                showAlertError(dispatch,err.message)
             })
         }
 
@@ -97,6 +99,7 @@ return(
                 </button>
               
               </div>
+              <Alert/>
             </div>
           </div>
         </div>

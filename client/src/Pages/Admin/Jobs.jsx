@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import AddJobs from "../../Components/Admin/Jobs/AddJobs";
-import Swal from "sweetalert2";
 import EditJobs from "../../Components/Admin/Jobs/EditJobs";
 import { getJobs, listJob, unListJob } from "../../Services/adminApi";
 import { FcPortraitMode } from "react-icons/fc";

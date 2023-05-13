@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import EditUser from "../../Components/Admin/EditUser/EditUser";
 import { blockUser, getUsers, unBlockUser } from "../../Services/adminApi";
 import Search from "../../Components/Search/Search";
 import { filterUsers } from "../../Services/useSearch";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
+import { useDispatch } from "react-redux";
+import Confirm from "../../Components/Confirm/Confirm";
 
 const UserList = () => {
+  const dispatch=useDispatch()
   const arra=[0,1,2,3,4]
     const [datas,setDatas]= useState()
     const [filterdDatas,setFilteredDatas]= useState([])
     const [user,setUser]=useState()
     const [filter,setFilter]=useState(null)
     const [load,setLoad]=useState(false)
+    const [elem,setEle]=useState({})
 
     const handleLoad=()=>{
       setLoad(!load)
@@ -24,59 +28,46 @@ const UserList = () => {
                 setDatas(res.data.result)
                 setFilteredDatas(res.data.result)
             }else{
-                Swal.fire("Sorry","Couldn't fetch Data","error")
+                showAlertError(dispatch,"Couldn't fetch Data")
             }
           }).catch((error)=>{
-            Swal.fire("Sorry",error.message,"error")
+            showAlertError(dispatch,error.message)
           })
         
      
     }, [load])
-    const handleBlock=(ele)=>{
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'User will be Banned !!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes,  Confirm!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then((res)=>{
-        if(res.isConfirmed){
-          if(ele.isBanned){
-            unBlockUser(ele?._id).then((res)=>{
+    const handleBlock=()=>{
+     const confirmmodal= document.getElementById('confirm')
+          if(elem.isBanned){
+            unBlockUser(elem?._id).then((res)=>{
               if(res.data.status==="success"){
                 handleLoad()
-      
-                Swal.fire(
-                  'UnBlocked!',
-                  'User has been unBlocked.',
-                  'success'
-                  );
-  
+                setEle({})
+      showAlertSuccess(dispatch, 'User has been unBlocked.')
+      confirmmodal.checked=false
+              }else{
+                showAlertError(dispatch,"something went wrong")
+
               }
+            }).catch(error=>{
+              showAlertError(dispatch,error.message)
             })
-          }else if(!ele.isBanned){
-            blockUser(ele?._id).then((res)=>{
+          }else if(!elem.isBanned){
+            blockUser(elem?._id).then((res)=>{
               if(res.data.status==="success"){
                 handleLoad()
-              
-                Swal.fire(
-                  'Blocked!',
-                  'User has been blocked.',
-                  'success'
-                );
-              }
-            })
+              showAlertSuccess(dispatch,'User has been blocked.')
+      confirmmodal.checked=false
+      setEle({})
+    }else{
+      showAlertError(dispatch,"something went wrong")
+
+    }
+  }).catch(error=>{
+    showAlertError(dispatch,error.message)
+  })
           }
-        }else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            'Cancelled',
-            'Your data is safe :)',
-            'error'
-          );
-        }
-      })
+      
   
     }
     const handleFilters=(args)=>{
@@ -143,7 +134,7 @@ const UserList = () => {
                  
                   
                 </td>
-                <td><button onClick={()=>handleBlock(ele)} className={`btn ${ele?.isBanned ? "btn-warning":"btn-error"} font-extrabold`}>{ele?.isBanned ? "UnBlock" : "Block"}</button></td>
+                <td><label htmlFor="confirm" onClick={()=>setEle(ele)} className={`btn ${ele?.isBanned ? "btn-warning":"btn-error"} font-extrabold`}>{ele?.isBanned ? "UnBlock" : "Block"}</label></td>
                 <th className="flex justify-center">
                   <label htmlFor="editUser" onClick={()=>setUser(ele)} className="btn btn-ghost btn-outline">Edit</label>
                 </th>
@@ -170,6 +161,7 @@ const UserList = () => {
         </div>
         <EditUser user={user} handleLoad={handleLoad}/>
       </div>
+      <Confirm handleFunction={handleBlock}/>
     </>
   );
 };

@@ -2,54 +2,57 @@ import { useEffect, useState } from "react";
 import Verification from "../../Components/Admin/Verification/Verification";
 import useGerExperts from "../../Services/useGetExperts";
 import EditExpert from "../../Components/Admin/EditExpert/EditExpert";
-import { Swal } from "../../Components/ExpertOTP/import";
 import AddSlots from "../../Components/Admin/AddSlots/AddSlots";
 
 import { blockExpert, unBlockExpert } from "../../Services/adminApi";
 import { filterUsers } from "../../Services/useSearch";
 import Search from "../../Components/Search/Search";
+import Confirm from "../../Components/Confirm/Confirm";
+import { useDispatch } from "react-redux";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 
 const ExpertList = () => {
+  const dispatch=useDispatch()
   const [expert, setExpert] = useState({});
   const [datas, handleLoad] = useGerExperts([]);
   const [filterdDatas,setFilteredDatas]= useState([])
   const [filter,setFilter]=useState(null)
+  const [data,setData]=useState({})
   const arra = [0, 1, 2, 3, 4];
   useEffect(()=>{
     setFilteredDatas(datas)
   },[datas])
-  const handleBlock = (data) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "User will be Banned !!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes,  Confirm!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true,
-    }).then((res) => {
-      if (res.isConfirmed) {
+  const handleBlock = () => {
+    
         if (data?.isBanned) {
+          const confirmmodal= document.getElementById('confirm')
           unBlockExpert(data?._id).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
-
-              Swal.fire("UnBlocked!", "User has been unBlocked.", "success");
+              setData({})
+              confirmmodal.checked=false
+              showAlertSuccess(dispatch,"User has been unBlocked.")
+            }else{
+              showAlertError(dispatch,'something went wrong')
             }
+          }).catch(error=>{
+            showAlertError(dispatch,error.message)
           });
         } else if (!data?.isBanned) {
           blockExpert(data?._id).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
-
-              Swal.fire("Blocked!", "User has been blocked.", "success");
+              confirmmodal.checked=false
+              setData({})
+             showAlertSuccess(dispatch,"User has been blocked.")
+            }else{
+              showAlertError(dispatch,'something went wrong')
             }
+          }).catch(error=>{
+            showAlertError(dispatch,error.message)
           });
         }
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "Your data is safe :)", "error");
-      }
-    });
+     
   };
   const handleFilters=(args)=>{
     setFilter(args)
@@ -130,16 +133,16 @@ const ExpertList = () => {
                           </span>
                         </td>
                         <td>
-                          <button
+                          <label htmlFor="confirm"
                             onClick={() => {
-                              handleBlock(data);
+                              setData(data);
                             }}
                             className={`btn  ${
                               data?.isBanned ? "btn-error" : " btn-warning"
                             } font-extrabold`}
                           >
                             {data?.isBanned ? "UnBlock" : "Block"}
-                          </button>
+                          </label>
                         </td>
                         <td className="">
                           {data?.identity?.status === "pending" && (
@@ -208,6 +211,7 @@ const ExpertList = () => {
       </div>
       <EditExpert expert={expert} handleLoad={handleLoad} />
       <AddSlots expert={expert} handleLoad={handleLoad} />
+      <Confirm handleFunction={handleBlock}/>
     </>
   );
 };
