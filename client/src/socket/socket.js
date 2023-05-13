@@ -1,3 +1,3 @@
 import io from "socket.io-client"
-const socket = io.connect({ path: '/socket' })
+const socket = io.connect('')
 export default socket
