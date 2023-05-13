@@ -1,9 +1,9 @@
 import more from "../assets/more.png";
 
 export const error = "http://clipart-library.com/images/kc85anX6i.gif";
-export const baseUrl = "http://localhost:4000/backend";
-export const expertBaseUrl = "http://localhost:4000/backend/expert/";
-export const AdminBaseUrl = "http://localhost:4000/backend/admin/";
+export const baseUrl = "https://skillwhiz-api.drtyre.co/backend";
+export const expertBaseUrl = "https://skillwhiz-api.drtyre.co/backend/expert/";
+export const AdminBaseUrl = "https://skillwhiz-api.drtyre.co/backend/admin/";
 export const footerImg = [
   {
     img: "https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611439/asset_63_c4q8zi.webp",
