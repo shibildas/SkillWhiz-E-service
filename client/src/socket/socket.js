@@ -1,5 +1,4 @@
 import io from "socket.io-client"
-import { baseUrl } from "../constants/constants"
-const socket = io.connect(baseUrl)
+const socket = io.connect('http://localhost:4000')
 
 export default socket
