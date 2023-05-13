@@ -19,6 +19,7 @@ const connectDb = require("./Controller/config/dbConfig")
 const httpServer = http.createServer(server)
 
 const io = new Server(httpServer, {
+  path:'/backend',
     cors: {
       origin: '*',
       methods: ['GET', 'POST']
