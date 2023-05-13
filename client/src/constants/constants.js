@@ -1,9 +1,9 @@
 import more from "../assets/more.png";
 
 export const error = "http://clipart-library.com/images/kc85anX6i.gif";
-export const baseUrl = import.meta.env.BASE_URL;
-export const expertBaseUrl = import.meta.env.ADMIN_URL;
-export const AdminBaseUrl = import.meta.env.EXPERT_URL;
+export const baseUrl = import.meta.env.VITE_BASE_URL;
+export const expertBaseUrl = import.meta.env.VITE_ADMIN_URL;
+export const AdminBaseUrl = import.meta.env.VITE_EXPERT_URL;
 export const footerImg = [
   {
     img: "https://res.cloudinary.com/dpfnxwvps/image/upload/v1680611439/asset_63_c4q8zi.webp",
