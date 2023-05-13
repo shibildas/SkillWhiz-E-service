@@ -2,7 +2,7 @@ import more from "../assets/more.png";
 
 export const error = "http://clipart-library.com/images/kc85anX6i.gif";
 export const baseUrl = "/backend/";
-export const expertBaseUrl = "/expert/";
+export const expertBaseUrl = "/backend/expert/";
 export const AdminBaseUrl = "/backend/admin/";
 export const footerImg = [
   {
