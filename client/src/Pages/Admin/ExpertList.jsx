@@ -24,8 +24,8 @@ const ExpertList = () => {
   },[datas])
   const handleBlock = () => {
     
+    const confirmmodal= document.getElementById('confirm')
         if (data?.isBanned) {
-          const confirmmodal= document.getElementById('confirm')
           unBlockExpert(data?._id).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
@@ -42,8 +42,8 @@ const ExpertList = () => {
           blockExpert(data?._id).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
-              confirmmodal.checked=false
               setData({})
+              confirmmodal.checked=false
              showAlertSuccess(dispatch,"User has been blocked.")
             }else{
               showAlertError(dispatch,'something went wrong')
