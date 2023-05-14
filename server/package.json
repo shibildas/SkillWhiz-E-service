@@ -4,7 +4,8 @@
   "description": "SkillWhiz server v.1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "build": "npm i"
   },
   "author": "shibil_dev",
   "license": "ISC",
