@@ -15,14 +15,18 @@ const crypto = require('crypto');
 const { default: mongoose } = require("mongoose");
 const reviewmodel = require("../Model/reviewSchema");
 
-module.exports.postSignUp = async (req, res, next) => {
+module.exports.postSignUp = async (req, res,next) => {
   try {
+    console.log("something");
     const { username, email, password, mobile } = req.body;
     const user = await usermodel.findOne({ email });
+
     const mob = await usermodel.findOne({ mobile });
+
     if (user || mob) {
       res.json({ status: "failed", message: "User already exist login now" });
     } else {
+      
       client.verify.v2
         .services(serviceSid)
         .verifications.create({
@@ -31,8 +35,7 @@ module.exports.postSignUp = async (req, res, next) => {
         })
         .then((ver) => {
           console.log(ver.status);
-        })
-        .catch((error) => {
+        }).catch((error) => {
           res.json({ status: "Sending failed", message: error.message });
         });
       const salt = await bcrypt.genSalt(10);
@@ -42,10 +45,13 @@ module.exports.postSignUp = async (req, res, next) => {
         email,
         mobile,
         password: hashPassword,
+       
       });
+      
       res.json({ status: "success", message: "signup success" });
     }
   } catch (error) {
+    console.log(error);
     res.status(400).json({ status: "failed", message: error.message });
   }
 };
