@@ -43,7 +43,7 @@ module.exports.postSignUp = async (req, res, next) => {
         mobile,
         password: hashPassword,
       });
-      res.status(201).json({ status: "success", message: "signup success" });
+      res.json({ status: "success", message: "signup success" });
     }
   } catch (error) {
     res.status(400).json({ status: "failed", message: error.message });
