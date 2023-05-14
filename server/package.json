@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "build": "npm i"
+    "build": "npm install"
   },
   "author": "shibil_dev",
   "license": "ISC",
