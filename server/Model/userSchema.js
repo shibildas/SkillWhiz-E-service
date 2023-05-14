@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     pincode:{type:Number},
   }],
   isBanned:{type:Boolean, default:true},
-  vouchers:[{type:mongoose.Schema.Types.ObjectId,ref:'vouchers',unique:true}],
+  vouchers:[{type:mongoose.Schema.Types.ObjectId,ref:'vouchers'}],
   loyality:{type:Number,default:0},
 },
 {
