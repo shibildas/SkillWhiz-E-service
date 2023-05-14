@@ -57,7 +57,7 @@ const editExpertProfile=(formData)=>{
 const expertReverifyOTP=(data)=>{
    return expertAxiosInstance.post("/reVerify-otp",data)
 }
-const expertSignup=(data)=>{
+const expertSignUp=(data)=>{
    return expertAxiosInstance.post('/signup',data)
 }
 const expertSignIn=(data)=>{
@@ -76,4 +76,4 @@ const getexpertSchedule=()=>{
    return expertAxiosInstance.get("/getSchedule")
 }
 
-export {getexpertSchedule,expertAddSchedule,expertbookings,expertVerifyOTP,expertSignIn,expertSignup,expertReverifyOTP,editExpertProfile,updateExpertPassword,expertReVerify,getExpertBooking,addSkill,getJobList,removeSkill,getmyJobs,sendExpertEstimate,expertUpdateReview,addExpertMessage,expertReview,getExpertMessage,authExpert,startJob,endJob,getUserContacts}
+export {getexpertSchedule,expertAddSchedule,expertbookings,expertVerifyOTP,expertSignIn,expertSignUp,expertReverifyOTP,editExpertProfile,updateExpertPassword,expertReVerify,getExpertBooking,addSkill,getJobList,removeSkill,getmyJobs,sendExpertEstimate,expertUpdateReview,addExpertMessage,expertReview,getExpertMessage,authExpert,startJob,endJob,getUserContacts}

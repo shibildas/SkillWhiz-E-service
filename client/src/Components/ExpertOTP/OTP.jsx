@@ -24,6 +24,7 @@ const OTP = ({ mobile }) => {
             showAlertSuccess(dispatch,response.data.message)
             const otpbox = document.getElementById("expert-otp");
             otpbox.checked = false;
+            handleShow()
           } else {
             showAlertError(dispatch,"Wrong OTP")
           }

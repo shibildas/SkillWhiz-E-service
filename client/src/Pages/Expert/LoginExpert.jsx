@@ -4,7 +4,7 @@ import { expertlogin } from "../../import";
 import { useEffect } from "react";
 import Alert from "../../Components/Alert/Alert";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
-import { expertSignIn } from "../../Services/expertApi";
+import { expertSignIn, expertSignUp } from "../../Services/expertApi";
 
 const LoginExpert = () => {
     const [show,setShow]=useState(false)
@@ -21,6 +21,9 @@ const LoginExpert = () => {
       navigate("/expert/home")
     }
   }, [])
+  const handleShow=()=>{
+    setShow(false)
+  }
   
 
     const handleMobile = (e) => {
@@ -39,7 +42,7 @@ const LoginExpert = () => {
 
           if(password===cPassword){
 
-            expertSignup({
+            expertSignUp({
               username:name,
               email:email,
               password:password,
@@ -47,8 +50,7 @@ const LoginExpert = () => {
             }).then((response)=>{
               if(response.data.status === "success"){
                 const expertModal= document.getElementById("expert-otp")
-                expertModal.checked=true 
-                navigate('/expert/login')     
+                expertModal.checked=true      
               }
               
             }).catch((error)=>{
@@ -178,13 +180,13 @@ const LoginExpert = () => {
                   Signup
                 </button></> }
               </div>
-                </div>
               <Alert/>
+                </div>
             </div>
           </div>
         </div>
       </div>
-      <OTP mobile={mobile}/>
+      <OTP mobile={mobile} handleShow={handleShow}/>
     </>
   );
 };
