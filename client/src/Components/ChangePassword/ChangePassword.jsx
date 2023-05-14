@@ -1,11 +1,10 @@
 import { useState } from "react"
-import Swal from "sweetalert2"
 import { useNavigate } from "../ExpertOTP/import"
 import { useDispatch } from "react-redux"
 import { logout } from "../../redux/user"
-import { userAxiosInstance } from "../../axios/instance"
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
 import Alert from "../Alert/Alert"
+import { updatePassword } from "../../Services/userApi"
 
 const ChangePassword=()=>{
     const [old,setOld]=useState('')
@@ -19,7 +18,7 @@ const ChangePassword=()=>{
         showAlertError(dispatch,"Enter all details")
 
       }else if((newPass===confirm) && (old!=newPass) ){
-        userAxiosInstance.post('/updatePassword',{old:old,newPass:newPass}).then(res=>{
+        updatePassword({old:old,newPass:newPass}).then(res=>{
           if(res.data.status==="success"){
             const chPass= document.getElementById('chPass')
             showAlertSuccess(dispatch,"Password changed successfully. Relogin Now")

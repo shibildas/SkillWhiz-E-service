@@ -60,8 +60,22 @@ const removeVoucher=(data)=>{
 const verifyCancel = (response, bookId) => {
   return userAxiosInstance.post("/verifyCancel", { ...response, bookId });
 };
+const editProfileApi=(formData)=>{
+  return userAxiosInstance.post("/editProfile",formData,{headers:{
+    "Content-Type": "multipart/form-data",
+}})
+}
+const updatePassword=(data)=>{
+  return userAxiosInstance.post('/updatePassword',data)
+}
+const userReverify=(data)=>{
+  return userAxiosInstance.post("/reVerify-otp",data)
+}
 
 export {
+  userReverify,
+  updatePassword,
+  editProfileApi,
   verifyCancel,
   removeVoucher,
   applyVoucher,

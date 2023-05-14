@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../import"
-import { userAxiosInstance } from "../../axios/instance"
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
 import Alert from "../Alert/Alert"
+import { editProfileApi } from "../../Services/userApi"
 
 const EditProfile=()=>{
     const dispatch=useDispatch()
@@ -18,9 +18,7 @@ const EditProfile=()=>{
    
     
   }, [user])
-
   const handleFile=(event)=>{
-    const dispatch=useDispatch()
     const file = event.target.files[0];
     const allowedTypes = ["image/jpeg", "image/png", "image/gif" ,"image/jpg"]; // allowed image types
     const maxSize = 0.5 * 1024 * 1024; // 0.5MB maximum file size
@@ -43,8 +41,7 @@ const EditProfile=()=>{
       }
       formData.append("name",name)
       formData.append("email",email)
-      userAxiosInstance.post("/editProfile",formData,{headers:{"Content-Type": "multipart/form-data",
-      }}).then(res=>{
+      editProfileApi(formData).then(res=>{
         const editUser= document.getElementById("editProfile")
         if(res.data.status==="success"){
           showAlertSuccess(dispatch,"User Edit successfully")

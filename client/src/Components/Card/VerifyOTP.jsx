@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { login } from "../../import"
-import { userAxiosInstance } from "../../axios/instance"
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert"
 import Alert from "../Alert/Alert"
+import { userReverify } from "../../Services/userApi"
 const ReVerify=({mobile,handleshow})=>{
     const dispatch = useDispatch()
     const [otp, setOtp]=useState('')
@@ -17,7 +17,7 @@ const handleOtp=(e)=>{
         if((otp.length<6) || otp ===""){
             showAlertError(dispatch,"Invalid Entry")
         }else{
-            userAxiosInstance.post("/reVerify-otp",{otp:otp,mobile:mobile}).then(res=>{
+            userReverify({otp:otp,mobile:mobile}).then(res=>{
                 if(res.data.status==="success"){
                     showAlertSuccess(dispatch,"Mobile Number changed and Verified")
                     dispatch(login(res.data.result))
