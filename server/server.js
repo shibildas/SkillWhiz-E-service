@@ -61,6 +61,9 @@ server.use("/backend/expert",expertRoute)
   
 
   const options={
+    swaggerOptions: {
+      validatorUrl: null
+    },
     definition:{
       
       openapi:'3.0.0',
