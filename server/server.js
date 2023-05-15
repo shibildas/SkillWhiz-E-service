@@ -59,10 +59,10 @@ server.use("/backend/expert",expertRoute)
     })
   })
   
-  server.get('/swagger.json', (req, res) => {
+
   const options={
     definition:{
-      openapi:'3.0.0',
+      openapi:'3.0.2',
       info:{
         title:"SkillWhiz E-Services API Docs",
         version:'1.0.0',
@@ -81,9 +81,7 @@ server.use("/backend/expert",expertRoute)
     apis:['./Routes/*.js'],
   }
   const spec = swaggerjsdoc(options);
-  res.json(spec);
-});
-server.use('/api-docs', swaggerui.serve, swaggerui.setup(null, { swaggerUrl: '/swagger.json' }));
+server.use('/api-docs', swaggerui.serve, swaggerui.setup(spec));
 
  httpServer.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
