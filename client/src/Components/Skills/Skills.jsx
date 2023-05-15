@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import AddSkill from "./AddSkill";
-import { Swal } from "../ExpertOTP/import";
 import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 import { getmyJobs, removeSkill } from "../../Services/expertApi";
+import Confirm from "../Confirm/Confirm";
 
 const Skills = () => {
   const dispatch=useDispatch()
@@ -27,21 +27,15 @@ const Skills = () => {
       });
   }, [load]);
 
-  const handleClick = (arg) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Selected Jobs will be Removed from your Profile !!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes,  Remove!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true,
-    }).then((res) => {
-      if (res.isConfirmed) {
-        removeSkill(arg).then((res) => {
+  const handleClick =() => {
+    const modal= document.getElementById('confirm')
+
+        removeSkill(id).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
+              modal.checked=false
               showAlertSuccess(dispatch,"Skill Removed")
+              setId()
             } else {
               showAlertError(dispatch,"Couldn't complete the request")
             }
@@ -49,10 +43,7 @@ const Skills = () => {
           .catch((error) => {
             showAlertError(dispatch,error.message)
           });
-      } else if (res.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "Your data is safe :)", "error");
-      }
-    });
+
   };
   return (
     <>
@@ -71,8 +62,8 @@ const Skills = () => {
             {datas?.map((data, index) => {
               return (
                 <div key={index+"20"} className="stat rounded-xl bg-slate-600 m-2">
-                    <button
-                      onClick={() => handleClick(data?._id)}
+                    <label htmlFor="confirm"
+                      onClick={() => setId(data?._id)}
                       className="rounded-full w-6 h-6 p-1 hover:bg-orange-400 text-white outline outline-1"
                       >
                       <svg
@@ -89,7 +80,7 @@ const Skills = () => {
                           d="M6 18L18 6M6 6l12 12"
                           />
                       </svg>
-                    </button>
+                    </label>
                     <div className="stat-figure text-secondary ">
                       <div className="avatar online">
                         <div className="w-16 rounded-full">
@@ -126,6 +117,7 @@ const Skills = () => {
         </div>
       </div>
       <AddSkill load={load} handleLoad={handleLoad} />
+      <Confirm handleFunction={handleClick}/>
     </>
   );
 };

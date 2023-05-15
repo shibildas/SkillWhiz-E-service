@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
 import { expertAxiosInstance } from "../../axios/instance";
+import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 
 
 
 const Verify = () => {
+  const dispatch =useDispatch()
   const data = useSelector((state) => state.expert.value);
   const [name,setName]=useState("")
   const [front,setFront]=useState(null)
@@ -19,11 +20,7 @@ if(file && allowed.includes(file.type)&& file.size<=maxSize){
     setFront(file)
 }else{
    setFront(null)
-   Swal.fire(
-    "Sorry",
-    "Invalid file type or size. Please select a valid image file.",
-    "error"
-  ); 
+   showAlertError(dispatch,"Invalid file type or size. Please select a valid image file.")
 }}
   const changeBack=(event)=>{
 const file= event.target.files[0]
@@ -33,11 +30,7 @@ if(file && allowed.includes(file.type)&& file.size<=maxSize){
     setBack(file)
 }else{
     setBack(null)
-   Swal.fire(
-    "Sorry",
-    "Invalid file type or size. Please select a valid image file.",
-    "error"
-  ); 
+   showAlertError(dispatch,"Invalid file type or size. Please select a valid image file.")
 }
 
   }
@@ -45,7 +38,7 @@ if(file && allowed.includes(file.type)&& file.size<=maxSize){
     event.preventDefault(); // prevent default form submission behavior
 
     if (name==="" || back===null || front ===null) {
-        Swal.fire("Sorry", "Please enter all details", "error");
+        showAlertError(dispatch,"Please enter all details")
       return;
     }else{
         const formData = new FormData()
@@ -55,18 +48,18 @@ if(file && allowed.includes(file.type)&& file.size<=maxSize){
 
         expertAxiosInstance.post("/initialVerify", formData).then((res)=>{
             if(res.data.status==="success"){
-                Swal.fire("Success", "Verification submitted successfully", "success");
+                showAlertSuccess(dispatch,"Verification submitted successfully")
                 const verification = document.getElementById("verifyModal")
                 verification.checked=false
                 setBack(null)
                 setFront(null)
                 setName("")
             }else{
-                Swal.fire("Sorry", "Verification failed", "error");
+                showAlertError(dispatch,"Verification failed")
             }
         }).catch((error) => {
             console.error(error);
-            Swal.fire("Error", error.message, "error");
+            showAlertError(dispatch,error.message)
           });
     }
 

@@ -1,7 +1,6 @@
 import {  useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import Swal from "sweetalert2"
 import {adminlogin, adminlogout} from "../../redux/admin"
 import { login } from "../../Services/adminApi"
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert"

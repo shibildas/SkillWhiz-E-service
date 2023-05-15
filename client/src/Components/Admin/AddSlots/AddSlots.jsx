@@ -1,10 +1,11 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import { adminAxiosInstance } from "../../../axios/instance";
 import { addSchedule } from "../../../Services/adminApi";
+import { useDispatch } from "react-redux";
+import { showAlertError, showAlertSuccess } from "../../../Services/showAlert";
 
 const AddSlots = ({ expert, handleLoad }) => {
+  const dispatch=useDispatch()
   const today = moment().startOf("day");
   const [name, setName] = useState("");
   const [id, setId] = useState("");
@@ -45,19 +46,19 @@ const AddSlots = ({ expert, handleLoad }) => {
         addSchedule(selectTime,id).then((res) => {
           if (res.data.status === "success") {
             const modal = document.getElementById("addSlots");
-            Swal.fire("success", "Slots Added Successfully", "success");
+            showAlertSuccess(dispatch,"Slots Added Successfully")
             modal.checked = false;
             setSelectedTime([]);
             handleLoad();
           } else {
-            Swal.fire("sorry", "Slots not Added ", "error");
+            showAlertError(dispatch,"Slots not Added ")
           }
         })
         .catch((error) => {
-          Swal.fire("sorry", error.message, "error");
+          showAlertError(dispatch,error.message)
         });
     } else {
-      Swal.fire("sorry", "Select Time slots First", "error");
+      showAlertError(dispatch,"Select Time slots First")
     }
   };
 

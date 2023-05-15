@@ -1,41 +1,33 @@
-import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import Reason from "./Reason";
 import { verifyExpert } from "../../../Services/adminApi";
+import Confirm from "../../Confirm/Confirm";
+import { useDispatch } from "react-redux";
+import { showAlertError, showAlertSuccess } from "../../../Services/showAlert";
 
 const Verification = ({ expert, handleLoad }) => {
+  const dispatch=useDispatch()
   const [id, setId] = useState("");
   useEffect(() => {
     setId(expert?._id);
   }, [expert]);
 
   const handleApprove = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You are going to approve an Expert !!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes,  Confirm!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true,
-    })
-      .then((res) => {
-        if (res.isConfirmed) {
+          const confirmodal= document.getElementById('confirm')
           const verifyex = document.getElementById("exVerify");
           verifyExpert(id).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
+              confirmodal.checked=false
               verifyex.checked = false;
-              Swal.fire("Approved!", "Expert has been Approved.", "success");
-            } else if (res.dismiss === Swal.DismissReason.cancel) {
-              Swal.fire("Cancelled", "Your data is safe :)", "error");
-            }
-          });
+              showAlertSuccess(dispatch,"Expert has been Approved.")
+        }else{
+          showAlertError(dispatch,'something went wrong')
         }
       })
       .catch((error) => {
         console.error(error);
-        Swal.fire("Error", error.message, "error");
+        showAlertError(dispatch,error.message)
       });
   };
 
@@ -74,15 +66,16 @@ const Verification = ({ expert, handleLoad }) => {
               Reject
             </label>
             <Reason id={id} handleLoad={handleLoad} />
-            <button
-              onClick={handleApprove}
+            <label
+            htmlFor="confirm"
               className="btn btn-success btn-outline"
             >
               Approve
-            </button>
+            </label>
           </div>
         </div>
       </div>
+      <Confirm handleFunction={handleApprove}/>
     </>
   );
 };

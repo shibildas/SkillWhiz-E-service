@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Swal} from "../ExpertOTP/import";
 import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 import { addSkill, getJobList } from "../../Services/expertApi";
+import Confirm from "../Confirm/Confirm";
 
 const AddSkill = ({handleLoad,load}) => {
   const dispatch=useDispatch()
@@ -36,24 +36,17 @@ const AddSkill = ({handleLoad,load}) => {
   }
 
   function handleSubmit() {
+    const modal= document.getElementById('confirm')
     if (selectedOptions.length == 0) {
       showAlertError(dispatch,"Select a Job First")
+
     } else {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Selected Jobs will added to your Profile !!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes,  Confirm!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      }).then((res) => {
-        if (res.isConfirmed) {
           addSkill({ skills: selectedOptions }).then((res) => {
               if(res.data.status==="success"){
                 const addSkillModal= document.getElementById("addSkill")
                 addSkillModal.checked=false
                 handleLoad()
+                modal.checked=false
                 setSelectedOptions([])
                 showAlertSuccess(dispatch,"Skills Added Successfully")
               }
@@ -61,10 +54,7 @@ const AddSkill = ({handleLoad,load}) => {
             }).catch((error)=>{
               showAlertError(dispatch,"Error:"+error.message)
             })
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire("Cancelled", "Your data is safe :)", "error");
-        }
-      });
+       
     }
   }
   return (
@@ -150,17 +140,18 @@ const AddSkill = ({handleLoad,load}) => {
                 </div>
               </div>
               <div className="flex justify-center align-bottom">
-                <button
-                  onClick={handleSubmit}
+                <label
+                  htmlFor="confirm"
                   className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out"
                 >
                   Submit
-                </button>
+                </label>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Confirm handleFunction={handleSubmit}/>
     </>
   );
 };

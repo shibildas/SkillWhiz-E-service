@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from "react";
-import Swal from "sweetalert2";
 import { getExperts } from "./adminApi";
 
 const useGerExperts = () => {
@@ -13,13 +12,10 @@ const useGerExperts = () => {
     getExperts().then((res) => {
         if (res.data.status === "success") {
           setData(res.data.result);
-        } else {
-          Swal.fire("Sorry", "Couldn't fetch Data", "error");
-        }
-      })
-      .catch((error) => {
-        Swal.fire("Sorry", error.message, "error");
-      });
+       
+      }
+    })
+      
   }, []);
 
   useEffect(() => {
@@ -27,5 +23,5 @@ const useGerExperts = () => {
   }, [fetchExperts,load]);
 
   return [datas,handleLoad];
-};
+}
 export default useGerExperts

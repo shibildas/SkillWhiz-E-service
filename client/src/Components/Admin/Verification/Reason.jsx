@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import Swal from "sweetalert2";
 import { rejectExpert } from "../../../Services/adminApi";
+import { useDispatch } from "react-redux";
+import { showAlertSuccess } from "../../../Services/showAlert";
 
 const Reason = ({ id, handleLoad }) => {
+  const dispatch=useDispatch()
   const [reason, setReason] = useState("");
   const [alert, setAlert] = useState(false);
   const handleReject = () => {
@@ -16,7 +18,7 @@ const Reason = ({ id, handleLoad }) => {
           handleLoad();
           reject.checked = false;
           verifyex.checked = false;
-          Swal.fire("Approved!", "Expert has been Rejected.", "success");
+          showAlertSuccess(dispatch,"Expert has been Rejected.")
         }
       });
     }

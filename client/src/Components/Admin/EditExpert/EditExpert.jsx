@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2"
 import { editExpert } from "../../../Services/adminApi";
+import { showAlertError, showAlertSuccess } from "../../../Services/showAlert";
+import { useDispatch } from "react-redux";
 
 const EditExpert = ({ expert, handleLoad }) => {
+  const dispatch=useDispatch()
   const [email,setEmail]=useState("")
   const [mobile,setMobile]=useState("")
   const [name,setName]=useState("")
@@ -31,11 +33,7 @@ const EditExpert = ({ expert, handleLoad }) => {
       setFile(file);
     } else {
       setFile(null);
-      Swal.fire(
-        "Sorry",
-        "Invalid file type or size. Please select a valid image file.",
-        "error"
-      );
+      showAlertError(dispatch,"Invalid file type or size. Please select a valid image file.")
     }
 
   }
@@ -43,7 +41,7 @@ const EditExpert = ({ expert, handleLoad }) => {
   const handleSubmit=(e)=>{
     e.preventDefault()
     if(name==="" || email===""|| mobile===""){
-      Swal.fire("Sorry", "Please enter all details", "error");
+      showAlertError(dispatch,"Please enter all details")
     }else{
       const formData = new FormData()
       if(file){
@@ -55,16 +53,17 @@ const EditExpert = ({ expert, handleLoad }) => {
       editExpert(formData).then(res=>{
         const editUser= document.getElementById("editExpert")
         if(res.data.status==="success"){
-          Swal.fire("Success", "User Edit successfully", "success");
+          showAlertSuccess(dispatch,"User Edit successfully")
           handleLoad()
           setFile(null)
           editUser.checked=false
         }else{
-          Swal.fire("Sorry", "User Edit failed", "error");
+          showAlertError(dispatch,"expert Edit failed")
         }
       }).catch((error) => {
         console.error(error);
-        Swal.fire("Error", error.message, "error")
+        showAlertError(dispatch,error.message)
+        
       })
     }
   }
