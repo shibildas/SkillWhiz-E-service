@@ -1,5 +1,6 @@
 /**
  * @swagger
+ * swagger: '2.0'
  * /expert/signup:
  *  post:
  *    description: Use to register a new expert
