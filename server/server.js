@@ -84,7 +84,7 @@ server.use("/backend/expert",expertRoute)
   //Server Listening
  httpServer.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
-    console.log(`Api Documentation at http://127.0.0.1:${port}/api-docs`)
+    console.log(`Api Documentation at http://127.0.0.1:${port}/backend/api-docs`)
 })  
 
 module.exports = server
