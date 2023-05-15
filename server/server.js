@@ -63,9 +63,9 @@ server.use("/backend/expert",expertRoute)
   const options={
     definition:{
       
-      openapi:'3.1.0',
+      openapi:'3.0.0',
       info:{
-        
+        openapi:'3.0.0',
         title:"SkillWhiz E-Services API Docs",
         version:'1.0.0',
         description:"This is a simple E-Service API made with Express, NodeJs, Cloudinary, MongoDB, JsonWebToken, RazorPay, Socket.io, Twilio, morgan",
