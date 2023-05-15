@@ -1,4 +1,4 @@
 import io from "socket.io-client"
-import { baseUrl } from "../constants/constants"
-const socket = io.connect(baseUrl)
+const url = import.meta.env.VITE_LOCAL
+const socket = io.connect(url)
 export default socket

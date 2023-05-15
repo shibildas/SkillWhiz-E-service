@@ -343,7 +343,7 @@ module.exports.bookJob=async(req,res)=>{
     }
     
   } catch (error) {
-    
+    console.log(error);
     res.json({ status: "error", message: error.message });
   }
 }

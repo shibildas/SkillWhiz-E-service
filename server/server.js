@@ -19,10 +19,10 @@ const connectDb = require("./Controller/config/dbConfig")
 const httpServer = http.createServer(server)
 
 const io = new Server(httpServer, {
-
     cors: {
-      origin: '*',
-      methods: ['GET', 'POST']
+      origin: ['*'],
+      methods: ['GET', 'POST'],
+      credentials:true
     }
   })
 server.use('/', express.static(path.join(__dirname, 'Public')))

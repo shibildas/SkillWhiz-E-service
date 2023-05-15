@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import { UserCircleIcon } from "@heroicons/react/solid";
 import Welcome from "../../Components/Chat/Welcome";
-import { baseUrl } from "../../constants/constants";
 import ChatContainer from "../../Components/Chat/ChatContainer";
 import { getExpertContacts } from "../../Services/userApi";
 import { getUserContacts } from "../../Services/expertApi";
 
 export default function Chat({currentUser,user}) {
+  const url = import.meta.env.VITE_LOCAL
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
@@ -15,7 +15,7 @@ export default function Chat({currentUser,user}) {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io(baseUrl);
+      socket.current = io(url);
       socket.current.emit("add-user", currentUser?._id);
     }
   }, [currentUser]);
