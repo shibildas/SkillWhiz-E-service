@@ -62,8 +62,7 @@ server.use("/backend/expert",expertRoute)
 
   const options={
     
-    definition:{
-      
+    definition:{ 
       openapi:`3.0.1`,
       info:{
         title:"SkillWhiz E-Services API Docs",
