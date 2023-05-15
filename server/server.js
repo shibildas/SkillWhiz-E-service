@@ -58,6 +58,8 @@ server.use("/backend/expert",expertRoute)
       }
     })
   })
+  
+  server.get('/swagger.json', (req, res) => {
   const options={
     definition:{
       openapi:'3.0.0',
@@ -78,13 +80,14 @@ server.use("/backend/expert",expertRoute)
     },
     apis:['./Routes/*.js'],
   }
-  const spacs=swaggerjsdoc(options)
-  server.use('/api-docs',swaggerui.serve,
-  swaggerui.setup(spacs))
-  //Server Listening
+  const spec = swaggerjsdoc(options);
+  res.json(spec);
+});
+server.use('/api-docs', swaggerui.serve, swaggerui.setup(null, { swaggerUrl: '/swagger.json' }));
+
  httpServer.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
-    console.log(`Api Documentation at http://127.0.0.1:${port}/backend/api-docs`)
+    console.log(`Api Documentation at http://127.0.0.1:${port}/api-docs`)
 })  
 
 module.exports = server
