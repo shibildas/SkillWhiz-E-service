@@ -20,7 +20,7 @@ const httpServer = http.createServer(server)
 
 const io = new Server(httpServer, {
     cors: {
-      origin: ['*'],
+      origin: [process.env.CORS_API],
       methods: ['GET', 'POST'],
       credentials:true
     }
@@ -29,7 +29,7 @@ server.use('/', express.static(path.join(__dirname, 'Public')))
 server.use(bodyParser.json({limit:"1200kb"}))
 connectDb(DATABASE_URL)
 server.use(cors({
-    origin:['*'],
+    origin:[process.env.CORS_API],
     methods:['GET','POST'],
     credentials:true
 }))
