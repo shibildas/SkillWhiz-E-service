@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import { addUserMessage, getUserMessage } from "../../Services/userApi";
 import { addExpertMessage, getExpertMessage } from "../../Services/expertApi";
-
+import {AiOutlineMenu} from 'react-icons/ai'
 
 export default function ChatContainer({ data, currentChat, socket, user }) {
   const [messages, setMessages] = useState([]);
@@ -68,11 +68,14 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
 
   return (
     <>
-      <div className="max-h-screen gap-1 rounded-lg w-full">
-        <div className="bg-gray-200 h-20 md:h-24  py-4 px-8 rounded-t-xl ">
+      <div className="w-full h-fit">
+      <label htmlFor="chatbox" className="drawer-overlay"></label>
+
+        <div className="bg-gray-200  py-4 px-8 ">
           <div className="flex items-center gap-4">
+             <label htmlFor="chatbox" className="cursor-pointer hidden:lg"><AiOutlineMenu/></label> 
             <div className="rounded-full overflow-hidden h-12 w-12 md:h-16 md:w-16">
-              <img
+             <img
                 className="h-full w-full object-cover"
                 src={currentChat?.image ? currentChat?.image :"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"}
                 alt="avatar"
@@ -119,8 +122,11 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
           ))}
           <div ref={scrollRef}></div>
         </div>
-        <ChatInput handleSendMsg={handleSendMsg} />
       </div>
+        <ChatInput handleSendMsg={handleSendMsg} />
+
+
+
     </>
   );
 }

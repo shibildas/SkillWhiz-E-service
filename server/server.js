@@ -39,9 +39,9 @@ server.use(express.urlencoded({extended:false}))
 server.use(express.json())
 
 //Routes
-server.use("/backend",userRoute)
-server.use("/backend/admin",adminRoute)
-server.use("/backend/expert",expertRoute)
+server.use("/",userRoute)
+server.use("/admin",adminRoute)
+server.use("/expert",expertRoute)
 //Chat Socket
   global.onlineUsers= new Map()
   io.on("connection",(socket)=>{
@@ -63,7 +63,8 @@ server.use("/backend/expert",expertRoute)
   const options={
     
     definition:{ 
-      openapi:`3.0.1`,
+      failOnErrors: true,
+      openapi: '3.0.1',
       info:{
         title:"SkillWhiz E-Services API Docs",
         version:'1.0.0',

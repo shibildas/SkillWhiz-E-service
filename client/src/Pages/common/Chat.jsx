@@ -6,12 +6,11 @@ import ChatContainer from "../../Components/Chat/ChatContainer";
 import { getExpertContacts } from "../../Services/userApi";
 import { getUserContacts } from "../../Services/expertApi";
 
-export default function Chat({currentUser,user}) {
-  const url = import.meta.env.VITE_LOCAL
+export default function Chat({ currentUser, user }) {
+  const url = import.meta.env.VITE_LOCAL;
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
-
 
   useEffect(() => {
     if (currentUser) {
@@ -22,20 +21,18 @@ export default function Chat({currentUser,user}) {
 
   useEffect(() => {
     if (currentUser) {
-      if(user){
-        getExpertContacts().then(res=>{
-          if(res.data.status==="success"){
-            setContacts(res.data.result)
-
+      if (user) {
+        getExpertContacts().then((res) => {
+          if (res.data.status === "success") {
+            setContacts(res.data.result);
           }
-        })
-      }else if(!user){
-        getUserContacts().then(res=>{
-          if(res.data.status==="success"){
-            setContacts(res.data.result)
+        });
+      } else if (!user) {
+        getUserContacts().then((res) => {
+          if (res.data.status === "success") {
+            setContacts(res.data.result);
           }
-        })
-
+        });
       }
     }
   }, [currentUser]);
@@ -45,38 +42,39 @@ export default function Chat({currentUser,user}) {
   };
 
   return (
-    <div className="max-h-screen bg-gray-900 flex  justify-center">
-      <div className="container mx-auto px-4 py-4 grid grid-cols-12 gap-4">
-        <div className="col-span-4 md:col-span-2 flex flex-col items-center">
-          <div className="bg-gray-800 p-4 rounded-lg w-full h-full">
-            <div className="flex justify-between items-center mb-4">
-              <div className="text-white text-lg font-bold">Contacts</div>
-              
-            </div>
-            {contacts?.map((contact,index) => (
-              <div
-                key={index+921}
-                className={`${
-                  currentChat?.id === contact?.id
-                    ? "bg-blue-500"
-                    : "hover:bg-black"
-                } cursor-pointer p-2 rounded-lg mb-2 flex`}
-                onClick={() => setCurrentChat(contact)}
-              >
-                <UserCircleIcon className="text-white h-6 w-6 mr-2 md:block" />
-                <span className="text-white font-bold">{contact?.username?.toUpperCase()}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="col-span-8 md:col-span-10 ">
-          {currentChat === undefined ? (
-
-            <Welcome userName={currentUser?.username}/>
-          ) : (
-            <ChatContainer data={currentUser} currentChat={currentChat} socket={socket} user={user}/>
-          )}
-        </div>
+    <div className="drawer bg-gray-900 rounded-t-xl">
+      <input id="chatbox" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content">
+        {currentChat === undefined ? (
+          <Welcome userName={currentUser?.username} />
+        ) : (
+          <ChatContainer
+            data={currentUser}
+            currentChat={currentChat}
+            socket={socket}
+            user={user}
+          />
+        )}
+      </div>
+      <div className="drawer-side  max-w-fit">
+      <label htmlFor="chatbox" className="drawer-overlay"></label>
+        <ul className="menu p-4 w-80 bg-cyan-950 shadow-2xl text-white font-bold text-2xl max-w-full">
+        <div className="text-white text-2xl underline underline-offset-2 font-bold p-3 m-3">Contacts</div>
+        {contacts?.map((contact, index) => (
+          <label htmlFor="chatbox"><li
+            key={index + 921}
+            className={`${
+              currentChat?.id === contact?.id ? "bg-blue-500" : "hover:bg-black"
+            } cursor-pointer   flex p-2  border shadow-black shadow-2xl rounded-md`}
+            onClick={() => setCurrentChat(contact)}
+          >
+            <UserCircleIcon className="text-white h-6 w-6 mr-2 md:block" />
+            <span className="text-white font-bold">
+              {contact?.username?.toUpperCase()}
+            </span>
+          </li></label>
+        ))}
+        </ul>
       </div>
     </div>
   );
