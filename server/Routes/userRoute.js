@@ -1,6 +1,5 @@
  /**
  * @swagger
- * swagger: '2.0'
  * /signup:
  *  post:
  *    description: Use to signup a User with legit indian mobile number
@@ -12,13 +11,30 @@
 
  /**
  * @swagger
- * swagger: '2.0'
  * /get7Jobs:
  *  get:
  *    description: Use to request all customers
  *    responses:
  *      '200':
  *        description: A successful response
+ */
+ /**
+ * @swagger
+ * /verify-otp:
+ *  post:
+ *    description: post request to verify OTP of Signedup user
+ *    responses:
+ *      '200':
+ *        description: A successful response, user verified
+ */
+ /**
+ * @swagger
+ * /isUserAuth:
+ *  get:
+ *    description: get request for authorization
+ *    responses:
+ *      '200':
+ *        description: A successful response, user authorized
  */
 
 const express = require('express')
