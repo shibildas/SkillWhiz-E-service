@@ -1,0 +1,714 @@
+{
+  "swagger": "2.0",
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Bearer token authentication"
+      }
+    }
+  },
+  "info": {
+    "title": "API Documentation",
+    "version": "1.0"
+  },
+  "paths": {
+    "/admin/users": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get all users",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create a new user",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/expert/profile": {
+      "get": {
+        "tags": [
+          "Expert"
+        ],
+        "summary": "Get expert profile",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Expert"
+        ],
+        "summary": "Update expert profile",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/verify-otp": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Use to verify a user",
+        "parameters": [
+          {
+            "name": "mobile",
+            "description": "signed up mobile number",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "otp",
+            "description": "otp received via Twilio",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The User has been registered successfully"
+          },
+          "401": {
+            "description": "The user registration was unsuccessful"
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "description": "User signup ",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "description": "The name of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "description": "The email of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "password",
+            "description": "The password of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "password"
+            }
+          },
+          {
+            "name": "mobile",
+            "description": "The mobile number of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "number"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The OTP sent successfully"
+          },
+          "401": {
+            "description": "The user already exists or unsuccessful"
+          }
+        }
+      }
+    },
+    "/signin": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "User login with mobile and password",
+        "parameters": [
+          {
+            "name": "mobile",
+            "description": "The mobile number of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "number"
+            }
+          },
+          {
+            "name": "password",
+            "description": "The password of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "password"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "user logged in success",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "401": {
+            "description": "user logged in failed"
+          }
+        }
+      }
+    },
+    "/get7Jobs": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Use to request all jobs which are available to users",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Jobs"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jobDetail/:id": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Use to get detail of a particular job",
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "required": true,
+              "trim": true
+            },
+            "email": {
+              "type": "string",
+              "required": true,
+              "unique": true,
+              "lowercase": true,
+              "trim": true,
+              "format": "email"
+            },
+            "mobile": {
+              "type": "string",
+              "unique": true,
+              "required": true
+            },
+            "image": {
+              "type": "string"
+            },
+            "address": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Address"
+              }
+            },
+            "isBanned": {
+              "type": "boolean",
+              "default": true
+            },
+            "vouchers": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "loyality": {
+              "type": "number",
+              "default": 0
+            }
+          }
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Jobs": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "job_role": {
+          "type": "string",
+          "required": true,
+          "unique": true,
+          "lowercase": true,
+          "trim": true
+        },
+        "image": {
+          "type": "string"
+        },
+        "base_rate": {
+          "type": "number",
+          "required": true
+        },
+        "add_rate": {
+          "type": "number",
+          "required": true
+        },
+        "listed": {
+          "type": "boolean",
+          "default": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Expert": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "required": true,
+          "trim": true
+        },
+        "email": {
+          "type": "string",
+          "required": true,
+          "unique": true,
+          "lowercase": true,
+          "trim": true,
+          "format": "email"
+        },
+        "mobile": {
+          "type": "string",
+          "unique": true,
+          "required": true
+        },
+        "image": {
+          "type": "string"
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "slots": {
+          "type": "array"
+        },
+        "bookedSlots": {
+          "type": "array"
+        },
+        "identity": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "front": {
+              "type": "string"
+            },
+            "back": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "default": "initial"
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        },
+        "rating": {
+          "type": "array"
+        },
+        "isBanned": {
+          "type": "boolean",
+          "default": true
+        },
+        "isVerified": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "house": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "pincode": {
+          "type": "number"
+        }
+      }
+    },
+    "Bookings": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "object",
+          "$ref": "#/definitions/User",
+          "required": true
+        },
+        "expertId": {
+          "type": "object",
+          "$ref": "#/definitions/Experts",
+          "required": true
+        },
+        "jobId": {
+          "type": "string",
+          "$ref": "#/definitions/Jobs",
+          "required": true
+        },
+        "bill_amount": {
+          "type": "number"
+        },
+        "address": {
+          "type": "object",
+          "$ref": "#/definitions/Address"
+        },
+        "slot": {
+          "type": "string",
+          "required": true
+        },
+        "estimate": {
+          "type": "object",
+          "properties": {
+            "hours": {
+              "type": "number",
+              "default": 2
+            },
+            "parts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "pName": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "amount": {
+              "type": "number"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "default": "pending"
+            }
+          }
+        },
+        "payment": {
+          "type": "object",
+          "properties": {
+            "invoice": {
+              "type": "string"
+            },
+            "payment_method": {
+              "type": "string"
+            },
+            "payment_id": {
+              "type": "string",
+              "unique": true,
+              "lowercase": true
+            },
+            "payment_status": {
+              "type": "string",
+              "default": "pending"
+            }
+          }
+        },
+        "status": {
+          "type": "string",
+          "default": "pending"
+        },
+        "booking_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "jobStart": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "jobEnd": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "voucherId": {
+          "type": "string"
+        },
+        "discount": {
+          "type": "number"
+        }
+      }
+    },
+    "Experts": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "required": true
+        },
+        "email": {
+          "type": "string",
+          "required": true,
+          "unique": true,
+          "lowercase": true
+        },
+        "mobile": {
+          "type": "string",
+          "unique": true,
+          "required": true
+        },
+        "image": {
+          "type": "string"
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Jobs"
+          }
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bookedSlots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "identity": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "front": {
+              "type": "string"
+            },
+            "back": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "default": "initial"
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        },
+        "rating": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "isBanned": {
+          "type": "boolean",
+          "default": true
+        },
+        "isVerified": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "users": {
+          "type": "array"
+        },
+        "sender": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The ID of the sender",
+          "example": "615e4734c2ee4b5b71c536c2"
+        },
+        "senderModel": {
+          "type": "string",
+          "enum": [
+            "user",
+            "expert"
+          ],
+          "description": "The model of the sender (user or expert)",
+          "example": "user"
+        }
+      },
+      "required": [
+        "message",
+        "sender",
+        "senderModel"
+      ]
+    },
+    "Review": {
+      "type": "object",
+      "properties": {
+        "reviewBy": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The ID of the reviewer",
+          "example": "615e4734c2ee4b5b71c536c2"
+        },
+        "myId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The ID of the reviewed entity",
+          "example": "615e4734c2ee4b5b71c536c2"
+        },
+        "reviewModel": {
+          "type": "string",
+          "enum": ["user", "expert"],
+          "description": "The model of the reviewer (user or expert)",
+          "example": "user"
+        },
+        "myIdModel": {
+          "type": "string",
+          "enum": ["user", "expert"],
+          "description": "The model of the reviewed entity (user or expert)",
+          "example": "user"
+        },
+        "jobId": {
+          "items":{
+            "type":"object", 
+            "$ref": "#/definitions/Jobs"
+          }
+        },
+        "bookId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "The ID of the associated booking",
+          "example": "615e4734c2ee4b5b71c536c2"
+        },
+        "message": {
+          "type": "string",
+          "description": "The review message",
+          "example": "Great service!"
+        },
+        "rating": {
+          "type": "number",
+          "description": "The review rating",
+          "example": 5
+        }
+      },
+      "required": ["reviewBy", "myId", "reviewModel", "myIdModel", "jobId", "bookId", "message", "rating"]
+    }
+  },
+  "tags": [
+    {
+      "name": "User",
+      "description": "Endpoints for user operations"
+    },
+    {
+      "name": "Expert",
+      "description": "Endpoints for expert operations"
+    },
+    {
+      "name": "Admin",
+      "description": "Endpoints for admin operations"
+    }
+  ]
+}

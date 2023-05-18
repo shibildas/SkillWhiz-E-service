@@ -17,6 +17,7 @@ const port = process.env.PORT
 const DATABASE_URL = process.env.DATABASE_URL
 const connectDb = require("./Controller/config/dbConfig")
 const httpServer = http.createServer(server)
+const swaggerjson= require('./swagger.json')
 
 const io = new Server(httpServer, {
     cors: {
@@ -83,7 +84,7 @@ server.use("/expert",expertRoute)
     apis:['./Routes/*.js'],
   }
   const spec = swaggerjsdoc(options);
-server.use('/api-docs', swaggerui.serve, swaggerui.setup(spec));
+server.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerjson));
 
  httpServer.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
