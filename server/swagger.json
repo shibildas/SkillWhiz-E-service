@@ -225,7 +225,92 @@
         "description": "Use to get detail of a particular job",
         "responses": {
           "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Jobs"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/updatePassword": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "update new pasasword of user",
+        "parameters": [
+          {
+            "old": "password",
+            "description": "The old password of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "password"
+            }
+          },
+          {
+            "newPass": "password",
+            "description": "The new password of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "password"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/re-Verify": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "initiale verification for mobile number update",
+        "parameters": [
+          {
+            "name": "mobile",
+            "description": "The new mobile number of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
             "description": "A successful response"
+          },
+          "400":{
+            "description": "A Unsuccessful response"
+
           }
         },
         "security": [

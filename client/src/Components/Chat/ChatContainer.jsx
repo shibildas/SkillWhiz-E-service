@@ -3,6 +3,8 @@ import ChatInput from "./ChatInput";
 import { addUserMessage, getUserMessage } from "../../Services/userApi";
 import { addExpertMessage, getExpertMessage } from "../../Services/expertApi";
 import {AiOutlineMenu} from 'react-icons/ai'
+import { FcCamcorderPro } from "react-icons/fc";
+import Calls from "../../Pages/common/Calls";
 
 export default function ChatContainer({ data, currentChat, socket, user }) {
   const [messages, setMessages] = useState([]);
@@ -81,9 +83,11 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
                 alt="avatar"
               />
             </div>
+
             <h3 className="font-semibold text-xl md:text-2xl">
               {currentChat?.username?.toUpperCase()}
             </h3>
+            <label htmlFor="callsmodal" className="btn btn-sm"><FcCamcorderPro className="text-2xl"/></label>
           </div>
         </div>
 
@@ -125,7 +129,7 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
       </div>
         <ChatInput handleSendMsg={handleSendMsg} />
 
-
+        <Calls/>
 
     </>
   );

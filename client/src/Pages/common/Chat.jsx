@@ -61,18 +61,17 @@ export default function Chat({ currentUser, user }) {
         <ul className="menu p-4 w-80 bg-cyan-950 shadow-2xl text-white font-bold text-2xl max-w-full">
         <div className="text-white text-2xl underline underline-offset-2 font-bold p-3 m-3">Contacts</div>
         {contacts?.map((contact, index) => (
-          <label htmlFor="chatbox"><li
-            key={index + 921}
+          <label htmlFor="chatbox" key={index + 921}
             className={`${
               currentChat?.id === contact?.id ? "bg-blue-500" : "hover:bg-black"
-            } cursor-pointer   flex p-2  border shadow-black shadow-2xl rounded-md`}
+            } cursor-pointer flex p-2  border shadow-black shadow-2xl rounded-md my-2`}
             onClick={() => setCurrentChat(contact)}
           >
             <UserCircleIcon className="text-white h-6 w-6 mr-2 md:block" />
             <span className="text-white font-bold">
               {contact?.username?.toUpperCase()}
             </span>
-          </li></label>
+          </label>
         ))}
         </ul>
       </div>
