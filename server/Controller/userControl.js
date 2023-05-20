@@ -238,7 +238,7 @@ module.exports.editProfile = async (req, res) => {
         }
       );
     }
-    const data = await usermodel.findById({ _id });
+    const data = await usermodel.findById({ _id }).select('-password');
     res.json({
       status: "success",
       message: "Profile edit Success",

@@ -2,17 +2,17 @@
   "swagger": "2.0",
   "components": {
     "securitySchemes": {
-      "Bearer": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization",
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT", 
         "description": "Bearer token authentication"
       }
     }
   },
   "info": {
     "title": "API Documentation",
-    "version": "1.0"
+    "version": "1.0.0"
   },
   "paths": {
     "/admin/users": {
@@ -68,6 +68,7 @@
         "tags": [
           "User"
         ],
+        "summary": "Use to verify a user",
         "description": "Use to verify a user",
         "parameters": [
           {
@@ -106,6 +107,7 @@
         "tags": [
           "User"
         ],
+        "summary": "User signup",
         "parameters": [
           {
             "name": "username",
@@ -162,6 +164,7 @@
         "tags": [
           "User"
         ],
+        "summary": "User login",
         "description": "User login with mobile and password",
         "parameters": [
           {
@@ -203,6 +206,7 @@
         "tags": [
           "User"
         ],
+        "summary": "Show home page Job List",
         "description": "Use to request all jobs which are available to users",
         "responses": {
           "200": {
@@ -217,12 +221,24 @@
         }
       }
     },
-    "/jobDetail/:id": {
+    "/jobDetail/{id}": {
       "get": {
         "tags": [
           "User"
         ],
+        "summary": "Job Detail",
         "description": "Use to get detail of a particular job",
+        "parameters": [
+          {
+            "name": "electrician",
+            "in": "path",
+            "description": "pass jobId particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "A successful response",
@@ -236,7 +252,7 @@
         },
         "security": [
           {
-            "Bearer": []
+            "BearerAuth": []
           }
         ]
       }
@@ -246,10 +262,11 @@
         "tags": [
           "User"
         ],
+        "summary": "Update user password",
         "description": "update new pasasword of user",
         "parameters": [
           {
-            "old": "password",
+            "name": "old",
             "description": "The old password of the user",
             "in": "body",
             "required": true,
@@ -259,7 +276,7 @@
             }
           },
           {
-            "newPass": "password",
+            "name": "newPass",
             "description": "The new password of the user",
             "in": "body",
             "required": true,
@@ -281,7 +298,7 @@
         },
         "security": [
           {
-            "Bearer": []
+            "BearerAuth": []
           }
         ]
       }
@@ -291,6 +308,7 @@
         "tags": [
           "User"
         ],
+        "summary": "Initiate verification",
         "description": "initiale verification for mobile number update",
         "parameters": [
           {
@@ -315,7 +333,155 @@
         },
         "security": [
           {
-            "Bearer": []
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reVerify-otp": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Submit OTP",
+        "description": "complete otp verification for updating mobile number update",
+        "parameters": [
+          {
+            "name": "mobile",
+            "description": "The new mobile number of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "number"
+            }
+          },
+          {
+            "name": "otp",
+            "description": "otp recieved from twillio on to mobile number",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400":{
+            "description": "A Unsuccessful response"
+
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/editProfile": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Edit User Profile",
+        "description": "Edit or update profile details",
+        "parameters": [
+          {
+            "name": "name",
+            "description": "The name of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "description": "The email of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "image",
+            "description": "The email of the user",
+            "in": "body",
+            "schema": {
+              "type": "blob",
+              "format": "file"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400":{
+            "description": "A Unsuccessful response"
+
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/getSlots/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Time Slots for particular job",
+        "description": "get slots of job",
+        "parameters": [
+          {
+            "name": "electrician",
+            "in": "path",
+            "description": "pass jobId particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type":"array",
+              "items": {
+                "slots":"22 Apr 2023, 10:00 AM "
+              }
+            }
+          },
+          "400":{
+            "description": "A Unsuccessful response"
+
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
           }
         ]
       }
