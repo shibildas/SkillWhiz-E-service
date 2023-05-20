@@ -5,7 +5,7 @@
       "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "JWT", 
+        "bearerFormat": "JWT",
         "description": "Bearer token authentication"
       }
     }
@@ -326,9 +326,8 @@
           "200": {
             "description": "A successful response"
           },
-          "400":{
+          "400": {
             "description": "A Unsuccessful response"
-
           }
         },
         "security": [
@@ -376,9 +375,8 @@
               }
             }
           },
-          "400":{
+          "400": {
             "description": "A Unsuccessful response"
-
           }
         },
         "security": [
@@ -434,9 +432,8 @@
               }
             }
           },
-          "400":{
+          "400": {
             "description": "A Unsuccessful response"
-
           }
         },
         "security": [
@@ -468,15 +465,368 @@
           "200": {
             "description": "A successful response",
             "schema": {
-              "type":"array",
+              "type": "array",
               "items": {
-                "slots":"22 Apr 2023, 10:00 AM "
+                "slots": "22 Apr 2023, 10:00 AM "
               }
             }
           },
-          "400":{
+          "400": {
             "description": "A Unsuccessful response"
-
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/addAddress": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add a new Address for User",
+        "description": "Add a new Address for User",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "address name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "house",
+            "in": "path",
+            "description": "address house",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "street",
+            "in": "path",
+            "description": "address street",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pincode",
+            "in": "path",
+            "description": "address pincode",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/address": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "get Address for User",
+        "description": "get available Address for User",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "array",
+                "$ref": "#/definitions/Address"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/bookJob": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Book a job for user",
+        "description": "Add booking",
+        "parameters": [
+          {
+            "name": "time",
+            "in": "path",
+            "description": "time slot",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "in": "path",
+            "description": "address selected",
+            "required": true,
+            "schema": {
+              "items":{
+                "type": "object",
+                "$ref": "#/definitions/Address" 
+              }
+            }
+          },
+          {
+            "name": "date",
+            "in": "path",
+            "description": "booking date",
+            "required": true,
+            "schema": {
+              "type": "date"
+            }
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "jobId reference",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/booking/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get Booking Detail",
+        "description": "Get Booking Detail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "http",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/approveEstimate/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Approve Estimation",
+        "description": "Approve Estimation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "http",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/decline": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Decline Estimation",
+        "description": "Decline Estimation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "text",
+            "in": "body",
+            "description": "Decline Reason",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cancelBooking": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Cancel Booking",
+        "description": "Cancel Booking",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "text",
+            "in": "body",
+            "description": "Cancel Reason",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "myBookings": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get All Bookings ",
+        "description": "Get All Bookings by user",
+        
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "array",
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
           }
         },
         "security": [
@@ -912,19 +1262,25 @@
         },
         "reviewModel": {
           "type": "string",
-          "enum": ["user", "expert"],
+          "enum": [
+            "user",
+            "expert"
+          ],
           "description": "The model of the reviewer (user or expert)",
           "example": "user"
         },
         "myIdModel": {
           "type": "string",
-          "enum": ["user", "expert"],
+          "enum": [
+            "user",
+            "expert"
+          ],
           "description": "The model of the reviewed entity (user or expert)",
           "example": "user"
         },
         "jobId": {
-          "items":{
-            "type":"object", 
+          "items": {
+            "type": "object",
             "$ref": "#/definitions/Jobs"
           }
         },
@@ -945,7 +1301,16 @@
           "example": 5
         }
       },
-      "required": ["reviewBy", "myId", "reviewModel", "myIdModel", "jobId", "bookId", "message", "rating"]
+      "required": [
+        "reviewBy",
+        "myId",
+        "reviewModel",
+        "myIdModel",
+        "jobId",
+        "bookId",
+        "message",
+        "rating"
+      ]
     }
   },
   "tags": [
