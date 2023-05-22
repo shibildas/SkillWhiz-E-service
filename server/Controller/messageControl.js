@@ -16,7 +16,7 @@ module.exports.getMessages=async(req,res,next)=>{
         
         res.json(projectedMessages)
     } catch (error) {
-        next(error)   
+        res.json(error.message)  
     }
 }
 module.exports.addMessage=async(req,res,next)=>{
@@ -34,7 +34,8 @@ module.exports.addMessage=async(req,res,next)=>{
             return res.json({msg:"Failed to add message"})
         }    
     } catch (error) {
-        next(error)
+        res.json(error.message)  
+
         
     }
 }

@@ -394,7 +394,6 @@ module.exports.onlinePayment=async(req,res)=>{
     }
     instance.orders.create(options,(error,order)=>{
       if(error){
-        console.log(error.message);
         return res.status(500).json({message:"Something went Wrong"})
       }else{
         res.status(200).json({data:order})
@@ -402,7 +401,6 @@ module.exports.onlinePayment=async(req,res)=>{
     })
     
   } catch (error) {
-    console.log(error);
     return res.status(500).json({message:error.message})
     
   }
@@ -418,8 +416,6 @@ module.exports.verifyPayment=async(req,res)=>{
     }=req.body
     const sign = razorpay_order_id+"|"+razorpay_payment_id
     const expectedSign = crypto.createHmac("sha256",process.env.key_secret).update(sign.toString()).digest('hex')
-    console.log(expectedSign);
-    console.log(razorpay_signature);
     if(razorpay_signature===expectedSign){
       const booking= await bookingmodel.findOneAndUpdate({_id:bookId},{$set:{status:"invoiced",
       'payment.payment_method':"online",

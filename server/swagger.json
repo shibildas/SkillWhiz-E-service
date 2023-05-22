@@ -807,7 +807,7 @@
         ]
       }
     },
-    "myBookings": {
+    "/myBookings": {
       "get": {
         "tags": [
           "User"
@@ -827,6 +827,479 @@
           },
           "400": {
             "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/payment": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "start Razorpay online payment ",
+        "description": "submitting amount to be paid",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "body",
+            "description": "pay amount",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "object"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/paymentVerify": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Verify Razorpay online payment ",
+        "description": "verify payment and complete order",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "body",
+            "description": "booking id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "razorpay_order_id",
+            "in": "body",
+            "description": "razorpay order id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "razorpay_payment_id",
+            "in": "body",
+            "description": "razorpay payment id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "razorpay_signature",
+            "in": "body",
+            "description": "payment signature",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/getContacts": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get chat contacts for user ",
+        "description": "Get chat contacts for user ",
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response",
+            "schema": {
+              "items": {
+                "type": "array",
+                "$ref": "#/definitions/Experts"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/getMessage": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "get previous chat  ",
+        "description": "get previous chat for selected expert ",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "body",
+            "description": "from ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "body",
+            "description": "to ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response",
+            "schema": {
+              "items": {
+                "type": "array",
+                "$ref": "#/definitions/Message"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/addMessage": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "add a new message ",
+        "description": "add a new message ",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "body",
+            "description": "from ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "body",
+            "description": "to ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "message",
+            "in": "body",
+            "description": "text content",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "in": "body",
+            "description": "mentioning sender model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/addReview": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "add a new Review ",
+        "description": "add a new Review ",
+        "parameters": [
+          {
+            "name": "reviewBy",
+            "in": "body",
+            "description": "model role",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "myId",
+            "in": "body",
+            "description": "reviever ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reviewModel",
+            "in": "body",
+            "description": "model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "myIdModel",
+            "in": "body",
+            "description": "who review sender model",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "jobId",
+            "in": "body",
+            "description": "job ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "body",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "message",
+            "in": "body",
+            "description": "text content",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rating",
+            "in": "body",
+            "description": "star rating",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/updateReview": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "update a new Review ",
+        "description": "update a new Review ",
+        "parameters": [
+         
+          {
+            "name": "id",
+            "in": "body",
+            "description": "reviever ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "message",
+            "in": "body",
+            "description": "text content",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rating",
+            "in": "body",
+            "description": "star rating",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/verifyCancel": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": " Premature cancel & Verify Razorpay online payment ",
+        "description": "payment verify and cancel",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "body",
+            "description": "booking id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "razorpay_order_id",
+            "in": "body",
+            "description": "razorpay order id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "razorpay_payment_id",
+            "in": "body",
+            "description": "razorpay payment id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "razorpay_signature",
+            "in": "body",
+            "description": "payment signature",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/getAllJobs": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Show All jobs listed",
+        "description": "Use to request all jobs which are available to users",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Jobs"
+              }
+            }
           }
         },
         "security": [
@@ -1019,6 +1492,72 @@
           "type": "number"
         }
       }
+    },
+    "Voucher": {
+      "type": "object",
+      "properties": {
+        "vouchername": {
+          "type": "string",
+          "description": "The name of the voucher",
+          "example": "Voucher 1",
+          "required": true
+        },
+        "code": {
+          "type": "string",
+          "description": "The voucher code",
+          "example": "CODE123",
+          "required": true
+        },
+        "discount": {
+          "type": "number",
+          "description": "The discount amount",
+          "example": 10,
+          "required": true
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date of the voucher",
+          "example": "2023-12-31T23:59:59Z",
+          "required": true
+        },
+        "points": {
+          "type": "number",
+          "description": "The points required for the voucher",
+          "example": 100,
+          "required": true
+        },
+        "image": {
+          "type": "string",
+          "description": "The URL of the voucher image",
+          "example": "https://example.com/voucher1.png",
+          "required": true
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "An array of user IDs associated with the voucher",
+          "uniqueItems": true
+        },
+        "listed": {
+          "type": "boolean",
+          "description": "Indicates if the voucher is listed",
+          "example": true,
+          "required": true,
+          "default": true
+        }
+      },
+      "required": [
+        "vouchername",
+        "code",
+        "discount",
+        "endDate",
+        "points",
+        "image",
+        "listed"
+      ]
     },
     "Bookings": {
       "type": "object",
