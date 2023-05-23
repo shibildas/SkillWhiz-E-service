@@ -1308,6 +1308,166 @@
           }
         ]
       }
+    },
+    "/getvouchers": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Show All Vouchers",
+        "description": "Use to request all vouchers which are available to users",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Voucher"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/redeemVoucher": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Buy a voucher",
+        "description": "Buy a voucher using loyality points, which are available to users",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "voucher id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "points",
+            "in": "body",
+            "description": "points to be reduced",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/applyVoucher": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Use a voucher",
+        "description": "Use a voucher and avail discount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "voucher id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "body",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/removeVoucher": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Remove a voucher",
+        "description": "Remove a voucher that applied in booking page",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "voucher id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "body",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
