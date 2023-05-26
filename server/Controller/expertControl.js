@@ -495,6 +495,6 @@ module.exports.getContacts=async(req,res)=>{
 const bookings = await bookingmodel.aggregate(pipeline);
     res.json({"status":"success",result:bookings})
   } catch (error) {
-     res.status(500).json({message:error.message})
+     res.status(400).json({message:error.message})
   }
 }
