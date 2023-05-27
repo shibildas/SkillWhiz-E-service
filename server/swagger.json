@@ -15,28 +15,471 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/admin/users": {
-      "get": {
-        "tags": [
-          "Admin"
-        ],
-        "summary": "Get all users",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
+    "/admin/": {
       "post": {
         "tags": [
           "Admin"
         ],
-        "summary": "Create a new user",
+        "summary": "Admin login",
+        "description": "Admin login with email and password",
+        "parameters": [
+          {
+            "name": "email",
+            "description": "The email id of the Admin",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "password",
+            "description": "The password of the Admin",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "password"
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Admin logged in success",
+            "schema": {
+              "items": {
+                "token":"string"
+                ,
+                "Auth":"true"
+                
+              }
+            }
+          },
+          "401": {
+            "description": "Admin logged in failed"
           }
         }
+      }
+    },
+    "/admin/isAdminAuth": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Check Admin Auth",
+        "description": "Use to check weather the token is valid",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "object",
+              "items": {
+                "auth": "true"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getExperts": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Expert List",
+        "description": "get all experts enlisted",
+       
+        "responses": {
+          "201": {
+            "description": "got list success",
+            "schema": {
+              "$ref": "#/definitions/Experts"
+            }
+          },
+          "401": {
+            "description": "data fetch failed failed"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getUsers": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "User List",
+        "description": "get all users enlisted",
+       
+        "responses": {
+          "201": {
+            "description": "got list success",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "401": {
+            "description": "data fetch failed failed"
+          }
+        }
+        ,
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getJobs": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Jobs List",
+        "description": "get all jobs enlisted",
+       
+        "responses": {
+          "201": {
+            "description": "got list success",
+            "schema": {
+              "$ref": "#/definitions/Jobs"
+            }
+          },
+          "401": {
+            "description": "data fetch failed failed"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/addjobs": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Add a new Job",
+        "description": "Add a new job category so that Expert can choose",
+        "parameters": [
+          {
+            "name": "job",
+            "description": "The title of the job",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bRate",
+            "description": "Base Rate of the job",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "adRate",
+            "description": "Additional Rate of the job per hour",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "image",
+            "description": "The image of job to show",
+            "in": "body",
+            "schema": {
+              "type": "blob",
+              "format": "file"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/blockUser/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Block a user",
+        "description": "to block a user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass user Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/unBlockUser/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "UnBlock a user",
+        "description": "to unblock a user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass user Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/editUser": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Edit User Profile",
+        "description": "Edit or update profile details",
+        "parameters": [
+          {
+            "name": "name",
+            "description": "The name of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mobile",
+            "description": "The mobile of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "email",
+            "description": "The email of the user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "image",
+            "description": "The email of the user",
+            "in": "body",
+            "schema": {
+              "type": "blob",
+              "format": "file"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/unListJob/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Unlist a Job",
+        "description": "to unlist a job",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass job Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/listJob/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "List a Job back",
+        "description": "to List a job back so expert can use",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass job Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/editJob": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Edit Job ",
+        "description": "Edit or Job  details",
+        "parameters": [
+          {
+            "name": "role",
+            "description": "The role of the job",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bRate",
+            "description": "The base rate of the job",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "adRate",
+            "description": "The additional rate of the job",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "id",
+            "description": "The id of the job",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "image",
+            "description": "The email of the user",
+            "in": "body",
+            "schema": {
+              "type": "blob",
+              "format": "file"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/expert/signup": {
