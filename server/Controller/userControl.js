@@ -62,11 +62,16 @@ module.exports.verifyOTP = async (req, res) => {
       .services(serviceSid)
       .verificationChecks.create({ to: `+91${mobile}`, code: otp });
     if (ver_check.status === "approved") {
-      await usermodel.findOneAndUpdate(
+      const user= await usermodel.findOneAndUpdate(
         { mobile: mobile },
         { $set: { isBanned: false } }
       );
+      const userId = user._id;
+      const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
+        expiresIn: 30000,
+      });
       res.json({
+        auth: true, token: token, result: user,
         status: "success",
         message: "Verified",
       });

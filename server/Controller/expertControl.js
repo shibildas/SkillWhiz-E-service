@@ -8,7 +8,6 @@ const client = require("twilio")(accountSid, authToken);
 const cloudinary = require("../Controller/config/cloudinaryConfig");
 const jobsmodel = require("../Model/jobsSchema");
 const fs = require("fs");
-const { log } = require("console");
 const bookingmodel = require("../Model/bookingSchema");
 const { default: mongoose } = require("mongoose");
 const reviewmodel = require("../Model/reviewSchema");
@@ -55,11 +54,18 @@ module.exports.verify = async (req, res) => {
       .services(serviceSid)
       .verificationChecks.create({ to: `+91${mobile}`, code: otp });
     if (ver_check.status === "approved") {
-      await expertmodel.findOneAndUpdate(
+      const expert=await expertmodel.findOneAndUpdate(
         { mobile: mobile },
         { $set: { isBanned: false } }
       );
+      const expertId = expert._id;
+      const token = jwt.sign({ expertId }, process.env.JWT_SECRET_KEY, {
+        expiresIn: 30000,
+      });
       res.json({
+        auth: true,
+        experttoken: token,
+        result: expert,
         status: "success",
         message: "Verified",
       });
