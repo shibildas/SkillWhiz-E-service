@@ -11,7 +11,7 @@
     }
   },
   "info": {
-    "title": "API Documentation",
+    "title": "SkillWhiz-API Documentation",
     "version": "1.0.0"
   },
   "paths": {
@@ -125,7 +125,7 @@
           "201": {
             "description": "got list success",
             "schema": {
-              "$ref": "#/definitions/Users"
+              "$ref": "#/definitions/User"
             }
           },
           "401": {
@@ -416,7 +416,7 @@
           "Admin"
         ],
         "summary": "Edit Job ",
-        "description": "Edit or Job  details",
+        "description": "Edit Job  details",
         "parameters": [
           {
             "name": "role",
@@ -473,6 +473,978 @@
           },
           "400": {
             "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/verifyExpert/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Verify Expert",
+        "description": "to verify an expert so that he can add time slots",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass expert Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/rejectExpert/{id}": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Reject Expert Verification",
+        "description": "to reject the verification documents submitted by expert",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass expert Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reason",
+            "in": "body",
+            "description": "Rejection reason",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/editExpert": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Edit Expert ",
+        "description": "Edit expert  details",
+        "parameters": [
+          {
+            "name": "name",
+            "description": "The name of the Expert",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "description": "the email id of the expert",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "mobile",
+            "description": "The mobile number of expert",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "id",
+            "description": "The id of the expert",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "image",
+            "description": "The email of the user",
+            "in": "body",
+            "schema": {
+              "type": "blob",
+              "format": "file"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/unBlockExpert/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Unblock an Expert",
+        "description": "to unblock an expert",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass expert Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/blockExpert/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Block an Expert",
+        "description": "to List a job back so expert can use",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass expert Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getSchedule/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Show Expert schedules",
+        "description": "show time schedules, both booked and available of expert ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass expert Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/Expert"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/addSchedule": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "To add Expert schedules",
+        "description": "update time schedules of expert",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The id of the expert",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "dates",
+            "description": "array of dates",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/expert/bookingList": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Show All bookings",
+        "description": "show bookings till date ",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getBooking/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Show booking detail",
+        "description": "To show particular booking detail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass booking Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/addEstimate": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "To add Job Estimation",
+        "description": "sends a new estimate for user",
+        "parameters": [
+          {
+            "name": "bookId",
+            "description": "Booking ID",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hours",
+            "description": "job Hours",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "parts",
+            "description": "parts object",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "amount",
+            "description": "estimate amount",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/approveEstimate/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Approve Estimation",
+        "description": "Approve Estimation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "http",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Bookings"
+              }
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/startJob/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "To start a Job",
+        "description": "To start particular booked job ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass booking Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/endJob": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "End the job",
+        "description": "to end the job and submit final amount",
+        "parameters": [
+          {
+            "name": "Id",
+            "description": "Booking ID",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hours",
+            "description": "job Hours",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "parts",
+            "description": "parts object",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "total",
+            "description": "invoice amount",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/adminPay": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Payment Update",
+        "description": "Admin can update payment if its not reflected",
+        "parameters": [
+          {
+            "name": "Id",
+            "description": "Booking ID",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hours",
+            "description": "job Hours",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "parts",
+            "description": "parts object",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "total",
+            "description": "invoice amount",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/decline": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Decline Estimation",
+        "description": "Decline Estimation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "text",
+            "in": "body",
+            "description": "Decline Reason",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/cancelBooking": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Cancel Booking",
+        "description": "Cancel Booking",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "booking ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "text",
+            "in": "body",
+            "description": "Cancel Reason",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getVouchers": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Vouchers List",
+        "description": "get all Vouchers enlisted",
+       
+        "responses": {
+          "201": {
+            "description": "got list success",
+            "schema": {
+              "$ref": "#/definitions/Voucher"
+            }
+          },
+          "401": {
+            "description": "data fetch failed failed"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/addVoucher": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Add a new Voucher",
+        "description": "Add a new Voucher so that User can choose",
+        "parameters": [
+          {
+            "name": "code",
+            "description": "The voucher code",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "description": "The voucher name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "discount",
+            "description": "discount amount",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "points",
+            "description": "points required to redeem voucher",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "endDate",
+            "description": "end Date of voucher",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "date",
+              "format": "date"
+            }
+          },
+          {
+            "name": "image",
+            "description": "The image of voucher card",
+            "in": "body",
+            "schema": {
+              "type": "blob",
+              "format": "file"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "$ref": "#/definitions/Voucher"
+            }
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/unlistVoucher/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "unlist a Voucher",
+        "description": "unlist voucher so that it will not show to user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass user Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/listVoucher/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "list a Voucher",
+        "description": "List back a voucher so that user can use the voucher",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass user Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/editVoucher": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Edit Voucher",
+        "description": "Edit or update Voucher details",
+        "parameters": [
+          {
+            "name": "code",
+            "description": "The voucher code",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "description": "The voucher name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "discount",
+            "description": "discount amount",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "points",
+            "description": "points required to redeem voucher",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "endDate",
+            "description": "end Date of voucher",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "date",
+              "format": "date"
+            }
+          },
+          {
+            "name": "image",
+            "description": "The image of voucher card",
+            "in": "body",
+            "schema": {
+              "type": "blob",
+              "format": "file"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A successful response"
+          },
+          "400": {
+            "description": "A Unsuccessful response"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getVoucher/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Show Voucher detail",
+        "description": "To show particular Voucher detail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "pass booking Id particular",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Voucher"
+              }
+            }
           }
         },
         "security": [
@@ -1216,8 +2188,8 @@
         "tags": [
           "Expert"
         ],
-        "summary": "To add Expert schedules",
-        "description": "update time schedules of expert",
+        "summary": "End Job",
+        "description": "to end the job and submit final invoice amount",
         "parameters": [
           {
             "name": "Id",

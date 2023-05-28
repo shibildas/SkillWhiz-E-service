@@ -270,7 +270,6 @@ module.exports.verifyExpert=async (req,res)=>{
 }
 module.exports.rejectExpert=async (req,res)=>{
     try {
-        console.log("here");
         const _id= req.params.id
         const {reason}= req.body
         await expertmodel.findByIdAndUpdate({_id},{$set:{identity:{status:"initial",reason:reason},isVerified:false}})
