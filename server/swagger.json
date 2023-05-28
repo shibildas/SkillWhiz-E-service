@@ -1,5 +1,11 @@
 {
   "swagger": "2.0",
+  "host":[
+    "https://skillapi.drtyre.co",", https://skillwhiz-api.drtyre.co"
+  ],
+  "schemes": [
+    "https://skillapi.drtyre.co","https://skillwhiz-api.drtyre.co"
+  ],
   "components": {
     "securitySchemes": {
       "BearerAuth": {
@@ -1443,6 +1449,72 @@
               "items": {
                 "type": "object",
                 "$ref": "#/definitions/Voucher"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getCardCounts": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get Counts",
+        "description": "to get counts for dashboard data",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userCount": {
+                  "type": "number"
+                },
+                "bookingCount": {
+                  "type": "number"
+                },
+                "cancelCount": {
+                  "type": "number"
+                },
+                "expertCount": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/getChartData": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get Chart data",
+        "description": "to get Chart data for Admin dashboard",
+        "responses": {
+          "200": {
+            "description": "A successful response",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "experts": {
+                  "type": "number"
+                },
+                "jobs": {
+                  "type": "number"
+                }
               }
             }
           }
