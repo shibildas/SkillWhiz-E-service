@@ -17,7 +17,6 @@ const reviewmodel = require("../Model/reviewSchema");
 
 module.exports.postSignUp = async (req, res,next) => {
   try {
-    console.log("something");
     const { username, email, password, mobile } = req.body;
     const user = await usermodel.findOne({ email });
 
@@ -51,7 +50,6 @@ module.exports.postSignUp = async (req, res,next) => {
       res.json({ status: "success", message: "signup success" });
     }
   } catch (error) {
-    console.log(error);
     res.status(400).json({ status: "failed", message: error.message });
   }
 };
@@ -287,7 +285,6 @@ module.exports.addAddress= async(req,res)=>{
     const user= await usermodel.findByIdAndUpdate({_id},{$addToSet:{address:{$each:[address]}}})
     res.json({"status":"success","message":"Address Added"})
   } catch (error) {
-    console.log(error);
     res.json({ status: "error", message: error.message });
   }
 }
@@ -314,7 +311,6 @@ module.exports.bookJob=async(req,res)=>{
       slots:{$in:[time]}
     })
     if(!expert){
-      console.log("no Expert");
       res.json({"status":"error","message":"no expert available"})
     }else{
       const updatedExpert= await expertmodel.findOneAndUpdate(
@@ -342,13 +338,11 @@ module.exports.bookJob=async(req,res)=>{
 
         })
 
-        console.log(booking);
         res.json({"status":"success",result:booking?._id})
       }
     }
     
   } catch (error) {
-    console.log(error);
     res.json({ status: "error", message: error.message });
   }
 }

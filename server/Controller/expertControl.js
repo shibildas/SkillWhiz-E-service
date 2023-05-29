@@ -143,7 +143,6 @@ module.exports.isExpertAuth = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.json({ auth: false, message: error.message });
   }
 };
@@ -177,7 +176,6 @@ module.exports.applyVerify = async (req, res) => {
       message: "Verification applied successfully",
     });
   } catch (error) {
-    console.log(error);
     res.json({ status: "error", message: error.message });
   }
 };
@@ -341,7 +339,6 @@ module.exports.editProfile = async (req, res) => {
       result: data,
     });
   } catch (error) {
-    console.log(error);
     res.json({ status: "error", message: error.message });
   }
 };
@@ -369,7 +366,6 @@ module.exports.getSchedule = async (req, res) => {
     });
     res.json({ status: "success", result: schedules });
   } catch (error) {
-    console.log(error);
     res.json({ status: "error", message: error.message });
   }
 };
@@ -389,7 +385,6 @@ module.exports.getAppointments = async (req, res) => {
 module.exports.getBookings = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
     const booking = await bookingmodel
       .findOne({ _id: id })
       .populate("userId", "-password")

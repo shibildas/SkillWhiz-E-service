@@ -143,8 +143,6 @@ module.exports.addJobs= async(req,res)=>{
 
 }
 module.exports.blockUser=async (req,res)=>{
-    console.log(req.params.id);
-    
     try {
         const _id= req.params.id
         await usermodel.findByIdAndUpdate({_id},{$set:{isBanned:true}})
