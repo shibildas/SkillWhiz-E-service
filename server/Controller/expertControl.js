@@ -113,6 +113,50 @@ module.exports.signin = async (req, res) => {
     });
   }
 };
+module.exports.reset= async (req,res)=>{
+  try {
+    const {mobile}= req.body
+  const expert = await expertmodel.findOne({ mobile: mobile })
+ if(expert){
+  client.verify.v2
+  .services(serviceSid)
+  .verifications.create({
+    to: `+91${mobile}`,
+    channel: "sms",
+  })
+  .then((ver) => {
+    console.log(ver.status);
+  }).catch((error) => {
+    res.json({ status: "Sending failed", message: error.message });
+  });
+  res.json({'status':'success'})
+ }else{
+  res.json({ status: "failed", message: "mobile not registersed" });
+
+ }
+    
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+    
+  }
+}
+module.exports.updatePass=async(req,res)=>{
+  try {
+    const {password}=req.body
+    const _id= req.expertId
+    const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password.trim(), salt);
+      const expertupdate = await expertmodel.findByIdAndUpdate(
+        { _id },
+        { $set: { password: hashPassword } }
+      );
+      res.json({ status: "success", result: expertupdate });
+    
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+    
+  }
+}
 
 module.exports.isExpertAuth = async (req, res) => {
   try {

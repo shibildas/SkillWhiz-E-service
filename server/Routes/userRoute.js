@@ -10,6 +10,8 @@ const {getVouchers, applyVoucher, unapplyVoucher}= require('../Controller/vouche
 router.post('/signup',userControl.postSignUp)
 router.post('/verify-otp',userControl.verifyOTP)
 router.post('/signin',userControl.signin)
+router.post('/reset',userControl.reset)
+router.post('/update',userProtect,userControl.updatePass)
 router.get('/isUserAuth',userProtect,userControl.isUserAuth)
 router.get('/get7Jobs',userControl.get7Jobs)
 router.get('/jobDetail/:id',userProtect,userControl.getJob)

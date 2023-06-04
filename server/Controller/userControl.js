@@ -111,6 +111,50 @@ module.exports.signin = async (req, res) => {
     });
   }
 };
+module.exports.reset= async (req,res)=>{
+  try {
+    const {mobile}= req.body
+  const user = await usermodel.findOne({ mobile: mobile }).populate({ path: 'vouchers', select: '-users' })
+ if(user){
+  client.verify.v2
+  .services(serviceSid)
+  .verifications.create({
+    to: `+91${mobile}`,
+    channel: "sms",
+  })
+  .then((ver) => {
+    console.log(ver.status);
+  }).catch((error) => {
+    res.json({ status: "Sending failed", message: error.message });
+  });
+  res.json({'status':'success'})
+ }else{
+  res.json({ status: "failed", message: "mobile not registersed" });
+
+ }
+    
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+    
+  }
+}
+module.exports.updatePass=async(req,res)=>{
+  try {
+    const {password}=req.body
+    const _id= req.userId
+    const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password.trim(), salt);
+      const userupdate = await usermodel.findByIdAndUpdate(
+        { _id },
+        { $set: { password: hashPassword } }
+      );
+      res.json({ status: "success", result: userupdate });
+    
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+    
+  }
+}
 
 module.exports.isUserAuth = async (req, res) => {
   try {

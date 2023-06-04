@@ -10,6 +10,8 @@ const {createReview,updateReview,sendEstimate,startJob,endJob}=require('../Contr
 router.post("/signup",expertControl.postregister)
 router.post("/verify-otp",expertControl.verify)
 router.post('/signin',expertControl.signin)
+router.post('/reset', expertControl.reset)
+router.post('/update',expertProtect,expertControl.updatePass)
 router.get('/isExpertAuth',expertProtect,expertControl.isExpertAuth)
 router.post("/initialVerify",expertProtect,upload.fields([{name:'front',maxCount:1},
 {name:'back',maxCount:1}]),expertControl.applyVerify)
