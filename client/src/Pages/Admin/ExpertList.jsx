@@ -12,55 +12,57 @@ import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 
 const ExpertList = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [expert, setExpert] = useState({});
   const [datas, handleLoad] = useGerExperts([]);
-  const [filterdDatas,setFilteredDatas]= useState([])
-  const [filter,setFilter]=useState(null)
-  const [data,setData]=useState({})
+  const [filterdDatas, setFilteredDatas] = useState([]);
+  const [filter, setFilter] = useState(null);
+  const [data, setData] = useState({});
   const arra = [0, 1, 2, 3, 4];
-  useEffect(()=>{
-    setFilteredDatas(datas)
-  },[datas])
+  useEffect(() => {
+    setFilteredDatas(datas);
+  }, [datas]);
   const handleBlock = () => {
-    
-    const confirmmodal= document.getElementById('confirm')
-        if (data?.isBanned) {
-          unBlockExpert(data?._id).then((res) => {
-            if (res.data.status === "success") {
-              handleLoad();
-              setData({})
-              confirmmodal.checked=false
-              showAlertSuccess(dispatch,"User has been unBlocked.")
-            }else{
-              showAlertError(dispatch,'something went wrong')
-            }
-          }).catch(error=>{
-            showAlertError(dispatch,error.message)
-          });
-        } else if (!data?.isBanned) {
-          blockExpert(data?._id).then((res) => {
-            if (res.data.status === "success") {
-              handleLoad();
-              setData({})
-              confirmmodal.checked=false
-             showAlertSuccess(dispatch,"User has been blocked.")
-            }else{
-              showAlertError(dispatch,'something went wrong')
-            }
-          }).catch(error=>{
-            showAlertError(dispatch,error.message)
-          });
-        }
-     
+    const confirmmodal = document.getElementById("confirm");
+    if (data?.isBanned) {
+      unBlockExpert(data?._id)
+        .then((res) => {
+          if (res.data.status === "success") {
+            handleLoad();
+            setData({});
+            confirmmodal.checked = false;
+            showAlertSuccess(dispatch, "User has been unBlocked.");
+          } else {
+            showAlertError(dispatch, "something went wrong");
+          }
+        })
+        .catch((error) => {
+          showAlertError(dispatch, error.message);
+        });
+    } else if (!data?.isBanned) {
+      blockExpert(data?._id)
+        .then((res) => {
+          if (res.data.status === "success") {
+            handleLoad();
+            setData({});
+            confirmmodal.checked = false;
+            showAlertSuccess(dispatch, "User has been blocked.");
+          } else {
+            showAlertError(dispatch, "something went wrong");
+          }
+        })
+        .catch((error) => {
+          showAlertError(dispatch, error.message);
+        });
+    }
   };
-  const handleFilters=(args)=>{
-    setFilter(args)
-  }
-  const handleSearch=(searchText)=>{
-    const data=filterUsers([searchText,filter],datas)
-    setFilteredDatas(data)
-  }
+  const handleFilters = (args) => {
+    setFilter(args);
+  };
+  const handleSearch = (searchText) => {
+    const data = filterUsers([searchText, filter], datas);
+    setFilteredDatas(data);
+  };
 
   return (
     <>
@@ -69,7 +71,11 @@ const ExpertList = () => {
           Experts
         </h1>
         <div className="flex justify-center mb-2">
-          <Search handleSearch={handleSearch} filterList={['Name','E-mail','Mobile']} setFilter={handleFilters}/>
+          <Search
+            handleSearch={handleSearch}
+            filterList={["Name", "E-mail", "Mobile"]}
+            setFilter={handleFilters}
+          />
         </div>
         <div className="overflow-x-auto w-full shadow-black shadow-2xl rounded-xl ">
           <table className="table w-full ">
@@ -128,12 +134,17 @@ const ExpertList = () => {
                           <br />
                           <span className="max-w-screen-sm flex flex-wrap">
                             {data?.skills.map((ele) => {
-                              return(<h1 className="break-all badge font-semibold badge-sm p-1 m-1">{ele.job_role?.toUpperCase() }</h1>) ;
+                              return (
+                                <h1 className="break-all badge font-semibold badge-sm p-1 m-1">
+                                  {ele.job_role?.toUpperCase()}
+                                </h1>
+                              );
                             })}
                           </span>
                         </td>
                         <td>
-                          <label htmlFor="confirm"
+                          <label
+                            htmlFor="confirm"
                             onClick={() => {
                               setData(data);
                             }}
@@ -211,7 +222,7 @@ const ExpertList = () => {
       </div>
       <EditExpert expert={expert} handleLoad={handleLoad} />
       <AddSlots expert={expert} handleLoad={handleLoad} />
-      <Confirm handleFunction={handleBlock}/>
+      <Confirm handleFunction={handleBlock} />
     </>
   );
 };

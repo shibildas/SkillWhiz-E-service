@@ -59,7 +59,7 @@ const ManageBooking = () => {
       <div className="p-6 ">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-semibold underline underline-offset-4">
-            {booking?.jobId?.job_role?.toUpperCase()} with {" "}
+            {booking?.jobId?.job_role?.toUpperCase()} with{" "}
             {booking?.expertId?.username?.toUpperCase()}
           </h2>
           <div className="flex items-center space-x-4">
@@ -239,7 +239,8 @@ const ManageBooking = () => {
         jobId={booking?.jobId}
         handleLoad={handleLoad}
       />
-      <Estimate book={booking?.status}
+      <Estimate
+        book={booking?.status}
         admin={true}
         address={booking?.address}
         user={booking?.userId}

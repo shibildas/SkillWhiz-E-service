@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  type: '',
-  message: '',
-  icon:"",
-  show: false
+  type: "",
+  message: "",
+  icon: "",
+  show: false,
 };
 
 const alertSlice = createSlice({
-  name: 'alert',
+  name: "alert",
   initialState,
   reducers: {
     setAlert: (state, action) => {
@@ -18,12 +18,11 @@ const alertSlice = createSlice({
       state.show = true;
     },
     clearAlert: (state) => {
-      state.type = '';
-      state.message = '';
-      state.icon='',
-      state.show = false;
-    }
-  }
+      state.type = "";
+      state.message = "";
+      (state.icon = ""), (state.show = false);
+    },
+  },
 });
 
 export const { setAlert, clearAlert } = alertSlice.actions;

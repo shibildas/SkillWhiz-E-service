@@ -16,26 +16,25 @@ const AppointmentDetail = () => {
   const { id } = useParams();
   const [load, setLoad] = useState(false);
 
-
   const handleLoad = () => {
     setLoad(!load);
   };
   useEffect(() => {
-    getExpertBooking(id).then((res) => {
+    getExpertBooking(id)
+      .then((res) => {
         if (res.data.status === "success") {
           dispatch(addBooking(res.data.result));
         } else {
-          showAlertError(dispatch,"NetworkError")
+          showAlertError(dispatch, "NetworkError");
         }
       })
       .catch((error) => {
-        showAlertError(dispatch,error.message)
+        showAlertError(dispatch, error.message);
       });
   }, [load]);
 
   return (
     <>
-      
       <div className="bg-slate-500 p-2 mt-5 rounded-t-xl flex justify-center">
         <h1 className="text-xl md:text-3xl font-extrabold text-white p-3">
           Appointment Detail
@@ -49,46 +48,50 @@ const AppointmentDetail = () => {
           <li data-content="⛹" className="step step-secondary">
             Partner Assigned
           </li>
-         { book?.status !== "cancelled" && <><li
-            data-content="⏲"
-            className={`step ${
-              book?.estimate?.status === "approved" && "step-secondary"
-            } ${book?.status === "completed" && "step-secondary"} ${
-              book?.status === "invoiced" && "step-secondary"
-            } ${book?.status === "closed" && "step-secondary"}
+          {book?.status !== "cancelled" && (
+            <>
+              <li
+                data-content="⏲"
+                className={`step ${
+                  book?.estimate?.status === "approved" && "step-secondary"
+                } ${book?.status === "completed" && "step-secondary"} ${
+                  book?.status === "invoiced" && "step-secondary"
+                } ${book?.status === "closed" && "step-secondary"}
               
               `}
-          >
-            In Progress
-          </li>
-          <li
-            data-content="✔"
-            className={`step ${
-              book?.status === "completed" && "step-secondary"
-            } ${book?.status === "invoiced" && "step-secondary"} ${
-              book?.status === "closed" && "step-secondary"
-            }`}
-          >
-            Completed
-          </li>
-          <li
-            data-content="🗐"
-            className={`step ${
-              book?.status === "completed" && "step-secondary"
-            } ${book?.status === "invoiced" && "step-secondary"} ${
-              book?.status === "closed" && "step-secondary"
-            }`}
-          >
-            invoiced
-          </li>
-          <li
-            data-content="📪"
-            className={`step ${
-              book?.status === "completed" && "step-secondary"
-            } ${book?.status === "closed" && "step-secondary"}`}
-          >
-            Closed
-          </li></>}
+              >
+                In Progress
+              </li>
+              <li
+                data-content="✔"
+                className={`step ${
+                  book?.status === "completed" && "step-secondary"
+                } ${book?.status === "invoiced" && "step-secondary"} ${
+                  book?.status === "closed" && "step-secondary"
+                }`}
+              >
+                Completed
+              </li>
+              <li
+                data-content="🗐"
+                className={`step ${
+                  book?.status === "completed" && "step-secondary"
+                } ${book?.status === "invoiced" && "step-secondary"} ${
+                  book?.status === "closed" && "step-secondary"
+                }`}
+              >
+                invoiced
+              </li>
+              <li
+                data-content="📪"
+                className={`step ${
+                  book?.status === "completed" && "step-secondary"
+                } ${book?.status === "closed" && "step-secondary"}`}
+              >
+                Closed
+              </li>
+            </>
+          )}
           {book?.status === "cancelled" && (
             <li data-content="🗙" className="step step-secondary">
               Cancelled
@@ -135,14 +138,20 @@ const AppointmentDetail = () => {
               {" "}
               {book?.estimate?.amount ? (
                 `Rs: ${book?.estimate?.amount}`
-              ) : (
-                (book?.status !== "cancelled"?<label htmlFor="addEstimate" className="btn btn-secondary">
+              ) : book?.status !== "cancelled" ? (
+                <label htmlFor="addEstimate" className="btn btn-secondary">
                   Add Estimate{" "}
-                </label>: 'Nil')
+                </label>
+              ) : (
+                "Nil"
               )}
             </h1>
           </div>
-          {book?.estimate?.reason&&<div className="text-lg p-2">Rejected Reason: {book?.estimate?.reason}</div>}
+          {book?.estimate?.reason && (
+            <div className="text-lg p-2">
+              Rejected Reason: {book?.estimate?.reason}
+            </div>
+          )}
           <div className="divider "></div>
           {book?.estimate?.status === "approved" &&
             book?.status === "pending" && (
@@ -154,11 +163,11 @@ const AppointmentDetail = () => {
                 </label>{" "}
               </div>
             )}
-            {(book?.status === "started" ||
-              book?.status === "invoiced" ||
-              book?.status === "closed") && (
-                <>
-                <div className="flex justify-between   font-semibold p-2 flex-wrap">
+          {(book?.status === "started" ||
+            book?.status === "invoiced" ||
+            book?.status === "closed") && (
+            <>
+              <div className="flex justify-between   font-semibold p-2 flex-wrap">
                 <h1 className="text-xl">Job Started at:</h1>{" "}
                 <div>
                   <h1>
@@ -172,12 +181,11 @@ const AppointmentDetail = () => {
                       End job
                     </label>
                   )}
-          </div>
                 </div>
-                <div className="divider "></div>
-              </>
-            )}
-            
+              </div>
+              <div className="divider "></div>
+            </>
+          )}
           {(book?.status === "completed" ||
             book?.status === "invoiced" ||
             book?.status === "closed") && (
@@ -214,16 +222,18 @@ const AppointmentDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {(!book?.review?._id &&(book?.status==='invoiced'|| book?.status==='closed'))&& (
-            <Review
-              user={false}
-              reviewBy={book?.expert?._id}
-              myId={book?.userId?._id}
-              jobId={book?.jobId?._id}
-              bookId={book?._id}
-              handleLoad={handleLoad}
-            />
-          )} {book?.review?._id && (
+          {!book?.review?._id &&
+            (book?.status === "invoiced" || book?.status === "closed") && (
+              <Review
+                user={false}
+                reviewBy={book?.expert?._id}
+                myId={book?.userId?._id}
+                jobId={book?.jobId?._id}
+                bookId={book?._id}
+                handleLoad={handleLoad}
+              />
+            )}{" "}
+          {book?.review?._id && (
             <>
               <ViewReview
                 handleLoad={handleLoad}
@@ -235,7 +245,12 @@ const AppointmentDetail = () => {
           )}
         </div>
       </div>
-      <AddEstimate admin={false} bookId={id} jobId={book?.jobId} handleLoad={handleLoad} />
+      <AddEstimate
+        admin={false}
+        bookId={id}
+        jobId={book?.jobId}
+        handleLoad={handleLoad}
+      />
       <Startjob id={id} handleLoad={handleLoad} admin={false} />
       <EndJob booking={book} handleLoad={handleLoad} admin={false} />
     </>

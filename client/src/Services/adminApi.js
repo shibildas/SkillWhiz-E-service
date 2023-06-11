@@ -10,7 +10,7 @@ const getBookingBy = (id) => {
   return adminAxiosInstance.get(`/getBooking/${id}`);
 };
 const login = (email, password) => {
-  return adminAxiosInstance.post("/", {email, password });
+  return adminAxiosInstance.post("/", { email, password });
 };
 const blockExpert = (id) => {
   return adminAxiosInstance.get(`/blockExpert/${id}`);
@@ -75,51 +75,51 @@ const editUser = (formData) => {
     },
   });
 };
-const sendAdminEstimate=(data)=>{
-  return adminAxiosInstance.post('/addEstimate',data)
-}
-const adminApproveEstimate=(id)=>{
-  return  adminAxiosInstance.get(`/approveEstimate/${id}`)
-}
-const adminStartJob=(id)=>{
-  return adminAxiosInstance.get(`/startJob/${id}`)
-}
-const adminEndJob=(parts,hours,total,id)=>{
-  return adminAxiosInstance.post('/endJob',{parts,hours,total,id})
-}
-const adminPay=(data)=>{
-  return adminAxiosInstance.post('/adminPay',data)
-}
-const adminDecline=(data)=>{
-  return adminAxiosInstance.post('/decline',data)
-}
-const adminCancelBook=(data)=>{
-  return adminAxiosInstance.post('/cancelBooking',data)
-}
-const getCounts=()=>{
-  return adminAxiosInstance.get('/getCardCounts')
-}
-const getChartData=()=>{
-  return adminAxiosInstance.get('/getChartData')
-}
-const getVouchers=()=>{
-  return adminAxiosInstance.get('/getVouchers')
-}
-const addVoucher=(data)=>{
-  return adminAxiosInstance.post('/addVoucher',data)
-}
-const getThisVoucher=(id)=>{
-  return adminAxiosInstance.get(`/getVoucher/${id}`)
-}
-const unListVoucher=(id)=>{
-  return adminAxiosInstance.get(`/unlistVoucher/${id}`)
-}
-const listVoucher=(id)=>{
-  return adminAxiosInstance.get(`/listVoucher/${id}`)
-}
-const editVoucher=(data)=>{
-  return adminAxiosInstance.post('/editVoucher',data)
-}
+const sendAdminEstimate = (data) => {
+  return adminAxiosInstance.post("/addEstimate", data);
+};
+const adminApproveEstimate = (id) => {
+  return adminAxiosInstance.get(`/approveEstimate/${id}`);
+};
+const adminStartJob = (id) => {
+  return adminAxiosInstance.get(`/startJob/${id}`);
+};
+const adminEndJob = (parts, hours, total, id) => {
+  return adminAxiosInstance.post("/endJob", { parts, hours, total, id });
+};
+const adminPay = (data) => {
+  return adminAxiosInstance.post("/adminPay", data);
+};
+const adminDecline = (data) => {
+  return adminAxiosInstance.post("/decline", data);
+};
+const adminCancelBook = (data) => {
+  return adminAxiosInstance.post("/cancelBooking", data);
+};
+const getCounts = () => {
+  return adminAxiosInstance.get("/getCardCounts");
+};
+const getChartData = () => {
+  return adminAxiosInstance.get("/getChartData");
+};
+const getVouchers = () => {
+  return adminAxiosInstance.get("/getVouchers");
+};
+const addVoucher = (data) => {
+  return adminAxiosInstance.post("/addVoucher", data);
+};
+const getThisVoucher = (id) => {
+  return adminAxiosInstance.get(`/getVoucher/${id}`);
+};
+const unListVoucher = (id) => {
+  return adminAxiosInstance.get(`/unlistVoucher/${id}`);
+};
+const listVoucher = (id) => {
+  return adminAxiosInstance.get(`/listVoucher/${id}`);
+};
+const editVoucher = (data) => {
+  return adminAxiosInstance.post("/editVoucher", data);
+};
 
 export {
   editVoucher,

@@ -37,40 +37,42 @@ const getAllJobs = () => {
   return userAxiosInstance.get("/getAllJobs");
 };
 const bookJobs = (data) => {
-  return userAxiosInstance.post("/bookJob", data );
+  return userAxiosInstance.post("/bookJob", data);
 };
-const getAddress=()=>{
-  return userAxiosInstance.get('/address')
-}
-const addAddress=(data)=>{
-  return  userAxiosInstance.post('/addAddress',data)
-}
-const getAllVouchers=()=>{
-  return userAxiosInstance.get('/getvouchers')
-}
-const redeemVoucher=(data)=>{
-  return userAxiosInstance.post('/redeemVoucher',data)
-}
-const applyVoucher=(data)=>{
-  return userAxiosInstance.post('/applyVoucher',data)
-}
-const removeVoucher=(data)=>{
-  return userAxiosInstance.post('/removeVoucher',data)
-}
+const getAddress = () => {
+  return userAxiosInstance.get("/address");
+};
+const addAddress = (data) => {
+  return userAxiosInstance.post("/addAddress", data);
+};
+const getAllVouchers = () => {
+  return userAxiosInstance.get("/getvouchers");
+};
+const redeemVoucher = (data) => {
+  return userAxiosInstance.post("/redeemVoucher", data);
+};
+const applyVoucher = (data) => {
+  return userAxiosInstance.post("/applyVoucher", data);
+};
+const removeVoucher = (data) => {
+  return userAxiosInstance.post("/removeVoucher", data);
+};
 const verifyCancel = (response, bookId) => {
   return userAxiosInstance.post("/verifyCancel", { ...response, bookId });
 };
-const editProfileApi=(formData)=>{
-  return userAxiosInstance.post("/editProfile",formData,{headers:{
-    "Content-Type": "multipart/form-data",
-}})
-}
-const updatePassword=(data)=>{
-  return userAxiosInstance.post('/updatePassword',data)
-}
-const userReverify=(data)=>{
-  return userAxiosInstance.post("/reVerify-otp",data)
-}
+const editProfileApi = (formData) => {
+  return userAxiosInstance.post("/editProfile", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+const updatePassword = (data) => {
+  return userAxiosInstance.post("/updatePassword", data);
+};
+const userReverify = (data) => {
+  return userAxiosInstance.post("/reVerify-otp", data);
+};
 
 export {
   userReverify,
@@ -83,7 +85,7 @@ export {
   getAllVouchers,
   addAddress,
   getAddress,
-   bookJobs,
+  bookJobs,
   getAllJobs,
   userCancelBook,
   userDecline,

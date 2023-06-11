@@ -18,7 +18,9 @@ module.exports.postregister = async (req, res, next) => {
     const user = await expertmodel.findOne({ email });
     const mob = await expertmodel.findOne({ mobile });
     if (user || mob) {
-      res.status(401).json({ status: "failed", message: "User already exist login now" });
+      res
+        .status(401)
+        .json({ status: "failed", message: "User already exist login now" });
     } else {
       client.verify.v2
         .services(serviceSid)
@@ -54,7 +56,7 @@ module.exports.verify = async (req, res) => {
       .services(serviceSid)
       .verificationChecks.create({ to: `+91${mobile}`, code: otp });
     if (ver_check.status === "approved") {
-      const expert=await expertmodel.findOneAndUpdate(
+      const expert = await expertmodel.findOneAndUpdate(
         { mobile: mobile },
         { $set: { isBanned: false } }
       );
@@ -113,50 +115,46 @@ module.exports.signin = async (req, res) => {
     });
   }
 };
-module.exports.reset= async (req,res)=>{
+module.exports.reset = async (req, res) => {
   try {
-    const {mobile}= req.body
-  const expert = await expertmodel.findOne({ mobile: mobile })
- if(expert){
-  client.verify.v2
-  .services(serviceSid)
-  .verifications.create({
-    to: `+91${mobile}`,
-    channel: "sms",
-  })
-  .then((ver) => {
-    console.log(ver.status);
-  }).catch((error) => {
-    res.json({ status: "Sending failed", message: error.message });
-  });
-  res.json({'status':'success'})
- }else{
-  res.json({ status: "failed", message: "mobile not registersed" });
-
- }
-    
+    const { mobile } = req.body;
+    const expert = await expertmodel.findOne({ mobile: mobile });
+    if (expert) {
+      client.verify.v2
+        .services(serviceSid)
+        .verifications.create({
+          to: `+91${mobile}`,
+          channel: "sms",
+        })
+        .then((ver) => {
+          console.log(ver.status);
+        })
+        .catch((error) => {
+          res.json({ status: "Sending failed", message: error.message });
+        });
+      res.json({ status: "success" });
+    } else {
+      res.json({ status: "failed", message: "mobile not registersed" });
+    }
   } catch (error) {
     res.json({ status: "error", message: error.message });
-    
   }
-}
-module.exports.updatePass=async(req,res)=>{
+};
+module.exports.updatePass = async (req, res) => {
   try {
-    const {password}=req.body
-    const _id= req.expertId
+    const { password } = req.body;
+    const _id = req.expertId;
     const salt = await bcrypt.genSalt(10);
-      const hashPassword = await bcrypt.hash(password.trim(), salt);
-      const expertupdate = await expertmodel.findByIdAndUpdate(
-        { _id },
-        { $set: { password: hashPassword } }
-      );
-      res.json({ status: "success", result: expertupdate });
-    
+    const hashPassword = await bcrypt.hash(password.trim(), salt);
+    const expertupdate = await expertmodel.findByIdAndUpdate(
+      { _id },
+      { $set: { password: hashPassword } }
+    );
+    res.json({ status: "success", result: expertupdate });
   } catch (error) {
     res.json({ status: "error", message: error.message });
-    
   }
-}
+};
 
 module.exports.isExpertAuth = async (req, res) => {
   try {
@@ -434,10 +432,17 @@ module.exports.getBookings = async (req, res) => {
       .populate("userId", "-password")
       .populate("expertId", "-password")
       .populate("jobId")
-      .select("-userId.password -expertId.password -expertId.slots -estimate.parts._id");
-      const expertId=booking.expertId._id
-    const review= await reviewmodel.findOne({bookId:id,reviewBy:expertId}).select('rating message')
-    res.json({ status: "success", result: {...booking?.toObject(),review:review?.toObject()} });
+      .select(
+        "-userId.password -expertId.password -expertId.slots -estimate.parts._id"
+      );
+    const expertId = booking.expertId._id;
+    const review = await reviewmodel
+      .findOne({ bookId: id, reviewBy: expertId })
+      .select("rating message");
+    res.json({
+      status: "success",
+      result: { ...booking?.toObject(), review: review?.toObject() },
+    });
   } catch (error) {
     res.json({ status: "error", message: error.message });
   }
@@ -459,87 +464,87 @@ module.exports.startJob = async (req, res) => {
     res.json({ status: "error", message: error.message });
   }
 };
-module.exports.getContacts=async(req,res)=>{
+module.exports.getContacts = async (req, res) => {
   try {
-    const id=req.expertId
+    const id = req.expertId;
     const pipeline = [
       {
-        $match: { expertId: new mongoose.Types.ObjectId(id) }
+        $match: { expertId: new mongoose.Types.ObjectId(id) },
       },
       {
         $lookup: {
-          from: 'users',
-          localField: 'userId',
-          foreignField: '_id',
-          as: 'user'
-        }
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
       },
       {
-        $unwind: '$user'
+        $unwind: "$user",
       },
       {
         $group: {
-          _id: '$_id',
+          _id: "$_id",
           id: {
-            $first: '$user._id'
+            $first: "$user._id",
           },
           email: {
-            $first: '$user.email'
+            $first: "$user.email",
           },
           username: {
-            $first: '$user.username'
+            $first: "$user.username",
           },
           mobile: {
-            $first: '$user.mobile'
+            $first: "$user.mobile",
           },
           image: {
-            $first: '$user.image'
+            $first: "$user.image",
           },
           bookingId: {
-            $first: '$_id'
-          }
-        }
+            $first: "$_id",
+          },
+        },
       },
       {
         $group: {
-          _id: '$email',
+          _id: "$email",
           id: {
-            $first: '$id'
+            $first: "$id",
           },
           email: {
-            $first: '$email'
+            $first: "$email",
           },
           username: {
-            $first: '$username'
+            $first: "$username",
           },
           mobile: {
-            $first: '$mobile'
+            $first: "$mobile",
           },
           image: {
-            $first: '$image'
+            $first: "$image",
           },
           bookings: {
             $push: {
-              bookingId: '$bookingId'
-            }
-          }
-        }
+              bookingId: "$bookingId",
+            },
+          },
+        },
       },
       {
         $project: {
           _id: 0,
-          id:1,
+          id: 1,
           email: 1,
           username: 1,
           mobile: 1,
-          image:1,
-          bookings: 1
-        }
-      }
+          image: 1,
+          bookings: 1,
+        },
+      },
     ];
-const bookings = await bookingmodel.aggregate(pipeline);
-    res.json({"status":"success",result:bookings})
+    const bookings = await bookingmodel.aggregate(pipeline);
+    res.json({ status: "success", result: bookings });
   } catch (error) {
-     res.status(400).json({message:error.message})
+    res.status(400).json({ message: error.message });
   }
-}
+};

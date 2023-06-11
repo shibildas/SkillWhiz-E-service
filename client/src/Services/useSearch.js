@@ -59,33 +59,31 @@ export function filterbooking([searchText, filter], datas) {
       return datas;
   }
 }
-export function filterUsers([searchText, filter], datas){
- switch (parseInt(filter)) {
+export function filterUsers([searchText, filter], datas) {
+  switch (parseInt(filter)) {
     case 1:
-        return datas.filter((content) =>
+      return datas.filter((content) =>
         content?.username.toLowerCase().includes(searchText.toLowerCase())
       );
     case 2:
-        return datas.filter((content) =>
+      return datas.filter((content) =>
         content?.email.toLowerCase().includes(searchText.toLowerCase())
       );
     case 3:
-        return datas.filter((content) =>
-        content?.mobile.includes(searchText)
-      );
- 
+      return datas.filter((content) => content?.mobile.includes(searchText));
+
     default:
-        return datas;
- }
+      return datas;
+  }
 }
 
-export function filterJobs([searchText, filter], datas){
-    switch (parseInt(filter)) {
-        case 1:
-            return datas.filter((content) =>
-            content?.job_role?.toLowerCase().includes(searchText.toLowerCase())
-          );
-          default:
-            return datas;
-}
+export function filterJobs([searchText, filter], datas) {
+  switch (parseInt(filter)) {
+    case 1:
+      return datas.filter((content) =>
+        content?.job_role?.toLowerCase().includes(searchText.toLowerCase())
+      );
+    default:
+      return datas;
+  }
 }

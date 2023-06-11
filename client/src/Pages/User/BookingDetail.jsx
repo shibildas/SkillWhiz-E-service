@@ -4,20 +4,30 @@ import { userAxiosInstance } from "../../axios/instance";
 import { useDispatch, useSelector } from "react-redux";
 import Estimate from "../../Components/Estimate/Estimate";
 import { addBooking, login } from "../../redux/user";
-import { applyVoucher, payOnline, removeVoucher, verifyCancel, verifyPayment } from "../../Services/userApi";
-import { showAlertError, showAlertSuccess, showAlertWarning } from "../../Services/showAlert";
+import {
+  applyVoucher,
+  payOnline,
+  removeVoucher,
+  verifyCancel,
+  verifyPayment,
+} from "../../Services/userApi";
+import {
+  showAlertError,
+  showAlertSuccess,
+  showAlertWarning,
+} from "../../Services/showAlert";
 import Review from "../../Components/Review/Review";
 import ViewReview from "../../Components/Review/ViewReview";
 import CancelBook from "../../Components/CancelBooking/CancelBook";
 import Alert from "../../Components/Alert/Alert";
-import Confirm from '../../Components/Confirm/Confirm'
+import Confirm from "../../Components/Confirm/Confirm";
 
 const BookingDetail = () => {
   const dispatch = useDispatch();
   const option = useSelector((state) => state.user.value.vouchers);
   const book = useSelector((state) => state.user.value.bookings);
   const { id } = useParams();
-  const [show,setShow]=useState(true)
+  const [show, setShow] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState({});
   const [load, setLoad] = useState(false);
@@ -73,13 +83,15 @@ const BookingDetail = () => {
   }
   const handlePayment = async () => {
     try {
-      const { data } = await payOnline((book?.bill_amount)-(book?.discount || 0));
+      const { data } = await payOnline(
+        book?.bill_amount - (book?.discount || 0)
+      );
       initPayment(data.data);
     } catch (error) {
       showAlertError(dispatch, error.message);
     }
   };
-  const initCancel =(data)=>{
+  const initCancel = (data) => {
     const options = {
       key: "rzp_test_CBA26h7xqNYbSQ",
       amount: data.amount,
@@ -89,10 +101,10 @@ const BookingDetail = () => {
       order_id: data.id,
       handler: async (response) => {
         try {
-          const confirmmodal= document.getElementById('confirm')
+          const confirmmodal = document.getElementById("confirm");
           const { data } = await verifyCancel(response, id);
           if (data) {
-            confirmmodal.checked=false
+            confirmmodal.checked = false;
             handleLoad();
             showAlertSuccess(dispatch, "Payment success");
           }
@@ -106,16 +118,15 @@ const BookingDetail = () => {
     };
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
-
-  }
-  const handleCancel= async ()=>{
+  };
+  const handleCancel = async () => {
     try {
-      const {data} = await payOnline(((book?.estimate.amount)*.2)) 
-      initCancel(data.data)
+      const { data } = await payOnline(book?.estimate.amount * 0.2);
+      initCancel(data.data);
     } catch (error) {
       showAlertError(dispatch, error.message);
     }
-  }
+  };
   const handleApply = () => {
     if (!selectedOption?._id) {
       showAlertError(dispatch, "Select a voucher to apply");
@@ -139,21 +150,22 @@ const BookingDetail = () => {
         });
     }
   };
-  const handleRemove=()=>{
-    removeVoucher({id:book?.voucherId?._id,bookId:id}).then((res)=>{
-      if(res.data.status==='success'){
-        dispatch(login(res.data.result))
-        showAlertWarning(dispatch,"Voucher removed")
-        setShow(true)
-        handleLoad()
-      }else{
-        showAlertError(dispatch," something Went Wrong")
-      }
-    }).catch(error=>{
-      showAlertError(dispatch, error.message);
-    })
-
-  }
+  const handleRemove = () => {
+    removeVoucher({ id: book?.voucherId?._id, bookId: id })
+      .then((res) => {
+        if (res.data.status === "success") {
+          dispatch(login(res.data.result));
+          showAlertWarning(dispatch, "Voucher removed");
+          setShow(true);
+          handleLoad();
+        } else {
+          showAlertError(dispatch, " something Went Wrong");
+        }
+      })
+      .catch((error) => {
+        showAlertError(dispatch, error.message);
+      });
+  };
   return (
     <>
       <div className="bg-slate-700 p-2 mt-5 rounded-t-xl flex justify-center">
@@ -303,33 +315,38 @@ const BookingDetail = () => {
               <div className="divider "></div>
             </>
           )}
-          {(book?.status === "pending" && book?.estimate.status==='pending' )&& (
-            <>
-              <div className="flex justify-between   font-semibold p-2 flex-wrap">
-                <h1 className="text-xl">Not Happy?</h1>{" "}
-                <div>
-                  <label className="btn btn-error" htmlFor="cancelBook">
-                    Cancel Job
-                  </label>
+          {book?.status === "pending" &&
+            book?.estimate.status === "pending" && (
+              <>
+                <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                  <h1 className="text-xl">Not Happy?</h1>{" "}
+                  <div>
+                    <label className="btn btn-error" htmlFor="cancelBook">
+                      Cancel Job
+                    </label>
+                  </div>
                 </div>
-              </div>
-              <div className="divider "></div>
-            </>
-          )}
-          {(book?.status === "pending" && book?.estimate?.status==='approved') &&  (
-            <>
-              <div className="flex justify-between   font-semibold p-2 flex-wrap">
-                <h1 className="text-xl">Not Happy?</h1>{" "}
-                <div>
-                  <label className="btn btn-error" htmlFor="confirm">
-                    Cancel Job
-                  </label>
+                <div className="divider "></div>
+              </>
+            )}
+          {book?.status === "pending" &&
+            book?.estimate?.status === "approved" && (
+              <>
+                <div className="flex justify-between   font-semibold p-2 flex-wrap">
+                  <h1 className="text-xl">Not Happy?</h1>{" "}
+                  <div>
+                    <label className="btn btn-error" htmlFor="confirm">
+                      Cancel Job
+                    </label>
+                  </div>
                 </div>
-              </div>
-              <div>** You will be charged 20% of estimate amount if you cancel the job now on</div>
-              <div className="divider "></div>
-            </>
-          )}
+                <div>
+                  ** You will be charged 20% of estimate amount if you cancel
+                  the job now on
+                </div>
+                <div className="divider "></div>
+              </>
+            )}
           {(book?.status === "started" ||
             book?.status === "completed" ||
             book?.status === "invoiced" ||
@@ -425,7 +442,7 @@ const BookingDetail = () => {
                       </div>
                     </div>
                   )}
-                  {(book?.status === "completed"  ) && !book?.voucherId?._id && (
+                  {book?.status === "completed" && !book?.voucherId?._id && (
                     <label
                       className="btn m-2 btn-success"
                       onClick={handleApply}
@@ -433,26 +450,48 @@ const BookingDetail = () => {
                       Apply
                     </label>
                   )}{" "}
-                  {book?.voucherId?._id && <div className="card image-full">
-                    <figure>
-                      <img src={book?.voucherId?.image} alt="image" />
-                    </figure>
-                    {show?<div className="card-body">
-                      <h2 className="card-title">
-                        {book?.voucherId?.vouchername}
-                      </h2>
-                      <h2 className="card-title text-2xl">
-                        Rs. {book?.voucherId?.discount}
-                      </h2>
-                      <div className="card-actions justify-end">
-                       
-                       {book?.status === "completed" && <button className="btn btn-warning" onClick={()=>setShow(false)}>Remove</button>}
-                      </div>
-                    </div>:<div className="card-body rounded-xl">
-                        <button className="btn btn-success my-auto" onClick={()=>setShow(true)} >Cancel</button>
-                        <button className="btn btn-error my-auto" onClick={handleRemove}>Remove</button>
-                      </div>}
-                  </div>}
+                  {book?.voucherId?._id && (
+                    <div className="card image-full">
+                      <figure>
+                        <img src={book?.voucherId?.image} alt="image" />
+                      </figure>
+                      {show ? (
+                        <div className="card-body">
+                          <h2 className="card-title">
+                            {book?.voucherId?.vouchername}
+                          </h2>
+                          <h2 className="card-title text-2xl">
+                            Rs. {book?.voucherId?.discount}
+                          </h2>
+                          <div className="card-actions justify-end">
+                            {book?.status === "completed" && (
+                              <button
+                                className="btn btn-warning"
+                                onClick={() => setShow(false)}
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="card-body rounded-xl">
+                          <button
+                            className="btn btn-success my-auto"
+                            onClick={() => setShow(true)}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="btn btn-error my-auto"
+                            onClick={handleRemove}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>{" "}
               </div>
               <Alert />
@@ -467,9 +506,11 @@ const BookingDetail = () => {
                 {" "}
                 <h1 className="text-xl">Invoice Amount</h1>{" "}
                 <div className="">
-                  <h1 className="">Invoice : ₹ {(book?.bill_amount)}</h1>
-                  <h1 className="">Discount : - ₹ {(book?.discount || 0)}</h1>
-                  <h1 className="text-xl font-semibold">Total : ₹ {(book?.bill_amount)-(book?.discount || 0)}</h1>
+                  <h1 className="">Invoice : ₹ {book?.bill_amount}</h1>
+                  <h1 className="">Discount : - ₹ {book?.discount || 0}</h1>
+                  <h1 className="text-xl font-semibold">
+                    Total : ₹ {book?.bill_amount - (book?.discount || 0)}
+                  </h1>
                   {book?.status === "completed" && (
                     <label
                       className="btn m-2 btn-warning"
@@ -515,7 +556,7 @@ const BookingDetail = () => {
         id={id}
         handleLoad={handleLoad}
       />
-      <Confirm handleFunction={handleCancel}/>
+      <Confirm handleFunction={handleCancel} />
       <CancelBook admin={false} handleLoad={handleLoad} id={id} />
     </>
   );

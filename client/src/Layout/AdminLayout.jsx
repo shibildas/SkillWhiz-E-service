@@ -10,9 +10,9 @@ const AdminLayout = () => {
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content border p-2 bg-slate-200">
           <div className="mx-auto">
-            <Alert/>
-          <Outlet/>
-        </div>
+            <Alert />
+            <Outlet />
+          </div>
         </div>
         <Sidebar />
       </div>

@@ -26,9 +26,9 @@ const BookingList = () => {
     <>
       <div className="bg-purple-400 card bg-opacity-90 my-5">
         <div className="card-body">
-        <h1 className="text-center md:text-3xl text-xl font-extrabold">
-          My Bookings
-        </h1>
+          <h1 className="text-center md:text-3xl text-xl font-extrabold">
+            My Bookings
+          </h1>
           <div className="flex flex-wrap justify-center md:mt-10">
             {booking?.length
               ? booking?.map((ele, index) => {
@@ -51,9 +51,16 @@ const BookingList = () => {
                           Time: <b>{ele?.slot}</b>
                         </p>
                         <div className="card-actions justify-end">
-                         {(moment(ele?.slot, 'MMMM Do YYYY, h:mm:ss a')?.isSameOrBefore()&& ele?.status==='pending')?"Expired": <Link to={`/bookings/${ele?._id}`}>
-                            <button className="btn btn-primary">View</button>
-                          </Link>}
+                          {moment(
+                            ele?.slot,
+                            "MMMM Do YYYY, h:mm:ss a"
+                          )?.isSameOrBefore() && ele?.status === "pending" ? (
+                            "Expired"
+                          ) : (
+                            <Link to={`/bookings/${ele?._id}`}>
+                              <button className="btn btn-primary">View</button>
+                            </Link>
+                          )}
                         </div>
                       </div>
                     </div>

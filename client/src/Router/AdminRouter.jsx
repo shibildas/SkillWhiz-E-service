@@ -8,67 +8,69 @@ import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 const ExpertList = lazy(() => import("../Pages/Admin/ExpertList"));
 const UserList = lazy(() => import("../Pages/Admin/UserList"));
 const Jobs = lazy(() => import("../Pages/Admin/Jobs"));
-const BookingList =lazy(()=> import ('../Pages/Admin/BookingList'))
-const ManageBooking =lazy(()=> import ('../Pages/Admin/ManageBooking'))
-const VoucherList = lazy(() => import ('../Pages/Admin/VoucherList'))
+const BookingList = lazy(() => import("../Pages/Admin/BookingList"));
+const ManageBooking = lazy(() => import("../Pages/Admin/ManageBooking"));
+const VoucherList = lazy(() => import("../Pages/Admin/VoucherList"));
 function AdminRouter() {
   return (
     <>
       <Routes>
         <Route path="/login" element={<AdminLogin />} />
-        <Route element={<PrivateRoutes role={"admin"} route={'/admin/login'}/>}>
-        <Route element={<AdminLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route
-            path="/experts"
-            element={
-              <Suspense fallback={<ShimmerList />}>
-                <ExpertList/>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/users"
-            element={
-              <Suspense fallback={<ShimmerList />}>
-                <UserList />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/jobs"
-            element={
-              <Suspense fallback={<ShimmerList />}>
-                <Jobs />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/bookings"
-            element={
-              <Suspense fallback={<ShimmerList />}>
-                <BookingList />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/bookings/:id"
-            element={
-              <Suspense fallback={<ShimmerList />}>
-                <ManageBooking/>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/vouchers"
-            element={
-              <Suspense fallback={<ShimmerList />}>
-                <VoucherList/>
-              </Suspense>
-            }
-          />
-          <Route path="*" element={<ErrorPage />} />
-        </Route>
+        <Route
+          element={<PrivateRoutes role={"admin"} route={"/admin/login"} />}
+        >
+          <Route element={<AdminLayout />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route
+              path="/experts"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <ExpertList />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <UserList />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/jobs"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <Jobs />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/bookings"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <BookingList />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/bookings/:id"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <ManageBooking />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/vouchers"
+              element={
+                <Suspense fallback={<ShimmerList />}>
+                  <VoucherList />
+                </Suspense>
+              }
+            />
+            <Route path="*" element={<ErrorPage />} />
+          </Route>
         </Route>
       </Routes>
     </>

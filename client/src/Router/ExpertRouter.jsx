@@ -7,17 +7,17 @@ import ShimmerList from "../Components/Admin/Shimmer/ShimmerList";
 import PrivateRoutes from "../ProtectedRoutes/PrivateRoutes";
 import ExpertLayout from "../Layout/ExpertLayout";
 import ExpertHome from "../Pages/Expert/ExpertHome";
-const Chat =lazy(()=>import ("../Pages/common/Chat"));
+const Chat = lazy(() => import("../Pages/common/Chat"));
 const ExpertProfile = lazy(() => import("../Pages/Expert/ExpertProfile"));
 const Schedules = lazy(() => import("../Pages/Expert/Schedules"));
 const MyAppointments = lazy(() => import("../Pages/Expert/MyAppointments"));
 const AppointmentDetail = lazy(() =>
   import("../Pages/Expert/AppointmentDetail")
 );
-const AboutUs = lazy(()=> import('../Pages/common/AboutUs'))
+const AboutUs = lazy(() => import("../Pages/common/AboutUs"));
 
 function ExpertRouter() {
-  const expert=useSelector((state) => state.expert.value)
+  const expert = useSelector((state) => state.expert.value);
   const isVerified = useSelector((state) => state.expert.value.verified);
   return (
     <Routes>
@@ -27,7 +27,15 @@ function ExpertRouter() {
       >
         <Route element={<ExpertLayout />}>
           <Route path="/home" element={<ExpertHome />} />
-          <Route exact path="/aboutus" element={<Suspense fallback={<ShimmerList/>}><AboutUs /></Suspense>} />
+          <Route
+            exact
+            path="/aboutus"
+            element={
+              <Suspense fallback={<ShimmerList />}>
+                <AboutUs />
+              </Suspense>
+            }
+          />
 
           <Route
             path="/profile"

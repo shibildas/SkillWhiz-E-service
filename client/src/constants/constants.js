@@ -53,17 +53,21 @@ export const social = [
 export const services = { img: more, val: "MORE" };
 
 export const introduction =
-  "Welcome to SkillWhiz, your one-stop solution for all your service needs! We are an E-Service provider that connects you with skilled professionals for various jobs such as plumbing,"
-export const introRest=   "electrical, pet grooming, waterproofing, and many more. At SkillWhiz, we understand that finding the right service provider for your needs can be a daunting task. We make it easy for you to find reliable professionals who can get the job done right the first time. Our professionals go through a rigorous screening process, ensuring that only the best service providers are available to you."
+  "Welcome to SkillWhiz, your one-stop solution for all your service needs! We are an E-Service provider that connects you with skilled professionals for various jobs such as plumbing,";
+export const introRest =
+  "electrical, pet grooming, waterproofing, and many more. At SkillWhiz, we understand that finding the right service provider for your needs can be a daunting task. We make it easy for you to find reliable professionals who can get the job done right the first time. Our professionals go through a rigorous screening process, ensuring that only the best service providers are available to you.";
 
 export const servicesprovided =
-  "We offer a wide range of services, from minor repairs to major home renovations. Our professionals are equipped with the latest tools and techniques to ensure that your job"
-export const servicerest=  " is completed on time and to your satisfaction. With SkillWhiz, you can rest assured that you are getting the best possible service at a competitive price. Our platform is user-friendly and easy to navigate. You can quickly search for service providers by location and job type, making it easy to find the right professional for your needs. We also offer a secure payment gateway, ensuring that your transactions are safe and secure."
+  "We offer a wide range of services, from minor repairs to major home renovations. Our professionals are equipped with the latest tools and techniques to ensure that your job";
+export const servicerest =
+  " is completed on time and to your satisfaction. With SkillWhiz, you can rest assured that you are getting the best possible service at a competitive price. Our platform is user-friendly and easy to navigate. You can quickly search for service providers by location and job type, making it easy to find the right professional for your needs. We also offer a secure payment gateway, ensuring that your transactions are safe and secure.";
 
 export const customersatisfy =
-  "At SkillWhiz, we are committed to providing excellent customer service. Our dedicated customer support team is always available to answer any questions you may have and "
-  export const customerrest="to help you resolve any issues that may arise. We take pride in our work and strive to provide our customers with the best possible service. We are constantly improving and expanding our platform to meet the changing needs of our customers. So why wait? Sign up with SkillWhiz today and experience the best service provider platform in town!"
+  "At SkillWhiz, we are committed to providing excellent customer service. Our dedicated customer support team is always available to answer any questions you may have and ";
+export const customerrest =
+  "to help you resolve any issues that may arise. We take pride in our work and strive to provide our customers with the best possible service. We are constantly improving and expanding our platform to meet the changing needs of our customers. So why wait? Sign up with SkillWhiz today and experience the best service provider platform in town!";
 
 export const goal =
-  "At SkillWhiz, we value transparency, and that's why we provide upfront pricing for all our services. You can rest assured that there will be no hidden fees or surprises. "
- export const goalrest= "We are constantly improving and innovating our platform to provide a better experience for our customers. We are committed to making SkillWhiz the go-to platform for all your service needs.Thank you for choosing SkillWhiz. We look forward to serving you!"
+  "At SkillWhiz, we value transparency, and that's why we provide upfront pricing for all our services. You can rest assured that there will be no hidden fees or surprises. ";
+export const goalrest =
+  "We are constantly improving and innovating our platform to provide a better experience for our customers. We are committed to making SkillWhiz the go-to platform for all your service needs.Thank you for choosing SkillWhiz. We look forward to serving you!";

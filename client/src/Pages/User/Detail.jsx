@@ -6,10 +6,10 @@ import { showAlertError } from "../../Services/showAlert";
 import ReviewCard from "../../Components/Card/ReviewCard";
 
 const Detail = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const { jobId } = useParams();
   const [job, setJob] = useState({});
-  const [open,setOpen]=useState("collapse-open ")
+  const [open, setOpen] = useState("collapse-open ");
 
   useEffect(() => {
     userAxiosInstance
@@ -18,14 +18,13 @@ const Detail = () => {
         if (res.data.status === "success") {
           setJob(res.data.result);
         } else {
-         showAlertError(dispatch,"coudnt fetch data")
+          showAlertError(dispatch, "coudnt fetch data");
         }
       })
       .catch((error) => {
-        showAlertError(dispatch,error.message)
+        showAlertError(dispatch, error.message);
       });
   }, []);
-
 
   return (
     <>
@@ -34,9 +33,11 @@ const Detail = () => {
           <h1 className="md:text-3xl sm:text-xl font-extrabold">
             {jobId.toUpperCase()}
           </h1>
-          <Link to={`/job/schedule/${job?._id}`}><button className="btn btn-warning shadow-2xl shadow-black">
-            Book Now
-          </button></Link>
+          <Link to={`/job/schedule/${job?._id}`}>
+            <button className="btn btn-warning shadow-2xl shadow-black">
+              Book Now
+            </button>
+          </Link>
         </div>
         <div className="bg-white p-2 border border-y-4">
           <h1 className="text-xl font-bold">
@@ -49,8 +50,11 @@ const Detail = () => {
             Connect with us and get efficient services at the best rates.
           </p>
         </div>
-        <div onClick={()=>setOpen("")} tabIndex={0} className={`collapse group collapse-plus ${open}  bg-white py-2`}>
-
+        <div
+          onClick={() => setOpen("")}
+          tabIndex={0}
+          className={`collapse group collapse-plus ${open}  bg-white py-2`}
+        >
           <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-700 text-white group-focus:bg-yellow-500 group-focus:text-black">
             Rate Chart
           </div>
@@ -79,7 +83,11 @@ const Detail = () => {
             </p>
           </div>
         </div>
-        <div onClick={()=>setOpen("")} tabIndex={0} className="collapse group collapse-plus bg-white py-2">
+        <div
+          onClick={() => setOpen("")}
+          tabIndex={0}
+          className="collapse group collapse-plus bg-white py-2"
+        >
           <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-700 text-white group-focus:bg-yellow-500 group-focus:text-black">
             Terms & Conditions
           </div>
@@ -96,7 +104,11 @@ const Detail = () => {
             </p>
           </div>
         </div>
-        <div onClick={()=>setOpen("")} tabIndex={0} className="collapse group collapse-plus bg-white py-2">
+        <div
+          onClick={() => setOpen("")}
+          tabIndex={0}
+          className="collapse group collapse-plus bg-white py-2"
+        >
           <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-700 text-white group-focus:bg-yellow-500 group-focus:text-black">
             How it works?
           </div>
@@ -119,34 +131,58 @@ const Detail = () => {
             </p>
           </div>
         </div>
-        <div onClick={()=>setOpen("")} tabIndex={0} className="collapse group collapse-plus bg-white py-2">
+        <div
+          onClick={() => setOpen("")}
+          tabIndex={0}
+          className="collapse group collapse-plus bg-white py-2"
+        >
           <div className="collapse-title text-xl rounded-t-lg font-bold bg-slate-700 text-white group-focus:bg-yellow-500 group-focus:text-black">
             FAQs
           </div>
           <div className="collapse-content bg-slate-200 text-black ">
-            <b>How do I ensure the authenticity of electricians who delivers service at my place?</b>
-            <p>We have partnered with the most experienced {job?.job_role} near you, verified by SkillWhiz for their background, education, and experience. They are also trained for high levels of customer service</p>
-            <b>Do they charge amount for the time spent on material purchase during service delivery?</b>
-            <p>Yes, but our partner will ensure the purchase is done in minimum time. It is preferable to discuss with the electricians and get the necessary materials before the delivery to avoid additional costs. </p>
+            <b>
+              How do I ensure the authenticity of electricians who delivers
+              service at my place?
+            </b>
+            <p>
+              We have partnered with the most experienced {job?.job_role} near
+              you, verified by SkillWhiz for their background, education, and
+              experience. They are also trained for high levels of customer
+              service
+            </p>
+            <b>
+              Do they charge amount for the time spent on material purchase
+              during service delivery?
+            </b>
+            <p>
+              Yes, but our partner will ensure the purchase is done in minimum
+              time. It is preferable to discuss with the electricians and get
+              the necessary materials before the delivery to avoid additional
+              costs.{" "}
+            </p>
           </div>
         </div>
         <div className="bg-white p-5">
           <div>
-
-         <h1 className="text-xl font-bold">Customer Review</h1>
+            <h1 className="text-xl font-bold">Customer Review</h1>
           </div>
-          {job?.reviews?.length!=0 ? 
-          <div className="grid lg:grid-cols-4 md:grid-cols-2">
-          {job?.reviews?.map((rev,index)=>{
-            return(
-              <div className=" p-2 mx-auto" key={index}>
-            <ReviewCard user={rev?.reviewBy} msg={rev?.message} rating={rev?.rating}/>
+          {job?.reviews?.length != 0 ? (
+            <div className="grid lg:grid-cols-4 md:grid-cols-2">
+              {job?.reviews?.map((rev, index) => {
+                return (
+                  <div className=" p-2 mx-auto" key={index}>
+                    <ReviewCard
+                      user={rev?.reviewBy}
+                      msg={rev?.message}
+                      rating={rev?.rating}
+                    />
+                  </div>
+                );
+              })}
             </div>
-            )
-          })}
-          </div>: <div>No Reviews Added</div>}
-          
-
+          ) : (
+            <div>No Reviews Added</div>
+          )}
         </div>
       </>
     </>

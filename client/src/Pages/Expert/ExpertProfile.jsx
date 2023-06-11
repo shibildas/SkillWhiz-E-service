@@ -1,11 +1,10 @@
-import ExpertCard from "../../Components/ExpertCard/ExpertCard"
+import ExpertCard from "../../Components/ExpertCard/ExpertCard";
 
-const ExpertProfile=()=>{
-
-    return(
-        <>
-        <ExpertCard/>
-        </>
-    )
-}
-export default ExpertProfile
+const ExpertProfile = () => {
+  return (
+    <>
+      <ExpertCard />
+    </>
+  );
+};
+export default ExpertProfile;
