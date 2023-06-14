@@ -213,6 +213,7 @@
             "name": "image",
             "description": "The image of job to show",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "blob",
               "format": "file"
