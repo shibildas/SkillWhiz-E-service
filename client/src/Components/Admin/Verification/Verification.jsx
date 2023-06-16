@@ -6,28 +6,29 @@ import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../../Services/showAlert";
 
 const Verification = ({ expert, handleLoad }) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [id, setId] = useState("");
   useEffect(() => {
     setId(expert?._id);
   }, [expert]);
 
   const handleApprove = () => {
-          const confirmodal= document.getElementById('confirm')
-          const verifyex = document.getElementById("exVerify");
-          verifyExpert(id).then((res) => {
-            if (res.data.status === "success") {
-              handleLoad();
-              confirmodal.checked=false
-              verifyex.checked = false;
-              showAlertSuccess(dispatch,"Expert has been Approved.")
-        }else{
-          showAlertError(dispatch,'something went wrong')
+    const confirmodal = document.getElementById("confirm");
+    const verifyex = document.getElementById("exVerify");
+    verifyExpert(id)
+      .then((res) => {
+        if (res.data.status === "success") {
+          handleLoad();
+          confirmodal.checked = false;
+          verifyex.checked = false;
+          showAlertSuccess(dispatch, "Expert has been Approved.");
+        } else {
+          showAlertError(dispatch, "something went wrong");
         }
       })
       .catch((error) => {
         console.error(error);
-        showAlertError(dispatch,error.message)
+        showAlertError(dispatch, error.message);
       });
   };
 
@@ -66,16 +67,13 @@ const Verification = ({ expert, handleLoad }) => {
               Reject
             </label>
             <Reason id={id} handleLoad={handleLoad} />
-            <label
-            htmlFor="confirm"
-              className="btn btn-success btn-outline"
-            >
+            <label htmlFor="confirm" className="btn btn-success btn-outline">
               Approve
             </label>
           </div>
         </div>
       </div>
-      <Confirm handleFunction={handleApprove}/>
+      <Confirm handleFunction={handleApprove} />
     </>
   );
 };

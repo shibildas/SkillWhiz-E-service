@@ -1,10 +1,10 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore'
+import { fireKey } from '../constants/constants';
 
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyCZqdDuzVJbn7_2Egaqx2EMA96S7apQLp4",
+    apiKey: fireKey ,
     authDomain: "fir-f5793.firebaseapp.com",
     projectId: "fir-f5793",
     storageBucket: "fir-f5793.appspot.com",
