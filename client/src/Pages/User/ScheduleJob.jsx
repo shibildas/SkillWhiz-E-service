@@ -61,7 +61,7 @@ const ScheduleJob = () => {
   }, []);
   return (
     <>
-      <div className="bg-zinc-400  rounded-xl p-5 md:h-[75vh] my-6">
+      <div className="bg-zinc-400  rounded-xl p-5 my-6">
         <h1 className=" text-3xl border-2 p-2 border-gray-500 rounded-xl font-extrabold">
           {job?.job_role?.toUpperCase()}
         </h1>

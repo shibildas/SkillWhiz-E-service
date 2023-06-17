@@ -28,7 +28,11 @@ const Signup = () => {
     e.preventDefault();
     if (password === "" || email === "" || name === "" || mobile == "") {
       showAlertError(dispatch,"Fields cant be empty")
-    } else {
+    }
+    else if(name.length<3 || mobile.length<10){
+      showAlertError(dispatch,"validation error")
+    }
+    else {
       if(password===cPassword){
 
         userAxiosInstance

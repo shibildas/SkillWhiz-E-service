@@ -163,17 +163,20 @@ module.exports.isUserAuth = async (req, res) => {
       .findById(req.userId)
       .populate({ path: "vouchers", select: "-users" });
     userDetails.auth = true;
-
-    res.json({
-      auth: true,
-      _id: userDetails._id,
-      mobile: userDetails.mobile,
-      username: userDetails.username,
-      email: userDetails.email,
-      image: userDetails.image || null,
-      loyality: userDetails?.loyality || 0,
-      vouchers: userDetails?.vouchers || [],
-    });
+    if(!userDetails.isBanned){
+      res.json({
+        auth: true,
+        _id: userDetails._id,
+        mobile: userDetails.mobile,
+        username: userDetails.username,
+        email: userDetails.email,
+        image: userDetails.image || null,
+        loyality: userDetails?.loyality || 0,
+        vouchers: userDetails?.vouchers || [],
+      });
+    }else{
+      res.json({ auth: false, status: "error", message:"user is banned" });
+    }
   } catch (error) {
     res.json({ auth: false, status: "error", message: error.message });
   }
@@ -252,6 +255,8 @@ module.exports.reVerify_OTP = async (req, res) => {
         message: "Verified",
         result: user,
       });
+    }else{
+      res.json({status:"error"})
     }
   } catch (error) {
     res.json({ status: "error", message: error.message });

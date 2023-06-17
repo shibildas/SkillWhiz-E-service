@@ -26,7 +26,7 @@ const ExpertReVerify = ({ mobile, handleshow }) => {
             const modalOtp = document.getElementById("modalOtp");
             modalOtp.checked = false;
           } else {
-            showAlertError(dispatch, "Wrong OTP");
+            showAlertError(dispatch, "Wrong OTP,try again");
           }
         })
         .catch((error) => {
@@ -62,8 +62,8 @@ const ExpertReVerify = ({ mobile, handleshow }) => {
               Submit
             </button>
           </div>
-        </div>
         <Alert />
+        </div>
       </div>
     </>
   );

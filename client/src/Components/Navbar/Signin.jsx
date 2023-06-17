@@ -33,7 +33,11 @@ const Signin = () => {
         })
         .then((response) => {
           if (!response.data.auth) {
-            showAlertError(dispatch,"invalid Credentials")
+            if(response.data.status==="failed"){
+            showAlertError(dispatch,"You are banned")
+            }else{
+              showAlertError(dispatch,"invalid Credentials")
+            }
             dispatch(logout())
           } else {
             localStorage.setItem("token", response.data.token);

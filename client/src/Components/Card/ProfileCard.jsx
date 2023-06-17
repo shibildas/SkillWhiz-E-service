@@ -147,23 +147,8 @@ const ProfileCard = () => {
           </div>
 
           <hr className="mt-8" />
-          <div className="flex p-4">
-            <div className="w-1/2 text-center">
-              <button className="font-bold btn btn-success btn-outline">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-share-fill mx-2"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
-                </svg>{" "}
-                Share
-              </button>
-            </div>
-            <div className="w-0 border border-gray-300"></div>
+          <div className="flex justify-center p-4">
+          
             <div className="w-1/2 text-center flex justify-center items-center">
               <label
                 htmlFor="chPass"

@@ -302,7 +302,7 @@ module.exports.changePassword = async (req, res) => {
 module.exports.reVerify = async (req, res) => {
   try {
     const { mobile } = req.body;
-    const user = await usermodel.findOne({ mobile: mobile });
+    const user = await expertmodel.findOne({ mobile: mobile });
     if (user) {
       res.json({ status: "error", message: "Mobile Number Already Exists" });
     } else {
@@ -318,7 +318,7 @@ module.exports.reVerify = async (req, res) => {
         .catch((error) => {
           res.json({ status: "Sending failed", message: error.message });
         });
-      res.json({ status: "success", message: "SMS Sent Successfully" });
+      res.json({ status:"success", message: "SMS Sent Successfully" });
     }
   } catch (error) {
     res.json({ status: "error", message: error.message });
@@ -332,13 +332,15 @@ module.exports.reVerify_OTP = async (req, res) => {
       .services(serviceSid)
       .verificationChecks.create({ to: `+91${mobile}`, code: otp });
     if (ver_check.status === "approved") {
-      await usermodel.findByIdAndUpdate({ _id }, { $set: { mobile: mobile } });
+      await expertmodel.findByIdAndUpdate({ _id }, { $set: { mobile: mobile } });
       const user = await expertmodel.findById(_id);
       res.json({
         status: "success",
         message: "Verified",
         result: user,
       });
+    }else{
+      res.json({status:"error"})
     }
   } catch (error) {
     res.json({ status: "error", message: error.message });

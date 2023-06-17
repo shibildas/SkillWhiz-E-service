@@ -3,13 +3,13 @@ import AddSkill from "./AddSkill";
 import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 import { getmyJobs, removeSkill } from "../../Services/expertApi";
-import Confirm from "../Confirm/Confirm";
+import Confirm2 from "../Confirm/Confirm2";
 
 const Skills = () => {
   const dispatch=useDispatch()
   const [datas, setData] = useState([]);
   const [load, setLoad] = useState(false);
-  const [id, setId] = useState();
+  const [id, setId] = useState(null);
   const handleLoad = () => {
     setLoad(!load);
   };
@@ -28,14 +28,14 @@ const Skills = () => {
   }, [load]);
 
   const handleClick =() => {
-    const modal= document.getElementById('confirm')
+    const modal= document.getElementById('confirm2')
 
         removeSkill(id).then((res) => {
             if (res.data.status === "success") {
               handleLoad();
               modal.checked=false
               showAlertSuccess(dispatch,"Skill Removed")
-              setId()
+              setId(null)
             } else {
               showAlertError(dispatch,"Couldn't complete the request")
             }
@@ -62,7 +62,7 @@ const Skills = () => {
             {datas?.map((data, index) => {
               return (
                 <div key={index+"20"} className="stat rounded-xl bg-slate-600 m-2">
-                    <label htmlFor="confirm"
+                    <label htmlFor="confirm2"
                       onClick={() => setId(data?._id)}
                       className="rounded-full w-6 h-6 p-1 hover:bg-orange-400 text-white outline outline-1"
                       >
@@ -117,7 +117,7 @@ const Skills = () => {
         </div>
       </div>
       <AddSkill load={load} handleLoad={handleLoad} />
-      <Confirm handleFunction={handleClick}/>
+      <Confirm2 handleFunction={handleClick} />
     </>
   );
 };

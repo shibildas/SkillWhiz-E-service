@@ -37,6 +37,8 @@ const LoginExpert = () => {
   const expertSignup = () => {
     if (password === "" || email === "" || name === "" || mobile === "") {
       showAlertError(dispatch, "Please fill all required ");
+    } else if(name.length<3 || mobile.length<10){
+      showAlertError(dispatch,"validation error")
     } else {
       if (password === cPassword) {
         expertSignUp({
