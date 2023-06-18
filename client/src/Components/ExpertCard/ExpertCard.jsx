@@ -50,12 +50,12 @@ const ExpertCard = () => {
           <h1 className="text-3xl text-white underline underline-offset-2">
             My Profile
           </h1>
-          <div className="card w-96 mx-auto bg-slate-300 opacity-95  shadow-2xl shadow-black hover:shadow">
+          <div className="card w-fit md:w-96 mx-auto bg-slate-300 opacity-95  shadow-2xl shadow-black hover:shadow">
             <div className="card-body">
               <div className="flex justify-end">
                 <label
                   htmlFor="editProfile"
-                  className="m-2 cursor-pointer btn btn-ghost"
+                  className=" md:m-2 cursor-pointer btn btn-ghost"
                 >
                   {" "}
                   Edit{" "}
@@ -72,7 +72,7 @@ const ExpertCard = () => {
                 </label>
               </div>
               <img
-                className="w-32 mx-auto rounded-full -mt-20 border-8 border-white"
+                className="w-24 md:w-32 mx-auto rounded-full -mt-20 border-8 border-white"
                 src={
                   data?.image
                     ? data?.image

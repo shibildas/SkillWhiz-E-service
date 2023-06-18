@@ -20,8 +20,8 @@ const Footer = ({teal}) => {
                 key={2 + index}
                 className="p-2 flex justify-evenly items-center"
               ><div className="mx-2">
-                <img className="w-20 p-2"  src={img?.img} alt="image" />
-                <h1 className={` mt-2 p-2 font-extrabold font-mono tracking-widest`}>{img?.val}</h1></div>
+                <img className="w-16 md:w-20 p-2"  src={img?.img} alt="image" />
+                <h1 className={` mt-2 p-2 font-extrabold font-mono text-sm md:text-lg md:tracking-widest`}>{img?.val}</h1></div>
               </li>
             );
           })}

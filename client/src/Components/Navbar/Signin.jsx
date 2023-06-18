@@ -54,8 +54,8 @@ const Signin = () => {
   return (
     <>
       <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-      <div className="modal ">
-        <div className="modal-box relative w-auto  shadow-inner bg-slate-700 text-white shadow-black">
+      <div className="modal">
+        <div className="modal-box relative w-auto overflow-y-hidden shadow-inner bg-slate-700 text-white shadow-black">
           <label
             htmlFor="my-modal-3"
             className="btn btn-sm btn-ghost btn-circle absolute right-2 top-2"

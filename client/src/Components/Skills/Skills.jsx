@@ -83,13 +83,13 @@ const Skills = () => {
                     </label>
                     <div className="stat-figure text-secondary ">
                       <div className="avatar online">
-                        <div className="w-16 rounded-full">
+                        <div className="w-10 md:w-16 rounded-full">
                           <img src={data?.image} alt="image"/>
                         </div>
                       </div>
                     </div>
 
-                    <div className="stat-value text-2xl max-w-[300px] break-all text-slate-50 truncate ">
+                    <div className="stat-value text-xl md:text-2xl  break-all text-slate-50 truncate ">
                       {data?.job_role?.toUpperCase()}
                     </div>
                     <div className="stat-title font-bold text-xl text-cyan-100">

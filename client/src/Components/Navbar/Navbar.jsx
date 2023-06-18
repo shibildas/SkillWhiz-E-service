@@ -72,9 +72,9 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <Link to="/" className="px-2">
+          <Link to="/" className="">
             <img
-              className="w-14 rounded-full shadow-2xl cursor-pointer"
+              className="w-10 md:w-14 rounded-full shadow-2xl cursor-pointer"
               src={logo}
               alt="logo"
             />
@@ -149,7 +149,7 @@ const Navbar = () => {
               </div>
             </>
           ) : (
-            <label htmlFor="my-modal-3" className="btn btn-secondary shadow shadow-black">
+            <label htmlFor="my-modal-3" className="btn btn-sm md:btn-md btn-success shadow shadow-black">
               Login
             </label>
           )}

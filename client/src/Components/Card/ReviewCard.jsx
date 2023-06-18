@@ -3,13 +3,13 @@ const ReviewCard = ({user,msg,rating}) => {
   const stars = [];
   
   for (let i = 0; i < rating; i++) {
-    stars.push(<button key={i} className='btn btn-warning mask mask-star-2'></button>);
+    stars.push(<button key={i} className='btn btn-sm md:btn-md btn-warning mask mask-star-2'></button>);
   }
   return (
    <>
-   <div className="card w-60 max-h-52 bg-neutral text-neutral-content">
+   <div className="card w-fit md:w-60 bg-neutral text-neutral-content">
   <div className="card-body items-center text-center">
-    <h2 className="card-title">{msg}</h2>
+    <h2 className="md:card-title break-words">{msg}</h2>
     <div>
       {stars}
     </div>
