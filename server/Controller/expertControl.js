@@ -20,7 +20,7 @@ module.exports.postregister = async (req, res, next) => {
     if (user || mob) {
       res
         .status(401)
-        .json({ status: "failed", message: "User already exist login now" });
+        .json({ status: "exists", message: "User already exist login now" });
     } else {
       client.verify.v2
         .services(serviceSid)
@@ -98,7 +98,7 @@ module.exports.signin = async (req, res) => {
           status: "success",
         });
       } else {
-        res.json({ auth: false, status: "failed", message: "You are blocked" });
+        res.json({ auth: false, status: "banned", message: "You are blocked" });
       }
     } else {
       res.json({
@@ -160,6 +160,7 @@ module.exports.isExpertAuth = async (req, res) => {
   try {
     let expertDetails = await expertmodel.findById(req.expertId);
     expertDetails.auth = true;
+    if(!expertDetails.isBanned){
     if (expertDetails.identity.status === "approved") {
       res.json({
         _id: expertDetails._id,
@@ -183,6 +184,8 @@ module.exports.isExpertAuth = async (req, res) => {
         isVerified: expertDetails.isVerified,
         identity: expertDetails.identity?.reason,
       });
+    }}else{
+      res.json({ auth: false, message: "You are Blocked" });
     }
   } catch (error) {
     res.json({ auth: false, message: error.message });

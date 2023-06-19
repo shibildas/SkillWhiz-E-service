@@ -49,6 +49,8 @@ const Signup = () => {
             const otpCheckbox = document.getElementById("my-modal-otp");
             modalCheckbox.checked = false;
             otpCheckbox.checked=true;
+          }else if(response.data.status === "exists"){
+        showAlertError(dispatch,"User already exists, Please Login")
           }
         })
         .catch((error) => {

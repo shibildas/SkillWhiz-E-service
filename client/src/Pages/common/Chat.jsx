@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
+import { HiArrowCircleLeft } from "react-icons/hi";
 import { UserCircleIcon } from "@heroicons/react/solid";
 import Welcome from "../../Components/Chat/Welcome";
 import ChatContainer from "../../Components/Chat/ChatContainer";
@@ -59,8 +60,11 @@ export default function Chat({ currentUser, user }) {
       <div className="drawer-side  max-w-fit">
         <label htmlFor="chatbox" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 bg-cyan-950 shadow-2xl text-white font-bold text-2xl max-w-full">
-          <div className="text-white text-2xl underline underline-offset-2 font-bold p-3 m-3">
-            Contacts
+          <div className="text-white text-2xl underline underline-offset-2 font-bold p-3 m-3 flex justify-between">
+            <b>Contacts</b>{" "}
+            <label htmlFor="chatbox">
+              <HiArrowCircleLeft className="" />
+            </label>
           </div>
           {contacts?.map((contact, index) => (
             <label

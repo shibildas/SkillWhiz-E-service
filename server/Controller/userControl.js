@@ -23,7 +23,7 @@ module.exports.postSignUp = async (req, res, next) => {
     const mob = await usermodel.findOne({ mobile });
 
     if (user || mob) {
-      res.json({ status: "failed", message: "User already exist login now" });
+      res.json({ status: "exists", message: "User already exist login now" });
     } else {
       client.verify.v2
         .services(serviceSid)
@@ -97,7 +97,7 @@ module.exports.signin = async (req, res) => {
         });
         res.json({ auth: true, token: token, result: user, status: "success" });
       } else {
-        res.json({ auth: false, status: "failed", message: "You are blocked" });
+        res.json({ auth: false, status: "blocked", message: "You are blocked" });
       }
     } else {
       res.json({

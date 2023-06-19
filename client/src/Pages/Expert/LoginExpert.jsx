@@ -51,6 +51,8 @@ const LoginExpert = () => {
             if (response.data.status === "success") {
               const expertModal = document.getElementById("expert-otp");
               expertModal.checked = true;
+            }else if(response.data.status === "exists"){
+              showAlertError(dispatch,"User already exists, Please Login")
             }
           })
           .catch((error) => {
@@ -70,6 +72,9 @@ const LoginExpert = () => {
         password: password,
       }).then((response) => {
         if (!response.data.auth) {
+          if(response.data.status==="banned"){
+            showAlertError(dispatch,"Expert already exists")
+          }else
           showAlertError(dispatch, response.data.message);
         } else {
           localStorage.setItem("experttoken", response.data.experttoken);

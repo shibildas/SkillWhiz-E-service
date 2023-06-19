@@ -33,7 +33,7 @@ const Signin = () => {
         })
         .then((response) => {
           if (!response.data.auth) {
-            if(response.data.status==="failed"){
+            if(response.data.status==="blocked"){
             showAlertError(dispatch,"You are banned")
             }else{
               showAlertError(dispatch,"invalid Credentials")
