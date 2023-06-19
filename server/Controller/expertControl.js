@@ -18,9 +18,7 @@ module.exports.postregister = async (req, res, next) => {
     const user = await expertmodel.findOne({ email });
     const mob = await expertmodel.findOne({ mobile });
     if (user || mob) {
-      res
-        .status(401)
-        .json({ status: "exists", message: "User already exist login now" });
+      res.status(304).json({ status: "exists", message: "User already exist login now" });
     } else {
       client.verify.v2
         .services(serviceSid)
@@ -81,6 +79,9 @@ module.exports.verify = async (req, res) => {
 };
 
 module.exports.signin = async (req, res) => {
+  try {
+    
+  
   const { mobile, password } = req.body;
   const expert = await expertmodel.findOne({ mobile: mobile });
   if (expert) {
@@ -91,17 +92,17 @@ module.exports.signin = async (req, res) => {
         const token = jwt.sign({ expertId }, process.env.JWT_SECRET_KEY, {
           expiresIn: 30000,
         });
-        res.json({
+        res.status(201).json({
           auth: true,
           experttoken: token,
           result: expert,
           status: "success",
         });
       } else {
-        res.json({ auth: false, status: "banned", message: "You are blocked" });
+        res.status(304).json({ auth: false, status: "banned", message: "You are blocked" });
       }
     } else {
-      res.json({
+      res.status(302).json({
         auth: false,
         status: "failed",
         message: "credentials are incorrect",
@@ -114,6 +115,9 @@ module.exports.signin = async (req, res) => {
       message: "No user please register",
     });
   }
+} catch (error) {
+    
+}
 };
 module.exports.reset = async (req, res) => {
   try {
@@ -130,14 +134,14 @@ module.exports.reset = async (req, res) => {
           console.log(ver.status);
         })
         .catch((error) => {
-          res.json({ status: "Sending failed", message: error.message });
+          res.status(401).json({ status: "Sending failed", message: error.message });
         });
-      res.json({ status: "success" });
+      res.status(201).json({ status: "success" });
     } else {
-      res.json({ status: "failed", message: "mobile not registersed" });
+      res.status(304).json({ status: "failed", message: "mobile not registersed" });
     }
   } catch (error) {
-    res.json({ status: "error", message: error.message });
+    res.status(404).json({ status: "error", message: error.message });
   }
 };
 module.exports.updatePass = async (req, res) => {

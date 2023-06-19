@@ -46,7 +46,7 @@ const MainPage = () => {
                   key={"A" + index}
                 >
                   <img
-                    className="w-16 md:w-24 rounded-full cursor-pointer shadow-black shadow-2xl"
+                    className="w-16 md:w-24 rounded-full cursor-pointer shadow-black shadow-2xl hover:scale-110 hover:shadow-2xl transition duration-300"
                     src={ele?.image}
                     alt="image"
                   />
@@ -59,7 +59,7 @@ const MainPage = () => {
             <Link to="/alljobs">
               <span className="flex flex-col justify-center items-center md:my-8 ">
                 <img
-                  className="w-16 md:w-24 rounded-full cursor-pointer shadow-black shadow-2xl"
+                  className="w-16 md:w-24 rounded-full cursor-pointer shadow-black shadow-2xl hover:scale-110 hover:shadow-2xl transition duration-300"
                   src={services?.img}
                   alt="image"
                 />

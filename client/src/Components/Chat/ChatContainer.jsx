@@ -70,7 +70,7 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
 
   return (
     <>
-      <div className="w-full h-fit">
+      <div className="w-full ">
       <label htmlFor="chatbox" className="drawer-overlay"></label>
 
         <div className="bg-gray-200  py-4 px-8 ">
@@ -91,7 +91,7 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
           </div>
         </div>
 
-        <div className="justify-end max-h-96 my-4 p-4 md:p-8 overflow-y-scroll text-white">
+        <div className="justify-end h-screen my-4 p-4 md:p-8 overflow-y-scroll text-white">
           {messages.map((message, index) => (
             <div
               key={index + 222}

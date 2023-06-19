@@ -56,7 +56,7 @@ const Donut = ({ val ,heading}) => {
   return (
     <div className="p-2 md:p-5 md:col-2">
       <div className="chart-heading text-2xl font-semibold underline underline-offset-4">{heading}</div>
-      <Doughnut data={data} options={options} />
+      <Doughnut data={data} options={options} className="hover:scale-105 transition duration-300"/>
     </div>
   );
 };

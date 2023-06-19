@@ -81,11 +81,11 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 font-extrabold text-xl ">
-            <li>
+          <ul className="menu menu-horizontal font-extrabold text-xl ">
+            <li className="hover:scale-110 transition duration-300 mx-2">
               <Link to='/'>Home</Link>
             </li>
-            <li tabIndex={0}>
+            <li className="hover:scale-110 transition duration-300 mx-2" tabIndex={0}>
               <a>
                 Services
                 <svg
@@ -103,11 +103,11 @@ const Navbar = () => {
                   <Link to="/chat" className="text-slate-100">Chat 1</Link>
                 </li>
               </ul>
-            </li>
-                <li>
+            </li >
+                <li className="hover:scale-110 transition duration-300 mx-2">
                   <Link to='/alljobs' className="">All Services</Link>
                 </li>
-            <li>
+            <li className="hover:scale-110 transition duration-300 mx-2">
               <Link to='/aboutus'> About us</Link>
             </li>
           </ul>

@@ -51,15 +51,16 @@ const LoginExpert = () => {
             if (response.data.status === "success") {
               const expertModal = document.getElementById("expert-otp");
               expertModal.checked = true;
-            }else if(response.data.status === "exists"){
-              showAlertError(dispatch,"User already exists, Please Login")
             }
           })
           .catch((error) => {
+            if(error.response.status === 304){
+              showAlertError(dispatch,"User already exists, Please Login")
+            }
             showAlertError(dispatch, error.message);
           });
       } else {
-        showAlertError(dispatch, "Passwords doesnt match ");
+        showAlertError(dispatch, "Passwords doesn't match ");
       }
     }
   };
@@ -72,15 +73,21 @@ const LoginExpert = () => {
         password: password,
       }).then((response) => {
         if (!response.data.auth) {
-          if(response.data.status==="banned"){
-            showAlertError(dispatch,"Expert already exists")
-          }else
-          showAlertError(dispatch, response.data.message);
+            showAlertError(dispatch, response.data.message);
         } else {
           localStorage.setItem("experttoken", response.data.experttoken);
           dispatch(expertlogin(response.data.result));
           showAlertSuccess(dispatch, "Expert Sign In Success");
           navigate("/expert/home");
+        }
+      }).catch((error)=>{
+        if(error.response.status===304){
+          showAlertError(dispatch,"You are banned")
+        }else if(error.response.status===302){
+          showAlertError(dispatch,"incorrect credential")
+        }
+        else{
+          showAlertSuccess(dispatch, error.message);
         }
       });
     }
@@ -204,10 +211,10 @@ const LoginExpert = () => {
                     </>
                   )}
                 </div>
-                <Alert />
               </div>
             </div>
           </div>
+                <Alert />
         </div>
       </div>
       <OTP mobile={mobile} handleShow={handleShow} />

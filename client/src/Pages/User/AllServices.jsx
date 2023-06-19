@@ -38,7 +38,7 @@ const AllServices = () => {
                     key={"B" + index}
                   >
                     <img
-                      className="w-24 rounded-full cursor-pointer shadow-black shadow-2xl"
+                      className="w-24 rounded-full cursor-pointer shadow-black shadow-2xl hover:scale-110 hover:shadow-2xl transition duration-300"
                       src={ele?.image}
                       alt="image"
                     />

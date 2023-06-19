@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 const Card = ({icon,topic,bg,value,route}) => {
   return (
    <Link to={route}>  
-   <div className={`border ${bg} py-6 px-7 rounded-lg p-2 shadow-xl shadow-black`}>
+   <div className={`border ${bg} py-6 px-7 rounded-lg p-2 shadow-xl shadow-black hover:scale-105 transition duration-300 m-2`}>
       <div className="flex items-center justify-start rounded-full cursor-pointer">
         {icon}
       </div>

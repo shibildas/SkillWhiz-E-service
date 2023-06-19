@@ -43,7 +43,7 @@ export default function Chat({ currentUser, user }) {
   };
 
   return (
-    <div className="drawer bg-gray-900 rounded-t-xl">
+    <div className="drawer bg-gray-900 rounded-t-xl h-auto">
       <input id="chatbox" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {currentChat === undefined ? (

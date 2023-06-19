@@ -34,7 +34,7 @@ const Detail = () => {
             {jobId.toUpperCase()}
           </h1>
           <Link to={`/job/schedule/${job?._id}`}>
-            <button className="btn btn-warning shadow-2xl shadow-black">
+            <button className="btn btn-warning shadow-2xl shadow-black hover:scale-110 transition duration-300">
               Book Now
             </button>
           </Link>
