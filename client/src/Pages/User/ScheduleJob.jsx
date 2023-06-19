@@ -13,6 +13,7 @@ const ScheduleJob = () => {
   const [job, setJob] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectTime, setSelectedTime] = useState(null);
+  const arr=["Sorry!!, No Slots Available","Select Another Date"]
   const dates = [];
   for (let i = 1; i < 11; i++) {
     const date = today.clone().add(i, "days");
@@ -74,7 +75,7 @@ const ScheduleJob = () => {
           {dates.map((date) => (
             <div key={date.valueOf()} className="carousel-item">
               <div
-                className={`m-2 shadow-xl shadow-black p-2 w-28 rounded-2xl text-white cursor-pointer ${
+                className={`m-2 shadow-xl shadow-black p-2 w-28 rounded-2xl text-white cursor-pointer hover:scale-110 hover:shadow-2xl transition duration-300 ${
                   selectedDate && selectedDate?.isSame(date, "day")
                     ? "bg-indigo-600"
                     : "bg-zinc-700 "
@@ -95,10 +96,10 @@ const ScheduleJob = () => {
           <>
             <div className="flex flex-wrap justify-evenly mt-4">
               {getTimeSlots().map(
-                ({ startTime, endTime }) =>
+                ({ startTime, endTime },index) =>
                   slot?.includes(
                     startTime.format("MMMM Do YYYY, h:mm:ss a")
-                  ) && (
+                  ) ? (
                     <button
                       key={`${startTime.format("hh:mm A")}-${endTime.format(
                         "hh:mm A"
@@ -121,7 +122,7 @@ const ScheduleJob = () => {
                         "hh:mm A"
                       )} - ${endTime.format("hh:mm A")}`}</b>
                     </button>
-                  )
+                  ):(<div className="text-2xl font-extrabold my-3 py-3">{arr[index]}</div>)
               )}
             </div>
             {selectTime && (
