@@ -75,7 +75,7 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
 
         <div className="bg-gray-200  py-4 px-8 ">
           <div className="flex items-center gap-4">
-             <label htmlFor="chatbox" className="cursor-pointer hidden:lg"><AiOutlineMenu className=""/></label> 
+             <label htmlFor="chatbox" className="cursor-pointer hidden:lg"><AiOutlineMenu className="scale-150"/></label> 
             <div className="rounded-full overflow-hidden h-12 w-12 md:h-16 md:w-16">
              <img
                 className="h-full w-full object-cover"
@@ -87,7 +87,7 @@ export default function ChatContainer({ data, currentChat, socket, user }) {
             <h3 className="font-semibold text-xl md:text-2xl">
               {currentChat?.username?.toUpperCase()}
             </h3>
-            <label htmlFor="callsmodal" className="btn btn-sm"><FcCamcorderPro className="text-2xl"/></label>
+            <label htmlFor="callsmodal" className="btn btn-sm"><FcCamcorderPro className="scale-150"/></label>
           </div>
         </div>
 

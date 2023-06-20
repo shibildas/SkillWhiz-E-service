@@ -52,7 +52,7 @@ const Skills = () => {
 
         <div className="flex justify-between">
           <h1 className="text-3xl font-extrabold">My Skills</h1>
-          <label className="btn btn-success" htmlFor="addSkill">
+          <label className="btn btn-success hover:scale-110" htmlFor="addSkill">
             Add Skill
           </label>
         </div>
@@ -64,7 +64,7 @@ const Skills = () => {
                 <div key={index+"20"} className="stat rounded-xl bg-slate-600 m-2">
                     <label htmlFor="confirm2"
                       onClick={() => setId(data?._id)}
-                      className="rounded-full w-6 h-6 p-1 hover:bg-orange-400 text-white outline outline-1"
+                      className="rounded-full w-6 h-6 p-1 hover:bg-red-400 text-white outline outline-1"
                       >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -42,9 +42,9 @@ const navigate=useNavigate()
   </div>
   <div className="navbar-center hidden lg:flex text-white text-xl font-bold">
     <ul className="menu menu-horizontal px-1">
-      <li><Link to="/expert/home">Home</Link></li>
-      {data?.verified && <li><Link to="/expert/schedule">Schedules</Link></li>}
-      <li tabIndex={0}>
+      <li className="hover:scale-105 transition duration-300"><Link to="/expert/home">Home</Link></li>
+      {data?.verified && <li className="hover:scale-105 transition duration-300"><Link to="/expert/schedule">Schedules</Link></li>}
+      <li className="hover:scale-105 transition duration-300" tabIndex={0}>
         <a>
           Services
           <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
@@ -54,7 +54,7 @@ const navigate=useNavigate()
      
         </ul>
       </li>
-      <li><Link to='/expert/aboutus'>About us</Link></li>
+      <li className="hover:scale-105 transition duration-300"><Link to='/expert/aboutus'>About us</Link></li>
     </ul>
   </div>
   <div className="navbar-end">

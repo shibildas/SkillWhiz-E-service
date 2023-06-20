@@ -57,13 +57,13 @@ export default function Chat({ currentUser, user }) {
           />
         )}
       </div>
-      <div className="drawer-side  max-w-fit">
+      <div className="drawer-side  max-w-fit h-screen">
         <label htmlFor="chatbox" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 bg-cyan-950 shadow-2xl text-white font-bold text-2xl max-w-full">
           <div className="text-white text-2xl underline underline-offset-2 font-bold p-3 m-3 flex justify-between">
             <b>Contacts</b>{" "}
             <label htmlFor="chatbox">
-              <HiArrowCircleLeft className="" />
+              <HiArrowCircleLeft className="scale-150" />
             </label>
           </div>
           {contacts?.map((contact, index) => (

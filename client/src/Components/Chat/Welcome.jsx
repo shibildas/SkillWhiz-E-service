@@ -7,7 +7,7 @@ const Welcome = ({ userName }) => {
       <div className="bg-gray-200 h-10 md:h-24 py-4 px-8 ">
         <div className="flex items-center">
           <label htmlFor="chatbox" className="cursor-pointer hidden:lg my-5">
-            <HiMenu />
+            <HiMenu className="scale-150" />
           </label>
         </div>
       </div>
