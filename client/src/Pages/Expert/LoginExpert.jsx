@@ -4,7 +4,7 @@ import { expertlogin } from "../../import";
 import { useEffect } from "react";
 import Alert from "../../Components/Alert/Alert";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
-import { expertSignIn, expertSignUp } from "../../Services/expertApi";
+import { expertSignIn, expertSignUp, resetExpert } from "../../Services/expertApi";
 
 const LoginExpert = () => {
   const [show, setShow] = useState(false);
@@ -34,6 +34,26 @@ const LoginExpert = () => {
   const handleClose = () => {
     navigate("/");
   };
+  const otpLogin=()=>{
+    if(mobile===""|| mobile.length<10){
+      showAlertError(dispatch, "Please fill all required ");
+    }else{
+      resetExpert({mobile}).then(res=>{
+        if(res.data.status==="success"){
+          const expertModal = document.getElementById("expert-otp");
+              expertModal.checked = true;
+        }
+      }).catch(error=>{
+        if(error.response.status === 304){
+      showAlertError(dispatch,"user doesnt exists, Register")
+        }else{
+          showAlertError(dispatch,error.message)
+        }
+
+      })
+    }
+
+  }
   const expertSignup = () => {
     if (password === "" || email === "" || name === "" || mobile === "") {
       showAlertError(dispatch, "Please fill all required ");
@@ -155,16 +175,27 @@ const LoginExpert = () => {
                   required
                 />
                 {!show ? (
+                  <>
+                  <p className="py-2">
+                    Forgot Password?{" "}
+                    <label
+                      className="font-bold cursor-pointer text-teal-100 underline"
+                      onClick={otpLogin}
+                      >
+                      OTP Login
+                    </label>
+                  </p>
                   <p className="py-2">
                     Not an Expert?{" "}
                     <label
                       htmlFor="my-modal-6"
                       className="font-bold cursor-pointer text-teal-100 underline"
                       onClick={() => setShow(true)}
-                    >
+                      >
                       Signup
                     </label>
                   </p>
+                      </>
                 ) : (
                   <>
                     <h1 className="font-bold py-2"> Confirm Password</h1>
@@ -217,7 +248,7 @@ const LoginExpert = () => {
                 <Alert />
         </div>
       </div>
-      <OTP mobile={mobile} handleShow={handleShow} />
+      <OTP mobile={mobile} />
     </>
   );
 };

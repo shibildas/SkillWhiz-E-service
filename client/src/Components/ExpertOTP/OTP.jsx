@@ -1,10 +1,12 @@
 import { useDispatch } from "react-redux";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
-import { useState } from "./import";
+import { useNavigate, useState } from "./import";
 import { expertVerifyOTP } from "../../Services/expertApi";
 import Alert from "../Alert/Alert";
+import { expertlogin } from "../../import";
 
 const OTP = ({ mobile }) => {
+  const navigate=useNavigate()
   const dispatch=useDispatch()
   const [otp, setOtp] = useState("");
   const handleOtp = (e) => {
@@ -22,9 +24,11 @@ const OTP = ({ mobile }) => {
           console.log("verified: " + response.data);
           if (response.data.status == "success") {
             showAlertSuccess(dispatch,response.data.message)
+            localStorage.setItem("experttoken", response.data.experttoken);
+            dispatch(expertlogin(response.data.result));
             const otpbox = document.getElementById("expert-otp");
             otpbox.checked = false;
-            handleShow()
+            navigate("/expert/home");
           } else {
             showAlertError(dispatch,"Wrong OTP")
           }
