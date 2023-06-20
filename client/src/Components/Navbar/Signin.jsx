@@ -6,6 +6,8 @@ import { userAxiosInstance } from "../../axios/instance";
 import { icon } from "../../constants/constants";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 import Alert from "../Alert/Alert";
+import UserOtp from "./UserOtp";
+import { resetPassword } from "../../Services/userApi";
 
 const Signin = () => {
   const [mobile, setMobile] = useState("");
@@ -16,6 +18,27 @@ const Signin = () => {
       setMobile(trimValue);
     }
   };
+  const handleReset=(e)=>{
+    e.preventDefault();
+    const modalCheckbox = document.getElementById("my-modal-3");
+    const otpCheckbox = document.getElementById("my-modal-otp");
+    if(mobile===""|| mobile.length<10){
+      showAlertError(dispatch,"Enter valid Number")
+    }else{
+      modalCheckbox.checked = false;
+      resetPassword({mobile}).then((res)=>{
+        if(res.data.status==="success"){
+          otpCheckbox.checked=true
+        }
+      }).catch((error)=>{
+        if(error.response.status==304){
+          showAlertError(dispatch,"Mobile not registered, Signup")
+        }
+        showAlertError(dispatch,error.message)
+      })
+      
+    }
+  }
   const handleclick = () => {
     const modalCheckbox = document.getElementById("my-modal-3");
     modalCheckbox.checked = false;
@@ -23,7 +46,7 @@ const Signin = () => {
   const dispatch = useDispatch();
   const handleLogin = (e) => {
     e.preventDefault();
-    if (mobile === "" || password === "") {
+    if (mobile === "" || password === ""|| mobile.length<10) {
       showAlertError(dispatch,"All fields are required!!")
     } else {
       userAxiosInstance
@@ -89,6 +112,15 @@ const Signin = () => {
                 required
               />
               <p className="py-2">
+                Forgot Password?{" "}
+                <label
+                  className="font-bold cursor-pointer text-yellow-500 underline"
+                  onClick={handleReset}
+                >
+                  OTP Login
+                </label>{" "}
+              </p>
+              <p className="py-2">
                 Not a member?{" "}
                 <label
                   htmlFor="my-modal-6"
@@ -107,6 +139,7 @@ const Signin = () => {
           </div>
         </div>
       </div>
+      <UserOtp mobile={mobile} reset={true}/>
     </>
   );
 };

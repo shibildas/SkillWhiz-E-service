@@ -135,7 +135,7 @@ module.exports.reset = async (req, res) => {
         });
       res.json({ status: "success" });
     } else {
-      res.json({ status: "failed", message: "mobile not registersed" });
+      res.status(304).json({ status: "failed", message: "mobile not registersed" });
     }
   } catch (error) {
     res.json({ status: "error", message: error.message });

@@ -170,7 +170,7 @@ const Signup = () => {
           </form>
         </div>
       </div>
-      <UserOtp mobile={mobile}/>
+      <UserOtp mobile={mobile} reset={false}/>
     </>
   );
 };

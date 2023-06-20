@@ -2,13 +2,52 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Alert from '../Alert/Alert'
+import { updateNewPassword } from '../../Services/userApi'
+import { showAlertError, showAlertSuccess } from '../../Services/showAlert'
+import { updateExpert } from '../../Services/expertApi'
 
 const ResetPassword = ({user}) => {
     const [newPass,setNewPass]=useState('')
     const [confirm,setConfirm]=useState('')
-    const navigate= useNavigate()
     const dispatch= useDispatch()
     const handlePassword=()=>{
+      const resetmodal=document.getElementById('resetPass')
+      if(newPass==="" || confirm ===""|| newPass.length<6 || confirm.length<6){
+        showAlertError(dispatch,"length should be min 6")
+      }else if(newPass!==confirm){
+        showAlertError(dispatch,"password doesnt match")
+      }else{
+        if(user){
+          updateNewPassword({password:newPass}).then((res)=>{
+            if(res.data.status==="success"){
+              showAlertSuccess(dispatch,"password changed success")
+              setConfirm('')
+              setNewPass('')
+              resetmodal.checked=false
+            }else{
+        showAlertError(dispatch,"Update error")
+            }
+          }).catch((error)=>{
+        showAlertError(dispatch,error.message)
+          }) 
+        }else{
+          updateExpert({password:newPass}).then((res)=>{
+            if(res.data.status==="success"){
+              showAlertSuccess(dispatch,"password changed success")
+              setConfirm('')
+              setNewPass('')
+              resetmodal.checked=false
+
+            }else{
+        showAlertError(dispatch,"Update error")
+            }
+          }).catch((error)=>{
+        showAlertError(dispatch,error.message)
+          })
+
+          
+        }
+      }
 
     }
   return (

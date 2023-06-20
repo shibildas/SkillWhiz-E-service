@@ -3,8 +3,10 @@ import { userAxiosInstance } from "../../axios/instance";
 import Alert from "../Alert/Alert";
 import { showAlertError, showAlertSuccess } from "../../Services/showAlert";
 import { useDispatch } from "react-redux";
+import { login } from "../../import";
+import ResetPassword from "../ChangePassword/ResetPassword";
 
-const UserOtp = ({ mobile }) => {
+const UserOtp = ({ mobile ,reset}) => {
   const dispatch=useDispatch()
   const [otp, setOtp] = useState("");
   const handleOtp = (e) => {
@@ -17,13 +19,19 @@ const UserOtp = ({ mobile }) => {
     if (otp.length < 6 || otp === "") {
       showAlertError(dispatch,"Invalid Entry")
     } else {
+      const resetmodal=document.getElementById("resetPass")
+      const otpbox = document.getElementById("my-modal-otp");
       userAxiosInstance
         .post("/verify-otp", { otp: otp, mobile: mobile })
         .then((response) => {
           if (response.data.status == "success") {
             showAlertSuccess(dispatch,response?.data?.message)
-            const otpbox = document.getElementById("my-modal-otp");
             otpbox.checked = false;
+            if(reset){
+              resetmodal.checked=true
+            }
+            localStorage.setItem("token", response.data.token);
+            dispatch(login(response.data.result));
           } else {
             showAlertError(dispatch,"Wrong OTP")
           }
@@ -64,6 +72,7 @@ const UserOtp = ({ mobile }) => {
           </div>
         </div>
       </div>
+      <ResetPassword user={true}/>
     </>
   );
 };
