@@ -6,6 +6,12 @@ const authExpert = () => {
 const startJob = (id) => {
   return expertAxiosInstance.get(`/startJob/${id}`);
 };
+const resetExpert=(data)=>{
+  return expertAxiosInstance.post("/reset", data);
+}
+const updateExpert=(data)=>{
+  return expertAxiosInstance.post("/update", data);
+}
 
 const endJob = (parts, hours, total, id) => {
   return expertAxiosInstance.post("/endJob", { parts, hours, total, id });
@@ -79,6 +85,8 @@ const getexpertSchedule = () => {
 };
 
 export {
+  resetExpert,
+  updateExpert,
   getexpertSchedule,
   expertAddSchedule,
   expertbookings,

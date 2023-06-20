@@ -3,6 +3,12 @@ import { userAxiosInstance } from "../axios/instance";
 const authUser = () => {
   return userAxiosInstance.get("/isUserAuth");
 };
+const resetPassword=(data)=>{
+  return userAxiosInstance.post('/reset',data)
+}
+const updateNewPassword=(data)=>{
+  return userAxiosInstance.post('/update',data)
+}
 const payOnline = (amount) => {
   return userAxiosInstance.post("/payment", { amount });
 };
@@ -75,6 +81,8 @@ const userReverify = (data) => {
 };
 
 export {
+  updateNewPassword,
+  resetPassword,
   userReverify,
   updatePassword,
   editProfileApi,
