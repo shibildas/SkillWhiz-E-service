@@ -3019,7 +3019,7 @@
         "description": "get slots of job",
         "parameters": [
           {
-            "name": "electrician",
+            "name": "345egd34563656rte34",
             "in": "path",
             "description": "pass jobId particular",
             "required": true,
