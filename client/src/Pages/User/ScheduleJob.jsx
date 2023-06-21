@@ -43,7 +43,6 @@ const ScheduleJob = () => {
       return timeSlots;
     }
   };
-
   const { id } = useParams();
   useEffect(() => {
     userAxiosInstance
