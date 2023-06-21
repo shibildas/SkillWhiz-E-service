@@ -7,7 +7,6 @@ import moment from "moment";
 
 const BookingList = () => {
   const dispatch = useDispatch();
-  const arr = [1, 2, 3, 4, 5, 6];
   const [booking, setBooking] = useState([]);
   useEffect(() => {
     userAxiosInstance
@@ -24,7 +23,7 @@ const BookingList = () => {
 
   return (
     <>
-      <div className="bg-purple-400 card bg-opacity-90 my-5">
+      <div className="bg-purple-400 min-h-screen card my-5">
         <div className="card-body">
           <h1 className="text-center md:text-3xl text-xl font-extrabold">
             My Bookings
@@ -35,7 +34,7 @@ const BookingList = () => {
                   return (
                     <div
                       key={index + 20}
-                      className="card w-96 bg-base-400 shadow-xl image-full p-2"
+                      className="card w-fit md:w-96 bg-base-400 shadow-xl image-full p-2"
                     >
                       <figure>
                         <img src={ele?.jobId?.image} alt="job" />
@@ -66,19 +65,18 @@ const BookingList = () => {
                     </div>
                   );
                 })
-              : arr.map((ele, index) => {
-                  return (
+              : 
+                   (
                     <div
-                      key={index + 44}
-                      className="card w-96 h-36 bg-base-400 shadow-xl image-full animate-pulse flex m-2 p-2"
+                      className="card w-fit md:w-96 h-36 bg-base-400 shadow-xl image-full flex m-2 p-2"
                     >
                       <h1 className="text-3xl text-center font-extrabold">
                         {" "}
                         No Records Found
                       </h1>
                     </div>
-                  );
-                })}
+                  )
+                }
           </div>
         </div>
       </div>

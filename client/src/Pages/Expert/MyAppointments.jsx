@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 
 const MyAppointments = () => {
   const dispatch = useDispatch();
-  const arr = [1, 2, 3, 4, 5, 6];
   const [booking, setBooking] = useState([]);
   useEffect(() => {
     expertbookings()
@@ -69,19 +68,17 @@ const MyAppointments = () => {
                   </div>
                 );
               })
-            : arr.map((ele, index) => {
-                return (
+            : (
                   <div
-                    key={index + 44}
-                    className="card w-96 h-36 bg-base-400 shadow-xl image-full animate-pulse flex m-2 p-2"
+                    className="card w-96 h-36 bg-base-400 shadow-xl image-full flex m-2 p-2"
                   >
                     <h1 className="text-3xl text-center font-extrabold">
                       {" "}
                       No Records Found
                     </h1>
                   </div>
-                );
-              })}
+                )
+              }
         </div>
       </div>
     </>
